@@ -15,7 +15,7 @@ var mockProducts = [
   {
     id: 2654,
     title: "Mùa Chinh Phạt",
-    price: 466.09,
+    price: 11839000,
     favorites: 5,
     isFavorited: false,
     badges: [
@@ -49,7 +49,7 @@ var mockProducts = [
   {
     id: 2638,
     title: "5 Trang Phục Thiên Định Sức Mạnh Chỉ Huy Bộ Binh Chỉ Huy Cung Thủ Chỉ Huy Kỵ Binh",
-    price: 10000,
+    price: 254000000,
     favorites: 2,
     isFavorited: false,
     badges: [
@@ -82,7 +82,7 @@ var mockProducts = [
   {
     id: 2322,
     title: "Chỉ Huy Bộ Binh Chuyên Nghiệp",
-    price: 1799,
+    price: 45695000,
     favorites: 2,
     isFavorited: false,
     badges: [
@@ -114,7 +114,7 @@ var mockProducts = [
   {
     id: 1109,
     title: "Chỉ Huy Cung Thủ",
-    price: 2696.41,
+    price: 68489000,
     favorites: 0,
     isFavorited: false,
     badges: [
@@ -147,7 +147,7 @@ var mockProducts = [
   {
     id: 1888,
     title: "Kỵ Binh Siêu Tốc Nevsky + Joan | Full Đồ Cam Tài Năng",
-    price: 3450,
+    price: 87630000,
     favorites: 8,
     isFavorited: false,
     badges: [
@@ -181,7 +181,7 @@ var mockProducts = [
   {
     id: 2455,
     title: "Mùa Chinh Phạt - Full T5 3 Đạo Bộ Binh & Kỵ Binh",
-    price: 1250,
+    price: 31750000,
     favorites: 4,
     isFavorited: false,
     badges: [
@@ -213,7 +213,7 @@ var mockProducts = [
   {
     id: 3012,
     title: "Acc VIP 18 - Đội Hình Cung Thủ Gia Cát Lượng Thức Tỉnh",
-    price: 2150,
+    price: 54610000,
     favorites: 7,
     isFavorited: false,
     badges: [
@@ -247,7 +247,7 @@ var mockProducts = [
   {
     id: 1688,
     title: "Tài Khoản KVK 4 - Sức Mạnh 88M Sẵn 45 Hộ Chiếu",
-    price: 580,
+    price: 14732000,
     favorites: 3,
     isFavorited: false,
     badges: [
@@ -279,7 +279,7 @@ var mockProducts = [
   {
     id: 2790,
     title: "Siêu Phẩm VIP 19 - Full T5 5 Đạo Ra Trận KVK",
-    price: 8500,
+    price: 215900000,
     favorites: 14,
     isFavorited: false,
     badges: [
@@ -313,7 +313,7 @@ var mockProducts = [
   {
     id: 1420,
     title: "Chỉ Huy Thủ Thành & Đồn Trú Vững Chắc Zenobia + YSS",
-    price: 1950,
+    price: 49530000,
     favorites: 6,
     isFavorited: false,
     badges: [
@@ -346,7 +346,7 @@ var mockProducts = [
   {
     id: 2108,
     title: "Bộ Binh Chuyên Nghiệp Quan Vũ + Scipio Prime Max Skill",
-    price: 1650,
+    price: 41910000,
     favorites: 9,
     isFavorited: false,
     badges: [
@@ -379,7 +379,7 @@ var mockProducts = [
   {
     id: 2855,
     title: "Acc Farm T5 & Chiến Đấu Đa Năng - 75M Power Giá Tốt",
-    price: 380,
+    price: 9652000,
     favorites: 1,
     isFavorited: false,
     badges: [
@@ -411,7 +411,7 @@ var mockProducts = [
   {
     id: 1777,
     title: "Đạo Quân Kỵ Binh Tốc Độ Cao - Xiang Yu + Nevsky",
-    price: 2890,
+    price: 73406000,
     favorites: 11,
     isFavorited: false,
     badges: [
@@ -445,7 +445,7 @@ var mockProducts = [
   {
     id: 2990,
     title: "Mùa Chinh Phạt - Acc Rally Chuyên Nghiệp VIP 19",
-    price: 6800,
+    price: 172720000,
     favorites: 15,
     isFavorited: false,
     badges: [
@@ -479,7 +479,7 @@ var mockProducts = [
   {
     id: 2304,
     title: "Chỉ Huy Cung Thủ Boudica Prime + Zhuge Liang Max",
-    price: 3200,
+    price: 81280000,
     favorites: 8,
     isFavorited: false,
     badges: [
@@ -512,7 +512,7 @@ var mockProducts = [
   {
     id: 1555,
     title: "Acc T5 Chuẩn KVK - Full Công Nghệ Quân Sự 25",
-    price: 920,
+    price: 23368000,
     favorites: 5,
     isFavorited: false,
     badges: [
@@ -545,7 +545,7 @@ var mockProducts = [
   {
     id: 2710,
     title: "Acc VIP 17 - 108M Sức Mạnh Sẵn 70 Vé Hộ Chiếu Bay Ngay",
-    price: 1480,
+    price: 37592000,
     favorites: 6,
     isFavorited: false,
     badges: [
@@ -578,7 +578,7 @@ var mockProducts = [
   {
     id: 1999,
     title: "Đạo Quân Đa Năng 5 Cặp Thức Tỉnh - Đồ Cam Full Set",
-    price: 4100,
+    price: 104140000,
     favorites: 13,
     isFavorited: false,
     badges: [
@@ -612,7 +612,7 @@ var mockProducts = [
   {
     id: 2240,
     title: "Acc Khủng Top Vương Quốc - VIP 19 Sức Mạnh 210M 16B KP",
-    price: 12500,
+    price: 317500000,
     favorites: 26,
     isFavorited: false,
     badges: [

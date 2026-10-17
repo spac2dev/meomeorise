@@ -1193,7 +1193,7 @@
       <div class="config-left">
         <div class="config-input-group">
           <span class="config-label">Worker URL:</span>
-          <input type="url" id="workerUrlInput" class="input-text" placeholder="https://your-worker.your-subdomain.workers.dev" onchange="saveWorkerSettings()">
+          <input type="url" id="workerUrlInput" class="input-text" value="https://meomeorise.text2developer.workers.dev" placeholder="https://meomeorise.text2developer.workers.dev" onchange="saveWorkerSettings()">
         </div>
 
         <div class="config-input-group" style="max-width: 240px;">
@@ -1436,10 +1436,11 @@
     // Khởi tạo
     document.addEventListener("DOMContentLoaded", () => {
       // Nạp cấu hình từ localStorage
-      const savedWorkerUrl = localStorage.getItem("wontrade_worker_url") || "";
+      const defaultWorkerUrl = "https://meomeorise.text2developer.workers.dev";
+      const savedWorkerUrl = localStorage.getItem("wontrade_worker_url") || defaultWorkerUrl;
       const savedSecret = localStorage.getItem("wontrade_worker_secret") || "";
-      if (savedWorkerUrl) document.getElementById("workerUrlInput").value = savedWorkerUrl;
-      if (savedSecret) document.getElementById("workerSecretInput").value = savedSecret;
+      if (document.getElementById("workerUrlInput")) document.getElementById("workerUrlInput").value = savedWorkerUrl;
+      if (document.getElementById("workerSecretInput")) document.getElementById("workerSecretInput").value = savedSecret;
 
       // Nạp danh sách từ mockProducts của list.js
       if (typeof mockProducts !== "undefined" && Array.isArray(mockProducts) && mockProducts.length > 0) {
@@ -1839,10 +1840,19 @@ if (typeof module !== "undefined" && module.exports) {
         if (secret) headers["X-Admin-Key"] = secret;
 
         const res = await fetch(workerUrl, { method: "GET", headers });
-        const data = await res.json();
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (parseErr) {
+          if (text.includes("Hello World")) {
+            throw new Error("Worker hiện đang chạy mẫu mặc định ('Hello World!'). Bạn cần dán mã nguồn file worker.js vào Cloudflare Worker và ấn Save & Deploy.");
+          }
+          throw new Error(`Worker phản hồi không phải JSON (${res.status}): ${text.slice(0, 100)}`);
+        }
 
         if (res.ok && data.success) {
-          showToast(`Kết nối Worker & GitHub thành công! (${data.repo})`, "success");
+          showToast(`Kết nối Worker & GitHub thành công! (${data.repo || "OK"})`, "success");
         } else {
           showToast(`Lỗi Worker: ${data.error || res.statusText}`, "error");
         }
@@ -1893,7 +1903,16 @@ if (typeof module !== "undefined" && module.exports) {
           body: JSON.stringify(payload)
         });
 
-        const data = await res.json();
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (parseErr) {
+          if (text.includes("Hello World")) {
+            throw new Error("Worker chưa được cài đặt code worker.js (vẫn đang trả về 'Hello World!'). Vui lòng cập nhật code Worker.");
+          }
+          throw new Error(`Worker phản hồi không phải JSON (${res.status}): ${text.slice(0, 100)}`);
+        }
 
         if (res.ok && data.success) {
           // Hiển thị Banner lưu thành công theo yêu cầu UX Ticket

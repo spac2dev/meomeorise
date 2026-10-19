@@ -432,6 +432,105 @@
       gap: -4px;
     }
 
+    .link-cell-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 220px;
+    }
+
+    .btn-preview-link {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-preview-link:hover {
+      background: #dbeafe;
+      border-color: #93c5fd;
+      transform: translateY(-1px);
+    }
+
+    .link-url-text {
+      font-size: 12px;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 140px;
+      display: inline-block;
+    }
+
+    /* 9:16 Iframe Preview Modal in Admin */
+    .admin-iframe-modal-container {
+      background: #14171d;
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.12);
+      height: 88vh;
+      max-height: 820px;
+      width: calc(min(88vh, 820px) * 9 / 16);
+      max-width: 95vw;
+      animation: modalFadeIn 0.25s ease-out;
+    }
+    .admin-iframe-header {
+      padding: 10px 16px;
+      background: #1e2430;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .preview-badge-916 {
+      background: #e60012;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .btn-preview-buy-now {
+      background: linear-gradient(135deg, #e60012, #ff334b);
+      color: #fff;
+      border: none;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(230,0,18,0.35);
+      transition: all 0.2s;
+    }
+    .btn-preview-buy-now:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(230,0,18,0.45);
+    }
+    .admin-iframe-viewport {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      position: relative;
+    }
+
     .mini-comm-frame {
       width: 32px;
       height: 32px;
@@ -1280,6 +1379,7 @@
               <th>Tiêu đề & Huy hiệu</th>
               <th>Giá ($ USD)</th>
               <th>Vương quốc & Nhập cư</th>
+              <th>Link Iframe (9:16)</th>
               <th>5 Tướng chính</th>
               <th>Thích</th>
               <th style="text-align: right;">Hành động</th>
@@ -1324,6 +1424,19 @@
             <div class="form-group full">
               <label class="form-label">Tiêu đề vật phẩm *</label>
               <input type="text" id="fTitle" class="form-control" required placeholder="Ví dụ: Mùa Chinh Phạt - Full T5 3 Đạo">
+            </div>
+
+            <!-- Link Iframe (Tỷ lệ 9:16) -->
+            <div class="form-group full">
+              <label class="form-label">Link trang nạp Iframe (Tỷ lệ dọc 9:16) *</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="fLink" class="form-control" placeholder="guide/index.html?id=... hoặc https://..." style="flex: 1;">
+                <button type="button" class="btn btn-secondary" onclick="previewFormIframe()" style="white-space: nowrap; font-size: 12px; padding: 6px 14px;" title="Xem thử hiển thị popup dọc 9:16">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect><line x1="12" y1="18" x2="12" y2="18.01"></line></svg>
+                  <span>Xem thử 9:16</span>
+                </button>
+              </div>
+              <span style="font-size: 11px; color: var(--muted); margin-top: 3px;">Đường dẫn trang này sẽ được nạp vào iframe popup dọc (9:16) khi khách bấm vào sản phẩm trên trang chủ.</span>
             </div>
 
             <!-- Kingdom & Immigration -->
@@ -1397,6 +1510,33 @@
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="copyRawCodeToClipboard()">Sao chép mã</button>
         <button class="btn btn-primary" onclick="closeCodeModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9:16 Vertical Iframe Preview Modal in Admin -->
+  <div class="modal-backdrop" id="adminIframePreviewBackdrop">
+    <div class="admin-iframe-modal-container">
+      <div class="admin-iframe-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="preview-badge-916">9:16 DỌC</span>
+          <span id="adminPreviewTitle" style="font-weight: 700; font-size: 13px; color: #fff;">Xem trước Iframe</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <!-- Nút MUA NGAY trên cùng: nhấp vô sẽ tắt popup iframe -->
+          <button type="button" class="btn-preview-buy-now" onclick="closeAdminIframePreview()" title="Tắt popup iframe">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span>Mua ngay</span>
+          </button>
+          <button type="button" class="btn-close-modal" onclick="closeAdminIframePreview()" style="color: #fff; background: rgba(255,255,255,0.15);">✕</button>
+        </div>
+      </div>
+      <div class="admin-iframe-viewport">
+        <iframe id="adminPreviewIframe" src="about:blank" style="width: 100%; height: 100%; border: none;"></iframe>
       </div>
     </div>
   </div>
@@ -1547,6 +1687,15 @@
               <div style="color: #475569; font-size: 12.5px;">${escapeHtml(item.info || '')}</div>
             </td>
             <td>
+              <div class="link-cell-wrap">
+                <button type="button" class="btn-preview-link" onclick="openAdminIframePreview('${escapeHtml(item.link || 'guide/index.html?id=' + item.id)}', '${escapeHtml(item.title)}', ${item.id})" title="Xem thử Iframe dọc (9:16)">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect><line x1="12" y1="18" x2="12" y2="18.01"></line></svg>
+                  <span>9:16</span>
+                </button>
+                <span class="link-url-text" title="${escapeHtml(item.link || '')}">${escapeHtml(item.link || 'guide/index.html?id=' + item.id)}</span>
+              </div>
+            </td>
+            <td>
               <div class="commander-avatar-stack">${commandersHtml}</div>
             </td>
             <td>
@@ -1581,7 +1730,8 @@
         const matchId = String(item.id).includes(q);
         const matchTitle = (item.title || "").toLowerCase().includes(q);
         const matchInfo = (item.info || "").toLowerCase().includes(q);
-        return matchId || matchTitle || matchInfo;
+        const matchLink = (item.link || "").toLowerCase().includes(q);
+        return matchId || matchTitle || matchInfo || matchLink;
       });
 
       // Sắp xếp
@@ -1606,7 +1756,9 @@
 
       // Gợi ý ID tiếp theo
       const maxId = adminProducts.length > 0 ? Math.max(...adminProducts.map(p => p.id)) : 1000;
-      document.getElementById("fId").value = maxId + 1;
+      const nextId = maxId + 1;
+      document.getElementById("fId").value = nextId;
+      document.getElementById("fLink").value = "guide/index.html?id=" + nextId;
       document.getElementById("fCommanders").value = "arthur, tontu, achilles, tanthuyhoang, scipio";
       document.getElementById("fDays").value = "7";
       document.getElementById("fGem").value = "5";
@@ -1626,6 +1778,7 @@
       document.getElementById("fId").value = item.id;
       document.getElementById("fPrice").value = item.price;
       document.getElementById("fTitle").value = item.title || "";
+      document.getElementById("fLink").value = item.link || ("guide/index.html?id=" + item.id);
       document.getElementById("fInfo").value = item.info || "";
       document.getElementById("fStats").value = item.stats || "";
       document.getElementById("fFavorites").value = item.favorites || 0;
@@ -1662,6 +1815,7 @@
       const newId = Number(document.getElementById("fId").value);
       const price = parseFloat(document.getElementById("fPrice").value) || 0;
       const title = document.getElementById("fTitle").value.trim();
+      const link = document.getElementById("fLink").value.trim() || ("guide/index.html?id=" + newId);
       const info = document.getElementById("fInfo").value.trim();
       const stats = document.getElementById("fStats").value.trim();
       const favorites = parseInt(document.getElementById("fFavorites").value) || 0;
@@ -1710,6 +1864,7 @@
         id: newId,
         title,
         price,
+        link,
         favorites,
         isFavorited: false,
         badges,
@@ -1747,11 +1902,48 @@
       newItem.id = maxId + 1;
       newItem.title = newItem.title + " (Bản sao)";
       newItem.info = `#${newItem.id} | Có thể nhập cư`;
+      newItem.link = item.link || ("guide/index.html?id=" + newItem.id);
 
       adminProducts.unshift(newItem);
       filterAdminItems();
       updateStats();
       showToast(`Đã nhân bản thành công vật phẩm #${newItem.id}!`, "success");
+    }
+
+    // Mở Modal Xem Trước Iframe dọc (Tỷ lệ 9:16) trong Admin
+    function openAdminIframePreview(url, title, id) {
+      const backdrop = document.getElementById("adminIframePreviewBackdrop");
+      const iframe = document.getElementById("adminPreviewIframe");
+      const titleEl = document.getElementById("adminPreviewTitle");
+      
+      const targetUrl = url || `../guide/index.html?id=${id || ''}`;
+      let resolvedUrl = targetUrl;
+      if (!targetUrl.startsWith("http://") && !targetUrl.startsWith("https://") && !targetUrl.startsWith("/")) {
+        resolvedUrl = "../" + targetUrl;
+      }
+      
+      titleEl.textContent = title ? `#${id} - ${title}` : "Xem trước Iframe (9:16)";
+      iframe.src = resolvedUrl;
+      backdrop.classList.add("show");
+    }
+
+    // Đóng Modal Xem Trước Iframe trong Admin (bấm Mua ngay hoặc nút X)
+    function closeAdminIframePreview() {
+      const backdrop = document.getElementById("adminIframePreviewBackdrop");
+      const iframe = document.getElementById("adminPreviewIframe");
+      backdrop.classList.remove("show");
+      setTimeout(() => {
+        iframe.src = "about:blank";
+      }, 250);
+      showToast("Đã đóng xem trước Iframe", "normal");
+    }
+
+    // Xem thử từ form đang điền
+    function previewFormIframe() {
+      const link = document.getElementById("fLink")?.value.trim() || "guide/index.html";
+      const title = document.getElementById("fTitle")?.value.trim() || "Vật phẩm";
+      const id = document.getElementById("fId")?.value.trim() || "";
+      openAdminIframePreview(link, title, id);
     }
 
     // Xóa vật phẩm

@@ -4,6 +4,21 @@
  * Tự động cập nhật file js/list.js trên GitHub repo thông qua GitHub REST API
  * ==============================================================================
  *
+ * CẤU TRÚC VẬT PHẨM (PRODUCT SCHEMA):
+ * - id: number (Mã định danh sản phẩm duy nhất)
+ * - title: string (Tiêu đề sản phẩm)
+ * - price: number (Giá bán VNĐ)
+ * - link: string (Đường dẫn URL mở trong Popup Iframe dạng dọc tỉ lệ 9:16)
+ * - favorites: number (Lượt thích)
+ * - isFavorited: boolean (Trạng thái đã thích)
+ * - badges: Array<{ text: string, type: 'red' | 'dark' }> (Huy hiệu)
+ * - info: string (Thông tin vương quốc & nhập cư)
+ * - stats: string (Cấp độ | Sức mạnh | VIP | Điểm Tiêu Diệt)
+ * - tags: Array<{ text: string, type: 'orange' | 'blue' }> (Thẻ trang bị)
+ * - commanders: Array<{ id: string, name: string, level: number, isImg?: boolean }>
+ * - gemMultiplier: number (Hệ số ngọc/sao)
+ * - countdownSeconds: number (Thời gian đếm ngược còn lại tính bằng giây)
+ *
  * CÁC BIẾN MÔI TRƯỜNG (Environment Variables) CẦN CÀI ĐẶT TRÊN CLOUDFLARE WORKER:
  * (Vào Cloudflare Dashboard -> Workers & Pages -> Worker của bạn -> Settings -> Variables)
  *
@@ -16,6 +31,31 @@
  *
  * ==============================================================================
  */
+
+// Tạo chuỗi nội dung list.js chuẩn từ mảng sản phẩm
+function generateListJsContent(products) {
+  const jsonContent = JSON.stringify(products, null, 2);
+  return `/**
+ * ==============================================================================
+ * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
+ * FILE QUẢN LÝ DANH SÁCH VẬT PHẨM (Tổng số: ${products.length} vật phẩm)
+ * Cập nhật tự động qua WONTRADE Admin CMS & Cloudflare Worker
+ * ==============================================================================
+ */
+
+var mockProducts = ${jsonContent};
+
+// Gán vào window để đảm bảo tương thích mọi ngữ cảnh trình duyệt
+if (typeof window !== "undefined") {
+  window.mockProducts = mockProducts;
+}
+
+// Hỗ trợ môi trường Module/NodeJS nếu cần
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = mockProducts;
+}
+`;
+}
 
 // Hàm mã hóa chuỗi UTF-8 (hỗ trợ đầy đủ tiếng Việt có dấu) sang Base64
 function utf8ToBase64(str) {
@@ -157,7 +197,18 @@ export default {
         const data = await ghRes.json();
         const contentStr = data.content ? base64ToUtf8(data.content) : "";
 
-        return jsonResponse({
+        // Hỗ trợ trích xuất mảng sản phẩm dạng JSON nếu có query param ?format=json
+        let parsedProducts = null;
+        if (url.searchParams.get("format") === "json" || url.searchParams.get("action") === "products") {
+          try {
+            const match = contentStr.match(/var\s+mockProducts\s*=\s*(\[[\s\S]*?\]);/);
+            if (match) {
+              parsedProducts = JSON.parse(match[1]);
+            }
+          } catch (e) {}
+        }
+
+        const resPayload = {
           success: true,
           exists: true,
           sha: data.sha,
@@ -165,7 +216,14 @@ export default {
           repo: `${REPO_OWNER}/${REPO_NAME}`,
           branch: BRANCH,
           content: contentStr,
-        });
+        };
+
+        if (parsedProducts) {
+          resPayload.products = parsedProducts;
+          resPayload.totalProducts = parsedProducts.length;
+        }
+
+        return jsonResponse(resPayload);
       } catch (err) {
         return jsonResponse(
           { success: false, error: err.message || "Lỗi ngoại lệ khi kết nối GitHub" },
@@ -185,11 +243,18 @@ export default {
         return jsonResponse({ success: false, error: "Dữ liệu JSON không hợp lệ!" }, 400);
       }
 
-      // Nhận nội dung file từ Frontend
-      const content = body.content;
+      // Nhận nội dung file từ Frontend (hỗ trợ cả chuỗi string content hoặc mảng JSON products)
+      let content = body.content;
+      if (!content && Array.isArray(body.products)) {
+        content = generateListJsContent(body.products);
+      }
+
       if (typeof content !== "string" || !content.trim()) {
         return jsonResponse(
-          { success: false, error: "Nội dung 'content' bị trống hoặc không phải chuỗi!" },
+          {
+            success: false,
+            error: "Nội dung 'content' bị trống hoặc không phải chuỗi, và không có mảng 'products' hợp lệ!",
+          },
           400
         );
       }

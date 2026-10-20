@@ -59,43 +59,47 @@ function updateIndexHtmlWithData(html, data) {
   html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${title}</title>`);
 
   // 2. Tráo Meta SEO & Social Sharing (Zalo / Facebook / Twitter)
-  if (/<meta\s+name=["']description["']/i.test(html)) {
-    html = html.replace(/<meta\s+name=["']description["']\s+content=["'][^"']*["']/i, `<meta name="description"\n    content="${desc}">`);
+  // Khớp trọn vẹn cả thẻ từ <meta ... cho đến dấu > đóng thẻ để triệt tiêu lỗi thừa dấu >
+  if (/<meta\s+name=["']description["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']description["'][^>]*>/i, `<meta name="description"\n    content="${desc}">`);
   } else {
-    html = html.replace(/<\/title>/i, `</title>\n  <meta name="description" content="${desc}">`);
+    html = html.replace(/<\/title>/i, `</title>\n  <meta name="description"\n    content="${desc}">`);
   }
 
-  if (/<meta\s+name=["']keywords["']/i.test(html)) {
-    html = html.replace(/<meta\s+name=["']keywords["']\s+content=["'][^"']*["']/i, `<meta name="keywords" content="${keywords}">`);
+  if (/<meta\s+name=["']keywords["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']keywords["'][^>]*>/i, `<meta name="keywords" content="${keywords}">`);
   } else {
     html = html.replace(/(<meta\s+name=["']description["'][^>]*>)/i, `$1\n  <meta name="keywords" content="${keywords}">`);
   }
 
   // OpenGraph cho Zalo / Facebook
-  if (/<meta\s+property=["']og:title["']/i.test(html)) {
-    html = html.replace(/<meta\s+property=["']og:title["']\s+content=["'][^"']*["']/i, `<meta property="og:title" content="${title}">`);
+  if (/<meta\s+property=["']og:title["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+property=["']og:title["'][^>]*>/i, `<meta property="og:title" content="${title}">`);
   } else {
     html = html.replace(/<\/title>/i, `</title>\n  <meta property="og:type" content="website">\n  <meta property="og:title" content="${title}">`);
   }
 
-  if (/<meta\s+property=["']og:description["']/i.test(html)) {
-    html = html.replace(/<meta\s+property=["']og:description["']\s+content=["'][^"']*["']/i, `<meta property="og:description"\n    content="${desc}">`);
+  if (/<meta\s+property=["']og:description["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+property=["']og:description["'][^>]*>/i, `<meta property="og:description"\n    content="${desc}">`);
   }
 
-  if (/<meta\s+property=["']og:image["']/i.test(html)) {
-    html = html.replace(/<meta\s+property=["']og:image["']\s+content=["'][^"']*["']/i, `<meta property="og:image" content="${avatar}">`);
+  if (/<meta\s+property=["']og:image["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+property=["']og:image["'][^>]*>/i, `<meta property="og:image" content="${avatar}">`);
   }
 
   // Twitter Cards
-  if (/<meta\s+name=["']twitter:title["']/i.test(html)) {
-    html = html.replace(/<meta\s+name=["']twitter:title["']\s+content=["'][^"']*["']/i, `<meta name="twitter:title" content="${title}">`);
+  if (/<meta\s+name=["']twitter:title["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']twitter:title["'][^>]*>/i, `<meta name="twitter:title" content="${title}">`);
   }
-  if (/<meta\s+name=["']twitter:description["']/i.test(html)) {
-    html = html.replace(/<meta\s+name=["']twitter:description["']\s+content=["'][^"']*["']/i, `<meta name="twitter:description"\n    content="${desc}">`);
+  if (/<meta\s+name=["']twitter:description["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']twitter:description["'][^>]*>/i, `<meta name="twitter:description"\n    content="${desc}">`);
   }
-  if (/<meta\s+name=["']twitter:image["']/i.test(html)) {
-    html = html.replace(/<meta\s+name=["']twitter:image["']\s+content=["'][^"']*["']/i, `<meta name="twitter:image" content="${avatar}">`);
+  if (/<meta\s+name=["']twitter:image["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']twitter:image["'][^>]*>/i, `<meta name="twitter:image" content="${avatar}">`);
   }
+
+  // Tự động dọn sạch mọi ký tự '>' trôi nổi dư thừa nếu có do các lần tráo cũ bị sót
+  html = html.replace(/(<meta[^>]*>)\s*>/gi, '$1');
 
   // 3. Tráo Nội dung tĩnh Banner (SSR)
   if (banner.desktopHeadline) {

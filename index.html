@@ -7,6 +7,21 @@
   <title>WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức</title>
   <meta name="description"
     content="Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng.">
+  <meta name="keywords" content="wontrade, rise of kingdoms, rok, mua bán acc rok, giao dịch rok">
+
+  <!-- Thẻ chia sẻ mạng xã hội Zalo / Facebook (OpenGraph) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức">
+  <meta property="og:description"
+    content="Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng.">
+  <meta property="og:image" content="assets/rok_avatar.jpg">
+
+  <!-- Thẻ Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức">
+  <meta name="twitter:description"
+    content="Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng.">
+  <meta name="twitter:image" content="assets/rok_avatar.jpg">
   <!-- Google Fonts: Plus Jakarta Sans for SF Pro matching geometry -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -406,60 +421,37 @@
     </nav>
   </div>
 
-  <!-- ======================================================================
-       9:16 VERTICAL POPUP IFRAME MODAL (Dạng dọc chuẩn mobile 9:16)
-       ====================================================================== -->
-  <div class="iframe-modal-backdrop" id="productIframeModal" aria-hidden="true" onclick="handleBackdropClick(event)">
-    <div class="iframe-modal-container" role="dialog" aria-modal="true" aria-labelledby="iframeModalItemTitle">
-      <!-- Top Action Bar -->
-      <div class="iframe-modal-topbar">
-        <!-- Left: Close (X) button & Item Info -->
-        <div class="topbar-left-box">
-          <button type="button" class="btn-iframe-close-icon" onclick="closeProductIframe()" aria-label="Đóng popup" title="Đóng popup">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-          <div class="topbar-meta">
-            <div class="topbar-id-pill" id="iframeModalItemId">#2654</div>
-            <div class="topbar-title-text" id="iframeModalItemTitle">Mùa Chinh Phạt</div>
-          </div>
-        </div>
-
-        <!-- Right: Nút MUA NGAY trên cùng - khi nhấp vô thì quay lại mục / tắt popup iframe -->
-        <div class="topbar-right-box">
-          <button type="button" class="btn-topbar-buy-now" id="btnIframeBuyNow" onclick="handleBuyNowFromIframe()" aria-label="Mua ngay" title="Mua ngay - Tắt popup và quay lại sản phẩm">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <path d="M16 10a4 4 0 0 1-8 0"></path>
-            </svg>
-            <span>Mua ngay</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Iframe Frame Viewport (Dạng dọc tỉ lệ 9:16) -->
-      <div class="iframe-viewport-wrapper">
-        <!-- Spinner Loading State -->
-        <div class="iframe-loading-indicator" id="iframeLoader">
-          <div class="spinner-ring"></div>
-          <div class="loading-label">Đang nạp trang chi tiết...</div>
-        </div>
-
-        <!-- Target Iframe -->
-        <iframe id="itemProductIframe" 
-                src="about:blank" 
-                title="Chi tiết sản phẩm" 
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-        </iframe>
-      </div>
-    </div>
-  </div>
-
+  <!-- DỮ LIỆU CẤU HÌNH & VẬT PHẨM TỰ ĐỘNG CẬP NHẬT QUA CLOUDFLARE WORKER & GITHUB API (EDGE-SSG) -->
+  <script id="siteDataScript">
+    var siteConfig = {
+      brand: {
+        name: "WONTRADE",
+        gameName: "Rise of Kingdoms",
+        avatar: "assets/rok_avatar.jpg"
+      },
+      contact: {
+        phone: "0372996420",
+        zalo: "0372996420",
+        zaloUrl: "https://zalo.me/0372996420"
+      },
+      banner: {
+        desktopHeadline: "WONTRADE TRANSACTION GUIDELINES UPDATE",
+        desktopRibbon: "LOWER FEE & SIMPLIFIED PROCESS!",
+        mobileBadge: "ĐỐI TÁC GIAO DỊCH CHÍNH THỨC",
+        mobileTitle: "NHÀ GIAO DỊCH WONTRADE",
+        mobileSubtitle: "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH"
+      },
+      seo: {
+        title: "WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức",
+        description: "Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng.",
+        keywords: "wontrade, rise of kingdoms, rok, mua bán acc rok, giao dịch rok",
+        ogImage: "assets/rok_avatar.jpg"
+      }
+    };
+    if (typeof window !== "undefined") {
+      window.siteConfig = siteConfig;
+    }
+  </script>
   <script src="js/list.js"></script>
   <script src="js/index.js"></script>
 </body>

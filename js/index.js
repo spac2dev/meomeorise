@@ -469,134 +469,61 @@ function renderListings(itemsToRender) {
   }).join("");
 }
 
-let currentActiveProduct = null;
-
 // ============================================================================
-// 9:16 VERTICAL IFRAME MODAL LOGIC (Dạng dọc tỉ lệ 9:16)
+// ITEM CARD CLICK HANDLER (Loại bỏ popup iframe, chuyển hướng trực tiếp / liên hệ Zalo)
 // ============================================================================
 
-// Mở modal iframe dạng dọc nạp đường dẫn URL trang của sản phẩm
-window.openProductIframe = function(id) {
-  const item = mockProducts.find(p => p.id === id);
-  if (!item) return;
-
-  currentActiveProduct = item;
-
-  const modal = document.getElementById("productIframeModal");
-  const iframe = document.getElementById("itemProductIframe");
-  const loader = document.getElementById("iframeLoader");
-  const idEl = document.getElementById("iframeModalItemId");
-  const titleEl = document.getElementById("iframeModalItemTitle");
-
-  if (!modal || !iframe) return;
-
-  if (idEl) idEl.textContent = `#${item.id}`;
-  if (titleEl) titleEl.textContent = item.title;
-
-  // Hiển thị trạng thái đang tải
-  if (loader) loader.classList.remove("hidden");
-
-  // Đặt link cần nạp vào src của iframe
-  const targetUrl = item.link || `guide/index.html?id=${item.id}`;
-  iframe.src = targetUrl;
-
-  iframe.onload = function() {
-    if (loader) loader.classList.add("hidden");
-  };
-
-  // Mở popup modal
-  modal.classList.add("active");
-  document.body.classList.add("iframe-modal-open");
-};
-
-// Đóng modal iframe
-window.closeProductIframe = function() {
-  const modal = document.getElementById("productIframeModal");
-  const iframe = document.getElementById("itemProductIframe");
-  if (!modal) return;
-
-  modal.classList.remove("active");
-  document.body.classList.remove("iframe-modal-open");
-
-  // Dọn dẹp src sau khi đóng để tránh ngốn bộ nhớ
-  setTimeout(() => {
-    if (iframe) iframe.src = "about:blank";
-  }, 280);
-};
-
-// NÚT TRÊN CÙNG "MUA NGAY": Nhấp vô thì quay lại mục sản phẩm (tắt popup iframe)
-window.handleBuyNowFromIframe = function() {
-  const targetItem = currentActiveProduct;
-
-  // 1. Tắt popup iframe
-  closeProductIframe();
-
-  // 2. Quay lại mục sản phẩm đó trên trang chủ
-  if (targetItem) {
-    setTimeout(() => {
-      const card = document.querySelector(`.product-card[data-id="${targetItem.id}"]`);
-      if (card) {
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        card.classList.remove('item-card-highlighted');
-        void card.offsetWidth; // Force reflow
-        card.classList.add('item-card-highlighted');
-      }
-      showActionNotice(`Đã quay lại sản phẩm #${targetItem.id}`);
-    }, 180);
-  }
-};
-
-// Đóng khi click ngoài backdrop
-window.handleBackdropClick = function(event) {
-  if (event.target.id === "productIframeModal") {
-    closeProductIframe();
-  }
-};
-
-// Lắng nghe phím ESC để đóng modal
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    const modal = document.getElementById("productIframeModal");
-    if (modal && modal.classList.contains("active")) {
-      closeProductIframe();
-    }
-  }
-});
-
-// Click Item to Record History & Open 9:16 Iframe Popup
 window.handleItemCardClick = function(id, event) {
   if (event && (event.target.closest('.btn-fav') || event.target.tagName === 'BUTTON')) return;
 
-  const item = mockProducts.find(p => p.id === id);
-  if (item) {
-    try {
-      const STORAGE_KEY = 'wontrade_viewed_history';
-      let history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      history = history.filter(h => h.id !== item.id);
-      const now = new Date();
-      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
-      const rawPrice = Number(item.price) || 0;
-      const vndPrice = rawPrice < 50000 ? Math.round(rawPrice * 25400) : rawPrice;
-      history.unshift({
-        id: item.id,
-        title: item.title,
-        price: vndPrice,
-        link: item.link,
-        info: item.info,
-        stats: item.stats,
-        badges: item.badges,
-        tags: item.tags,
-        commanders: item.commanders,
-        viewedAt: timeStr
-      });
-      if (history.length > 50) history = history.slice(0, 50);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-    } catch(e) {
-      console.error(e);
-    }
+  const productsList = (window.mockProducts && window.mockProducts.length > 0)
+    ? window.mockProducts
+    : (typeof mockProducts !== "undefined" ? mockProducts : []);
 
-    // Mở popup iframe dạng dọc (9:16) nạp URL trang của sản phẩm
-    openProductIframe(item.id);
+  const item = productsList.find(p => p.id === id);
+  if (!item) return;
+
+  // 1. Lưu vào lịch sử xem vật phẩm (history)
+  try {
+    const STORAGE_KEY = 'wontrade_viewed_history';
+    let history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    history = history.filter(h => h.id !== item.id);
+    const now = new Date();
+    const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+    const rawPrice = Number(item.price) || 0;
+    const vndPrice = rawPrice < 50000 ? Math.round(rawPrice * 25400) : rawPrice;
+    history.unshift({
+      id: item.id,
+      title: item.title,
+      price: vndPrice,
+      link: item.link,
+      info: item.info,
+      stats: item.stats,
+      badges: item.badges,
+      tags: item.tags,
+      commanders: item.commanders,
+      viewedAt: timeStr
+    });
+    if (history.length > 50) history = history.slice(0, 50);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  } catch(e) {
+    console.error(e);
+  }
+
+  // 2. Chuyển hướng trực tiếp (không dùng popup iframe)
+  if (item.link && item.link !== '#' && !item.link.startsWith('javascript:')) {
+    if (item.link.startsWith('http://') || item.link.startsWith('https://')) {
+      window.open(item.link, '_blank');
+    } else {
+      window.location.href = item.link;
+    }
+  } else {
+    // Mở Zalo tư vấn tài khoản
+    const zaloPhone = (window.siteConfig && window.siteConfig.contact && window.siteConfig.contact.zalo) || '0372996420';
+    if (typeof showActionNotice === 'function') {
+      showActionNotice(`Đang kết nối Zalo tư vấn vật phẩm #${item.id}...`);
+    }
+    window.open(`https://zalo.me/${zaloPhone}`, '_blank');
   }
 };
 
@@ -732,6 +659,9 @@ window.showActionNotice = function(msg) {
 
 // Initial DOM Ready
 document.addEventListener("DOMContentLoaded", () => {
+  if (window.mockProducts && Array.isArray(window.mockProducts) && window.mockProducts.length > 0) {
+    mockProducts = window.mockProducts;
+  }
   renderListings(mockProducts);
   startTimerTicker();
 

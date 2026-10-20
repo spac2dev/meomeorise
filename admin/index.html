@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <title>WONTRADE Admin CMS - Quản Lý & Cập Nhật list.js</title>
+  <title>WONTRADE Admin CMS - Quản Lý & Tráo Đổi index.html (Edge-SSG)</title>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="googlebot" content="noindex, nofollow">
   <link rel="icon" href="../assets/rok_avatar.jpg" type="image/jpeg">
   <style>
     :root {
@@ -86,6 +88,7 @@
       color: #111;
       display: flex;
       align-items: center;
+      text-decoration: none;
     }
 
     .logo-dagger {
@@ -104,10 +107,19 @@
       letter-spacing: 0.5px;
     }
 
+    .edge-badge {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+    }
+
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
@@ -123,6 +135,7 @@
       border: 1px solid transparent;
       transition: all 0.2s ease;
       text-decoration: none;
+      white-space: nowrap;
     }
 
     .btn-primary {
@@ -151,82 +164,94 @@
       border-color: #cbd5e1;
     }
 
-    .btn-dark {
-      background: #1f2329;
-      color: #fff;
-    }
-    .btn-dark:hover {
-      background: #333a46;
-    }
-
     .btn-success {
-      background: #10b981;
+      background: #059669;
       color: #fff;
     }
     .btn-success:hover {
-      background: #059669;
+      background: #047857;
     }
 
     /* Main Container */
     .admin-container {
       max-width: 1400px;
-      margin: 20px auto 40px auto;
-      padding: 0 20px;
-      flex: 1;
       width: 100%;
+      margin: 20px auto 60px;
+      padding: 0 24px;
+      flex: 1;
     }
 
-    /* Worker Config Card */
+    /* Success Publish Banner */
+    .publish-success-banner {
+      background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+      border: 1px solid #10b981;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      color: #fff;
+      margin-bottom: 20px;
+      display: none;
+      animation: modalFadeIn 0.3s ease;
+    }
+    .publish-success-banner.show {
+      display: block;
+    }
+    .banner-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+    .banner-desc {
+      font-size: 13px;
+      color: #d1fae5;
+      line-height: 1.5;
+    }
+
+    /* Config Card (Worker Settings) */
     .config-card {
       background: #ffffff;
-      border-radius: var(--radius-lg);
-      padding: 16px 20px;
       border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
       margin-bottom: 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
       flex-wrap: wrap;
+      box-shadow: var(--shadow-sm);
     }
-
     .config-left {
       display: flex;
       align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 14px;
       flex: 1;
+      flex-wrap: wrap;
     }
-
     .config-input-group {
       display: flex;
       align-items: center;
       gap: 8px;
       flex: 1;
-      min-width: 280px;
+      min-width: 240px;
     }
-
     .config-label {
       font-size: 12px;
       font-weight: 700;
       color: var(--muted);
       white-space: nowrap;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
-
     .input-text {
       width: 100%;
-      padding: 8px 14px;
-      border-radius: var(--radius-pill);
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--border);
       font-size: 13px;
       background: #f8fafc;
-      color: var(--text);
       transition: all 0.2s;
     }
-
     .input-text:focus {
       background: #fff;
       border-color: #3b82f6;
@@ -236,63 +261,177 @@
     /* Stats Grid */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
       margin-bottom: 20px;
     }
-
     .stat-card {
       background: #ffffff;
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
       border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
     }
-
     .stat-icon {
       width: 42px;
       height: 42px;
-      border-radius: 50%;
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 18px;
       flex-shrink: 0;
     }
-
-    .stat-icon.red { background: #fff1f0; color: var(--primary); }
-    .stat-icon.gold { background: var(--gold-bg); color: var(--gold); }
-    .stat-icon.blue { background: #e6f7ff; color: #1890ff; }
-    .stat-icon.green { background: #f6ffed; color: #52c41a; }
-
+    .stat-icon.red { background: #fee2e2; color: #dc2626; }
+    .stat-icon.gold { background: #fef3c7; color: #d97706; }
+    .stat-icon.blue { background: #e0f2fe; color: #0284c7; }
+    .stat-icon.green { background: #dcfce7; color: #16a34a; }
     .stat-info .stat-val {
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 800;
-      color: #111;
+      color: var(--text);
       line-height: 1.2;
     }
-
     .stat-info .stat-title {
       font-size: 12px;
       color: var(--muted);
       margin-top: 2px;
     }
 
-    /* Content Area */
-    .cms-main-card {
+    /* Tab Navigation Bar */
+    .admin-tab-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       background: #ffffff;
-      border-radius: var(--radius-lg);
       border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 6px;
+      margin-bottom: 18px;
+      overflow-x: auto;
       box-shadow: var(--shadow-sm);
-      overflow: hidden;
+    }
+    .tab-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .tab-item:hover {
+      color: var(--text);
+      background: #f1f5f9;
+    }
+    .tab-item.active {
+      color: #ffffff;
+      background: var(--dark);
+      box-shadow: 0 2px 8px rgba(31, 35, 41, 0.25);
+    }
+    .tab-item svg {
+      flex-shrink: 0;
     }
 
-    /* Toolbar */
+    /* Tab Panels */
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+
+    /* CMS Main Card */
+    .cms-main-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Form Card Container */
+    .form-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+    .form-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-card-subtitle {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group.full {
+      grid-column: span 2;
+    }
+    .form-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #334155;
+    }
+    .form-control {
+      padding: 9px 13px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      font-size: 13.5px;
+      background: #f8fafc;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .form-control:focus {
+      background: #fff;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+    .form-hint {
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* Table Toolbar */
     .cms-toolbar {
-      padding: 16px 20px;
+      padding: 14px 20px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
@@ -301,14 +440,12 @@
       flex-wrap: wrap;
       background: #ffffff;
     }
-
     .toolbar-search {
       position: relative;
       flex: 1;
       max-width: 380px;
       min-width: 220px;
     }
-
     .toolbar-search svg {
       position: absolute;
       left: 14px;
@@ -316,7 +453,6 @@
       transform: translateY(-50%);
       color: var(--muted);
     }
-
     .toolbar-search input {
       width: 100%;
       padding: 9px 16px 9px 38px;
@@ -326,20 +462,17 @@
       background: #f8fafc;
       transition: all 0.2s;
     }
-
     .toolbar-search input:focus {
       background: #fff;
       border-color: #3b82f6;
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
-
     .toolbar-filters {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
     }
-
     .select-dropdown {
       padding: 8px 14px;
       border-radius: var(--radius-pill);
@@ -350,18 +483,16 @@
       cursor: pointer;
     }
 
-    /* Items Table / List */
+    /* Items Table */
     .items-table-wrap {
       overflow-x: auto;
     }
-
     table.items-table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
       font-size: 13px;
     }
-
     table.items-table th {
       background: #f8fafc;
       padding: 12px 16px;
@@ -373,17 +504,14 @@
       font-size: 11px;
       letter-spacing: 0.5px;
     }
-
     table.items-table td {
       padding: 14px 16px;
       border-bottom: 1px solid #f1f5f9;
       vertical-align: middle;
     }
-
     table.items-table tr:hover {
       background-color: #fafbfd;
     }
-
     .item-id-badge {
       font-family: monospace;
       font-weight: 700;
@@ -393,24 +521,20 @@
       border-radius: var(--radius-pill);
       border: 1px solid #bfdbfe;
     }
-
     .item-title-cell {
       max-width: 280px;
     }
-
     .item-title-text {
       font-weight: 700;
       color: #0f172a;
       line-height: 1.35;
       margin-bottom: 4px;
     }
-
     .item-sub-badges {
       display: flex;
       gap: 4px;
       flex-wrap: wrap;
     }
-
     .mini-badge {
       font-size: 10px;
       padding: 1px 6px;
@@ -425,131 +549,25 @@
       font-weight: 800;
       color: var(--primary);
     }
-
     .commander-avatar-stack {
       display: flex;
       align-items: center;
-      gap: -4px;
+      gap: 3px;
     }
-
-    .link-cell-wrap {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      max-width: 220px;
-    }
-
-    .btn-preview-link {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1d4ed8;
-      border-radius: 6px;
-      padding: 3px 8px;
-      font-size: 11px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .btn-preview-link:hover {
-      background: #dbeafe;
-      border-color: #93c5fd;
-      transform: translateY(-1px);
-    }
-
-    .link-url-text {
-      font-size: 12px;
-      color: #64748b;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 140px;
-      display: inline-block;
-    }
-
-    /* 9:16 Iframe Preview Modal in Admin */
-    .admin-iframe-modal-container {
-      background: #14171d;
-      border-radius: 28px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.1);
-      border: 2px solid rgba(255,255,255,0.12);
-      height: 88vh;
-      max-height: 820px;
-      width: calc(min(88vh, 820px) * 9 / 16);
-      max-width: 95vw;
-      animation: modalFadeIn 0.25s ease-out;
-    }
-    .admin-iframe-header {
-      padding: 10px 16px;
-      background: #1e2430;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .preview-badge-916 {
-      background: #e60012;
-      color: #fff;
-      font-size: 10px;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 4px;
-      letter-spacing: 0.5px;
-    }
-    .btn-preview-buy-now {
-      background: linear-gradient(135deg, #e60012, #ff334b);
-      color: #fff;
-      border: none;
-      border-radius: 9999px;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 6px 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      box-shadow: 0 3px 10px rgba(230,0,18,0.35);
-      transition: all 0.2s;
-    }
-    .btn-preview-buy-now:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(230,0,18,0.45);
-    }
-    .admin-iframe-viewport {
-      flex: 1;
-      width: 100%;
-      height: 100%;
-      background: #ffffff;
-      position: relative;
-    }
-
     .mini-comm-frame {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
       border: 1.5px solid var(--gold-border);
       background: #1f2329;
-      overflow: hidden;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-      margin-right: 4px;
     }
-
     .actions-cell {
       white-space: nowrap;
       text-align: right;
     }
-
     .btn-action {
       width: 32px;
       height: 32px;
@@ -564,16 +582,35 @@
       transition: all 0.2s;
       margin-left: 4px;
     }
-
     .btn-action:hover {
       border-color: #94a3b8;
       color: var(--text);
       transform: translateY(-1px);
     }
-
     .btn-action.edit:hover { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
     .btn-action.copy:hover { background: #fefce8; color: #ca8a04; border-color: #fef08a; }
     .btn-action.delete:hover { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+
+    /* Direct link button in table */
+    .link-direct-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      border-radius: var(--radius-pill);
+      font-size: 11.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .link-direct-btn:hover {
+      background: #dbeafe;
+      transform: translateY(-1px);
+    }
 
     /* Modal Form */
     .modal-backdrop {
@@ -587,11 +624,9 @@
       justify-content: center;
       padding: 20px;
     }
-
     .modal-backdrop.show {
       display: flex;
     }
-
     .modal-dialog {
       background: #ffffff;
       border-radius: var(--radius-lg);
@@ -601,15 +636,12 @@
       display: flex;
       flex-direction: column;
       box-shadow: var(--shadow-lg);
-      border: 1px solid var(--border);
       animation: modalFadeIn 0.2s ease-out;
     }
-
     @keyframes modalFadeIn {
-      from { opacity: 0; transform: scale(0.96) translateY(10px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
     }
-
     .modal-header {
       padding: 18px 24px;
       border-bottom: 1px solid var(--border);
@@ -617,86 +649,41 @@
       align-items: center;
       justify-content: space-between;
     }
-
     .modal-title {
       font-size: 17px;
-      font-weight: 700;
+      font-weight: 800;
       color: #0f172a;
     }
-
     .btn-close-modal {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--muted);
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: #f1f5f9;
-      border: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      color: var(--muted);
-      transition: all 0.2s;
     }
-
     .btn-close-modal:hover {
-      background: #e2e8f0;
-      color: #0f172a;
+      background: #f1f5f9;
+      color: var(--text);
     }
-
     .modal-body {
       padding: 20px 24px;
       overflow-y: auto;
       flex: 1;
     }
-
     .modal-footer {
-      padding: 16px 24px;
+      padding: 14px 24px;
       border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: flex-end;
       gap: 10px;
       background: #f8fafc;
-      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-    }
-
-    /* Form Fields */
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .form-group.full {
-      grid-column: span 2;
-    }
-
-    .form-label {
-      font-size: 12px;
-      font-weight: 700;
-      color: #475569;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 9px 14px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      font-size: 13px;
-      background: #ffffff;
-      color: var(--text);
-      transition: all 0.2s;
-    }
-
-    .form-control:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
 
     /* Toast Alert Notification */
@@ -722,46 +709,13 @@
       max-width: 90vw;
       text-align: center;
     }
-
     .toast-notice.show {
       opacity: 1;
       pointer-events: auto;
       transform: translateX(-50%) translateY(0);
     }
-
     .toast-notice.success { background: #065f46; border: 1px solid #10b981; }
     .toast-notice.error { background: #991b1b; border: 1px solid #ef4444; }
-
-    /* Success Publish Modal Alert */
-    .publish-success-banner {
-      background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
-      border: 1px solid #10b981;
-      border-radius: var(--radius-md);
-      padding: 16px 20px;
-      color: #fff;
-      margin-bottom: 20px;
-      display: none;
-      animation: modalFadeIn 0.3s ease;
-    }
-
-    .publish-success-banner.show {
-      display: block;
-    }
-
-    .banner-title-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 15px;
-      margin-bottom: 6px;
-    }
-
-    .banner-desc {
-      font-size: 13px;
-      color: #d1fae5;
-      line-height: 1.5;
-    }
 
     /* Code View Modal */
     pre.code-preview {
@@ -771,14 +725,9 @@
       border-radius: var(--radius-md);
       font-family: Consolas, Monaco, monospace;
       font-size: 12px;
-      max-height: 480px;
+      max-height: 520px;
       overflow: auto;
       line-height: 1.5;
-    }
-
-    /* Action button label (hidden on desktop, visible on mobile cards) */
-    .btn-action-label {
-      display: none;
     }
 
     /* Scroll to Top Floating Button */
@@ -803,432 +752,43 @@
       transform: translateY(12px);
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
     .scroll-top-btn.visible {
       opacity: 1;
       visibility: visible;
       transform: translateY(0);
     }
 
-    .scroll-top-btn:active {
-      transform: scale(0.92);
-    }
-
-    /* Tablet breakpoint (1024px) */
-    @media (max-width: 1024px) {
-      .admin-container {
-        padding: 0 16px;
-      }
+    @media (max-width: 900px) {
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-    }
-
-    /* Mobile breakpoint (768px) */
-    @media (max-width: 768px) {
-      .admin-navbar {
-        padding: 10px 14px;
-        backdrop-filter: blur(8px);
-        background: rgba(255, 255, 255, 0.96);
-      }
-
-      .navbar-inner {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-      }
-
-      .brand-wrap {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .nav-actions {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
-        width: 100%;
-      }
-
-      .nav-actions .btn {
-        padding: 7px 6px;
-        font-size: 11.5px;
-        justify-content: center;
-        border-radius: var(--radius-sm);
-        white-space: nowrap;
-      }
-
-      .nav-actions .btn svg {
-        width: 13px;
-        height: 13px;
-        flex-shrink: 0;
-      }
-
-      .nav-actions .btn-primary {
-        grid-column: 1 / -1;
-        padding: 10px 14px;
-        font-size: 13px;
-        font-weight: 700;
-        border-radius: var(--radius-pill);
-        box-shadow: 0 2px 10px rgba(230, 0, 18, 0.35);
-      }
-
-      .admin-container {
-        margin: 12px auto 30px auto;
-        padding: 0 10px;
-      }
-
-      /* Cloudflare Worker Card Mobile */
-      .config-card {
-        padding: 12px 14px;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        border-radius: var(--radius-md);
-      }
-
-      .config-left {
-        flex-direction: column;
-        width: 100%;
-        gap: 8px;
-      }
-
-      .config-input-group {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-      }
-
-      .config-card button {
-        width: 100% !important;
-        justify-content: center;
-        padding: 9px;
-      }
-
-      /* Stats 2x2 Grid */
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        margin-bottom: 12px;
-      }
-
-      .stat-card {
-        padding: 10px 12px;
-        gap: 10px;
-        border-radius: var(--radius-sm);
-      }
-
-      .stat-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-      }
-
-      .stat-info .stat-val {
-        font-size: 17px;
-      }
-
-      .stat-info .stat-title {
-        font-size: 11px;
-      }
-
-      /* Toolbar Mobile */
-      .cms-main-card {
-        border-radius: var(--radius-md);
-      }
-
-      .cms-toolbar {
-        padding: 12px;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-      }
-
-      .toolbar-search {
-        max-width: 100%;
-        width: 100%;
-        min-width: 0;
-      }
-
-      .toolbar-filters {
-        width: 100%;
-        display: flex;
-        gap: 8px;
-      }
-
-      .select-dropdown {
-        flex: 1;
-        min-width: 0;
-        font-size: 12.5px;
-        padding: 8px 10px;
-      }
-
-      .toolbar-filters .btn-primary {
-        flex: 1.2;
-        justify-content: center;
-        white-space: nowrap;
-        font-size: 12.5px;
-        padding: 8px 12px;
-      }
-
-      /* Items Table to Modern Card View */
-      .items-table-wrap {
-        overflow-x: visible;
-      }
-
-      table.items-table {
-        display: block;
-        width: 100%;
-      }
-
-      table.items-table thead {
-        display: none;
-      }
-
-      table.items-table tbody {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 10px 8px;
-        background: #f8fafc;
-      }
-
-      table.items-table tr {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        grid-template-areas:
-          "id price"
-          "title title"
-          "info info"
-          "comm fav"
-          "actions actions";
-        gap: 8px 10px;
-        background: #ffffff;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-md);
-        padding: 12px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-      }
-
-      table.items-table tr:hover {
-        background-color: #ffffff;
-      }
-
-      table.items-table tr:active {
-        transform: scale(0.995);
-      }
-
-      table.items-table tr.empty-row {
-        display: block;
-        padding: 30px 10px;
-      }
-
-      table.items-table tr.empty-row td {
-        display: block;
-        width: 100%;
-        text-align: center;
-      }
-
-      table.items-table td {
-        padding: 0;
-        border: none;
-      }
-
-      table.items-table td:nth-child(1) {
-        grid-area: id;
-        align-self: center;
-      }
-
-      table.items-table td:nth-child(2) {
-        grid-area: title;
-        max-width: 100%;
-      }
-
-      table.items-table td:nth-child(3) {
-        grid-area: price;
-        text-align: right;
-        align-self: center;
-      }
-
-      table.items-table td:nth-child(4) {
-        grid-area: info;
-        background: #f8fafc;
-        padding: 6px 10px;
-        border-radius: 6px;
-        font-size: 12px;
-        border-left: 3px solid #3b82f6;
-      }
-
-      table.items-table td:nth-child(5) {
-        grid-area: comm;
-        align-self: center;
-      }
-
-      table.items-table td:nth-child(6) {
-        grid-area: fav;
-        text-align: right;
-        align-self: center;
-      }
-
-      table.items-table td:nth-child(7) {
-        grid-area: actions;
-        border-top: 1px solid #f1f5f9;
-        padding-top: 10px;
-        margin-top: 2px;
-        display: flex;
-        gap: 8px;
-        width: 100%;
-      }
-
-      .btn-action {
-        flex: 1;
-        width: auto;
-        height: 38px;
-        padding: 0 10px;
-        border-radius: var(--radius-pill);
-        font-size: 12px;
-        font-weight: 600;
-        margin-left: 0;
-        justify-content: center;
-      }
-
-      .btn-action-label {
-        display: inline;
-        margin-left: 4px;
-      }
-
-      /* Modal Bottom Sheet on Mobile */
-      .modal-backdrop {
-        padding: 10px;
-        align-items: flex-end;
-      }
-
-      .modal-dialog {
-        max-height: 94vh;
-        border-radius: 20px 20px 14px 14px;
-        width: 100%;
-        margin: 0;
-        animation: modalSlideUp 0.25s ease-out;
-      }
-
-      @keyframes modalSlideUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      .modal-header {
-        padding: 14px 16px;
-      }
-
-      .modal-title {
-        font-size: 16px;
-      }
-
-      .modal-body {
-        padding: 14px 16px;
-        -webkit-overflow-scrolling: touch;
-      }
-
       .form-grid {
         grid-template-columns: 1fr;
-        gap: 12px;
       }
-
       .form-group.full {
         grid-column: span 1;
       }
-
-      .form-control, .input-text {
-        font-size: 16px; /* Prevents auto zoom in mobile browser */
-        padding: 10px 12px;
-        min-height: 42px;
-        border-radius: 8px;
-      }
-
-      .modal-footer {
-        padding: 12px 16px;
-        flex-direction: column-reverse;
-        gap: 8px;
-      }
-
-      .modal-footer .btn {
-        width: 100%;
-        justify-content: center;
-        padding: 11px;
-        font-size: 14px;
-      }
-
-      /* Raw Code Modal */
-      pre.code-preview {
-        max-height: 52vh;
-        font-size: 11px;
-        white-space: pre-wrap;
-        word-break: break-all;
-        padding: 12px;
-      }
-
-      /* Toast & Banners */
-      .toast-notice {
-        bottom: max(16px, env(safe-area-inset-bottom, 16px));
-        width: calc(100% - 32px);
-        max-width: 420px;
-        font-size: 13px;
-        padding: 11px 18px;
-      }
-
-      .publish-success-banner {
-        padding: 14px;
-        margin-bottom: 14px;
-        border-radius: var(--radius-sm);
-      }
-
-      .banner-title-row {
-        font-size: 14px;
-      }
-
-      .banner-desc {
-        font-size: 12.5px;
-      }
     }
-
-    /* Small Screen (<400px) */
-    @media (max-width: 400px) {
-      .brand-wrap .logo {
-        font-size: 18px;
+    @media (max-width: 600px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
       }
-
-      .admin-badge {
-        font-size: 10px;
-        padding: 2px 7px;
+      .admin-navbar {
+        padding: 10px 14px;
       }
-
-      .stat-card {
-        padding: 8px 10px;
-        gap: 8px;
+      .nav-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
       }
-
-      .stat-icon {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
-      }
-
-      .stat-info .stat-val {
-        font-size: 15px;
-      }
-
-      .stat-info .stat-title {
-        font-size: 10px;
-      }
-
       .nav-actions .btn {
-        font-size: 11px;
-        padding: 6px 4px;
+        justify-content: center;
+        padding: 7px 10px;
+        font-size: 12px;
+      }
+      .btn-primary {
+        grid-column: span 2;
       }
     }
   </style>
@@ -1243,31 +803,38 @@
           WON<span class="logo-dagger">†</span>RADE
         </a>
         <span class="admin-badge">ADMIN CMS</span>
+        <span class="edge-badge">EDGE-SSG</span>
       </div>
 
       <div class="nav-actions">
         <!-- View Main Website -->
         <a href="../index.html" target="_blank" class="btn btn-secondary" title="Xem trang chủ">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          <span class="nav-btn-text">Xem Web</span>
+          <span>Xem Web</span>
         </a>
 
-        <!-- Export Backup -->
-        <button class="btn btn-secondary" onclick="exportListJsFile()" title="Tải file list.js về máy dự phòng">
+        <!-- Sync from GitHub (Worker GET) -->
+        <button class="btn btn-secondary" onclick="syncFromGithubWorker()" title="Tải dữ liệu mới nhất trực tiếp từ file index.html trên GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          <span>Đồng bộ GitHub</span>
+        </button>
+
+        <!-- Export Backup File -->
+        <button class="btn btn-secondary" onclick="exportIndexHtmlFile()" title="Tải file index.html đã tráo code về máy">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          <span class="nav-btn-text">Tải list.js</span>
+          <span>Tải index.html</span>
         </button>
 
-        <!-- View Raw Code -->
-        <button class="btn btn-secondary" onclick="openRawCodeModal()" title="Xem mã nguồn JS">
+        <!-- View Raw HTML Code -->
+        <button class="btn btn-secondary" onclick="openRawHtmlModal()" title="Xem mã nguồn index.html sau khi tráo">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-          <span class="nav-btn-text">Xem Code</span>
+          <span>Xem Code HTML</span>
         </button>
 
-        <!-- Save & Publish to GitHub -->
+        <!-- Save & Publish to GitHub index.html -->
         <button class="btn btn-primary" id="btnPublishGithub" onclick="publishToGithubWorker()">
           <svg id="publishIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-          <span id="publishText">LƯU LÊN GITHUB</span>
+          <span id="publishText">LƯU VÀO INDEX.HTML</span>
         </button>
       </div>
     </div>
@@ -1276,14 +843,14 @@
   <!-- Main Container -->
   <main class="admin-container">
 
-    <!-- Success Message Notice (Hidden by default, shown on HTTP 200) -->
+    <!-- Success Message Notice (Shown on HTTP 200) -->
     <div class="publish-success-banner" id="publishSuccessBanner">
       <div class="banner-title-row">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-        <span>Lưu thành công vào kho lưu trữ GitHub!</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <span>Tráo và commit trực tiếp vào index.html trên GitHub thành công!</span>
       </div>
       <div class="banner-desc">
-        Vui lòng đợi <strong>1 - 3 phút</strong> để hệ thống (GitHub Webhook / Cloudflare Pages) tự động nhận diện và build lại giao diện mới cho khách hàng.
+        Hệ thống Edge-SSG đã cập nhật xong file <strong>index.html</strong> (chuẩn SEO Google, Zalo OpenGraph, hiển thị tĩnh SSR). Vui lòng đợi <strong>1 - 3 phút</strong> để GitHub Pages / Cloudflare Pages tự động cập nhật bản mới ra toàn cầu.
       </div>
     </div>
 
@@ -1291,8 +858,8 @@
     <div class="config-card">
       <div class="config-left">
         <div class="config-input-group">
-          <span class="config-label">Worker URL:</span>
-          <input type="url" id="workerUrlInput" class="input-text" value="https://meomeorise.text2developer.workers.dev" placeholder="https://meomeorise.text2developer.workers.dev" onchange="saveWorkerSettings()">
+          <span class="config-label">Cloudflare Worker URL:</span>
+          <input type="url" id="workerUrlInput" class="input-text" value="https://meomeorise.text2developer.workers.dev" placeholder="https://your-worker.workers.dev" onchange="saveWorkerSettings()">
         </div>
 
         <div class="config-input-group" style="max-width: 240px;">
@@ -1336,65 +903,240 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-icon green">🛡️</div>
+        <div class="stat-icon green">⚡</div>
         <div class="stat-info">
-          <div class="stat-val">Rise of Kingdoms</div>
-          <div class="stat-title">Danh mục game</div>
+          <div class="stat-val">Edge-SSG</div>
+          <div class="stat-title">Tráo file index.html</div>
         </div>
       </div>
     </div>
 
-    <!-- Main Table Card -->
-    <div class="cms-main-card">
-      <!-- Toolbar -->
-      <div class="cms-toolbar">
-        <div class="toolbar-search">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="adminSearchInput" placeholder="Tìm ID hoặc tên vật phẩm..." oninput="filterAdminItems()">
+    <!-- Tab Navigation Bar -->
+    <div class="admin-tab-nav">
+      <button class="tab-item active" data-tab="tab-products" onclick="switchAdminTab('tab-products')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+        <span>Danh sách Sản phẩm (<strong id="tabBadgeCount">19</strong>)</span>
+      </button>
+
+      <button class="tab-item" data-tab="tab-banner" onclick="switchAdminTab('tab-banner')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+        <span>Giao diện & Hero Banner</span>
+      </button>
+
+      <button class="tab-item" data-tab="tab-seo" onclick="switchAdminTab('tab-seo')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        <span>SEO & Mạng xã hội (Zalo / FB)</span>
+      </button>
+
+      <button class="tab-item" data-tab="tab-contact" onclick="switchAdminTab('tab-contact')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        <span>Liên hệ & Zalo CSKH</span>
+      </button>
+    </div>
+
+    <!-- ======================================================================
+         TAB 1: QUẢN LÝ SẢN PHẨM (ĐÃ BỎ POPUP IFRAME)
+         ====================================================================== -->
+    <div class="tab-panel active" id="tab-products">
+      <div class="cms-main-card">
+        <!-- Toolbar -->
+        <div class="cms-toolbar">
+          <div class="toolbar-search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="adminSearchInput" placeholder="Tìm ID hoặc tên vật phẩm..." oninput="filterAdminItems()">
+          </div>
+
+          <div class="toolbar-filters">
+            <select class="select-dropdown" id="sortFilter" onchange="filterAdminItems()">
+              <option value="id-desc">ID mới nhất</option>
+              <option value="id-asc">ID cũ nhất</option>
+              <option value="price-desc">Giá cao nhất</option>
+              <option value="price-asc">Giá thấp nhất</option>
+              <option value="fav-desc">Lượt thích nhiều nhất</option>
+            </select>
+
+            <!-- Add Item Button -->
+            <button class="btn btn-primary" onclick="openAddItemModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Thêm vật phẩm mới</span>
+            </button>
+          </div>
         </div>
 
-        <div class="toolbar-filters">
-          <select class="select-dropdown" id="sortFilter" onchange="filterAdminItems()">
-            <option value="id-desc">ID mới nhất</option>
-            <option value="id-asc">ID cũ nhất</option>
-            <option value="price-desc">Giá cao nhất</option>
-            <option value="price-asc">Giá thấp nhất</option>
-            <option value="fav-desc">Lượt thích nhiều nhất</option>
-          </select>
-
-          <!-- Add Item Button -->
-          <button class="btn btn-primary" onclick="openAddItemModal()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            <span>Thêm vật phẩm mới</span>
-          </button>
+        <!-- Items Table -->
+        <div class="items-table-wrap">
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th style="width: 80px;">ID</th>
+                <th>Tiêu đề & Huy hiệu</th>
+                <th>Giá (VNĐ)</th>
+                <th>Vương quốc & Nhập cư</th>
+                <th>Link chi tiết</th>
+                <th>5 Tướng chính</th>
+                <th>Thích</th>
+                <th style="text-align: right;">Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="itemsTableBody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
         </div>
       </div>
+    </div>
 
-      <!-- Items Table -->
-      <div class="items-table-wrap">
-        <table class="items-table">
-          <thead>
-            <tr>
-              <th style="width: 80px;">ID</th>
-              <th>Tiêu đề & Huy hiệu</th>
-              <th>Giá ($ USD)</th>
-              <th>Vương quốc & Nhập cư</th>
-              <th>Link Iframe (9:16)</th>
-              <th>5 Tướng chính</th>
-              <th>Thích</th>
-              <th style="text-align: right;">Hành động</th>
-            </tr>
-          </thead>
-          <tbody id="itemsTableBody">
-            <!-- Populated dynamically -->
-          </tbody>
-        </table>
+    <!-- ======================================================================
+         TAB 2: GIAO DIỆN & HERO BANNER
+         ====================================================================== -->
+    <div class="tab-panel" id="tab-banner">
+      <div class="form-card">
+        <div class="form-card-header">
+          <div>
+            <h3 class="form-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+              Nội dung Hero Banner & Nhận Diện Thương Hiệu
+            </h3>
+            <p class="form-card-subtitle">Các thông số này sẽ được Cloudflare Worker tráo trực tiếp vào các thẻ HTML tương ứng trên trang index.html</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <!-- Desktop Headline -->
+          <div class="form-group full">
+            <label class="form-label">Tiêu đề Banner Desktop (.banner-headline)</label>
+            <input type="text" id="cfgBannerHeadline" class="form-control" placeholder="WONTRADE TRANSACTION GUIDELINES UPDATE" onchange="autoSaveSiteConfig()">
+            <span class="form-hint">Tiêu đề lớn hiển thị trên banner giao diện máy tính</span>
+          </div>
+
+          <!-- Desktop Ribbon -->
+          <div class="form-group full">
+            <label class="form-label">Dải chữ ruy băng vàng Desktop (.banner-ribbon)</label>
+            <input type="text" id="cfgBannerRibbon" class="form-control" placeholder="LOWER FEE & SIMPLIFIED PROCESS!" onchange="autoSaveSiteConfig()">
+            <span class="form-hint">Dòng chữ màu vàng phong cách game Rise of Kingdoms trên màn hình lớn</span>
+          </div>
+
+          <!-- Mobile Badge -->
+          <div class="form-group">
+            <label class="form-label">Huy hiệu Banner Mobile (.mobile-banner-badge)</label>
+            <input type="text" id="cfgBannerMobileBadge" class="form-control" placeholder="ĐỐI TÁC GIAO DỊCH CHÍNH THỨC" onchange="autoSaveSiteConfig()">
+          </div>
+
+          <!-- Mobile Title -->
+          <div class="form-group">
+            <label class="form-label">Tiêu đề Banner Mobile (.mobile-banner-title)</label>
+            <input type="text" id="cfgBannerMobileTitle" class="form-control" placeholder="NHÀ GIAO DỊCH WONTRADE" onchange="autoSaveSiteConfig()">
+          </div>
+
+          <!-- Mobile Subtitle -->
+          <div class="form-group full">
+            <label class="form-label">Phụ đề Banner Mobile (.mobile-banner-subtitle)</label>
+            <input type="text" id="cfgBannerMobileSubtitle" class="form-control" placeholder="BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH" onchange="autoSaveSiteConfig()">
+          </div>
+
+          <!-- Brand Game Name -->
+          <div class="form-group">
+            <label class="form-label">Tên Game (.game-name)</label>
+            <input type="text" id="cfgBrandGameName" class="form-control" placeholder="Rise of Kingdoms" onchange="autoSaveSiteConfig()">
+          </div>
+
+          <!-- Brand Avatar / Icon -->
+          <div class="form-group">
+            <label class="form-label">Đường dẫn Icon / Ảnh đại diện Game</label>
+            <input type="text" id="cfgBrandAvatar" class="form-control" placeholder="assets/rok_avatar.jpg" onchange="autoSaveSiteConfig()">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         TAB 3: SEO & MẠNG XÃ HỘI
+         ====================================================================== -->
+    <div class="tab-panel" id="tab-seo">
+      <div class="form-card">
+        <div class="form-card-header">
+          <div>
+            <h3 class="form-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              Cấu hình Thẻ Meta SEO & Xem Trước Mạng Xã Hội (Edge-SSG)
+            </h3>
+            <p class="form-card-subtitle">Tráo trực tiếp vào &lt;title&gt;, &lt;meta description&gt;, OpenGraph (Zalo, Facebook) và Twitter Cards trong index.html</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <!-- SEO Title -->
+          <div class="form-group full">
+            <label class="form-label">Tiêu đề Website (&lt;title&gt;, og:title, twitter:title) *</label>
+            <input type="text" id="cfgSeoTitle" class="form-control" placeholder="WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức" onchange="autoSaveSiteConfig()">
+            <span class="form-hint">Tiêu đề xuất hiện trên tab trình duyệt và khi chia sẻ liên kết qua Zalo, Facebook, Telegram</span>
+          </div>
+
+          <!-- SEO Description -->
+          <div class="form-group full">
+            <label class="form-label">Mô tả SEO (&lt;meta name="description"&gt;, og:description) *</label>
+            <textarea id="cfgSeoDesc" class="form-control" rows="3" placeholder="Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng." onchange="autoSaveSiteConfig()"></textarea>
+            <span class="form-hint">Đoạn tóm tắt hiển thị dưới tiêu đề khi tìm kiếm trên Google hoặc gửi link cho bạn bè qua chat</span>
+          </div>
+
+          <!-- SEO Keywords -->
+          <div class="form-group full">
+            <label class="form-label">Từ khóa tìm kiếm (meta keywords)</label>
+            <input type="text" id="cfgSeoKeywords" class="form-control" placeholder="wontrade, rise of kingdoms, rok, mua bán acc rok, giao dịch rok" onchange="autoSaveSiteConfig()">
+            <span class="form-hint">Các từ khóa cách nhau bởi dấu phẩy</span>
+          </div>
+
+          <!-- OG Image -->
+          <div class="form-group full">
+            <label class="form-label">Ảnh đại diện chia sẻ MXH (og:image, twitter:image)</label>
+            <input type="text" id="cfgSeoOgImage" class="form-control" placeholder="assets/rok_avatar.jpg" onchange="autoSaveSiteConfig()">
+            <span class="form-hint">Ảnh thumbnail hiển thị lớn khi paste link vào tin nhắn Zalo hoặc bài đăng Facebook</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         TAB 4: LIÊN HỆ & ZALO CSKH
+         ====================================================================== -->
+    <div class="tab-panel" id="tab-contact">
+      <div class="form-card">
+        <div class="form-card-header">
+          <div>
+            <h3 class="form-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              Kênh Liên Hệ & Zalo CSKH 24/7
+            </h3>
+            <p class="form-card-subtitle">Tất cả các nút nhắn tin Zalo (Header, Floating Sidebar, Mobile Bottom Bar) sẽ tự động tráo sang số này</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <!-- Hotline Phone -->
+          <div class="form-group">
+            <label class="form-label">Số điện thoại Hotline</label>
+            <input type="text" id="cfgContactPhone" class="form-control" placeholder="0372996420" onchange="autoSaveSiteConfig()">
+          </div>
+
+          <!-- Zalo Number -->
+          <div class="form-group">
+            <label class="form-label">Số Zalo CSKH</label>
+            <input type="text" id="cfgContactZalo" class="form-control" placeholder="0372996420" onchange="autoSaveSiteConfig()">
+          </div>
+
+          <!-- Zalo URL -->
+          <div class="form-group full">
+            <label class="form-label">Đường dẫn Zalo trực tiếp (URL)</label>
+            <input type="text" id="cfgContactZaloUrl" class="form-control" placeholder="https://zalo.me/0372996420" onchange="autoSaveSiteConfig()">
+            <span class="form-hint">Mặc định: https://zalo.me/&lt;Số Zalo&gt;</span>
+          </div>
+        </div>
       </div>
     </div>
 
   </main>
 
-  <!-- Modal Edit / Add Item -->
+  <!-- Modal Edit / Add Item (ĐÃ LOẠI BỎ POPUP IFRAME) -->
   <div class="modal-backdrop" id="itemModalBackdrop">
     <div class="modal-dialog">
       <div class="modal-header">
@@ -1426,17 +1168,11 @@
               <input type="text" id="fTitle" class="form-control" required placeholder="Ví dụ: Mùa Chinh Phạt - Full T5 3 Đạo">
             </div>
 
-            <!-- Link Iframe (Tỷ lệ 9:16) -->
+            <!-- Direct URL Link (Đã bỏ popup iframe) -->
             <div class="form-group full">
-              <label class="form-label">Link trang nạp Iframe (Tỷ lệ dọc 9:16) *</label>
-              <div style="display: flex; gap: 8px;">
-                <input type="text" id="fLink" class="form-control" placeholder="guide/index.html?id=... hoặc https://..." style="flex: 1;">
-                <button type="button" class="btn btn-secondary" onclick="previewFormIframe()" style="white-space: nowrap; font-size: 12px; padding: 6px 14px;" title="Xem thử hiển thị popup dọc 9:16">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect><line x1="12" y1="18" x2="12" y2="18.01"></line></svg>
-                  <span>Xem thử 9:16</span>
-                </button>
-              </div>
-              <span style="font-size: 11px; color: var(--muted); margin-top: 3px;">Đường dẫn trang này sẽ được nạp vào iframe popup dọc (9:16) khi khách bấm vào sản phẩm trên trang chủ.</span>
+              <label class="form-label">Đường dẫn chi tiết sản phẩm / URL liên kết</label>
+              <input type="text" id="fLink" class="form-control" placeholder="guide/index.html?id=2654 hoặc https://zalo.me/...">
+              <span class="form-hint">Khi khách hàng bấm vào thẻ sản phẩm, trình duyệt sẽ chuyển hướng trực tiếp tới đường dẫn này (không mở popup iframe).</span>
             </div>
 
             <!-- Kingdom & Immigration -->
@@ -1473,18 +1209,19 @@
             <div class="form-group full">
               <label class="form-label">Danh sách 5 Tướng (chọn từ: arthur, tontu, achilles, tanthuyhoang, scipio, quanvu, choiyoung, bachkhoi, giacatluong, luutriet, alparslan)</label>
               <input type="text" id="fCommanders" class="form-control" placeholder="arthur, tontu, achilles, tanthuyhoang, scipio">
+              <span class="form-hint">Nhập 5 mã tướng cách nhau bởi dấu phẩy</span>
             </div>
 
-            <!-- Countdown Seconds -->
+            <!-- Gem multiplier -->
             <div class="form-group">
-              <label class="form-label">Thời gian đếm ngược (Số ngày còn lại)</label>
-              <input type="number" id="fDays" class="form-control" value="7" placeholder="Số ngày">
-            </div>
-
-            <!-- Gem Multiplier -->
-            <div class="form-group">
-              <label class="form-label">Hệ số sao / ngọc</label>
+              <label class="form-label">Hệ số ngọc / sao (Số nguyên)</label>
               <input type="number" id="fGem" class="form-control" value="5">
+            </div>
+
+            <!-- Countdown Hours -->
+            <div class="form-group">
+              <label class="form-label">Thời gian mở bán còn lại (Giờ)</label>
+              <input type="number" id="fCountdownHours" class="form-control" value="168" placeholder="168 giờ = 7 ngày">
             </div>
           </div>
         </form>
@@ -1497,46 +1234,19 @@
     </div>
   </div>
 
-  <!-- Raw Code Modal -->
+  <!-- Raw HTML Code Modal -->
   <div class="modal-backdrop" id="codeModalBackdrop">
     <div class="modal-dialog">
       <div class="modal-header">
-        <h3 class="modal-title">Nội dung mã nguồn file list.js</h3>
+        <h3 class="modal-title">Xem trước mã nguồn index.html sau khi tráo code (Edge-SSG)</h3>
         <button class="btn-close-modal" onclick="closeCodeModal()">✕</button>
       </div>
       <div class="modal-body">
         <pre class="code-preview" id="rawCodePreview"></pre>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="copyRawCodeToClipboard()">Sao chép mã</button>
+        <button class="btn btn-secondary" onclick="copyRawCodeToClipboard()">Sao chép HTML</button>
         <button class="btn btn-primary" onclick="closeCodeModal()">Đóng</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 9:16 Vertical Iframe Preview Modal in Admin -->
-  <div class="modal-backdrop" id="adminIframePreviewBackdrop">
-    <div class="admin-iframe-modal-container">
-      <div class="admin-iframe-header">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="preview-badge-916">9:16 DỌC</span>
-          <span id="adminPreviewTitle" style="font-weight: 700; font-size: 13px; color: #fff;">Xem trước Iframe</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <!-- Nút MUA NGAY trên cùng: nhấp vô sẽ tắt popup iframe -->
-          <button type="button" class="btn-preview-buy-now" onclick="closeAdminIframePreview()" title="Tắt popup iframe">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <path d="M16 10a4 4 0 0 1-8 0"></path>
-            </svg>
-            <span>Mua ngay</span>
-          </button>
-          <button type="button" class="btn-close-modal" onclick="closeAdminIframePreview()" style="color: #fff; background: rgba(255,255,255,0.15);">✕</button>
-        </div>
-      </div>
-      <div class="admin-iframe-viewport">
-        <iframe id="adminPreviewIframe" src="about:blank" style="width: 100%; height: 100%; border: none;"></iframe>
       </div>
     </div>
   </div>
@@ -1551,14 +1261,40 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
   </button>
 
-  <!-- Nạp dữ liệu hiện tại từ list.js -->
+  <!-- Nạp fallback danh sách sản phẩm từ list.js nếu có -->
   <script src="../js/list.js"></script>
 
   <script>
-    // Dữ liệu nội bộ Admin
+    // ========================================================================
+    // STATE MANAGEMENT
+    // ========================================================================
     let adminProducts = [];
+    let siteConfig = {
+      brand: {
+        name: "WONTRADE",
+        gameName: "Rise of Kingdoms",
+        avatar: "assets/rok_avatar.jpg"
+      },
+      contact: {
+        phone: "0372996420",
+        zalo: "0372996420",
+        zaloUrl: "https://zalo.me/0372996420"
+      },
+      banner: {
+        desktopHeadline: "WONTRADE TRANSACTION GUIDELINES UPDATE",
+        desktopRibbon: "LOWER FEE & SIMPLIFIED PROCESS!",
+        mobileBadge: "ĐỐI TÁC GIAO DỊCH CHÍNH THỨC",
+        mobileTitle: "NHÀ GIAO DỊCH WONTRADE",
+        mobileSubtitle: "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH"
+      },
+      seo: {
+        title: "WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức",
+        description: "Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng.",
+        keywords: "wontrade, rise of kingdoms, rok, mua bán acc rok, giao dịch rok",
+        ogImage: "assets/rok_avatar.jpg"
+      }
+    };
 
-    // Danh sách tên hiển thị chuẩn của các tướng
     const commanderNameMap = {
       arthur: "Arthur Pendragon",
       tontu: "Tôn Tử",
@@ -1575,37 +1311,119 @@
 
     // Khởi tạo
     document.addEventListener("DOMContentLoaded", () => {
-      // Nạp cấu hình từ localStorage
+      // 1. Cấu hình Worker
       const defaultWorkerUrl = "https://meomeorise.text2developer.workers.dev";
       const savedWorkerUrl = localStorage.getItem("wontrade_worker_url") || defaultWorkerUrl;
       const savedSecret = localStorage.getItem("wontrade_worker_secret") || "";
       if (document.getElementById("workerUrlInput")) document.getElementById("workerUrlInput").value = savedWorkerUrl;
       if (document.getElementById("workerSecretInput")) document.getElementById("workerSecretInput").value = savedSecret;
 
-      // Nạp danh sách từ mockProducts của list.js
+      // 2. Nạp siteConfig từ localStorage nếu có
+      const savedConfig = localStorage.getItem("wontrade_site_config");
+      if (savedConfig) {
+        try {
+          siteConfig = JSON.parse(savedConfig);
+        } catch (e) {}
+      }
+      populateConfigForms();
+
+      // 3. Nạp danh sách sản phẩm từ mockProducts
       if (typeof mockProducts !== "undefined" && Array.isArray(mockProducts) && mockProducts.length > 0) {
         adminProducts = JSON.parse(JSON.stringify(mockProducts));
       } else {
-        adminProducts = [];
+        const savedProd = localStorage.getItem("wontrade_admin_products");
+        if (savedProd) {
+          try { adminProducts = JSON.parse(savedProd); } catch (e) { adminProducts = []; }
+        }
       }
 
       renderAdminTable();
       updateStats();
 
-      // Lắng nghe sự kiện cuộn để hiển thị nút Scroll to Top
+      // Scroll to Top Listener
       window.addEventListener("scroll", () => {
         const btn = document.getElementById("scrollTopBtn");
         if (btn) {
-          if (window.scrollY > 260) {
-            btn.classList.add("visible");
-          } else {
-            btn.classList.remove("visible");
-          }
+          if (window.scrollY > 260) btn.classList.add("visible");
+          else btn.classList.remove("visible");
         }
       });
     });
 
-    // Lưu cài đặt vào localStorage
+    // Chuyển Tab
+    function switchAdminTab(tabId) {
+      document.querySelectorAll(".tab-item").forEach(b => {
+        b.classList.toggle("active", b.dataset.tab === tabId);
+      });
+      document.querySelectorAll(".tab-panel").forEach(p => {
+        p.classList.toggle("active", p.id === tabId);
+      });
+    }
+
+    // Điền dữ liệu cấu hình vào các form inputs
+    function populateConfigForms() {
+      // Banner
+      const b = siteConfig.banner || {};
+      const br = siteConfig.brand || {};
+      const s = siteConfig.seo || {};
+      const c = siteConfig.contact || {};
+
+      document.getElementById("cfgBannerHeadline").value = b.desktopHeadline || "";
+      document.getElementById("cfgBannerRibbon").value = b.desktopRibbon || "";
+      document.getElementById("cfgBannerMobileBadge").value = b.mobileBadge || "";
+      document.getElementById("cfgBannerMobileTitle").value = b.mobileTitle || "";
+      document.getElementById("cfgBannerMobileSubtitle").value = b.mobileSubtitle || "";
+      document.getElementById("cfgBrandGameName").value = br.gameName || "";
+      document.getElementById("cfgBrandAvatar").value = br.avatar || "";
+
+      // SEO
+      document.getElementById("cfgSeoTitle").value = s.title || "";
+      document.getElementById("cfgSeoDesc").value = s.description || "";
+      document.getElementById("cfgSeoKeywords").value = s.keywords || "";
+      document.getElementById("cfgSeoOgImage").value = s.ogImage || "";
+
+      // Contact
+      document.getElementById("cfgContactPhone").value = c.phone || "";
+      document.getElementById("cfgContactZalo").value = c.zalo || "";
+      document.getElementById("cfgContactZaloUrl").value = c.zaloUrl || "";
+    }
+
+    // Thu thập cấu hình từ các form inputs
+    function collectConfigFromForms() {
+      siteConfig = {
+        brand: {
+          name: "WONTRADE",
+          gameName: document.getElementById("cfgBrandGameName").value.trim() || "Rise of Kingdoms",
+          avatar: document.getElementById("cfgBrandAvatar").value.trim() || "assets/rok_avatar.jpg"
+        },
+        banner: {
+          desktopHeadline: document.getElementById("cfgBannerHeadline").value.trim() || "WONTRADE TRANSACTION GUIDELINES UPDATE",
+          desktopRibbon: document.getElementById("cfgBannerRibbon").value.trim() || "LOWER FEE & SIMPLIFIED PROCESS!",
+          mobileBadge: document.getElementById("cfgBannerMobileBadge").value.trim() || "ĐỐI TÁC GIAO DỊCH CHÍNH THỨC",
+          mobileTitle: document.getElementById("cfgBannerMobileTitle").value.trim() || "NHÀ GIAO DỊCH WONTRADE",
+          mobileSubtitle: document.getElementById("cfgBannerMobileSubtitle").value.trim() || "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH"
+        },
+        seo: {
+          title: document.getElementById("cfgSeoTitle").value.trim() || "WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức",
+          description: document.getElementById("cfgSeoDesc").value.trim() || "Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms.",
+          keywords: document.getElementById("cfgSeoKeywords").value.trim() || "wontrade, rise of kingdoms, rok, mua bán acc rok",
+          ogImage: document.getElementById("cfgSeoOgImage").value.trim() || "assets/rok_avatar.jpg"
+        },
+        contact: {
+          phone: document.getElementById("cfgContactPhone").value.trim() || "0372996420",
+          zalo: document.getElementById("cfgContactZalo").value.trim() || "0372996420",
+          zaloUrl: document.getElementById("cfgContactZaloUrl").value.trim() || "https://zalo.me/0372996420"
+        }
+      };
+      localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
+      return siteConfig;
+    }
+
+    function autoSaveSiteConfig() {
+      collectConfigFromForms();
+      showToast("Đã lưu tạm cấu hình vào bộ nhớ trình duyệt", "normal");
+    }
+
     function saveWorkerSettings() {
       const url = document.getElementById("workerUrlInput").value.trim();
       const secret = document.getElementById("workerSecretInput").value.trim();
@@ -1613,7 +1431,6 @@
       localStorage.setItem("wontrade_worker_secret", secret);
     }
 
-    // Hiển thị thông báo Toast
     function showToast(msg, type = "normal") {
       const toast = document.getElementById("adminToast");
       const msgEl = document.getElementById("toastMessage");
@@ -1625,9 +1442,9 @@
       }, 3500);
     }
 
-    // Cập nhật thống kê
     function updateStats() {
       document.getElementById("totalItemsCount").textContent = adminProducts.length;
+      document.getElementById("tabBadgeCount").textContent = adminProducts.length;
       if (adminProducts.length > 0) {
         const maxPrice = Math.max(...adminProducts.map(p => p.price));
         const maxVnd = maxPrice < 50000 ? Math.round(maxPrice * 25400) : maxPrice;
@@ -1640,16 +1457,16 @@
       }
     }
 
-    // Hiển thị danh sách vật phẩm trong bảng
+    // Render Items Table
     function renderAdminTable(itemsToRender = adminProducts) {
       const tbody = document.getElementById("itemsTableBody");
       if (!tbody) return;
 
       if (itemsToRender.length === 0) {
         tbody.innerHTML = `
-          <tr class="empty-row">
-            <td colspan="7" style="text-align: center; padding: 40px; color: #94a3b8;">
-              Không tìm thấy vật phẩm nào phù hợp.
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 40px; color: #94a3b8;">
+              Không tìm thấy vật phẩm nào.
             </td>
           </tr>
         `;
@@ -1671,6 +1488,8 @@
         const vndP = rawP < 50000 ? Math.round(rawP * 25400) : rawP;
         const priceFormatted = vndP.toLocaleString("vi-VN") + " ₫";
 
+        const directLink = item.link || `guide/index.html?id=${item.id}`;
+
         return `
           <tr>
             <td>
@@ -1687,13 +1506,10 @@
               <div style="color: #475569; font-size: 12.5px;">${escapeHtml(item.info || '')}</div>
             </td>
             <td>
-              <div class="link-cell-wrap">
-                <button type="button" class="btn-preview-link" onclick="openAdminIframePreview('${escapeHtml(item.link || 'guide/index.html?id=' + item.id)}', '${escapeHtml(item.title)}', ${item.id})" title="Xem thử Iframe dọc (9:16)">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect><line x1="12" y1="18" x2="12" y2="18.01"></line></svg>
-                  <span>9:16</span>
-                </button>
-                <span class="link-url-text" title="${escapeHtml(item.link || '')}">${escapeHtml(item.link || 'guide/index.html?id=' + item.id)}</span>
-              </div>
+              <a href="../${escapeHtml(directLink)}" target="_blank" class="link-direct-btn" title="Mở trang chi tiết">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                <span>Xem link</span>
+              </a>
             </td>
             <td>
               <div class="commander-avatar-stack">${commandersHtml}</div>
@@ -1704,15 +1520,12 @@
             <td class="actions-cell">
               <button class="btn-action edit" onclick="openEditItemModal(${item.id})" title="Chỉnh sửa">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                <span class="btn-action-label">Sửa</span>
               </button>
               <button class="btn-action copy" onclick="duplicateItem(${item.id})" title="Nhân bản">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                <span class="btn-action-label">Nhân bản</span>
               </button>
               <button class="btn-action delete" onclick="deleteItem(${item.id})" title="Xóa">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                <span class="btn-action-label">Xóa</span>
               </button>
             </td>
           </tr>
@@ -1722,283 +1535,562 @@
 
     // Lọc & Tìm kiếm
     function filterAdminItems() {
-      const q = (document.getElementById("adminSearchInput")?.value || "").trim().toLowerCase();
-      const sortBy = document.getElementById("sortFilter")?.value || "id-desc";
+      const searchVal = document.getElementById("adminSearchInput").value.trim().toLowerCase();
+      const sortVal = document.getElementById("sortFilter").value;
 
       let filtered = adminProducts.filter(item => {
-        if (!q) return true;
-        const matchId = String(item.id).includes(q);
-        const matchTitle = (item.title || "").toLowerCase().includes(q);
-        const matchInfo = (item.info || "").toLowerCase().includes(q);
-        const matchLink = (item.link || "").toLowerCase().includes(q);
-        return matchId || matchTitle || matchInfo || matchLink;
+        const idStr = String(item.id);
+        const titleStr = (item.title || "").toLowerCase();
+        const infoStr = (item.info || "").toLowerCase();
+        return idStr.includes(searchVal) || titleStr.includes(searchVal) || infoStr.includes(searchVal);
       });
 
-      // Sắp xếp
-      filtered.sort((a, b) => {
-        if (sortBy === "id-desc") return b.id - a.id;
-        if (sortBy === "id-asc") return a.id - b.id;
-        if (sortBy === "price-desc") return b.price - a.price;
-        if (sortBy === "price-asc") return a.price - b.price;
-        if (sortBy === "fav-desc") return (b.favorites || 0) - (a.favorites || 0);
-        return 0;
-      });
+      if (sortVal === "id-desc") filtered.sort((a, b) => b.id - a.id);
+      else if (sortVal === "id-asc") filtered.sort((a, b) => a.id - b.id);
+      else if (sortVal === "price-desc") filtered.sort((a, b) => (b.price || 0) - (a.price || 0));
+      else if (sortVal === "price-asc") filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
+      else if (sortVal === "fav-desc") filtered.sort((a, b) => (b.favorites || 0) - (a.favorites || 0));
 
       renderAdminTable(filtered);
     }
 
-    // Mở Modal Thêm mới
+    // Mở modal thêm
     function openAddItemModal() {
-      document.getElementById("itemModalTitle").textContent = "Thêm vật phẩm mới";
       document.getElementById("formIsEdit").value = "false";
       document.getElementById("formOriginalId").value = "";
-      document.getElementById("itemForm").reset();
+      document.getElementById("itemModalTitle").textContent = "Thêm vật phẩm mới";
 
-      // Gợi ý ID tiếp theo
-      const maxId = adminProducts.length > 0 ? Math.max(...adminProducts.map(p => p.id)) : 1000;
-      const nextId = maxId + 1;
-      document.getElementById("fId").value = nextId;
-      document.getElementById("fLink").value = "guide/index.html?id=" + nextId;
-      document.getElementById("fCommanders").value = "arthur, tontu, achilles, tanthuyhoang, scipio";
-      document.getElementById("fDays").value = "7";
-      document.getElementById("fGem").value = "5";
+      const maxId = adminProducts.length > 0 ? Math.max(...adminProducts.map(p => p.id)) : 2000;
+      document.getElementById("fId").value = maxId + 1;
+      document.getElementById("fPrice").value = 10000000;
+      document.getElementById("fTitle").value = "";
+      document.getElementById("fLink").value = `guide/index.html?id=${maxId + 1}`;
+      document.getElementById("fInfo").value = `#${maxId + 1} | Có thể nhập cư`;
+      document.getElementById("fStats").value = "Cấp độ 25 | Sức mạnh 80,000,000 | VIP 15";
+      document.getElementById("fBadges").value = "Chơi";
+      document.getElementById("fFavorites").value = 0;
+      document.getElementById("fTags").value = "Chỉ Huy Thức Tỉnh ×15\nTrang Bị Huyền Thoại ×30";
+      document.getElementById("fCommanders").value = "arthur, tontu, achilles, scipio, quanvu";
+      document.getElementById("fGem").value = 5;
+      document.getElementById("fCountdownHours").value = 168;
 
       document.getElementById("itemModalBackdrop").classList.add("show");
     }
 
-    // Mở Modal Chỉnh sửa
+    // Mở modal sửa
     function openEditItemModal(id) {
       const item = adminProducts.find(p => p.id === id);
       if (!item) return;
 
-      document.getElementById("itemModalTitle").textContent = `Chỉnh sửa vật phẩm #${item.id}`;
       document.getElementById("formIsEdit").value = "true";
-      document.getElementById("formOriginalId").value = String(item.id);
+      document.getElementById("formOriginalId").value = item.id;
+      document.getElementById("itemModalTitle").textContent = `Chỉnh sửa vật phẩm #${item.id}`;
 
       document.getElementById("fId").value = item.id;
       document.getElementById("fPrice").value = item.price;
       document.getElementById("fTitle").value = item.title || "";
-      document.getElementById("fLink").value = item.link || ("guide/index.html?id=" + item.id);
+      document.getElementById("fLink").value = item.link || `guide/index.html?id=${item.id}`;
       document.getElementById("fInfo").value = item.info || "";
       document.getElementById("fStats").value = item.stats || "";
+      document.getElementById("fBadges").value = (item.badges || []).map(b => b.text).join(", ");
       document.getElementById("fFavorites").value = item.favorites || 0;
-
-      // Badges
-      const badgesText = (item.badges || []).map(b => b.text).join(", ");
-      document.getElementById("fBadges").value = badgesText;
-
-      // Tags
-      const tagsText = (item.tags || []).map(t => t.text).join("\n");
-      document.getElementById("fTags").value = tagsText;
-
-      // Commanders
-      const commIds = (item.commanders || []).map(c => c.id).join(", ");
-      document.getElementById("fCommanders").value = commIds;
-
-      // Countdown Days
-      const days = Math.round((item.countdownSeconds || 604800) / 86400);
-      document.getElementById("fDays").value = days;
+      document.getElementById("fTags").value = (item.tags || []).map(t => t.text).join("\n");
+      document.getElementById("fCommanders").value = (item.commanders || []).map(c => c.id).join(", ");
       document.getElementById("fGem").value = item.gemMultiplier || 5;
+      document.getElementById("fCountdownHours").value = Math.round((item.countdownSeconds || 0) / 3600);
 
       document.getElementById("itemModalBackdrop").classList.add("show");
     }
 
-    // Đóng Modal
     function closeItemModal() {
       document.getElementById("itemModalBackdrop").classList.remove("show");
     }
 
-    // Lưu Form
+    // Lưu form item
     function saveItemForm() {
       const isEdit = document.getElementById("formIsEdit").value === "true";
       const origId = Number(document.getElementById("formOriginalId").value);
       const newId = Number(document.getElementById("fId").value);
-      const price = parseFloat(document.getElementById("fPrice").value) || 0;
+      const price = Number(document.getElementById("fPrice").value) || 0;
       const title = document.getElementById("fTitle").value.trim();
-      const link = document.getElementById("fLink").value.trim() || ("guide/index.html?id=" + newId);
-      const info = document.getElementById("fInfo").value.trim();
-      const stats = document.getElementById("fStats").value.trim();
-      const favorites = parseInt(document.getElementById("fFavorites").value) || 0;
-      const days = parseInt(document.getElementById("fDays").value) || 7;
-      const gem = parseInt(document.getElementById("fGem").value) || 5;
 
-      if (!newId || !title || price <= 0) {
-        showToast("Vui lòng điền đầy đủ ID, tiêu đề và giá hợp lệ!", "error");
+      if (!newId || !title) {
+        alert("Vui lòng điền ID và Tiêu đề vật phẩm!");
         return;
       }
 
-      // Kiểm tra trùng ID
-      if (!isEdit || (isEdit && newId !== origId)) {
-        if (adminProducts.some(p => p.id === newId)) {
-          showToast(`ID #${newId} đã tồn tại! Vui lòng chọn ID khác.`, "error");
-          return;
-        }
+      if (!isEdit && adminProducts.some(p => p.id === newId)) {
+        alert(`ID #${newId} đã tồn tại! Vui lòng chọn ID khác.`);
+        return;
       }
 
-      // Xử lý Badges
-      const badgesInput = document.getElementById("fBadges").value.trim();
-      const badges = badgesInput ? badgesInput.split(",").map(b => {
-        const text = b.trim();
-        return { text, type: text.toLowerCase().includes("chơi") ? "red" : "dark" };
-      }).filter(b => b.text) : [{ text: "Chơi", type: "red" }];
-
-      // Xử lý Tags
-      const tagsInput = document.getElementById("fTags").value.trim();
-      const tags = tagsInput ? tagsInput.split("\n").map(line => {
-        const text = line.trim();
-        const isBlue = text.includes("Xu") || text.includes("Hộ Chiếu") || text.includes("Tượng");
-        return { text, type: isBlue ? "blue" : "orange" };
-      }).filter(t => t.text) : [];
-
-      // Xử lý Commanders
-      const commInput = document.getElementById("fCommanders").value.trim();
-      const commIds = commInput ? commInput.split(",").map(s => s.trim().toLowerCase()).filter(Boolean) : ["arthur", "tontu", "achilles", "tanthuyhoang", "scipio"];
-      const commanders = commIds.slice(0, 5).map(cid => ({
-        id: cid,
-        name: commanderNameMap[cid] || cid.charAt(0).toUpperCase() + cid.slice(1),
-        level: 60,
-        isImg: cid === "arthur"
+      const badgesRaw = document.getElementById("fBadges").value.split(",").map(s => s.trim()).filter(Boolean);
+      const badges = badgesRaw.map((txt, idx) => ({
+        text: txt,
+        type: idx === 0 ? "red" : "dark"
       }));
+
+      const tagsRaw = document.getElementById("fTags").value.split("\n").map(s => s.trim()).filter(Boolean);
+      const tags = tagsRaw.map((txt, idx) => ({
+        text: txt,
+        type: idx < 4 ? "orange" : "blue"
+      }));
+
+      const commRaw = document.getElementById("fCommanders").value.split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
+      const commanders = commRaw.map((cid, idx) => ({
+        id: cid,
+        name: commanderNameMap[cid] || cid,
+        level: 60,
+        ...(idx === 0 && cid === "arthur" ? { isImg: true } : {})
+      }));
+
+      const hours = Number(document.getElementById("fCountdownHours").value) || 168;
 
       const itemData = {
         id: newId,
         title,
         price,
-        link,
-        favorites,
+        link: document.getElementById("fLink").value.trim() || `guide/index.html?id=${newId}`,
+        favorites: Number(document.getElementById("fFavorites").value) || 0,
         isFavorited: false,
         badges,
-        info: info || `#${newId} | Có thể nhập cư`,
-        stats: stats || "Cấp độ 25 | Sức mạnh 100,000,000 | VIP 17 | Điểm Tiêu Diệt 5,000,000,000",
+        info: document.getElementById("fInfo").value.trim(),
+        stats: document.getElementById("fStats").value.trim(),
         tags,
         commanders,
-        gemMultiplier: gem,
-        countdownSeconds: days * 86400 + Math.floor(Math.random() * 86400)
+        gemMultiplier: Number(document.getElementById("fGem").value) || 5,
+        countdownSeconds: hours * 3600
       };
 
       if (isEdit) {
         const idx = adminProducts.findIndex(p => p.id === origId);
-        if (idx !== -1) {
-          adminProducts[idx] = itemData;
-          showToast(`Đã cập nhật vật phẩm #${newId} thành công!`, "success");
-        }
+        if (idx !== -1) adminProducts[idx] = itemData;
       } else {
         adminProducts.unshift(itemData);
-        showToast(`Đã thêm mới vật phẩm #${newId} thành công!`, "success");
       }
 
+      localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
       closeItemModal();
       filterAdminItems();
       updateStats();
+      showToast(isEdit ? `Đã cập nhật vật phẩm #${newId}!` : `Đã thêm vật phẩm #${newId}!`, "success");
     }
 
-    // Nhân bản vật phẩm
     function duplicateItem(id) {
-      const item = adminProducts.find(p => p.id === id);
-      if (!item) return;
-
+      const orig = adminProducts.find(p => p.id === id);
+      if (!orig) return;
+      const copy = JSON.parse(JSON.stringify(orig));
       const maxId = Math.max(...adminProducts.map(p => p.id));
-      const newItem = JSON.parse(JSON.stringify(item));
-      newItem.id = maxId + 1;
-      newItem.title = newItem.title + " (Bản sao)";
-      newItem.info = `#${newItem.id} | Có thể nhập cư`;
-      newItem.link = item.link || ("guide/index.html?id=" + newItem.id);
-
-      adminProducts.unshift(newItem);
+      copy.id = maxId + 1;
+      copy.title = `${copy.title} (Bản sao)`;
+      copy.link = `guide/index.html?id=${copy.id}`;
+      copy.info = `#${copy.id} | Có thể nhập cư`;
+      adminProducts.unshift(copy);
+      localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
       filterAdminItems();
       updateStats();
-      showToast(`Đã nhân bản thành công vật phẩm #${newItem.id}!`, "success");
+      showToast(`Đã nhân bản vật phẩm thành #${copy.id}!`, "success");
     }
 
-    // Mở Modal Xem Trước Iframe dọc (Tỷ lệ 9:16) trong Admin
-    function openAdminIframePreview(url, title, id) {
-      const backdrop = document.getElementById("adminIframePreviewBackdrop");
-      const iframe = document.getElementById("adminPreviewIframe");
-      const titleEl = document.getElementById("adminPreviewTitle");
-      
-      const targetUrl = url || `../guide/index.html?id=${id || ''}`;
-      let resolvedUrl = targetUrl;
-      if (!targetUrl.startsWith("http://") && !targetUrl.startsWith("https://") && !targetUrl.startsWith("/")) {
-        resolvedUrl = "../" + targetUrl;
-      }
-      
-      titleEl.textContent = title ? `#${id} - ${title}` : "Xem trước Iframe (9:16)";
-      iframe.src = resolvedUrl;
-      backdrop.classList.add("show");
-    }
-
-    // Đóng Modal Xem Trước Iframe trong Admin (bấm Mua ngay hoặc nút X)
-    function closeAdminIframePreview() {
-      const backdrop = document.getElementById("adminIframePreviewBackdrop");
-      const iframe = document.getElementById("adminPreviewIframe");
-      backdrop.classList.remove("show");
-      setTimeout(() => {
-        iframe.src = "about:blank";
-      }, 250);
-      showToast("Đã đóng xem trước Iframe", "normal");
-    }
-
-    // Xem thử từ form đang điền
-    function previewFormIframe() {
-      const link = document.getElementById("fLink")?.value.trim() || "guide/index.html";
-      const title = document.getElementById("fTitle")?.value.trim() || "Vật phẩm";
-      const id = document.getElementById("fId")?.value.trim() || "";
-      openAdminIframePreview(link, title, id);
-    }
-
-    // Xóa vật phẩm
     function deleteItem(id) {
-      if (!confirm(`Bạn có chắc chắn muốn xóa vật phẩm #${id} khỏi danh sách?`)) return;
-
+      if (!confirm(`Bạn có chắc chắn muốn xóa vật phẩm #${id}?`)) return;
       adminProducts = adminProducts.filter(p => p.id !== id);
+      localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
       filterAdminItems();
       updateStats();
       showToast(`Đã xóa vật phẩm #${id}!`, "success");
     }
 
-    // Tạo chuỗi nội dung file list.js hoàn chỉnh
-    function generateListJsString() {
-      const jsonContent = JSON.stringify(adminProducts, null, 2);
-      return `/**
- * ==============================================================================
- * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
- * FILE QUẢN LÝ DANH SÁCH VẬT PHẨM (Tổng số: ${adminProducts.length} vật phẩm)
- * Cập nhật tự động qua WONTRADE Admin CMS & Cloudflare Worker
- * ==============================================================================
- */
+    // ========================================================================
+    // TẠO FILE INDEX.HTML ĐÃ TRÁO CODE (EDGE-SSG CLIENT-SIDE ENGINE)
+    // ========================================================================
+    function generateSwappedIndexHtml() {
+      const cfg = collectConfigFromForms();
+      const seo = cfg.seo || {};
+      const brand = cfg.brand || {};
+      const contact = cfg.contact || {};
+      const banner = cfg.banner || {};
 
-var mockProducts = ${jsonContent};
+      const title = seo.title || "WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức";
+      const desc = seo.description || "Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms.";
+      const keywords = seo.keywords || "wontrade, rise of kingdoms, rok, mua bán acc rok";
+      const ogImg = seo.ogImage || brand.avatar || "assets/rok_avatar.jpg";
+      const zaloPhone = contact.zalo || contact.phone || "0372996420";
+      const zaloUrl = contact.zaloUrl || `https://zalo.me/${zaloPhone}`;
 
-// Gán vào window để đảm bảo tương thích mọi ngữ cảnh trình duyệt
-if (typeof window !== "undefined") {
-  window.mockProducts = mockProducts;
-}
+      const dataScriptTag = '<' + 'script id="siteDataScript">\n' +
+        '    var siteConfig = ' + JSON.stringify(cfg, null, 2) + ';\n' +
+        '    var mockProducts = ' + JSON.stringify(adminProducts, null, 2) + ';\n' +
+        '    if (typeof window !== "undefined") {\n' +
+        '      window.siteConfig = siteConfig;\n' +
+        '      window.mockProducts = mockProducts;\n' +
+        '    }\n' +
+        '  <' + '/script>';
+      const listScriptTag = '<' + 'script src="js/list.js"><' + '/script>';
+      const indexScriptTag = '<' + 'script src="js/index.js"><' + '/script>';
 
-// Hỗ trợ môi trường Module/NodeJS nếu cần
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = mockProducts;
-}
-`;
+      return `<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>${escapeHtml(title)}</title>
+  <meta name="description"
+    content="${escapeHtml(desc)}">
+  <meta name="keywords" content="${escapeHtml(keywords)}">
+
+  <!-- Thẻ chia sẻ mạng xã hội Zalo / Facebook (OpenGraph) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="${escapeHtml(title)}">
+  <meta property="og:description"
+    content="${escapeHtml(desc)}">
+  <meta property="og:image" content="${escapeHtml(ogImg)}">
+
+  <!-- Thẻ Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${escapeHtml(title)}">
+  <meta name="twitter:description"
+    content="${escapeHtml(desc)}">
+  <meta name="twitter:image" content="${escapeHtml(ogImg)}">
+  <!-- Google Fonts: Plus Jakarta Sans for SF Pro matching geometry -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="icon" href="${escapeHtml(brand.avatar || 'assets/rok_avatar.jpg')}" type="image/jpeg">
+</head>
+
+<body>
+
+  <div class="app-viewport">
+    <!-- DESKTOP HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="header-left">
+          <div class="logo">
+            WON<span class="logo-dagger">†</span>RADE
+          </div>
+          <div class="header-divider"></div>
+
+          <div class="game-selector-dropdown" onclick="showActionNotice('Chọn trò chơi: ${escapeHtml(brand.gameName || "Rise of Kingdoms")}')">
+            <img src="${escapeHtml(brand.avatar || "assets/rok_avatar.jpg")}" alt="${escapeHtml(brand.gameName || "Rise of Kingdoms")}" class="game-avatar">
+            <span class="game-name">${escapeHtml(brand.gameName || "Rise of Kingdoms")}</span>
+            <svg class="chevron-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+
+          <button class="btn-desktop-save" onclick="showActionNotice('Đã lưu lối tắt vào desktop')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            <span>Lưu ở desktop</span>
+          </button>
+        </div>
+
+        <div class="header-right">
+          <button class="header-icon-btn" onclick="showActionNotice('Không có thông báo mới')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="badge-dot"></span>
+          </button>
+
+          <div class="header-select-btn" onclick="showActionNotice('Đổi ngôn ngữ')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span>Tiếng Việt</span>
+            <svg class="chevron-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+
+          <div class="header-select-btn" onclick="showActionNotice('Đơn vị tiền tệ: VND (₫)')">
+            <svg class="flag-icon" viewBox="0 0 640 480">
+              <rect width="640" height="480" fill="#da251d" />
+              <polygon points="320,150 348,235 438,235 365,288 393,373 320,320 247,373 275,288 202,235 292,235" fill="#ffff00" />
+            </svg>
+            <span>VND (₫)</span>
+            <svg class="chevron-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+
+          <a href="${escapeHtml(zaloUrl)}" target="_blank" rel="noopener noreferrer" class="btn-chat-zalo" title="Nhắn tin Zalo: ${escapeHtml(zaloPhone)}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+              <circle cx="12" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+              <circle cx="15.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+            </svg>
+            <span>Nhắn tin</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO BANNER -->
+    <div class="hero-banner-container">
+      <div class="mobile-header-bar">
+        <div class="mobile-logo">
+          WON<span class="logo-dagger">†</span>RADE
+        </div>
+        <div class="mobile-header-right">
+          <a href="javascript:void(0)" class="mobile-nav-link" onclick="showActionNotice('Xem quy tắc')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span>Quy tắc</span>
+          </a>
+
+          <div class="mobile-header-icon" onclick="showActionNotice('Đơn vị tiền tệ: VND (₫)')" title="Tiền tệ: VND">
+            <span style="font-weight: 700; font-size: 13px; color: #fff;">₫</span>
+          </div>
+
+          <a href="${escapeHtml(zaloUrl)}" target="_blank" rel="noopener noreferrer" class="mobile-header-icon mobile-header-zalo" title="Nhắn tin Zalo: ${escapeHtml(zaloPhone)}" style="color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+              <circle cx="12" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+              <circle cx="15.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-banner">
+        <div class="banner-overlay-content">
+          <h1 class="banner-headline">${escapeHtml(banner.desktopHeadline || "WONTRADE TRANSACTION GUIDELINES UPDATE")}</h1>
+          <div class="banner-ribbon">${escapeHtml(banner.desktopRibbon || "LOWER FEE & SIMPLIFIED PROCESS!")}</div>
+        </div>
+
+        <div class="mobile-banner-content">
+          <div class="mobile-banner-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 5px; color: #ffcc00;">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            ${escapeHtml(banner.mobileBadge || "ĐỐI TÁC GIAO DỊCH CHÍNH THỨC")}
+          </div>
+          <div class="mobile-banner-title">${escapeHtml(banner.mobileTitle || "NHÀ GIAO DỊCH WONTRADE")}</div>
+          <div class="mobile-banner-subtitle">${escapeHtml(banner.mobileSubtitle || "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH")}</div>
+          <div class="carousel-dots">
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-wrapper">
+      <div class="content-card">
+        <div class="ios-sheet-handle" aria-hidden="true"></div>
+
+        <div class="filter-section">
+          <div class="filter-row-bottom" style="margin: 0; padding: 2px 0;">
+            <div class="filter-bottom-left">
+              <span>Tổng số: <strong class="item-count-val">${adminProducts.length}</strong> vật phẩm</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-filter-bar">
+          <div class="mobile-filter-subrow" style="margin-top: 0; padding: 2px 0;">
+            <div>Tổng số: <strong class="item-count-val">${adminProducts.length}</strong> vật phẩm</div>
+          </div>
+        </div>
+
+        <div class="listings-container" id="listingsContainer">
+          <!-- Dynamically populated by js/index.js -->
+        </div>
+
+        <div class="pagination-wrap">
+          <button class="page-btn disabled" aria-label="Trang trước">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn" onclick="showActionNotice('Chuyển sang trang 2')">2</button>
+          <button class="page-btn" onclick="showActionNotice('Chuyển sang trang tiếp theo')" aria-label="Trang sau">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- FLOATING SIDEBAR (Desktop) -->
+    <aside class="floating-sidebar">
+      <a href="guide/index.html" class="floating-btn" title="Hướng dẫn giao dịch">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span class="floating-tooltip">Hướng dẫn</span>
+      </a>
+
+      <a href="history/index.html" class="floating-btn" title="Lịch sử xem vật phẩm">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+        </svg>
+        <span class="floating-tooltip">Lịch sử</span>
+      </a>
+
+      <a href="profile/index.html" class="floating-btn" title="Hồ sơ cá nhân (Profile)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span class="floating-tooltip">Profile</span>
+      </a>
+
+      <a href="${escapeHtml(zaloUrl)}" target="_blank" rel="noopener noreferrer" class="floating-btn floating-zalo-btn" title="Zalo CSKH 24/7">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+          <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+          <circle cx="12" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+          <circle cx="15.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+        </svg>
+        <span class="floating-tooltip">Zalo 24/7</span>
+      </a>
+    </aside>
+
+    <!-- SITE FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-columns">
+          <div class="footer-col">
+            <div class="footer-col-title">Đối tác thương hiệu</div>
+            <div class="brand-logos-wrap">
+              <div class="logo" style="font-size: 20px;">
+                WON<span class="logo-dagger">†</span>RADE
+              </div>
+              <img src="${escapeHtml(brand.avatar || "assets/rok_avatar.jpg")}" alt="${escapeHtml(brand.gameName || "Rise of Kingdoms")}" class="brand-rok-icon">
+            </div>
+            <div class="feature-badges-row">
+              <span class="feature-pill">Accurate</span>
+              <span class="feature-pill">Cheap</span>
+              <span class="feature-pill">Convenient</span>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <div class="footer-col-title">Hỗ trợ</div>
+            <ul class="footer-links-list">
+              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Trung tâm trợ giúp')">Trung tâm trợ giúp</a></li>
+              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Cách mua tài khoản')">Cách mua</a></li>
+              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Cách bán tài khoản')">Cách bán</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <div class="footer-col-title">Pháp lý</div>
+            <ul class="footer-links-list">
+              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Thỏa Thuận Người Dùng')">Thỏa Thuận Người Dùng</a></li>
+              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Chính Sách Quyền Riêng Tư')">Chính Sách Quyền Riêng Tư</a></li>
+              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Chính Sách Cookie')">Chính Sách Cookie</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <div class="footer-col-title">Phương thức thanh toán</div>
+            <div class="payment-methods-grid">
+              <div class="payment-card-logo visa">VISA</div>
+              <div class="payment-card-logo mastercard">
+                <svg width="24" height="16" viewBox="0 0 32 20" style="vertical-align: middle;">
+                  <circle cx="10" cy="10" r="10" fill="#EB001B" />
+                  <circle cx="22" cy="10" r="10" fill="#F79E1B" />
+                  <path d="M16 3.6a10 10 0 0 1 0 12.8 10 10 0 0 1 0-12.8z" fill="#FF5F00" />
+                </svg>
+              </div>
+              <div class="payment-card-logo amex">AMEX</div>
+              <div class="payment-card-logo jcb">JCB</div>
+              <div class="payment-card-logo">Diners Club</div>
+              <div class="payment-card-logo">DISCOVER</div>
+              <div class="payment-card-logo apple-pay"> Pay</div>
+              <div class="payment-card-logo google-pay">G Pay</div>
+            </div>
+            <div class="copyright-text">
+              COPYRIGHT © WONDER GAMES SG PTE. LTD. ALL RIGHTS RESERVED
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- MOBILE BOTTOM NAVIGATION DOCK -->
+    <nav class="mobile-bottom-dock" aria-label="Điều hướng di động">
+      <a href="index.html" class="mobile-dock-item active" aria-label="Trang chủ">
+        <div class="mobile-dock-icon-box">
+          <svg class="sf-icon sf-fill" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.707 2.293a1 1 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13h1v7a2 2 0 0 0 2 2h4a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h4a2 2 0 0 0 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9z"/>
+          </svg>
+        </div>
+        <span class="mobile-dock-label">Trang chủ</span>
+      </a>
+
+      <a href="${escapeHtml(zaloUrl)}" target="_blank" rel="noopener noreferrer" class="mobile-dock-item" title="Nhắn tin Zalo: ${escapeHtml(zaloPhone)}" aria-label="Nhắn tin CSKH">
+        <div class="mobile-dock-icon-box">
+          <svg class="sf-icon sf-fill" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3C6.477 3 2 6.92 2 11.75c0 2.784 1.484 5.258 3.8 6.845-.2 1.43-.8 2.87-1.8 3.905-.2.207-.05.55.235.53 2.38-.17 4.31-.96 5.61-1.77.68.12 1.4.19 2.155.19 5.523 0 10-3.92 10-8.75S17.523 3 12 3z"/>
+            <circle cx="8" cy="11.75" r="1.15" fill="#ffffff"/>
+            <circle cx="12" cy="11.75" r="1.15" fill="#ffffff"/>
+            <circle cx="16" cy="11.75" r="1.15" fill="#ffffff"/>
+          </svg>
+        </div>
+        <span class="mobile-dock-label">Nhắn tin</span>
+      </a>
+
+      <a href="profile/index.html" class="mobile-dock-item" aria-label="Hồ sơ cá nhân">
+        <div class="mobile-dock-icon-box">
+          <svg class="sf-icon sf-fill" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+          </svg>
+        </div>
+        <span class="mobile-dock-label">About</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- DỮ LIỆU CẤU HÌNH & VẬT PHẨM TỰ ĐỘNG CẬP NHẬT QUA CLOUDFLARE WORKER & GITHUB API (EDGE-SSG) -->
+  ${dataScriptTag}
+  ${listScriptTag}
+  ${indexScriptTag}
+</body>
+
+</html>`;
     }
 
-    // Xuất file tải về máy
-    function exportListJsFile() {
-      const content = generateListJsString();
-      const blob = new Blob([content], { type: "application/javascript;charset=utf-8" });
+    // Xuất file index.html tải về máy
+    function exportIndexHtmlFile() {
+      const content = generateSwappedIndexHtml();
+      const blob = new Blob([content], { type: "text/html;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "list.js";
+      a.download = "index.html";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast("Đã tải file list.js về máy thành công!", "success");
+      showToast("Đã tải file index.html về máy thành công!", "success");
     }
 
-    // Xem trước mã nguồn file
-    function openRawCodeModal() {
-      const code = generateListJsString();
+    // Mở modal xem trước mã nguồn HTML
+    function openRawHtmlModal() {
+      const code = generateSwappedIndexHtml();
       document.getElementById("rawCodePreview").textContent = code;
       document.getElementById("codeModalBackdrop").classList.add("show");
     }
@@ -2008,10 +2100,61 @@ if (typeof module !== "undefined" && module.exports) {
     }
 
     function copyRawCodeToClipboard() {
-      const code = generateListJsString();
+      const code = generateSwappedIndexHtml();
       navigator.clipboard.writeText(code).then(() => {
-        showToast("Đã sao chép toàn bộ code list.js vào bộ nhớ tạm!", "success");
+        showToast("Đã sao chép mã nguồn index.html vào clipboard!", "success");
       });
+    }
+
+    // ========================================================================
+    // ĐỒNG BỘ CẤU HÌNH & SẢN PHẨM TỪ GITHUB (GET REQUEST)
+    // ========================================================================
+    async function syncFromGithubWorker() {
+      saveWorkerSettings();
+      const workerUrl = document.getElementById("workerUrlInput").value.trim();
+      const secret = document.getElementById("workerSecretInput").value.trim();
+
+      if (!workerUrl) {
+        showToast("Vui lòng nhập Worker URL ở thanh cấu hình phía trên!", "error");
+        return;
+      }
+
+      showToast("Đang kéo cấu hình index.html từ GitHub...");
+
+      try {
+        const headers = {};
+        if (secret) headers["X-Admin-Key"] = secret;
+
+        const res = await fetch(`${workerUrl}?path=index.html`, { method: "GET", headers });
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          throw new Error(`Worker phản hồi không phải JSON (${res.status}): ${text.slice(0, 100)}`);
+        }
+
+        if (res.ok && data.success) {
+          if (data.siteConfig && typeof data.siteConfig === "object") {
+            siteConfig = data.siteConfig;
+            localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
+            populateConfigForms();
+          }
+
+          if (Array.isArray(data.products) && data.products.length > 0) {
+            adminProducts = data.products;
+            localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
+            filterAdminItems();
+            updateStats();
+          }
+
+          showToast(`Đã đồng bộ thành công từ ${data.repo || "GitHub"}! (Tổng số: ${adminProducts.length} vật phẩm)`, "success");
+        } else {
+          showToast(`Lỗi đồng bộ: ${data.error || res.statusText}`, "error");
+        }
+      } catch (err) {
+        showToast(`Không thể kết nối Worker: ${err.message}`, "error");
+      }
     }
 
     // Kiểm tra kết nối Worker
@@ -2037,9 +2180,6 @@ if (typeof module !== "undefined" && module.exports) {
         try {
           data = JSON.parse(text);
         } catch (parseErr) {
-          if (text.includes("Hello World")) {
-            throw new Error("Worker hiện đang chạy mẫu mặc định ('Hello World!'). Bạn cần dán mã nguồn file worker.js vào Cloudflare Worker và ấn Save & Deploy.");
-          }
           throw new Error(`Worker phản hồi không phải JSON (${res.status}): ${text.slice(0, 100)}`);
         }
 
@@ -2054,7 +2194,7 @@ if (typeof module !== "undefined" && module.exports) {
     }
 
     // ========================================================================
-    // BẮN POST REQUEST LÊN CLOUDFLARE WORKER ĐỂ COMMIT GITHUB
+    // BẮN POST REQUEST LÊN WORKER ĐỂ TRÁO CODE VÀO FILE INDEX.HTML
     // ========================================================================
     async function publishToGithubWorker() {
       saveWorkerSettings();
@@ -2070,11 +2210,10 @@ if (typeof module !== "undefined" && module.exports) {
       const btn = document.getElementById("btnPublishGithub");
       const btnText = document.getElementById("publishText");
       btn.disabled = true;
-      btnText.textContent = "ĐANG LƯU LÊN GITHUB...";
+      btnText.textContent = "ĐANG TRÁO & LƯU INDEX.HTML...";
 
       try {
-        // Tạo chuỗi nội dung list.js mới
-        const fileContent = generateListJsString();
+        const cfg = collectConfigFromForms();
 
         const headers = {
           "Content-Type": "application/json"
@@ -2084,9 +2223,11 @@ if (typeof module !== "undefined" && module.exports) {
         }
 
         const payload = {
-          content: fileContent,
-          message: `Admin CMS update list.js (Tổng số: ${adminProducts.length} vật phẩm)`,
-          updateBoth: true // Đồng bộ cả js/list.js và list.js
+          siteConfig: cfg,
+          products: adminProducts,
+          filePath: "index.html",
+          message: `Admin Edge-SSG: Tráo file index.html (${adminProducts.length} vật phẩm - ${new Date().toLocaleString("vi-VN")})`,
+          syncListJs: true
         };
 
         const res = await fetch(workerUrl, {
@@ -2100,19 +2241,15 @@ if (typeof module !== "undefined" && module.exports) {
         try {
           data = JSON.parse(text);
         } catch (parseErr) {
-          if (text.includes("Hello World")) {
-            throw new Error("Worker chưa được cài đặt code worker.js (vẫn đang trả về 'Hello World!'). Vui lòng cập nhật code Worker.");
-          }
           throw new Error(`Worker phản hồi không phải JSON (${res.status}): ${text.slice(0, 100)}`);
         }
 
         if (res.ok && data.success) {
-          // Hiển thị Banner lưu thành công theo yêu cầu UX Ticket
           const banner = document.getElementById("publishSuccessBanner");
           banner.classList.add("show");
           window.scrollTo({ top: 0, behavior: "smooth" });
 
-          showToast("Lưu thành công! Vui lòng đợi 1-3 phút để hệ thống cập nhật.", "success");
+          showToast("Tráo code vào index.html thành công! Vui lòng đợi 1-3 phút để cập nhật.", "success");
         } else {
           showToast(`Lỗi khi lưu: ${data.error || data.details || "Không rõ nguyên nhân"}`, "error");
         }
@@ -2120,7 +2257,7 @@ if (typeof module !== "undefined" && module.exports) {
         showToast(`Lỗi kết nối tới Worker: ${err.message}`, "error");
       } finally {
         btn.disabled = false;
-        btnText.textContent = "LƯU LÊN GITHUB";
+        btnText.textContent = "LƯU VÀO INDEX.HTML";
       }
     }
 

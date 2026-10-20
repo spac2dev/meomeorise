@@ -1,23 +1,9 @@
 /**
  * ==============================================================================
- * CLOUDFLARE WORKER - GITHUB REPO CMS MIDDLEWARE
- * Tự động cập nhật file js/list.js trên GitHub repo thông qua GitHub REST API
+ * CLOUDFLARE WORKER - EDGE-SSG CMS MIDDLEWARE (WONTRADE ROK)
+ * Kiến trúc Core: Edge-SSG (Tráo Code HTML Trực Tiếp Vào File index.html Qua GitHub API)
+ * Chuẩn 100% SEO Google, OpenGraph Zalo & Facebook, Tốc độ tải trang tức thì!
  * ==============================================================================
- *
- * CẤU TRÚC VẬT PHẨM (PRODUCT SCHEMA):
- * - id: number (Mã định danh sản phẩm duy nhất)
- * - title: string (Tiêu đề sản phẩm)
- * - price: number (Giá bán VNĐ)
- * - link: string (Đường dẫn URL mở trong Popup Iframe dạng dọc tỉ lệ 9:16)
- * - favorites: number (Lượt thích)
- * - isFavorited: boolean (Trạng thái đã thích)
- * - badges: Array<{ text: string, type: 'red' | 'dark' }> (Huy hiệu)
- * - info: string (Thông tin vương quốc & nhập cư)
- * - stats: string (Cấp độ | Sức mạnh | VIP | Điểm Tiêu Diệt)
- * - tags: Array<{ text: string, type: 'orange' | 'blue' }> (Thẻ trang bị)
- * - commanders: Array<{ id: string, name: string, level: number, isImg?: boolean }>
- * - gemMultiplier: number (Hệ số ngọc/sao)
- * - countdownSeconds: number (Thời gian đếm ngược còn lại tính bằng giây)
  *
  * CÁC BIẾN MÔI TRƯỜNG (Environment Variables) CẦN CÀI ĐẶT TRÊN CLOUDFLARE WORKER:
  * (Vào Cloudflare Dashboard -> Workers & Pages -> Worker của bạn -> Settings -> Variables)
@@ -25,39 +11,13 @@
  * 1. GITHUB_TOKEN : Personal Access Token (classic hoặc fine-grained) có quyền `repo` hoặc `contents:write`
  * 2. REPO_OWNER   : Tên tài khoản hoặc tổ chức GitHub (ví dụ: "your-username")
  * 3. REPO_NAME    : Tên kho lưu trữ GitHub (ví dụ: "rok-wontrade" hoặc "meo")
- * 4. FILE_PATH    : Đường dẫn tới file danh sách (mặc định: "js/list.js")
- * 5. BRANCH       : Tên nhánh cần commit (mặc định: "main" hoặc "master")
+ * 4. FILE_PATH    : Đường dẫn file cần tráo đổi (Mặc định: "index.html")
+ * 5. BRANCH       : Tên nhánh cần commit (Mặc định: "main" hoặc "master")
  * 6. ADMIN_SECRET : (Tùy chọn) Khóa bí mật bảo vệ Worker, nếu cài thì Admin CMS cần gửi header `X-Admin-Key`
- *
  * ==============================================================================
  */
 
-// Tạo chuỗi nội dung list.js chuẩn từ mảng sản phẩm
-function generateListJsContent(products) {
-  const jsonContent = JSON.stringify(products, null, 2);
-  return `/**
- * ==============================================================================
- * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
- * FILE QUẢN LÝ DANH SÁCH VẬT PHẨM (Tổng số: ${products.length} vật phẩm)
- * Cập nhật tự động qua WONTRADE Admin CMS & Cloudflare Worker
- * ==============================================================================
- */
-
-var mockProducts = ${jsonContent};
-
-// Gán vào window để đảm bảo tương thích mọi ngữ cảnh trình duyệt
-if (typeof window !== "undefined") {
-  window.mockProducts = mockProducts;
-}
-
-// Hỗ trợ môi trường Module/NodeJS nếu cần
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = mockProducts;
-}
-`;
-}
-
-// Hàm mã hóa chuỗi UTF-8 (hỗ trợ đầy đủ tiếng Việt có dấu) sang Base64
+// Hàm mã hóa chuỗi UTF-8 tiếng Việt sang Base64 an toàn (tránh lỗi font btoa)
 function utf8ToBase64(str) {
   const bytes = new TextEncoder().encode(str);
   let binary = "";
@@ -68,7 +28,7 @@ function utf8ToBase64(str) {
   return btoa(binary);
 }
 
-// Hàm giải mã Base64 sang chuỗi UTF-8
+// Hàm giải mã Base64 sang chuỗi UTF-8 tiếng Việt hoàn chỉnh
 function base64ToUtf8(base64) {
   const binary = atob(base64.replace(/\n/g, ""));
   const bytes = new Uint8Array(binary.length);
@@ -78,7 +38,150 @@ function base64ToUtf8(base64) {
   return new TextDecoder().decode(bytes);
 }
 
-// Headers CORS chuẩn cho mọi response
+// BỘ CÔNG THỨC TRÁO CODE VÀO FILE INDEX.HTML (EDGE-SSG)
+function updateIndexHtmlWithData(html, data) {
+  const siteConfig = data.siteConfig || {};
+  const products = Array.isArray(data.products) ? data.products : [];
+  const seo = siteConfig.seo || {};
+  const brand = siteConfig.brand || {};
+  const contact = siteConfig.contact || {};
+  const banner = siteConfig.banner || {};
+
+  const title = seo.title || "WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức";
+  const desc = seo.description || "Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng.";
+  const keywords = seo.keywords || "wontrade, rise of kingdoms, rok, mua bán acc rok, giao dịch rok";
+  const avatar = seo.ogImage || brand.avatar || "assets/rok_avatar.jpg";
+  const gameName = brand.gameName || "Rise of Kingdoms";
+  const zaloPhone = contact.zalo || contact.phone || "0372996420";
+  const zaloUrl = contact.zaloUrl || `https://zalo.me/${zaloPhone}`;
+
+  // 1. Tráo Title
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${title}</title>`);
+
+  // 2. Tráo Meta SEO & Social Sharing (Zalo / Facebook / Twitter)
+  if (/<meta\s+name=["']description["']/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']description["']\s+content=["'][^"']*["']/i, `<meta name="description"\n    content="${desc}">`);
+  } else {
+    html = html.replace(/<\/title>/i, `</title>\n  <meta name="description" content="${desc}">`);
+  }
+
+  if (/<meta\s+name=["']keywords["']/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']keywords["']\s+content=["'][^"']*["']/i, `<meta name="keywords" content="${keywords}">`);
+  } else {
+    html = html.replace(/(<meta\s+name=["']description["'][^>]*>)/i, `$1\n  <meta name="keywords" content="${keywords}">`);
+  }
+
+  // OpenGraph cho Zalo / Facebook
+  if (/<meta\s+property=["']og:title["']/i.test(html)) {
+    html = html.replace(/<meta\s+property=["']og:title["']\s+content=["'][^"']*["']/i, `<meta property="og:title" content="${title}">`);
+  } else {
+    html = html.replace(/<\/title>/i, `</title>\n  <meta property="og:type" content="website">\n  <meta property="og:title" content="${title}">`);
+  }
+
+  if (/<meta\s+property=["']og:description["']/i.test(html)) {
+    html = html.replace(/<meta\s+property=["']og:description["']\s+content=["'][^"']*["']/i, `<meta property="og:description"\n    content="${desc}">`);
+  }
+
+  if (/<meta\s+property=["']og:image["']/i.test(html)) {
+    html = html.replace(/<meta\s+property=["']og:image["']\s+content=["'][^"']*["']/i, `<meta property="og:image" content="${avatar}">`);
+  }
+
+  // Twitter Cards
+  if (/<meta\s+name=["']twitter:title["']/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']twitter:title["']\s+content=["'][^"']*["']/i, `<meta name="twitter:title" content="${title}">`);
+  }
+  if (/<meta\s+name=["']twitter:description["']/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']twitter:description["']\s+content=["'][^"']*["']/i, `<meta name="twitter:description"\n    content="${desc}">`);
+  }
+  if (/<meta\s+name=["']twitter:image["']/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']twitter:image["']\s+content=["'][^"']*["']/i, `<meta name="twitter:image" content="${avatar}">`);
+  }
+
+  // 3. Tráo Nội dung tĩnh Banner (SSR)
+  if (banner.desktopHeadline) {
+    html = html.replace(/<h1\s+class=["']banner-headline["']>[\s\S]*?<\/h1>/i, `<h1 class="banner-headline">${banner.desktopHeadline}</h1>`);
+  }
+  if (banner.desktopRibbon) {
+    html = html.replace(/<div\s+class=["']banner-ribbon["']>[\s\S]*?<\/div>/i, `<div class="banner-ribbon">${banner.desktopRibbon}</div>`);
+  }
+  if (banner.mobileTitle) {
+    html = html.replace(/<div\s+class=["']mobile-banner-title["']>[\s\S]*?<\/div>/i, `<div class="mobile-banner-title">${banner.mobileTitle}</div>`);
+  }
+  if (banner.mobileSubtitle) {
+    html = html.replace(/<div\s+class=["']mobile-banner-subtitle["']>[\s\S]*?<\/div>/i, `<div class="mobile-banner-subtitle">${banner.mobileSubtitle}</div>`);
+  }
+
+  // 4. Tráo Game Name & Brand
+  if (gameName) {
+    html = html.replace(/<span\s+class=["']game-name["']>[\s\S]*?<\/span>/i, `<span class="game-name">${gameName}</span>`);
+  }
+
+  // 5. Tráo tất cả link Zalo & Tiêu đề tooltip Zalo
+  if (zaloUrl) {
+    html = html.replace(/href=["']https?:\/\/zalo\.me\/[^"']*["']/g, `href="${zaloUrl}"`);
+    html = html.replace(/title=["']Nhắn tin Zalo:[^"']*["']/g, `title="Nhắn tin Zalo: ${zaloPhone}"`);
+  }
+
+  // 6. Tráo số lượng vật phẩm tĩnh (SSR)
+  const countStr = String(products.length);
+  html = html.replace(/<strong\s+class=["']item-count-val["']>\d+<\/strong>/g, `<strong class="item-count-val">${countStr}</strong>`);
+
+  // 7. Tráo Thẻ Script Chứa Cấu Hình & Mảng Vật Phẩm Hoàn Chỉnh
+  const scriptTag = `  <!-- DỮ LIỆU CẤU HÌNH & VẬT PHẨM TỰ ĐỘNG CẬP NHẬT QUA CLOUDFLARE WORKER & GITHUB API (EDGE-SSG) -->
+  <script id="siteDataScript">
+    var siteConfig = ${JSON.stringify(siteConfig, null, 2)};
+    var mockProducts = ${JSON.stringify(products, null, 2)};
+    if (typeof window !== "undefined") {
+      window.siteConfig = siteConfig;
+      window.mockProducts = mockProducts;
+    }
+  </script>`;
+
+  if (/<script\s+id=["']siteDataScript["']>[\s\S]*?<\/script>/i.test(html)) {
+    html = html.replace(/<script\s+id=["']siteDataScript["']>[\s\S]*?<\/script>/i, scriptTag);
+  } else {
+    // Chèn trước thẻ nạp script tương tác
+    html = html.replace(/<script\s+src=["']js\/index\.js["']><\/script>/i, `${scriptTag}\n  <script src="js/index.js"></script>`);
+  }
+
+  // 8. Đảm bảo loại bỏ hoàn toàn popup iframe modal nếu còn sót lại
+  html = html.replace(/<!--\s*=+\s*9:16 VERTICAL POPUP IFRAME MODAL[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/i, '');
+  html = html.replace(/<div\s+class=["']iframe-modal-backdrop["'][\s\S]*?id=["']productIframeModal["'][\s\S]*?<\/iframe>[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/i, '');
+
+  return html;
+}
+
+// Tạo chuỗi nội dung list.js dự phòng nếu cần đồng bộ song song
+function generateListJsContent(products, siteConfig) {
+  const jsonProducts = JSON.stringify(products || [], null, 2);
+  let configSection = "";
+  if (siteConfig && typeof siteConfig === "object") {
+    configSection = `\n// CẤU HÌNH THÔNG TIN SITE (Được quản lý tự động qua Admin CMS & Cloudflare Worker)\nvar siteConfig = ${JSON.stringify(siteConfig, null, 2)};\n`;
+  }
+  return `/**
+ * ==============================================================================
+ * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
+ * FILE DỰ PHÒNG DANH SÁCH VẬT PHẨM (Tổng số: ${(products || []).length} vật phẩm)
+ * Cập nhật tự động qua WONTRADE Admin CMS & Cloudflare Worker (Edge-SSG)
+ * ==============================================================================
+ */
+
+var mockProducts = ${jsonProducts};
+${configSection}
+if (typeof window !== "undefined") {
+  window.mockProducts = mockProducts;
+  if (typeof siteConfig !== "undefined") {
+    window.siteConfig = siteConfig;
+  }
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { mockProducts, ...(typeof siteConfig !== "undefined" ? { siteConfig } : {}) };
+}
+`;
+}
+
+// Headers CORS chuẩn
 function getCorsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
@@ -88,7 +191,7 @@ function getCorsHeaders() {
   };
 }
 
-// Helper trả về JSON có kèm header CORS
+// Helper trả về JSON có CORS
 function jsonResponse(data, status = 200) {
   return new Response(JSON.stringify(data, null, 2), {
     status,
@@ -101,7 +204,7 @@ function jsonResponse(data, status = 200) {
 
 export default {
   async fetch(request, env, ctx) {
-    // 1. Xử lý preflight CORS OPTIONS request
+    // 1. CORS Preflight
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -111,15 +214,14 @@ export default {
 
     const url = new URL(request.url);
 
-    // 2. Kiểm tra cấu hình môi trường bắt buộc
+    // 2. Kiểm tra biến môi trường bắt buộc
     const GITHUB_TOKEN = env.GITHUB_TOKEN;
     const REPO_OWNER = env.REPO_OWNER;
     const REPO_NAME = env.REPO_NAME;
-    const DEFAULT_FILE_PATH = env.FILE_PATH || "js/list.js";
+    const DEFAULT_FILE_PATH = env.FILE_PATH || "index.html";
     const BRANCH = env.BRANCH || "main";
     const ADMIN_SECRET = env.ADMIN_SECRET;
 
-    // Kiểm tra cấu hình biến môi trường
     if (!GITHUB_TOKEN || !REPO_OWNER || !REPO_NAME) {
       return jsonResponse(
         {
@@ -139,7 +241,7 @@ export default {
       );
     }
 
-    // 3. Kiểm tra bảo mật (Nếu có cài ADMIN_SECRET)
+    // 3. Kiểm tra bảo mật ADMIN_SECRET nếu có
     if (ADMIN_SECRET) {
       const clientKey =
         request.headers.get("X-Admin-Key") ||
@@ -155,15 +257,14 @@ export default {
       }
     }
 
-    // Common GitHub API headers
     const githubHeaders = {
       Authorization: `Bearer ${GITHUB_TOKEN}`,
       Accept: "application/vnd.github.v3+json",
-      "User-Agent": "Cloudflare-Worker-CMS",
+      "User-Agent": "Edge-SSG-Worker",
     };
 
     // ========================================================================
-    // GET: Kiểm tra kết nối hoặc lấy nội dung file hiện tại từ GitHub
+    // GET: Kéo cấu hình hiện tại từ file index.html trên GitHub
     // ========================================================================
     if (request.method === "GET") {
       const targetPath = url.searchParams.get("path") || DEFAULT_FILE_PATH;
@@ -176,7 +277,7 @@ export default {
           return jsonResponse({
             success: true,
             exists: false,
-            message: `File ${targetPath} chưa tồn tại trên repo (sẽ được tạo mới khi lưu).`,
+            message: `File ${targetPath} chưa tồn tại trên repo.`,
             repo: `${REPO_OWNER}/${REPO_NAME}`,
             branch: BRANCH,
           });
@@ -197,43 +298,63 @@ export default {
         const data = await ghRes.json();
         const contentStr = data.content ? base64ToUtf8(data.content) : "";
 
-        // Hỗ trợ trích xuất mảng sản phẩm dạng JSON nếu có query param ?format=json
+        // Trích xuất siteConfig và mockProducts từ HTML
+        let parsedSiteConfig = null;
         let parsedProducts = null;
-        if (url.searchParams.get("format") === "json" || url.searchParams.get("action") === "products") {
+
+        // Trích xuất từ siteDataScript
+        const matchConfig = contentStr.match(/var\s+siteConfig\s*=\s*(\{[\s\S]*?\});/);
+        if (matchConfig) {
           try {
-            const match = contentStr.match(/var\s+mockProducts\s*=\s*(\[[\s\S]*?\]);/);
-            if (match) {
-              parsedProducts = JSON.parse(match[1]);
+            parsedSiteConfig = JSON.parse(matchConfig[1]);
+          } catch (e) {}
+        }
+
+        const matchProducts = contentStr.match(/var\s+mockProducts\s*=\s*(\[[\s\S]*?\]);/);
+        if (matchProducts) {
+          try {
+            parsedProducts = JSON.parse(matchProducts[1]);
+          } catch (e) {}
+        }
+
+        // Nếu file index.html chưa có mockProducts trong script thì thử kéo js/list.js
+        if (!parsedProducts && targetPath.endsWith(".html")) {
+          try {
+            const listApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/js/list.js?ref=${BRANCH}`;
+            const listRes = await fetch(listApiUrl, { headers: githubHeaders });
+            if (listRes.ok) {
+              const listData = await listRes.json();
+              const listStr = listData.content ? base64ToUtf8(listData.content) : "";
+              const matchL = listStr.match(/var\s+mockProducts\s*=\s*(\[[\s\S]*?\]);/);
+              if (matchL) {
+                parsedProducts = JSON.parse(matchL[1]);
+              }
             }
           } catch (e) {}
         }
 
-        const resPayload = {
+        return jsonResponse({
           success: true,
           exists: true,
           sha: data.sha,
           filePath: targetPath,
           repo: `${REPO_OWNER}/${REPO_NAME}`,
           branch: BRANCH,
+          siteConfig: parsedSiteConfig,
+          products: parsedProducts || [],
+          totalProducts: (parsedProducts || []).length,
           content: contentStr,
-        };
-
-        if (parsedProducts) {
-          resPayload.products = parsedProducts;
-          resPayload.totalProducts = parsedProducts.length;
-        }
-
-        return jsonResponse(resPayload);
+        });
       } catch (err) {
         return jsonResponse(
-          { success: false, error: err.message || "Lỗi ngoại lệ khi kết nối GitHub" },
+          { success: false, error: err.message || "Lỗi khi kết nối GitHub" },
           500
         );
       }
     }
 
     // ========================================================================
-    // POST: Cập nhật / Ghi đè file trên GitHub
+    // POST: Tráo code trực tiếp vào file index.html và commit lên GitHub
     // ========================================================================
     if (request.method === "POST") {
       let body;
@@ -243,100 +364,126 @@ export default {
         return jsonResponse({ success: false, error: "Dữ liệu JSON không hợp lệ!" }, 400);
       }
 
-      // Nhận nội dung file từ Frontend (hỗ trợ cả chuỗi string content hoặc mảng JSON products)
-      let content = body.content;
-      if (!content && Array.isArray(body.products)) {
-        content = generateListJsContent(body.products);
-      }
-
-      if (typeof content !== "string" || !content.trim()) {
-        return jsonResponse(
-          {
-            success: false,
-            error: "Nội dung 'content' bị trống hoặc không phải chuỗi, và không có mảng 'products' hợp lệ!",
-          },
-          400
-        );
-      }
-
-      const commitMessage = body.message || "Admin CMS: update list.js";
-      const targetPaths = body.updateBoth
-        ? [DEFAULT_FILE_PATH, "list.js"] // Đồng bộ cả js/list.js lẫn list.js nếu yêu cầu
-        : [body.filePath || DEFAULT_FILE_PATH];
-
-      const results = [];
+      const targetPath = body.filePath || DEFAULT_FILE_PATH;
+      const getApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}?ref=${BRANCH}`;
 
       try {
-        for (const targetPath of targetPaths) {
-          // Bước 3.1 & 3.2: Lấy mã SHA của file cũ (nếu có)
-          const getApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}?ref=${BRANCH}`;
-          const getRes = await fetch(getApiUrl, { headers: githubHeaders });
+        // 1. Kéo file index.html hiện tại từ GitHub để lấy SHA và mã nguồn gốc
+        const getRes = await fetch(getApiUrl, { headers: githubHeaders });
+        let currentSha = null;
+        let oldHtml = "";
 
-          let currentSha = null;
-          if (getRes.ok) {
-            const fileData = await getRes.json();
-            currentSha = fileData.sha;
-          }
-
-          // Bước 3.3: Mã hóa Base64 và commit ghi đè file
-          const base64Content = utf8ToBase64(content);
-          const putPayload = {
-            message: commitMessage,
-            content: base64Content,
-            branch: BRANCH,
-          };
-
-          if (currentSha) {
-            putPayload.sha = currentSha;
-          }
-
-          const putApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}`;
-          const putRes = await fetch(putApiUrl, {
-            method: "PUT",
-            headers: {
-              ...githubHeaders,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(putPayload),
-          });
-
-          const putData = await putRes.json();
-
-          if (!putRes.ok) {
-            results.push({
-              filePath: targetPath,
+        if (getRes.ok) {
+          const fileData = await getRes.json();
+          currentSha = fileData.sha;
+          oldHtml = fileData.content ? base64ToUtf8(fileData.content) : "";
+        } else if (getRes.status !== 404) {
+          const errData = await getRes.json();
+          return jsonResponse(
+            {
               success: false,
-              status: putRes.status,
+              error: `Không thể đọc file ${targetPath} từ GitHub (${getRes.status})`,
+              details: errData,
+            },
+            getRes.status
+          );
+        }
+
+        // 2. Tạo nội dung file mới (nếu gửi content string thì dùng trực tiếp, ngược lại chạy hàm tráo code)
+        let newContent = body.content;
+        if (!newContent && (body.siteConfig || body.products || body.profile)) {
+          const dataToUpdate = {
+            siteConfig: body.siteConfig || body.profile || {},
+            products: Array.isArray(body.products) ? body.products : [],
+          };
+          newContent = updateIndexHtmlWithData(oldHtml, dataToUpdate);
+        }
+
+        if (typeof newContent !== "string" || !newContent.trim()) {
+          return jsonResponse(
+            {
+              success: false,
+              error: "Nội dung cập nhật không hợp lệ! Vui lòng cung cấp 'siteConfig' và 'products'.",
+            },
+            400
+          );
+        }
+
+        // 3. Commit ghi đè trực tiếp lên index.html
+        const commitMessage =
+          body.message ||
+          `Admin Edge-SSG: Tráo file ${targetPath} (${new Date().toLocaleString("vi-VN")})`;
+
+        const putPayload = {
+          message: commitMessage,
+          content: utf8ToBase64(newContent),
+          branch: BRANCH,
+        };
+        if (currentSha) {
+          putPayload.sha = currentSha;
+        }
+
+        const putApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}`;
+        const putRes = await fetch(putApiUrl, {
+          method: "PUT",
+          headers: {
+            ...githubHeaders,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(putPayload),
+        });
+
+        const putData = await putRes.json();
+
+        if (!putRes.ok) {
+          return jsonResponse(
+            {
+              success: false,
               error: putData.message || "Không thể commit file lên GitHub",
               details: putData,
+            },
+            putRes.status
+          );
+        }
+
+        // 4. (Tùy chọn) Đồng bộ thêm file js/list.js nếu được yêu cầu
+        if (body.syncListJs) {
+          try {
+            const listJsPath = "js/list.js";
+            const getListUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${listJsPath}?ref=${BRANCH}`;
+            const listRes = await fetch(getListUrl, { headers: githubHeaders });
+            let listSha = null;
+            if (listRes.ok) {
+              const lData = await listRes.json();
+              listSha = lData.sha;
+            }
+            const listContent = generateListJsContent(body.products || [], body.siteConfig || {});
+            await fetch(getListUrl.replace(`?ref=${BRANCH}`, ""), {
+              method: "PUT",
+              headers: { ...githubHeaders, "Content-Type": "application/json" },
+              body: JSON.stringify({
+                message: `Auto sync js/list.js with index.html`,
+                content: utf8ToBase64(listContent),
+                sha: listSha,
+                branch: BRANCH,
+              }),
             });
-          } else {
-            results.push({
-              filePath: targetPath,
-              success: true,
-              sha: putData.content?.sha,
-              commitSha: putData.commit?.sha,
-              commitUrl: putData.commit?.html_url,
-            });
+          } catch (syncErr) {
+            console.error("Lỗi đồng bộ js/list.js phụ:", syncErr);
           }
         }
 
-        const allSuccess = results.every((r) => r.success);
-
-        return jsonResponse(
-          {
-            success: allSuccess,
-            message: allSuccess
-              ? "Cập nhật file lên GitHub thành công!"
-              : "Có lỗi xảy ra trong quá trình cập nhật file lên GitHub.",
-            repo: `${REPO_OWNER}/${REPO_NAME}`,
-            branch: BRANCH,
-            results,
-            notice:
-              "Lưu thành công! Vui lòng đợi 1-3 phút để GitHub / Cloudflare Pages tự động build lại giao diện mới.",
-          },
-          allSuccess ? 200 : 502
-        );
+        return jsonResponse({
+          success: true,
+          message: `Tráo và commit trực tiếp file ${targetPath} lên GitHub thành công!`,
+          repo: `${REPO_OWNER}/${REPO_NAME}`,
+          branch: BRANCH,
+          filePath: targetPath,
+          commitSha: putData.commit?.sha,
+          commitUrl: putData.commit?.html_url,
+          notice:
+            "Lưu thành công! Vui lòng đợi 1-3 phút để GitHub Pages / Cloudflare Pages tự động build lại trang public cho người dùng.",
+        });
       } catch (err) {
         return jsonResponse(
           {

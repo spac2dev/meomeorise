@@ -324,8 +324,7 @@ const commanderSvgs = {
   </svg>`
 };
 
-// Dữ liệu danh sách vật phẩm được nạp từ file js/list.js
-// Khi chỉnh sửa sản phẩm, chỉ cần sửa trong file js/list.js mà không cần sửa file index
+// Dữ liệu danh sách vật phẩm được nhúng trực tiếp trong thẻ #siteDataScript của index.html (Edge-SSG)
 var mockProducts = window.mockProducts || (typeof mockProducts !== "undefined" ? mockProducts : []);
 
 // Helper: Format Countdown Seconds to Vietnamese string: "07ng 07g 44p"

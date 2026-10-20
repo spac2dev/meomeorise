@@ -148,41 +148,14 @@ function updateIndexHtmlWithData(html, data) {
     html = html.replace(/<script\s+src=["']js\/index\.js["']><\/script>/i, `${scriptTag}\n  <script src="js/index.js"></script>`);
   }
 
-  // 8. Đảm bảo loại bỏ hoàn toàn popup iframe modal nếu còn sót lại
+  // 8. Tự động xóa bỏ thẻ nạp js/list.js để ngăn chặn hoàn toàn việc ghi đè lên dữ liệu mới
+  html = html.replace(/<script\s+src=["'](?:js\/)?list\.js["']><\/script>\s*/gi, '');
+
+  // 9. Đảm bảo loại bỏ hoàn toàn popup iframe modal nếu còn sót lại
   html = html.replace(/<!--\s*=+\s*9:16 VERTICAL POPUP IFRAME MODAL[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/i, '');
   html = html.replace(/<div\s+class=["']iframe-modal-backdrop["'][\s\S]*?id=["']productIframeModal["'][\s\S]*?<\/iframe>[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/i, '');
 
   return html;
-}
-
-// Tạo chuỗi nội dung list.js dự phòng nếu cần đồng bộ song song
-function generateListJsContent(products, siteConfig) {
-  const jsonProducts = JSON.stringify(products || [], null, 2);
-  let configSection = "";
-  if (siteConfig && typeof siteConfig === "object") {
-    configSection = `\n// CẤU HÌNH THÔNG TIN SITE (Được quản lý tự động qua Admin CMS & Cloudflare Worker)\nvar siteConfig = ${JSON.stringify(siteConfig, null, 2)};\n`;
-  }
-  return `/**
- * ==============================================================================
- * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
- * FILE DỰ PHÒNG DANH SÁCH VẬT PHẨM (Tổng số: ${(products || []).length} vật phẩm)
- * Cập nhật tự động qua WONTRADE Admin CMS & Cloudflare Worker (Edge-SSG)
- * ==============================================================================
- */
-
-var mockProducts = ${jsonProducts};
-${configSection}
-if (typeof window !== "undefined") {
-  window.mockProducts = mockProducts;
-  if (typeof siteConfig !== "undefined") {
-    window.siteConfig = siteConfig;
-  }
-}
-
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = { mockProducts, ...(typeof siteConfig !== "undefined" ? { siteConfig } : {}) };
-}
-`;
 }
 
 // Headers CORS chuẩn
@@ -346,29 +319,6 @@ export default {
           }
         }
 
-        // 3. Fallback: Nếu file index.html chưa có thì thử kéo js/list.js dự phòng
-        if (!parsedProducts) {
-          try {
-            const listApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/js/list.js?ref=${BRANCH}`;
-            const listRes = await fetch(listApiUrl, { headers: githubHeaders });
-            if (listRes.ok) {
-              const listData = await listRes.json();
-              const listStr = listData.content ? base64ToUtf8(listData.content) : "";
-              const listFn = new Function(`
-                "use strict";
-                var mockProducts = null;
-                var window = {};
-                ${listStr}
-                return mockProducts || window.mockProducts || [];
-              `);
-              const lRes = listFn();
-              if (Array.isArray(lRes) && lRes.length > 0) {
-                parsedProducts = lRes;
-              }
-            }
-          } catch (e) {}
-        }
-
         return jsonResponse({
           success: true,
           exists: true,
@@ -480,33 +430,6 @@ export default {
             },
             putRes.status
           );
-        }
-
-        // 4. (Tùy chọn) Đồng bộ thêm file js/list.js nếu được yêu cầu
-        if (body.syncListJs) {
-          try {
-            const listJsPath = "js/list.js";
-            const getListUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${listJsPath}?ref=${BRANCH}`;
-            const listRes = await fetch(getListUrl, { headers: githubHeaders });
-            let listSha = null;
-            if (listRes.ok) {
-              const lData = await listRes.json();
-              listSha = lData.sha;
-            }
-            const listContent = generateListJsContent(body.products || [], body.siteConfig || {});
-            await fetch(getListUrl.replace(`?ref=${BRANCH}`, ""), {
-              method: "PUT",
-              headers: { ...githubHeaders, "Content-Type": "application/json" },
-              body: JSON.stringify({
-                message: `Auto sync js/list.js with index.html`,
-                content: utf8ToBase64(listContent),
-                sha: listSha,
-                branch: BRANCH,
-              }),
-            });
-          } catch (syncErr) {
-            console.error("Lỗi đồng bộ js/list.js phụ:", syncErr);
-          }
         }
 
         return jsonResponse({

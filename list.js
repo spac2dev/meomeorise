@@ -770,9 +770,11 @@ var profileConfig = {
   }
 };
 
-// Gán vào window để đảm bảo tương thích mọi ngữ cảnh trình duyệt
+// Gán vào window để đảm bảo tương thích mọi ngữ cảnh trình duyệt (Chỉ gán nếu index.html chưa có dữ liệu)
 if (typeof window !== "undefined") {
-  window.mockProducts = mockProducts;
+  if (!window.mockProducts || !Array.isArray(window.mockProducts) || window.mockProducts.length === 0) {
+    window.mockProducts = mockProducts;
+  }
   window.profileConfig = profileConfig;
 }
 

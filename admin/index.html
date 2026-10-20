@@ -1311,14 +1311,14 @@
 
     // Khởi tạo
     document.addEventListener("DOMContentLoaded", () => {
-      // 1. Cấu hình Worker
+      // 1. Cấu hình Worker URL
       const defaultWorkerUrl = "https://meomeorise.text2developer.workers.dev";
       const savedWorkerUrl = localStorage.getItem("wontrade_worker_url") || defaultWorkerUrl;
       const savedSecret = localStorage.getItem("wontrade_worker_secret") || "";
       if (document.getElementById("workerUrlInput")) document.getElementById("workerUrlInput").value = savedWorkerUrl;
       if (document.getElementById("workerSecretInput")) document.getElementById("workerSecretInput").value = savedSecret;
 
-      // 2. Nạp siteConfig từ localStorage nếu có
+      // 2. Nạp siteConfig từ cache trước
       const savedConfig = localStorage.getItem("wontrade_site_config");
       if (savedConfig) {
         try {
@@ -1327,18 +1327,26 @@
       }
       populateConfigForms();
 
-      // 3. Nạp danh sách sản phẩm từ mockProducts
-      if (typeof mockProducts !== "undefined" && Array.isArray(mockProducts) && mockProducts.length > 0) {
-        adminProducts = JSON.parse(JSON.stringify(mockProducts));
-      } else {
-        const savedProd = localStorage.getItem("wontrade_admin_products");
-        if (savedProd) {
-          try { adminProducts = JSON.parse(savedProd); } catch (e) { adminProducts = []; }
+      // 3. Nạp danh sách sản phẩm từ cache để giao diện hiển thị ngay lập tức
+      const savedProd = localStorage.getItem("wontrade_admin_products");
+      if (savedProd) {
+        try {
+          adminProducts = JSON.parse(savedProd);
+        } catch (e) {
+          adminProducts = [];
         }
+      }
+      if (adminProducts.length === 0 && typeof mockProducts !== "undefined" && Array.isArray(mockProducts)) {
+        adminProducts = JSON.parse(JSON.stringify(mockProducts));
       }
 
       renderAdminTable();
       updateStats();
+
+      // 4. TỰ ĐỘNG CHẠY WORKER KÉO DATA TỪ FILE INDEX.HTML MỚI NHẤT TRÊN GITHUB VỀ HIỂN THỊ
+      if (savedWorkerUrl) {
+        syncFromGithubWorker(true);
+      }
 
       // Scroll to Top Listener
       window.addEventListener("scroll", () => {
@@ -1457,12 +1465,12 @@
       }
     }
 
-    // Render Items Table
+    // Render Items Table (Xử lý an toàn tuyệt đối, chống crash JS)
     function renderAdminTable(itemsToRender = adminProducts) {
       const tbody = document.getElementById("itemsTableBody");
       if (!tbody) return;
 
-      if (itemsToRender.length === 0) {
+      if (!Array.isArray(itemsToRender) || itemsToRender.length === 0) {
         tbody.innerHTML = `
           <tr>
             <td colspan="8" style="text-align: center; padding: 40px; color: #94a3b8;">
@@ -1474,62 +1482,75 @@
       }
 
       tbody.innerHTML = itemsToRender.map(item => {
-        const badgesHtml = (item.badges || []).map(b => `
-          <span class="mini-badge ${b.type === 'red' ? 'red' : 'dark'}">${b.text}</span>
-        `).join("");
+        if (!item || typeof item !== "object") return "";
+        try {
+          const rawId = item.id || 0;
+          const badges = Array.isArray(item.badges) ? item.badges : [];
+          const badgesHtml = badges.map(b => {
+            if (typeof b === "string") return `<span class="mini-badge dark">${escapeHtml(b)}</span>`;
+            return `<span class="mini-badge ${b && b.type === 'red' ? 'red' : 'dark'}">${escapeHtml((b && b.text) || '')}</span>`;
+          }).join("");
 
-        const commandersHtml = (item.commanders || []).slice(0, 5).map(c => `
-          <div class="mini-comm-frame" title="${c.name || c.id}">
-            <span style="font-size: 10px; color: #faad14; font-weight: 700;">${(c.name || c.id || "").charAt(0)}</span>
-          </div>
-        `).join("");
+          const commanders = Array.isArray(item.commanders) ? item.commanders : [];
+          const commandersHtml = commanders.slice(0, 5).map(c => {
+            const cName = typeof c === "string" ? c : (c && (c.name || c.id) || "");
+            const initial = cName ? cName.charAt(0).toUpperCase() : "?";
+            return `
+              <div class="mini-comm-frame" title="${escapeHtml(cName)}">
+                <span style="font-size: 10px; color: #faad14; font-weight: 700;">${escapeHtml(initial)}</span>
+              </div>
+            `;
+          }).join("");
 
-        const rawP = Number(item.price) || 0;
-        const vndP = rawP < 50000 ? Math.round(rawP * 25400) : rawP;
-        const priceFormatted = vndP.toLocaleString("vi-VN") + " ₫";
+          const rawP = Number(item.price) || 0;
+          const vndP = rawP < 50000 ? Math.round(rawP * 25400) : rawP;
+          const priceFormatted = vndP.toLocaleString("vi-VN") + " ₫";
+          const directLink = item.link || `guide/index.html?id=${rawId}`;
 
-        const directLink = item.link || `guide/index.html?id=${item.id}`;
-
-        return `
-          <tr>
-            <td>
-              <span class="item-id-badge">#${item.id}</span>
-            </td>
-            <td class="item-title-cell">
-              <div class="item-title-text">${escapeHtml(item.title)}</div>
-              <div class="item-sub-badges">${badgesHtml}</div>
-            </td>
-            <td>
-              <div class="price-badge">${priceFormatted}</div>
-            </td>
-            <td>
-              <div style="color: #475569; font-size: 12.5px;">${escapeHtml(item.info || '')}</div>
-            </td>
-            <td>
-              <a href="../${escapeHtml(directLink)}" target="_blank" class="link-direct-btn" title="Mở trang chi tiết">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                <span>Xem link</span>
-              </a>
-            </td>
-            <td>
-              <div class="commander-avatar-stack">${commandersHtml}</div>
-            </td>
-            <td>
-              <span style="font-weight: 600; color: #d48806;">★ ${item.favorites || 0}</span>
-            </td>
-            <td class="actions-cell">
-              <button class="btn-action edit" onclick="openEditItemModal(${item.id})" title="Chỉnh sửa">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-              </button>
-              <button class="btn-action copy" onclick="duplicateItem(${item.id})" title="Nhân bản">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              </button>
-              <button class="btn-action delete" onclick="deleteItem(${item.id})" title="Xóa">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-              </button>
-            </td>
-          </tr>
-        `;
+          return `
+            <tr>
+              <td>
+                <span class="item-id-badge">#${rawId}</span>
+              </td>
+              <td class="item-title-cell">
+                <div class="item-title-text">${escapeHtml(item.title || 'Chưa đặt tiêu đề')}</div>
+                <div class="item-sub-badges">${badgesHtml}</div>
+              </td>
+              <td>
+                <div class="price-badge">${priceFormatted}</div>
+              </td>
+              <td>
+                <div style="color: #475569; font-size: 12.5px;">${escapeHtml(item.info || '')}</div>
+              </td>
+              <td>
+                <a href="../${escapeHtml(directLink)}" target="_blank" class="link-direct-btn" title="Mở trang chi tiết">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  <span>Xem link</span>
+                </a>
+              </td>
+              <td>
+                <div class="commander-avatar-stack">${commandersHtml}</div>
+              </td>
+              <td>
+                <span style="font-weight: 600; color: #d48806;">★ ${Number(item.favorites) || 0}</span>
+              </td>
+              <td class="actions-cell">
+                <button class="btn-action edit" onclick="openEditItemModal(${rawId})" title="Chỉnh sửa">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                </button>
+                <button class="btn-action copy" onclick="duplicateItem(${rawId})" title="Nhân bản">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+                <button class="btn-action delete" onclick="deleteItem(${rawId})" title="Xóa">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+              </td>
+            </tr>
+          `;
+        } catch (itemErr) {
+          console.error("Lỗi render hàng item:", item, itemErr);
+          return "";
+        }
       }).join("");
     }
 
@@ -1560,7 +1581,8 @@
       document.getElementById("formOriginalId").value = "";
       document.getElementById("itemModalTitle").textContent = "Thêm vật phẩm mới";
 
-      const maxId = adminProducts.length > 0 ? Math.max(...adminProducts.map(p => p.id)) : 2000;
+      const validIds = (adminProducts || []).map(p => Number(p.id)).filter(n => !isNaN(n) && n > 0);
+      const maxId = validIds.length > 0 ? Math.max(...validIds) : 2000;
       document.getElementById("fId").value = maxId + 1;
       document.getElementById("fPrice").value = 10000000;
       document.getElementById("fTitle").value = "";
@@ -1579,8 +1601,11 @@
 
     // Mở modal sửa
     function openEditItemModal(id) {
-      const item = adminProducts.find(p => p.id === id);
-      if (!item) return;
+      const item = (adminProducts || []).find(p => p && Number(p.id) === Number(id));
+      if (!item) {
+        showToast(`Không tìm thấy vật phẩm #${id}`, "error");
+        return;
+      }
 
       document.getElementById("formIsEdit").value = "true";
       document.getElementById("formOriginalId").value = item.id;
@@ -2109,23 +2134,27 @@
     // ========================================================================
     // ĐỒNG BỘ CẤU HÌNH & SẢN PHẨM TỪ GITHUB (GET REQUEST)
     // ========================================================================
-    async function syncFromGithubWorker() {
+    async function syncFromGithubWorker(silent = false) {
       saveWorkerSettings();
       const workerUrl = document.getElementById("workerUrlInput").value.trim();
       const secret = document.getElementById("workerSecretInput").value.trim();
 
       if (!workerUrl) {
-        showToast("Vui lòng nhập Worker URL ở thanh cấu hình phía trên!", "error");
+        if (!silent) showToast("Vui lòng nhập Worker URL ở thanh cấu hình phía trên!", "error");
         return;
       }
 
-      showToast("Đang kéo cấu hình index.html từ GitHub...");
+      if (!silent) {
+        showToast("Đang kéo cấu hình index.html từ GitHub...");
+      }
 
       try {
         const headers = {};
         if (secret) headers["X-Admin-Key"] = secret;
 
-        const res = await fetch(`${workerUrl}?path=index.html`, { method: "GET", headers });
+        // Gắn thêm timestamp để triệt tiêu cache HTTP từ Cloudflare/trình duyệt
+        const reqUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=index.html&_t=${Date.now()}`;
+        const res = await fetch(reqUrl, { method: "GET", headers });
         const text = await res.text();
         let data;
         try {
@@ -2148,12 +2177,21 @@
             updateStats();
           }
 
-          showToast(`Đã đồng bộ thành công từ ${data.repo || "GitHub"}! (Tổng số: ${adminProducts.length} vật phẩm)`, "success");
+          if (!silent) {
+            showToast(`Đã đồng bộ thành công từ ${data.repo || "GitHub"}! (Tổng số: ${adminProducts.length} vật phẩm)`, "success");
+          } else {
+            showToast(`Đã tự động nạp ${adminProducts.length} sản phẩm từ file index.html trên GitHub!`, "success");
+          }
         } else {
-          showToast(`Lỗi đồng bộ: ${data.error || res.statusText}`, "error");
+          if (!silent) {
+            showToast(`Lỗi đồng bộ: ${data.error || res.statusText}`, "error");
+          }
         }
       } catch (err) {
-        showToast(`Không thể kết nối Worker: ${err.message}`, "error");
+        console.error("Lỗi syncFromGithubWorker:", err);
+        if (!silent) {
+          showToast(`Không thể kết nối Worker: ${err.message}`, "error");
+        }
       }
     }
 
@@ -2245,6 +2283,9 @@
         }
 
         if (res.ok && data.success) {
+          localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
+          localStorage.setItem("wontrade_site_config", JSON.stringify(cfg));
+
           const banner = document.getElementById("publishSuccessBanner");
           banner.classList.add("show");
           window.scrollTo({ top: 0, behavior: "smooth" });

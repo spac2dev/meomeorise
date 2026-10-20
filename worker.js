@@ -302,36 +302,68 @@ export default {
         const data = await ghRes.json();
         const contentStr = data.content ? base64ToUtf8(data.content) : "";
 
-        // Trích xuất siteConfig và mockProducts từ HTML
+        // Trích xuất an toàn siteConfig và mockProducts từ HTML bằng Function Sandbox
         let parsedSiteConfig = null;
         let parsedProducts = null;
 
-        // Trích xuất từ siteDataScript
-        const matchConfig = contentStr.match(/var\s+siteConfig\s*=\s*(\{[\s\S]*?\});/);
-        if (matchConfig) {
+        // 1. Tìm toàn bộ nội dung trong thẻ <script id="siteDataScript">...</script>
+        const scriptMatch = contentStr.match(/<script\s+id=["']siteDataScript["']>([\s\S]*?)<\/script>/i);
+        if (scriptMatch) {
           try {
-            parsedSiteConfig = JSON.parse(matchConfig[1]);
-          } catch (e) {}
+            const rawCode = scriptMatch[1];
+            const sandboxFn = new Function(`
+              "use strict";
+              var siteConfig = null;
+              var mockProducts = null;
+              var window = {};
+              ${rawCode}
+              return {
+                siteConfig: siteConfig || window.siteConfig,
+                products: mockProducts || window.mockProducts
+              };
+            `);
+            const extracted = sandboxFn();
+            if (extracted.siteConfig && typeof extracted.siteConfig === "object") {
+              parsedSiteConfig = extracted.siteConfig;
+            }
+            if (Array.isArray(extracted.products)) {
+              parsedProducts = extracted.products;
+            }
+          } catch (fnErr) {
+            console.error("Lỗi parse siteDataScript qua sandbox:", fnErr);
+          }
         }
 
-        const matchProducts = contentStr.match(/var\s+mockProducts\s*=\s*(\[[\s\S]*?\]);/);
-        if (matchProducts) {
-          try {
-            parsedProducts = JSON.parse(matchProducts[1]);
-          } catch (e) {}
+        // 2. Fallback: Nếu chưa lấy được mockProducts, thử quét regex từ khóa mockProducts
+        if (!parsedProducts) {
+          const matchProducts = contentStr.match(/var\s+mockProducts\s*=\s*(\[[\s\S]*?\])\s*;\s*(?:var|if|<\/script>)/i);
+          if (matchProducts) {
+            try {
+              const pFn = new Function(`"use strict"; return (${matchProducts[1]});`);
+              const pRes = pFn();
+              if (Array.isArray(pRes)) parsedProducts = pRes;
+            } catch (e) {}
+          }
         }
 
-        // Nếu file index.html chưa có mockProducts trong script thì thử kéo js/list.js
-        if (!parsedProducts && targetPath.endsWith(".html")) {
+        // 3. Fallback: Nếu file index.html chưa có thì thử kéo js/list.js dự phòng
+        if (!parsedProducts) {
           try {
             const listApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/js/list.js?ref=${BRANCH}`;
             const listRes = await fetch(listApiUrl, { headers: githubHeaders });
             if (listRes.ok) {
               const listData = await listRes.json();
               const listStr = listData.content ? base64ToUtf8(listData.content) : "";
-              const matchL = listStr.match(/var\s+mockProducts\s*=\s*(\[[\s\S]*?\]);/);
-              if (matchL) {
-                parsedProducts = JSON.parse(matchL[1]);
+              const listFn = new Function(`
+                "use strict";
+                var mockProducts = null;
+                var window = {};
+                ${listStr}
+                return mockProducts || window.mockProducts || [];
+              `);
+              const lRes = listFn();
+              if (Array.isArray(lRes) && lRes.length > 0) {
+                parsedProducts = lRes;
               }
             }
           } catch (e) {}

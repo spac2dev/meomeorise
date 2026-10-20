@@ -1,100 +1,12 @@
 /**
  * ==============================================================================
  * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
- * FILE QUẢN LÝ DANH SÁCH VẬT PHẨM (Tổng số: 19 vật phẩm)
+ * FILE QUẢN LÝ DANH SÁCH VẬT PHẨM (Tổng số: 17 vật phẩm)
  * Cập nhật tự động qua WONTRADE Admin CMS & Cloudflare Worker
  * ==============================================================================
  */
 
 var mockProducts = [
-  {
-    "id": 2654,
-    "title": "Mùa Chinh Phạt",
-    "price": 11839000,
-    "link": "https://rok.trade.wondergames.sg/detail/R101A031FDF930",
-    "favorites": 5,
-    "isFavorited": false,
-    "badges": [
-      {
-        "text": "Chơi",
-        "type": "red"
-      },
-      {
-        "text": "BẢN ANH HÙNG CA",
-        "type": "dark"
-      }
-    ],
-    "info": "#2654 | Có thể nhập cư",
-    "stats": "Cấp độ 25 | Sức mạnh 91,652,733 | VIP 16 | Điểm Tiêu Diệt 7,527,939,303",
-    "tags": [
-      {
-        "text": "Chỉ Huy Thức Tỉnh Huyền Thoại ×19",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Bị Huyền Thoại ×43",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Bị Tài Năng Đặc Biệt Huyền Thoại ×8",
-        "type": "orange"
-      },
-      {
-        "text": "Minh Văn Đặc Biệt ×9",
-        "type": "orange"
-      },
-      {
-        "text": "Minh Văn Hiếm ×14",
-        "type": "orange"
-      },
-      {
-        "text": "Số Dư Xu Lung Linh 5",
-        "type": "blue"
-      },
-      {
-        "text": "Trang Hộ Chiếu 20",
-        "type": "blue"
-      },
-      {
-        "text": "Tượng Chỉ Huy Huyền Thoại 182",
-        "type": "blue"
-      }
-    ],
-    "commanders": [
-      {
-        "id": "arthur",
-        "name": "Arthur Pendragon",
-        "level": 60,
-        "isImg": true
-      },
-      {
-        "id": "tontu",
-        "name": "Tôn Tử",
-        "level": 60,
-        "isImg": false
-      },
-      {
-        "id": "achilles",
-        "name": "Achilles",
-        "level": 60,
-        "isImg": false
-      },
-      {
-        "id": "tanthuyhoang",
-        "name": "Tần Thủy Hoàng",
-        "level": 60,
-        "isImg": false
-      },
-      {
-        "id": "scipio",
-        "name": "Scipio Africanus",
-        "level": 60,
-        "isImg": false
-      }
-    ],
-    "gemMultiplier": 5,
-    "countdownSeconds": 614736
-  },
   {
     "id": 2638,
     "title": "5 Trang Phục Thiên Định Sức Mạnh Chỉ Huy Bộ Binh Chỉ Huy Cung Thủ Chỉ Huy Kỵ Binh",
@@ -490,90 +402,6 @@ var mockProducts = [
     ],
     "gemMultiplier": 5,
     "countdownSeconds": 1626130
-  },
-  {
-    "id": 3012,
-    "title": "Acc VIP 18 - Đội Hình Cung Thủ Gia Cát Lượng Thức Tỉnh",
-    "price": 54610000,
-    "link": "guide/index.html?id=3012",
-    "favorites": 7,
-    "isFavorited": false,
-    "badges": [
-      {
-        "text": "Chơi",
-        "type": "red"
-      },
-      {
-        "text": "BẢN ANH HÙNG CA",
-        "type": "dark"
-      }
-    ],
-    "info": "#3012 | Có thể nhập cư",
-    "stats": "Cấp độ 25 | Sức mạnh 115,800,450 | VIP 18 | Điểm Tiêu Diệt 6,780,210,000",
-    "tags": [
-      {
-        "text": "Chỉ Huy Thức Tỉnh Huyền Thoại ×38",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Bị Huyền Thoại ×44",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Bị Tài Năng Đặc Biệt Huyền Thoại ×15",
-        "type": "orange"
-      },
-      {
-        "text": "Minh Văn Đặc Biệt ×8",
-        "type": "orange"
-      },
-      {
-        "text": "Minh Văn Hiếm ×18",
-        "type": "orange"
-      },
-      {
-        "text": "Số Dư Xu Lung Linh 6",
-        "type": "blue"
-      },
-      {
-        "text": "Trang Hộ Chiếu 92",
-        "type": "blue"
-      },
-      {
-        "text": "Tượng Chỉ Huy Huyền Thoại 1,150",
-        "type": "blue"
-      }
-    ],
-    "commanders": [
-      {
-        "id": "giacatluong",
-        "name": "Gia Cát Lượng",
-        "level": 60
-      },
-      {
-        "id": "tanthuyhoang",
-        "name": "Tần Thủy Hoàng",
-        "level": 60
-      },
-      {
-        "id": "luutriet",
-        "name": "Lưu Triệt",
-        "level": 60
-      },
-      {
-        "id": "achilles",
-        "name": "Achilles",
-        "level": 60
-      },
-      {
-        "id": "arthur",
-        "name": "Arthur Pendragon",
-        "level": 60,
-        "isImg": true
-      }
-    ],
-    "gemMultiplier": 5,
-    "countdownSeconds": 483765
   },
   {
     "id": 1688,

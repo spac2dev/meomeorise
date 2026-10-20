@@ -169,7 +169,7 @@ var mockProducts = [
   },
   {
     "id": 2790,
-    "title": "Siêu Phẩm VIP 19 - Full T5 5 Đạo Ra Trận KVK",
+    "title": "Spac2 TESS",
     "price": 215900000,
     "link": "guide/index.html?id=2790",
     "favorites": 14,
@@ -205,7 +205,7 @@ var mockProducts = [
       },
       {
         "text": "Minh Văn Hiếm ×35",
-        "type": "orange"
+        "type": "blue"
       },
       {
         "text": "Số Dư Xu Lung Linh 15",
@@ -244,12 +244,11 @@ var mockProducts = [
       {
         "id": "arthur",
         "name": "Arthur Pendragon",
-        "level": 60,
-        "isImg": true
+        "level": 60
       }
     ],
     "gemMultiplier": 5,
-    "countdownSeconds": 1824612
+    "countdownSeconds": 1825200
   },
   {
     "id": 2855,

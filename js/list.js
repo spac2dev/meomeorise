@@ -1,7 +1,7 @@
 /**
  * ==============================================================================
  * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
- * FILE DỰ PHÒNG DANH SÁCH VẬT PHẨM (Tổng số: 4 vật phẩm)
+ * FILE DỰ PHÒNG DANH SÁCH VẬT PHẨM (Tổng số: 3 vật phẩm)
  * Cập nhật tự động qua WONTRADE Admin CMS & Cloudflare Worker (Edge-SSG)
  * ==============================================================================
  */
@@ -85,81 +85,6 @@ var mockProducts = [
     ],
     "gemMultiplier": 5,
     "countdownSeconds": 2566800
-  },
-  {
-    "id": 1688,
-    "title": "Spac2 All You Need",
-    "price": 14732000,
-    "link": "guide/index.html?id=1688",
-    "favorites": 3,
-    "isFavorited": false,
-    "badges": [
-      {
-        "text": "Chơi",
-        "type": "red"
-      }
-    ],
-    "info": "#1688 | Có thể nhập cư",
-    "stats": "Cấp độ 25 | Sức mạnh 88,240,600 | VIP 15 | Điểm Tiêu Diệt 3,120,450,200",
-    "tags": [
-      {
-        "text": "Chỉ Huy Thức Tỉnh Huyền Thoại ×18",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Bị Huyền Thoại ×28",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Bị Tài Năng Đặc Biệt Huyền Thoại ×6",
-        "type": "orange"
-      },
-      {
-        "text": "Minh Văn Đặc Biệt ×4",
-        "type": "orange"
-      },
-      {
-        "text": "Minh Văn Hiếm ×9",
-        "type": "blue"
-      },
-      {
-        "text": "Trang Hộ Chiếu 45",
-        "type": "blue"
-      },
-      {
-        "text": "Tượng Chỉ Huy Huyền Thoại 320",
-        "type": "blue"
-      }
-    ],
-    "commanders": [
-      {
-        "id": "tontu",
-        "name": "Tôn Tử",
-        "level": 60
-      },
-      {
-        "id": "arthur",
-        "name": "Arthur Pendragon",
-        "level": 60
-      },
-      {
-        "id": "scipio",
-        "name": "Scipio Africanus",
-        "level": 60
-      },
-      {
-        "id": "bachkhoi",
-        "name": "Bạch Khởi",
-        "level": 60
-      },
-      {
-        "id": "choiyoung",
-        "name": "Choi Young",
-        "level": 60
-      }
-    ],
-    "gemMultiplier": 5,
-    "countdownSeconds": 723600
   },
   {
     "id": 1420,

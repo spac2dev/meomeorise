@@ -438,9 +438,9 @@ function renderListings(itemsToRender) {
           </button>
         </div>
 
-        <!-- Left Showcase Column: Tấm ảnh chính + Khối 4 nút xem ảnh (Khớp 100% Ảnh mẫu 1) -->
+        <!-- Left Showcase Column: Tấm ảnh chính + Số tiền nổi bật (Khớp yêu cầu) -->
         <div class="card-cover-column" onclick="event.stopPropagation()">
-          <div class="card-cover-wrap" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp vào để mở xem trọn bộ ảnh chi tiết">
+          <div class="card-cover-wrap" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp vào để xem trọn bộ ảnh chi tiết">
             <img src="${coverImg}" alt="${escapedTitle}" class="card-cover-img" loading="lazy" onerror="this.src='assets/banner_hero_1791716494779.jpg'">
             <div class="card-cover-overlay">
               <span class="cover-zoom-icon">🔍</span>
@@ -448,28 +448,8 @@ function renderListings(itemsToRender) {
             </div>
             ${totalPhotos > 0 ? `<div class="card-cover-count-badge">📷 ${totalPhotos} ảnh</div>` : ''}
           </div>
-          <div class="cat-trigger-label">NHẤN [XEM CHI TIẾT] ĐỂ XEM NHIỀU HƠN</div>
-          <div class="cat-buttons-row">
-            <button type="button" class="btn-cat-view" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Xem ảnh tướng">
-              <span class="cat-arrow">▼</span>
-              <span class="cat-l1">XEM</span>
-              <span class="cat-l2">TƯỚNG</span>
-            </button>
-            <button type="button" class="btn-cat-view" onclick="openCategoryModal(${item.id}, 'trangbi', event)" title="Xem ảnh trang bị">
-              <span class="cat-arrow">▼</span>
-              <span class="cat-l1">XEM</span>
-              <span class="cat-l2">TRANG BỊ</span>
-            </button>
-            <button type="button" class="btn-cat-view" onclick="openCategoryModal(${item.id}, 'rss', event)" title="Xem ảnh rss kho">
-              <span class="cat-arrow">▼</span>
-              <span class="cat-l1">XEM</span>
-              <span class="cat-l2">RSS KHO</span>
-            </button>
-            <button type="button" class="btn-cat-view" onclick="openCategoryModal(${item.id}, 'vebay', event)" title="Xem ảnh vé bay">
-              <span class="cat-arrow">▼</span>
-              <span class="cat-l1">XEM</span>
-              <span class="cat-l2">VÉ BAY</span>
-            </button>
+          <div class="card-cover-price-box" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp xem chi tiết tài khoản">
+            <span class="cover-price-val">${formattedPrice}</span>
           </div>
         </div>
 
@@ -489,21 +469,29 @@ function renderListings(itemsToRender) {
           </div>
         </div>
 
-        <!-- Right Column: Giá, Tướng chính & Đếm ngược -->
+        <!-- Right Column: Mã tài khoản, Tướng chính & Đếm ngược -->
         <div class="card-right">
-          <!-- Desktop Price & Fav row (hidden on mobile) -->
           <div class="price-fav-row">
-            <div class="price-text">${formattedPrice}</div>
+            <span class="card-acc-id-tag">MÃ: #${item.id}</span>
             <button class="btn-fav ${item.isFavorited ? 'active' : ''}" onclick="toggleFavorite(${item.id})" aria-label="Thích">
               ${starSvg}
               <span>${item.favorites}</span>
             </button>
           </div>
 
-          <!-- Commanders Row -->
-          <div class="commanders-row">
-            ${commandersHtml}
-            ${gemHtml}
+          <!-- Nút Bấm Xem Kho Đồ / Chi Tiết Acc (Thiết kế SVG Game & Hiệu ứng Động) -->
+          <div class="card-action-row" onclick="event.stopPropagation()">
+            <button type="button" class="btn-card-view-item" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp mở popup xem trọn bộ ảnh tướng, trang bị & kho đồ">
+              <span class="btn-shine-sweep"></span>
+              <svg class="btn-item-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M8 11l3 3 5-5"/>
+              </svg>
+              <span>XEM KHO ĐỒ</span>
+              <svg class="btn-arrow-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
           </div>
 
           <!-- Time Countdown -->
@@ -897,6 +885,47 @@ window.toggleFavorite = function(id) {
   }
 };
 
+// State for Price Sorting: 'default' | 'asc' | 'desc'
+let currentPriceSort = "default";
+
+// Helper: Get product effective price in VND
+function getProductEffectivePrice(item) {
+  if (!item) return 0;
+  const rawPrice = Number(item.price) || 0;
+  return rawPrice < 50000 ? Math.round(rawPrice * 25400) : rawPrice;
+}
+
+// Function to set and apply price sort (used by desktop pills and mobile dropdown)
+window.setPriceSort = function(sortType) {
+  currentPriceSort = sortType || "default";
+
+  // Sync Desktop Pill buttons
+  const pills = document.querySelectorAll(".sort-pill-btn");
+  pills.forEach(btn => {
+    if (btn.dataset.sort === currentPriceSort) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
+  });
+
+  // Sync Mobile Select dropdown
+  const mobileSelect = document.getElementById("mobilePriceSort");
+  if (mobileSelect && mobileSelect.value !== currentPriceSort) {
+    mobileSelect.value = currentPriceSort;
+  }
+
+  // Toast Notice
+  let sortLabel = "Mặc định";
+  if (currentPriceSort === "asc") sortLabel = "Giá: Thấp đến Cao (₫ ▲)";
+  if (currentPriceSort === "desc") sortLabel = "Giá: Cao đến Thấp (₫ ▼)";
+  if (typeof showActionNotice === "function") {
+    showActionNotice(`Sắp xếp: ${sortLabel}`);
+  }
+
+  applyFilters();
+};
+
 // Filter & Search Logic
 function applyFilters() {
   const searchVal = (
@@ -909,7 +938,7 @@ function applyFilters() {
   const maxPrice = parseFloat(document.getElementById("maxPrice")?.value) || Infinity;
   const usableOnly = document.getElementById("usableCheck")?.checked;
 
-  const filtered = mockProducts.filter(item => {
+  let filtered = mockProducts.filter(item => {
     // Search by ID or title
     if (searchVal) {
       const matchId = String(item.id).includes(searchVal);
@@ -917,9 +946,18 @@ function applyFilters() {
       if (!matchId && !matchTitle) return false;
     }
     // Price range
-    if (item.price < minPrice || item.price > maxPrice) return false;
+    const effectivePrice = getProductEffectivePrice(item);
+    if (minPrice > 0 && effectivePrice < minPrice) return false;
+    if (maxPrice < Infinity && effectivePrice > maxPrice) return false;
     return true;
   });
+
+  // Sort by Price: Thấp đến Cao (asc) hoặc Cao đến Thấp (desc)
+  if (currentPriceSort === "asc") {
+    filtered.sort((a, b) => getProductEffectivePrice(a) - getProductEffectivePrice(b));
+  } else if (currentPriceSort === "desc") {
+    filtered.sort((a, b) => getProductEffectivePrice(b) - getProductEffectivePrice(a));
+  }
 
   renderListings(filtered);
 
@@ -941,6 +979,15 @@ function resetFilters() {
   if (minP) minP.value = "";
   if (maxP) maxP.value = "";
   if (usable) usable.checked = false;
+
+  currentPriceSort = "default";
+  const pills = document.querySelectorAll(".sort-pill-btn");
+  pills.forEach(btn => {
+    if (btn.dataset.sort === "default") btn.classList.add("active");
+    else btn.classList.remove("active");
+  });
+  const mobileSelect = document.getElementById("mobilePriceSort");
+  if (mobileSelect) mobileSelect.value = "default";
 
   applyFilters();
 }

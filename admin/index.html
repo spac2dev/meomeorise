@@ -258,6 +258,83 @@
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
 
+    /* Web Sync Status Card */
+    .web-sync-status-card {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+    .web-sync-status-card.warning {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+    .web-sync-status-card.checking {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+    .web-sync-status-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+    .sync-status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+      flex-shrink: 0;
+    }
+    .web-sync-status-card.warning .sync-status-dot {
+      background: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+    }
+    .web-sync-status-card.checking .sync-status-dot {
+      background: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      animation: pulseDot 1.2s infinite;
+    }
+    @keyframes pulseDot {
+      0% { transform: scale(0.9); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.6; }
+    }
+    .sync-status-title {
+      font-size: 13px;
+
+      font-weight: 700;
+
+      color: #166534;
+      display: block;
+    }
+    .web-sync-status-card.warning .sync-status-title {
+      color: #92400e;
+    }
+    .web-sync-status-card.checking .sync-status-title {
+      color: #1e40af;
+    }
+    .sync-status-desc {
+      font-size: 12px;
+      color: #15803d;
+      margin-top: 2px;
+      display: block;
+    }
+    .web-sync-status-card.warning .sync-status-desc {
+      color: #b45309;
+    }
+    .web-sync-status-card.checking .sync-status-desc {
+      color: #2563eb;
+    }
+
     /* Stats Grid */
     .stats-grid {
       display: grid;
@@ -758,6 +835,153 @@
       transform: translateY(0);
     }
 
+    /* ImgBB Upload Zone */
+    .imgbb-upload-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .imgbb-dropzone {
+      border: 2px dashed #faad14;
+      background: #fffbe6;
+      border-radius: var(--radius-md);
+      padding: 20px 16px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .imgbb-dropzone:hover, .imgbb-dropzone.dragover {
+      background: #fff1b8;
+      border-color: #d48806;
+      transform: translateY(-1px);
+    }
+    .dropzone-text {
+      font-size: 13.5px;
+      color: #595959;
+    }
+    .dropzone-text strong {
+      color: #d48806;
+    }
+    .dropzone-sub {
+      font-size: 11.5px;
+      color: #8c8c8c;
+    }
+    .dropzone-sub kbd {
+      background: #ffffff;
+      border: 1px solid #d9d9d9;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: #262626;
+      font-weight: 700;
+    }
+
+    /* Progress bar */
+    .upload-progress-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .progress-bar-wrap {
+      width: 100%;
+      height: 8px;
+      background: #f1f5f9;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #faad14, #52c41a);
+      transition: width 0.3s ease;
+    }
+    .progress-status-text {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Uploaded Images Grid */
+    .uploaded-images-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .uploaded-img-card {
+      position: relative;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      background: #f8fafc;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+    }
+    .uploaded-img-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .uploaded-img-card.cover-img {
+      border-color: #52c41a;
+      box-shadow: 0 0 8px rgba(82, 196, 26, 0.4);
+    }
+    .uploaded-img-card .img-del-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(220, 38, 38, 0.85);
+      border: none;
+      color: #fff;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .uploaded-img-card .img-del-btn:hover {
+      background: #b91c1c;
+      transform: scale(1.1);
+    }
+    .uploaded-img-card .cover-tag {
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      background: rgba(82, 196, 26, 0.9);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 9999px;
+    }
+    .manual-url-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-dark-save {
+      background: #1f2329;
+      color: #ffffff;
+      border-color: #334155;
+    }
+    .btn-dark-save:hover {
+      background: #0f172a;
+      transform: translateY(-1px);
+    }
+
     @media (max-width: 900px) {
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -814,27 +1038,21 @@
         </a>
 
         <!-- Sync from GitHub (Worker GET) -->
-        <button class="btn btn-secondary" onclick="syncFromGithubWorker()" title="Tải dữ liệu mới nhất trực tiếp từ file index.html trên GitHub">
+        <button class="btn btn-secondary" onclick="syncFromGithubWorker()" title="Tải dữ liệu mới nhất trực tiếp từ file index.html và js/list.js trên GitHub">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
           <span>Đồng bộ GitHub</span>
         </button>
 
-        <!-- Export Backup File -->
-        <button class="btn btn-secondary" onclick="exportIndexHtmlFile()" title="Tải file index.html đã tráo code về máy">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          <span>Tải index.html</span>
+        <!-- Save Config to index.html -->
+        <button class="btn btn-dark-save" id="btnPublishConfig" onclick="publishConfigToGithub()" title="Tráo SEO, Banner, Zalo vào file index.html">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span id="publishConfigText">LƯU CẤU HÌNH WEB</span>
         </button>
 
-        <!-- View Raw HTML Code -->
-        <button class="btn btn-secondary" onclick="openRawHtmlModal()" title="Xem mã nguồn index.html sau khi tráo">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-          <span>Xem Code HTML</span>
-        </button>
-
-        <!-- Save & Publish to GitHub index.html -->
-        <button class="btn btn-primary" id="btnPublishGithub" onclick="publishToGithubWorker()">
-          <svg id="publishIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-          <span id="publishText">LƯU VÀO INDEX.HTML</span>
+        <!-- Save Products to js/list.js -->
+        <button class="btn btn-primary" id="btnPublishProducts" onclick="publishProductsToGithub()" title="Lưu danh sách sản phẩm và ảnh ImgBB vào file js/list.js">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          <span id="publishProductsText">LƯU SẢN PHẨM & ẢNH</span>
         </button>
       </div>
     </div>
@@ -872,6 +1090,23 @@
         <button class="btn btn-secondary" onclick="testWorkerConnection()" style="font-size: 12px; padding: 6px 14px;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
           <span>Kiểm tra kết nối</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Web & GitHub Data Verification Status Bar -->
+    <div class="web-sync-status-card checking" id="webSyncStatusCard">
+      <div class="web-sync-status-left">
+        <div class="sync-status-dot"></div>
+        <div>
+          <strong class="sync-status-title" id="syncStatusTitle">Đang kiểm tra file hiện tại trên website & GitHub...</strong>
+          <span class="sync-status-desc" id="syncStatusDesc">Đối soát dữ liệu giữa file js/list.js thực tế và giao diện Admin để đảm bảo 100% chính xác.</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-secondary" onclick="checkCurrentWebsiteFiles(false)" style="font-size: 12px; padding: 6px 14px;" title="Kiểm tra lại file hiện tại trên web và GitHub">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          <span>Kiểm tra lại dữ liệu web</span>
         </button>
       </div>
     </div>
@@ -955,22 +1190,34 @@
               <option value="fav-desc">Lượt thích nhiều nhất</option>
             </select>
 
+            <!-- Preview js/list.js Code -->
+            <button class="btn btn-secondary" onclick="openCodeModal('list.js')" title="Xem trước nội dung mã nguồn file js/list.js">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              <span>Xem mã js/list.js</span>
+            </button>
+
+            <!-- Download js/list.js -->
+            <button class="btn btn-secondary" onclick="exportListJsFile()" title="Tải file js/list.js về máy tính để sao lưu">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Tải file js/list.js</span>
+            </button>
+
             <!-- Add Item Button -->
             <button class="btn btn-primary" onclick="openAddItemModal()">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              <span>Thêm vật phẩm mới</span>
+              <span>Thêm vật phẩm</span>
             </button>
           </div>
         </div>
 
-        <!-- Items Table -->
-        <div class="items-table-wrap">
-          <table class="items-table">
+        <div class="cms-table-wrapper">
+          <table class="cms-table">
             <thead>
               <tr>
                 <th style="width: 80px;">ID</th>
                 <th>Tiêu đề & Huy hiệu</th>
                 <th>Giá (VNĐ)</th>
+                <th>Ảnh mô tả (ImgBB)</th>
                 <th>Vương quốc & Nhập cư</th>
                 <th>Link chi tiết</th>
                 <th>5 Tướng chính</th>
@@ -1136,7 +1383,7 @@
 
   </main>
 
-  <!-- Modal Edit / Add Item (ĐÃ LOẠI BỎ POPUP IFRAME) -->
+  <!-- Modal Edit / Add Item (TÍCH HỢP UPLOAD ẢNH IMGBB API) -->
   <div class="modal-backdrop" id="itemModalBackdrop">
     <div class="modal-dialog">
       <div class="modal-header">
@@ -1168,11 +1415,48 @@
               <input type="text" id="fTitle" class="form-control" required placeholder="Ví dụ: Mùa Chinh Phạt - Full T5 3 Đạo">
             </div>
 
-            <!-- Direct URL Link (Đã bỏ popup iframe) -->
+            <!-- Image Gallery & ImgBB Upload Zone -->
+            <div class="form-group full">
+              <label class="form-label">Bộ ảnh mô tả tài khoản (Upload qua ImgBB API)</label>
+              <div class="imgbb-upload-container">
+                <div class="imgbb-dropzone" id="imgbbDropzone" onclick="triggerImgFileInput()">
+                  <input type="file" id="imgbbFileInput" multiple accept="image/*" style="display: none;" onchange="handleImgbbFileSelect(event)">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#faad14" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                  <div class="dropzone-text">
+                    <strong>Bấm chọn ảnh từ máy tính</strong> hoặc <strong>Kéo & thả ảnh vào đây</strong>
+                  </div>
+                  <div class="dropzone-sub">
+                    Mẹo: Chụp màn hình acc game và nhấn <kbd>Ctrl + V</kbd> để dán ảnh trực tiếp lên ImgBB!
+                  </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="upload-progress-box" id="uploadProgressBox" style="display: none;">
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+                  </div>
+                  <span class="progress-status-text" id="progressStatusText">Đang tải ảnh lên ImgBB...</span>
+                </div>
+
+                <!-- Preview Grid -->
+                <div class="uploaded-images-preview-grid" id="uploadedImagesGrid">
+                  <!-- Rendered dynamically -->
+                </div>
+
+                <!-- Manual URL Add -->
+                <div class="manual-url-row">
+                  <input type="url" id="manualImgUrlInput" class="form-control" placeholder="Hoặc dán trực tiếp link ảnh ImgBB (https://i.ibb.co/...)">
+                  <button type="button" class="btn btn-secondary" onclick="addManualImageUrl()">Thêm link</button>
+                </div>
+              </div>
+              <span class="form-hint">Ảnh được upload trực tiếp lên ImgBB API. Người xem nhấp vào sản phẩm sẽ thấy toàn bộ các ảnh này trong Popup.</span>
+            </div>
+
+            <!-- Direct URL Link -->
             <div class="form-group full">
               <label class="form-label">Đường dẫn chi tiết sản phẩm / URL liên kết</label>
               <input type="text" id="fLink" class="form-control" placeholder="guide/index.html?id=2654 hoặc https://zalo.me/...">
-              <span class="form-hint">Khi khách hàng bấm vào thẻ sản phẩm, trình duyệt sẽ chuyển hướng trực tiếp tới đường dẫn này (không mở popup iframe).</span>
+              <span class="form-hint">Mặc định: guide/index.html?id=&lt;ID&gt; (Bên ngoài trang chủ khi click vào acc sẽ mở Popup xem chi tiết & ảnh).</span>
             </div>
 
             <!-- Kingdom & Immigration -->
@@ -1238,14 +1522,14 @@
   <div class="modal-backdrop" id="codeModalBackdrop">
     <div class="modal-dialog">
       <div class="modal-header">
-        <h3 class="modal-title">Xem trước mã nguồn index.html sau khi tráo code (Edge-SSG)</h3>
+        <h3 class="modal-title" id="codeModalTitle">Xem trước mã nguồn (Edge-SSG)</h3>
         <button class="btn-close-modal" onclick="closeCodeModal()">✕</button>
       </div>
       <div class="modal-body">
         <pre class="code-preview" id="rawCodePreview"></pre>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="copyRawCodeToClipboard()">Sao chép HTML</button>
+        <button class="btn btn-secondary" id="btnCopyCode" onclick="copyRawCodeToClipboard()">Sao chép mã</button>
         <button class="btn btn-primary" onclick="closeCodeModal()">Đóng</button>
       </div>
     </div>
@@ -1261,6 +1545,8 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
   </button>
 
+  <!-- Fallback nạp danh sách sản phẩm từ file gốc js/list.js -->
+  <script src="../js/list.js"></script>
   <script>
     // ========================================================================
     // STATE MANAGEMENT
@@ -1340,10 +1626,8 @@
       renderAdminTable();
       updateStats();
 
-      // 4. TỰ ĐỘNG CHẠY WORKER KÉO DATA TỪ FILE INDEX.HTML MỚI NHẤT TRÊN GITHUB VỀ HIỂN THỊ
-      if (savedWorkerUrl) {
-        syncFromGithubWorker(true);
-      }
+      // 4. TỰ ĐỘNG CHẠY KIỂM TRA ĐỐI SOÁT FILE HIỆN TẠI TRÊN WEBSITE & GITHUB ĐỂ ĐẢM BẢO CHÍNH XÁC
+      checkCurrentWebsiteFiles(true);
 
       // Scroll to Top Listener
       window.addEventListener("scroll", () => {
@@ -1470,7 +1754,7 @@
       if (!Array.isArray(itemsToRender) || itemsToRender.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" style="text-align: center; padding: 40px; color: #94a3b8;">
+            <td colspan="9" style="text-align: center; padding: 40px; color: #94a3b8;">
               Không tìm thấy vật phẩm nào.
             </td>
           </tr>
@@ -1504,6 +1788,14 @@
           const priceFormatted = vndP.toLocaleString("vi-VN") + " ₫";
           const directLink = item.link || `guide/index.html?id=${rawId}`;
 
+          const images = Array.isArray(item.images) ? item.images : [];
+          const imgCellHtml = images.length > 0
+            ? `<div style="display: flex; align-items: center; gap: 6px;">
+                <img src="${escapeHtml(images[0])}" style="width: 28px; height: 28px; border-radius: 4px; object-fit: cover; border: 1px solid #d9d9d9;" onerror="this.style.display='none'">
+                <span style="font-weight: 700; color: #16a34a; background: #dcfce7; padding: 2px 7px; border-radius: 9999px; font-size: 11px;">${images.length} ảnh</span>
+              </div>`
+            : `<span style="color: #94a3b8; font-size: 11px;">Chưa có</span>`;
+
           return `
             <tr>
               <td>
@@ -1515,6 +1807,9 @@
               </td>
               <td>
                 <div class="price-badge">${priceFormatted}</div>
+              </td>
+              <td>
+                ${imgCellHtml}
               </td>
               <td>
                 <div style="color: #475569; font-size: 12.5px;">${escapeHtml(item.info || '')}</div>
@@ -1572,6 +1867,185 @@
       renderAdminTable(filtered);
     }
 
+    // ========================================================================
+    // IMGBB API UPLOAD CONTROLLER (BROWSER CLIENT-SIDE LOGIC)
+    // ========================================================================
+    const IMGBB_API_KEY = "ab6c72e9bb94abb2b83870bc2d45bf6c";
+    let currentEditingImages = [];
+
+    function triggerImgFileInput() {
+      const fileInput = document.getElementById("imgbbFileInput");
+      if (fileInput) fileInput.click();
+    }
+
+    function handleImgbbFileSelect(event) {
+      const files = event.target.files;
+      if (files && files.length > 0) {
+        uploadFilesSequentially(Array.from(files));
+        event.target.value = "";
+      }
+    }
+
+    // Tải 1 file ảnh lên ImgBB qua multipart/form-data
+    async function uploadSingleFileToImgBB(file) {
+      const formData = new FormData();
+      formData.append("image", file);
+      const url = `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`;
+
+      const res = await fetch(url, {
+        method: "POST",
+        body: formData
+      });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`ImgBB lỗi (${res.status}): ${errText.slice(0, 80)}`);
+      }
+
+      const json = await res.json();
+      if (json.success && json.data) {
+        return json.data.url || json.data.display_url;
+      } else {
+        throw new Error(json.error?.message || "Không thể upload ảnh lên ImgBB");
+      }
+    }
+
+    // Tải tuần tự từng file, hiển thị thanh tiến trình
+    async function uploadFilesSequentially(filesList) {
+      if (!filesList || filesList.length === 0) return;
+
+      const progressBox = document.getElementById("uploadProgressBox");
+      const progressBar = document.getElementById("progressBarFill");
+      const progressText = document.getElementById("progressStatusText");
+
+      if (progressBox) progressBox.style.display = "flex";
+
+      let successCount = 0;
+      const total = filesList.length;
+
+      for (let i = 0; i < total; i++) {
+        const file = filesList[i];
+        if (progressText) progressText.textContent = `Đang tải ảnh ${i + 1}/${total}: ${file.name}...`;
+        if (progressBar) progressBar.style.width = `${Math.round(((i) / total) * 100)}%`;
+
+        try {
+          const imgUrl = await uploadSingleFileToImgBB(file);
+          if (imgUrl) {
+            currentEditingImages.push(imgUrl);
+            successCount++;
+            renderUploadedImagesGrid();
+          }
+        } catch (err) {
+          console.error("Lỗi upload file:", file.name, err);
+          showToast(`Lỗi ảnh ${file.name}: ${err.message}`, "error");
+        }
+      }
+
+      if (progressBar) progressBar.style.width = "100%";
+      if (progressText) progressText.textContent = `Đã tải lên thành công ${successCount}/${total} ảnh!`;
+
+      setTimeout(() => {
+        if (progressBox) progressBox.style.display = "none";
+        if (progressBar) progressBar.style.width = "0%";
+      }, 1500);
+
+      showToast(`Đã tải lên ImgBB thành công ${successCount} ảnh!`, "success");
+    }
+
+    // Hiển thị lưới ảnh đã upload
+    function renderUploadedImagesGrid() {
+      const grid = document.getElementById("uploadedImagesGrid");
+      if (!grid) return;
+
+      if (currentEditingImages.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size: 12px; color: #94a3b8; text-align: center; padding: 10px;">Chưa có ảnh nào được tải lên cho sản phẩm này.</div>`;
+        return;
+      }
+
+      grid.innerHTML = currentEditingImages.map((src, idx) => `
+        <div class="uploaded-img-card ${idx === 0 ? 'cover-img' : ''}" title="Bấm để xem ảnh lớn">
+          <img src="${escapeHtml(src)}" alt="Ảnh ${idx + 1}" onclick="window.open('${escapeHtml(src)}', '_blank')">
+          <button type="button" class="img-del-btn" onclick="event.stopPropagation(); deleteUploadedImage(${idx})" title="Xóa ảnh này">✕</button>
+          ${idx === 0 ? '<span class="cover-tag">ẢNH BÌA</span>' : ''}
+        </div>
+      `).join("");
+    }
+
+    function deleteUploadedImage(idx) {
+      if (idx >= 0 && idx < currentEditingImages.length) {
+        currentEditingImages.splice(idx, 1);
+        renderUploadedImagesGrid();
+        showToast("Đã gỡ ảnh khỏi danh sách!", "normal");
+      }
+    }
+
+    function addManualImageUrl() {
+      const input = document.getElementById("manualImgUrlInput");
+      const url = input.value.trim();
+      if (!url) return;
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        alert("Đường dẫn ảnh phải bắt đầu bằng http:// hoặc https://");
+        return;
+      }
+      currentEditingImages.push(url);
+      input.value = "";
+      renderUploadedImagesGrid();
+      showToast("Đã thêm liên kết ảnh!", "success");
+    }
+
+    // Bắt sự kiện Dán ảnh (Ctrl + V) từ Clipboard
+    window.addEventListener("paste", (e) => {
+      const modal = document.getElementById("itemModalBackdrop");
+      if (!modal || !modal.classList.contains("show")) return;
+
+      const clipboardItems = (e.clipboardData || e.originalEvent?.clipboardData)?.items;
+      if (!clipboardItems) return;
+
+      const imageFiles = [];
+      for (const item of clipboardItems) {
+        if (item.kind === "file" && item.type.startsWith("image/")) {
+          const file = item.getAsFile();
+          if (file) imageFiles.push(file);
+        }
+      }
+
+      if (imageFiles.length > 0) {
+        e.preventDefault();
+        showToast(`Đang nhận ${imageFiles.length} ảnh dán từ clipboard...`, "normal");
+        uploadFilesSequentially(imageFiles);
+      }
+    });
+
+    // Kéo thả Dropzone
+    document.addEventListener("DOMContentLoaded", () => {
+      const dropzone = document.getElementById("imgbbDropzone");
+      if (dropzone) {
+        ["dragenter", "dragover"].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.add("dragover");
+          }, false);
+        });
+
+        ["dragleave", "drop"].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove("dragover");
+          }, false);
+        });
+
+        dropzone.addEventListener("drop", (e) => {
+          const dt = e.dataTransfer;
+          const files = dt?.files;
+          if (files && files.length > 0) {
+            uploadFilesSequentially(Array.from(files));
+          }
+        }, false);
+      }
+    });
+
     // Mở modal thêm
     function openAddItemModal() {
       document.getElementById("formIsEdit").value = "false";
@@ -1592,6 +2066,9 @@
       document.getElementById("fCommanders").value = "arthur, tontu, achilles, scipio, quanvu";
       document.getElementById("fGem").value = 5;
       document.getElementById("fCountdownHours").value = 168;
+
+      currentEditingImages = [];
+      renderUploadedImagesGrid();
 
       document.getElementById("itemModalBackdrop").classList.add("show");
     }
@@ -1620,6 +2097,9 @@
       document.getElementById("fCommanders").value = (item.commanders || []).map(c => c.id).join(", ");
       document.getElementById("fGem").value = item.gemMultiplier || 5;
       document.getElementById("fCountdownHours").value = Math.round((item.countdownSeconds || 0) / 3600);
+
+      currentEditingImages = Array.isArray(item.images) ? [...item.images] : [];
+      renderUploadedImagesGrid();
 
       document.getElementById("itemModalBackdrop").classList.add("show");
     }
@@ -1675,6 +2155,7 @@
         link: document.getElementById("fLink").value.trim() || `guide/index.html?id=${newId}`,
         favorites: Number(document.getElementById("fFavorites").value) || 0,
         isFavorited: false,
+        images: [...currentEditingImages],
         badges,
         info: document.getElementById("fInfo").value.trim(),
         stats: document.getElementById("fStats").value.trim(),
@@ -1724,470 +2205,242 @@
     }
 
     // ========================================================================
-    // TẠO FILE INDEX.HTML ĐÃ TRÁO CODE (EDGE-SSG CLIENT-SIDE ENGINE)
+    // TẠO FILE TẢI VỀ MÁY (BACKUP)
     // ========================================================================
-    function generateSwappedIndexHtml() {
+    function exportIndexHtmlFile() {
       const cfg = collectConfigFromForms();
-      const seo = cfg.seo || {};
-      const brand = cfg.brand || {};
-      const contact = cfg.contact || {};
-      const banner = cfg.banner || {};
-
-      const title = seo.title || "WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức";
-      const desc = seo.description || "Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms.";
-      const keywords = seo.keywords || "wontrade, rise of kingdoms, rok, mua bán acc rok";
-      const ogImg = seo.ogImage || brand.avatar || "assets/rok_avatar.jpg";
-      const zaloPhone = contact.zalo || contact.phone || "0372996420";
-      const zaloUrl = contact.zaloUrl || `https://zalo.me/${zaloPhone}`;
-
-      const dataScriptTag = '<' + 'script id="siteDataScript">\n' +
+      showToast("Đang tạo file sao lưu...", "normal");
+      const scriptTag = '<' + 'script id="siteDataScript">\n' +
         '    var siteConfig = ' + JSON.stringify(cfg, null, 2) + ';\n' +
-        '    var mockProducts = ' + JSON.stringify(adminProducts, null, 2) + ';\n' +
         '    if (typeof window !== "undefined") {\n' +
         '      window.siteConfig = siteConfig;\n' +
-        '      window.mockProducts = mockProducts;\n' +
         '    }\n' +
-        '  <' + '/script>';
-      const indexScriptTag = '<' + 'script src="js/index.js"><' + '/script>';
-
-      return `<!DOCTYPE html>
-<html lang="vi">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>${escapeHtml(title)}</title>
-  <meta name="description"
-    content="${escapeHtml(desc)}">
-  <meta name="keywords" content="${escapeHtml(keywords)}">
-
-  <!-- Thẻ chia sẻ mạng xã hội Zalo / Facebook (OpenGraph) -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="${escapeHtml(title)}">
-  <meta property="og:description"
-    content="${escapeHtml(desc)}">
-  <meta property="og:image" content="${escapeHtml(ogImg)}">
-
-  <!-- Thẻ Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${escapeHtml(title)}">
-  <meta name="twitter:description"
-    content="${escapeHtml(desc)}">
-  <meta name="twitter:image" content="${escapeHtml(ogImg)}">
-  <!-- Google Fonts: Plus Jakarta Sans for SF Pro matching geometry -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/index.css">
-  <link rel="icon" href="${escapeHtml(brand.avatar || 'assets/rok_avatar.jpg')}" type="image/jpeg">
-</head>
-
-<body>
-
-  <div class="app-viewport">
-    <!-- DESKTOP HEADER -->
-    <header class="site-header">
-      <div class="header-inner">
-        <div class="header-left">
-          <div class="logo">
-            WON<span class="logo-dagger">†</span>RADE
-          </div>
-          <div class="header-divider"></div>
-
-          <div class="game-selector-dropdown" onclick="showActionNotice('Chọn trò chơi: ${escapeHtml(brand.gameName || "Rise of Kingdoms")}')">
-            <img src="${escapeHtml(brand.avatar || "assets/rok_avatar.jpg")}" alt="${escapeHtml(brand.gameName || "Rise of Kingdoms")}" class="game-avatar">
-            <span class="game-name">${escapeHtml(brand.gameName || "Rise of Kingdoms")}</span>
-            <svg class="chevron-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-
-          <button class="btn-desktop-save" onclick="showActionNotice('Đã lưu lối tắt vào desktop')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-              <polyline points="17 21 17 13 7 13 7 21"></polyline>
-              <polyline points="7 3 7 8 15 8"></polyline>
-            </svg>
-            <span>Lưu ở desktop</span>
-          </button>
-        </div>
-
-        <div class="header-right">
-          <button class="header-icon-btn" onclick="showActionNotice('Không có thông báo mới')">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-            </svg>
-            <span class="badge-dot"></span>
-          </button>
-
-          <div class="header-select-btn" onclick="showActionNotice('Đổi ngôn ngữ')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
-            <span>Tiếng Việt</span>
-            <svg class="chevron-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-
-          <div class="header-select-btn" onclick="showActionNotice('Đơn vị tiền tệ: VND (₫)')">
-            <svg class="flag-icon" viewBox="0 0 640 480">
-              <rect width="640" height="480" fill="#da251d" />
-              <polygon points="320,150 348,235 438,235 365,288 393,373 320,320 247,373 275,288 202,235 292,235" fill="#ffff00" />
-            </svg>
-            <span>VND (₫)</span>
-            <svg class="chevron-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-
-          <a href="${escapeHtml(zaloUrl)}" target="_blank" rel="noopener noreferrer" class="btn-chat-zalo" title="Nhắn tin Zalo: ${escapeHtml(zaloPhone)}">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-              <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-              <circle cx="12" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-              <circle cx="15.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-            </svg>
-            <span>Nhắn tin</span>
-          </a>
-        </div>
-      </div>
-    </header>
-
-    <!-- HERO BANNER -->
-    <div class="hero-banner-container">
-      <div class="mobile-header-bar">
-        <div class="mobile-logo">
-          WON<span class="logo-dagger">†</span>RADE
-        </div>
-        <div class="mobile-header-right">
-          <a href="javascript:void(0)" class="mobile-nav-link" onclick="showActionNotice('Xem quy tắc')">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
-            <span>Quy tắc</span>
-          </a>
-
-          <div class="mobile-header-icon" onclick="showActionNotice('Đơn vị tiền tệ: VND (₫)')" title="Tiền tệ: VND">
-            <span style="font-weight: 700; font-size: 13px; color: #fff;">₫</span>
-          </div>
-
-          <a href="${escapeHtml(zaloUrl)}" target="_blank" rel="noopener noreferrer" class="mobile-header-icon mobile-header-zalo" title="Nhắn tin Zalo: ${escapeHtml(zaloPhone)}" style="color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center;">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-              <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-              <circle cx="12" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-              <circle cx="15.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="hero-banner">
-        <div class="banner-overlay-content">
-          <h1 class="banner-headline">${escapeHtml(banner.desktopHeadline || "WONTRADE TRANSACTION GUIDELINES UPDATE")}</h1>
-          <div class="banner-ribbon">${escapeHtml(banner.desktopRibbon || "LOWER FEE & SIMPLIFIED PROCESS!")}</div>
-        </div>
-
-        <div class="mobile-banner-content">
-          <div class="mobile-banner-badge">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 5px; color: #ffcc00;">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            ${escapeHtml(banner.mobileBadge || "ĐỐI TÁC GIAO DỊCH CHÍNH THỨC")}
-          </div>
-          <div class="mobile-banner-title">${escapeHtml(banner.mobileTitle || "NHÀ GIAO DỊCH WONTRADE")}</div>
-          <div class="mobile-banner-subtitle">${escapeHtml(banner.mobileSubtitle || "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH")}</div>
-          <div class="carousel-dots">
-            <div class="carousel-dot"></div>
-            <div class="carousel-dot active"></div>
-            <div class="carousel-dot"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MAIN CONTENT AREA -->
-    <main class="main-wrapper">
-      <div class="content-card">
-        <div class="ios-sheet-handle" aria-hidden="true"></div>
-
-        <div class="filter-section">
-          <div class="filter-row-bottom" style="margin: 0; padding: 2px 0;">
-            <div class="filter-bottom-left">
-              <span>Tổng số: <strong class="item-count-val">${adminProducts.length}</strong> vật phẩm</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="mobile-filter-bar">
-          <div class="mobile-filter-subrow" style="margin-top: 0; padding: 2px 0;">
-            <div>Tổng số: <strong class="item-count-val">${adminProducts.length}</strong> vật phẩm</div>
-          </div>
-        </div>
-
-        <div class="listings-container" id="listingsContainer">
-          <!-- Dynamically populated by js/index.js -->
-        </div>
-
-        <div class="pagination-wrap">
-          <button class="page-btn disabled" aria-label="Trang trước">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-          <button class="page-btn active">1</button>
-          <button class="page-btn" onclick="showActionNotice('Chuyển sang trang 2')">2</button>
-          <button class="page-btn" onclick="showActionNotice('Chuyển sang trang tiếp theo')" aria-label="Trang sau">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </main>
-
-    <!-- FLOATING SIDEBAR (Desktop) -->
-    <aside class="floating-sidebar">
-      <a href="guide/index.html" class="floating-btn" title="Hướng dẫn giao dịch">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-        </svg>
-        <span class="floating-tooltip">Hướng dẫn</span>
-      </a>
-
-      <a href="history/index.html" class="floating-btn" title="Lịch sử xem vật phẩm">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-        </svg>
-        <span class="floating-tooltip">Lịch sử</span>
-      </a>
-
-      <a href="profile/index.html" class="floating-btn" title="Hồ sơ cá nhân (Profile)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-        <span class="floating-tooltip">Profile</span>
-      </a>
-
-      <a href="${escapeHtml(zaloUrl)}" target="_blank" rel="noopener noreferrer" class="floating-btn floating-zalo-btn" title="Zalo CSKH 24/7">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-          <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-          <circle cx="12" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-          <circle cx="15.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-        </svg>
-        <span class="floating-tooltip">Zalo 24/7</span>
-      </a>
-    </aside>
-
-    <!-- SITE FOOTER -->
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <div class="footer-columns">
-          <div class="footer-col">
-            <div class="footer-col-title">Đối tác thương hiệu</div>
-            <div class="brand-logos-wrap">
-              <div class="logo" style="font-size: 20px;">
-                WON<span class="logo-dagger">†</span>RADE
-              </div>
-              <img src="${escapeHtml(brand.avatar || "assets/rok_avatar.jpg")}" alt="${escapeHtml(brand.gameName || "Rise of Kingdoms")}" class="brand-rok-icon">
-            </div>
-            <div class="feature-badges-row">
-              <span class="feature-pill">Accurate</span>
-              <span class="feature-pill">Cheap</span>
-              <span class="feature-pill">Convenient</span>
-            </div>
-          </div>
-
-          <div class="footer-col">
-            <div class="footer-col-title">Hỗ trợ</div>
-            <ul class="footer-links-list">
-              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Trung tâm trợ giúp')">Trung tâm trợ giúp</a></li>
-              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Cách mua tài khoản')">Cách mua</a></li>
-              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Cách bán tài khoản')">Cách bán</a></li>
-            </ul>
-          </div>
-
-          <div class="footer-col">
-            <div class="footer-col-title">Pháp lý</div>
-            <ul class="footer-links-list">
-              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Thỏa Thuận Người Dùng')">Thỏa Thuận Người Dùng</a></li>
-              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Chính Sách Quyền Riêng Tư')">Chính Sách Quyền Riêng Tư</a></li>
-              <li><a href="javascript:void(0)" class="footer-link" onclick="showActionNotice('Chính Sách Cookie')">Chính Sách Cookie</a></li>
-            </ul>
-          </div>
-
-          <div class="footer-col">
-            <div class="footer-col-title">Phương thức thanh toán</div>
-            <div class="payment-methods-grid">
-              <div class="payment-card-logo visa">VISA</div>
-              <div class="payment-card-logo mastercard">
-                <svg width="24" height="16" viewBox="0 0 32 20" style="vertical-align: middle;">
-                  <circle cx="10" cy="10" r="10" fill="#EB001B" />
-                  <circle cx="22" cy="10" r="10" fill="#F79E1B" />
-                  <path d="M16 3.6a10 10 0 0 1 0 12.8 10 10 0 0 1 0-12.8z" fill="#FF5F00" />
-                </svg>
-              </div>
-              <div class="payment-card-logo amex">AMEX</div>
-              <div class="payment-card-logo jcb">JCB</div>
-              <div class="payment-card-logo">Diners Club</div>
-              <div class="payment-card-logo">DISCOVER</div>
-              <div class="payment-card-logo apple-pay"> Pay</div>
-              <div class="payment-card-logo google-pay">G Pay</div>
-            </div>
-            <div class="copyright-text">
-              COPYRIGHT © WONDER GAMES SG PTE. LTD. ALL RIGHTS RESERVED
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!-- MOBILE BOTTOM NAVIGATION DOCK -->
-    <nav class="mobile-bottom-dock" aria-label="Điều hướng di động">
-      <a href="index.html" class="mobile-dock-item active" aria-label="Trang chủ">
-        <div class="mobile-dock-icon-box">
-          <svg class="sf-icon sf-fill" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.707 2.293a1 1 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13h1v7a2 2 0 0 0 2 2h4a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h4a2 2 0 0 0 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9z"/>
-          </svg>
-        </div>
-        <span class="mobile-dock-label">Trang chủ</span>
-      </a>
-
-      <a href="${escapeHtml(zaloUrl)}" target="_blank" rel="noopener noreferrer" class="mobile-dock-item" title="Nhắn tin Zalo: ${escapeHtml(zaloPhone)}" aria-label="Nhắn tin CSKH">
-        <div class="mobile-dock-icon-box">
-          <svg class="sf-icon sf-fill" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 3C6.477 3 2 6.92 2 11.75c0 2.784 1.484 5.258 3.8 6.845-.2 1.43-.8 2.87-1.8 3.905-.2.207-.05.55.235.53 2.38-.17 4.31-.96 5.61-1.77.68.12 1.4.19 2.155.19 5.523 0 10-3.92 10-8.75S17.523 3 12 3z"/>
-            <circle cx="8" cy="11.75" r="1.15" fill="#ffffff"/>
-            <circle cx="12" cy="11.75" r="1.15" fill="#ffffff"/>
-            <circle cx="16" cy="11.75" r="1.15" fill="#ffffff"/>
-          </svg>
-        </div>
-        <span class="mobile-dock-label">Nhắn tin</span>
-      </a>
-
-      <a href="profile/index.html" class="mobile-dock-item" aria-label="Hồ sơ cá nhân">
-        <div class="mobile-dock-icon-box">
-          <svg class="sf-icon sf-fill" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-          </svg>
-        </div>
-        <span class="mobile-dock-label">About</span>
-      </a>
-    </nav>
-  </div>
-
-  <!-- DỮ LIỆU CẤU HÌNH & VẬT PHẨM TỰ ĐỘNG CẬP NHẬT QUA CLOUDFLARE WORKER & GITHUB API (EDGE-SSG) -->
-  ${dataScriptTag}
-  ${indexScriptTag}
-</body>
-
-</html>`;
-    }
-
-    // Xuất file index.html tải về máy
-    function exportIndexHtmlFile() {
-      const content = generateSwappedIndexHtml();
-      const blob = new Blob([content], { type: "text/html;charset=utf-8" });
+        '  <' + '/script>\n  <' + 'script src="js/list.js?v=' + Date.now() + '"><' + '/script>';
+      
+      const blob = new Blob([scriptTag], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "index.html";
+      a.download = "siteDataScript.html";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast("Đã tải file index.html về máy thành công!", "success");
     }
 
-    // Mở modal xem trước mã nguồn HTML
-    function openRawHtmlModal() {
-      const code = generateSwappedIndexHtml();
-      document.getElementById("rawCodePreview").textContent = code;
-      document.getElementById("codeModalBackdrop").classList.add("show");
+    function exportListJsFile() {
+      showToast("Đang tạo file js/list.js để tải về...", "normal");
+      const content = `/**
+ * WONTRADE - Rise of Kingdoms (ROK)
+ * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
+ * Xuất từ Admin CMS: ${new Date().toLocaleString("vi-VN")}
+ */
+
+var mockProducts = ${JSON.stringify(adminProducts, null, 2)};
+
+if (typeof window !== "undefined") {
+  window.mockProducts = mockProducts;
+}
+`;
+      const blob = new Blob([content], { type: "application/javascript;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "list.js";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast(`Đã tải file list.js (${adminProducts.length} sản phẩm) về máy!`, "success");
+    }
+
+    // ========================================================================
+    // XEM TRƯỚC MÃ NGUỒN (CODE MODAL)
+    // ========================================================================
+    let currentPreviewCode = "";
+    function openCodeModal(fileType = "list.js") {
+      const modal = document.getElementById("codeModalBackdrop");
+      const title = document.getElementById("codeModalTitle");
+      const preview = document.getElementById("rawCodePreview");
+      if (!modal || !preview) return;
+
+      if (fileType === "list.js") {
+        title.textContent = `Xem trước mã nguồn js/list.js (${adminProducts.length} sản phẩm & ảnh ImgBB)`;
+        currentPreviewCode = `/**
+ * WONTRADE - Rise of Kingdoms (ROK)
+ * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
+ * Tạo tự động từ Admin CMS: ${new Date().toLocaleString("vi-VN")}
+ */
+
+var mockProducts = ${JSON.stringify(adminProducts, null, 2)};
+
+if (typeof window !== "undefined") {
+  window.mockProducts = mockProducts;
+}
+`;
+      } else {
+        title.textContent = "Xem trước thẻ cấu hình index.html (Edge-SSG)";
+        const cfg = collectConfigFromForms();
+        currentPreviewCode = '<' + 'script id="siteDataScript">\n' +
+          '    var siteConfig = ' + JSON.stringify(cfg, null, 2) + ';\n' +
+          '    if (typeof window !== "undefined") {\n' +
+          '      window.siteConfig = siteConfig;\n' +
+          '    }\n' +
+          '  <' + '/script>\n' +
+          '  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS -->\n' +
+          '  <' + 'script src="js/list.js?v=' + Date.now() + '"><' + '/script>';
+      }
+
+      preview.textContent = currentPreviewCode;
+      modal.classList.add("show");
     }
 
     function closeCodeModal() {
-      document.getElementById("codeModalBackdrop").classList.remove("show");
+      const modal = document.getElementById("codeModalBackdrop");
+      if (modal) modal.classList.remove("show");
     }
 
     function copyRawCodeToClipboard() {
-      const code = generateSwappedIndexHtml();
-      navigator.clipboard.writeText(code).then(() => {
-        showToast("Đã sao chép mã nguồn index.html vào clipboard!", "success");
+      if (!currentPreviewCode) return;
+      navigator.clipboard.writeText(currentPreviewCode).then(() => {
+        showToast("Đã sao chép mã nguồn vào bộ nhớ tạm!", "success");
+      }).catch(err => {
+        showToast("Không thể sao chép: " + err.message, "error");
       });
     }
 
     // ========================================================================
-    // ĐỒNG BỘ CẤU HÌNH & SẢN PHẨM TỪ GITHUB (GET REQUEST)
+    // CƠ CHẾ KIỂM TRA ĐỐI SOÁT FILE HIỆN TẠI TRÊN WEBSITE & GITHUB (ĐỘC LẬP LIST.JS & INDEX.HTML)
     // ========================================================================
-    async function syncFromGithubWorker(silent = false) {
-      saveWorkerSettings();
+    async function checkCurrentWebsiteFiles(silent = false) {
+      const statusCard = document.getElementById("webSyncStatusCard");
+      const statusTitle = document.getElementById("syncStatusTitle");
+      const statusDesc = document.getElementById("syncStatusDesc");
+
+      if (statusCard) {
+        statusCard.className = "web-sync-status-card checking";
+        statusTitle.textContent = "Đang kiểm tra dữ liệu thực tế trên website (index.html & js/list.js)...";
+        statusDesc.textContent = "Đang đối soát dữ liệu thực tế giữa hosting/GitHub và giao diện Admin...";
+      }
+
+      let localListLoaded = false;
+      let localCount = 0;
+      let diffDetected = false;
+
+      // 1. Kiểm tra trực tiếp file ../js/list.js trên hosting / máy chủ web
+      try {
+        const localListRes = await fetch(`../js/list.js?_t=${Date.now()}`);
+        if (localListRes.ok) {
+          const content = await localListRes.text();
+          const sandboxFn = new Function(
+            "mockProducts",
+            "window",
+            content + "\n; return (window.mockProducts && window.mockProducts.length > 0) ? window.mockProducts : mockProducts;"
+          );
+          const extracted = sandboxFn([], {});
+          if (Array.isArray(extracted) && extracted.length > 0) {
+            localListLoaded = true;
+            localCount = extracted.length;
+            // Nếu dữ liệu trên web khác dữ liệu hiện tại trong Admin, tự động nạp từ web
+            if (JSON.stringify(extracted) !== JSON.stringify(adminProducts)) {
+              diffDetected = true;
+              adminProducts = extracted;
+              localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
+              filterAdminItems();
+              updateStats();
+            }
+          }
+        }
+      } catch (e) {
+        console.warn("Không thể fetch trực tiếp ../js/list.js (có thể chạy file://):", e.message);
+      }
+
+      // 2. Kiểm tra trực tiếp file ../index.html trên hosting
+      try {
+        const localIndexRes = await fetch(`../index.html?_t=${Date.now()}`);
+        if (localIndexRes.ok) {
+          const indexHtml = await localIndexRes.text();
+          const match = indexHtml.match(new RegExp('<script\\s+id=["\']siteDataScript["\']>([\\s\\S]*?)<\\/script>', 'i'));
+          if (match) {
+            const sandboxFn = new Function(
+              "siteConfig",
+              "window",
+              match[1] + "\n; return siteConfig || window.siteConfig;"
+            );
+            const extractedConfig = sandboxFn(null, {});
+            if (extractedConfig && typeof extractedConfig === "object") {
+              siteConfig = extractedConfig;
+              localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
+              populateConfigForms();
+            }
+          }
+        }
+      } catch (e) {
+        console.warn("Không thể fetch trực tiếp ../index.html:", e.message);
+      }
+
+      // 3. Đồng bộ qua Cloudflare Worker từ GitHub nếu có cài đặt
       const workerUrl = document.getElementById("workerUrlInput").value.trim();
       const secret = document.getElementById("workerSecretInput").value.trim();
+      let workerSynced = false;
 
-      if (!workerUrl) {
-        if (!silent) showToast("Vui lòng nhập Worker URL ở thanh cấu hình phía trên!", "error");
-        return;
+      if (workerUrl) {
+        try {
+          const headers = {};
+          if (secret) headers["X-Admin-Key"] = secret;
+
+          // Gọi Worker kiểm tra (Worker GET tự động nạp cả siteConfig và products từ GitHub)
+          const syncUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=index.html&_t=${Date.now()}`;
+          const res = await fetch(syncUrl, { method: "GET", headers });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success) {
+              workerSynced = true;
+              if (data.siteConfig && typeof data.siteConfig === "object") {
+                siteConfig = data.siteConfig;
+                localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
+                populateConfigForms();
+              }
+              if (Array.isArray(data.products) && data.products.length > 0) {
+                adminProducts = data.products;
+                localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
+                filterAdminItems();
+                updateStats();
+              }
+            }
+          }
+        } catch (workerErr) {
+          console.warn("Không thể kết nối Worker kiểm tra:", workerErr.message);
+        }
+      }
+
+      // 4. Cập nhật thẻ trạng thái trực quan
+      if (statusCard) {
+        if (workerSynced) {
+          statusCard.className = "web-sync-status-card";
+          statusTitle.textContent = `🟢 Đã kiểm tra & đồng bộ GitHub thành công (${adminProducts.length} sản phẩm)`;
+          statusDesc.textContent = `File js/list.js và index.html trên GitHub đang khớp 100% với giao diện Admin. Lần kiểm tra: ${new Date().toLocaleTimeString("vi-VN")}`;
+        } else if (localListLoaded) {
+          statusCard.className = "web-sync-status-card";
+          statusTitle.textContent = `🟢 Đã kiểm tra file js/list.js trên web: ${localCount} sản phẩm`;
+          statusDesc.textContent = diffDetected
+            ? `Phát hiện file js/list.js trên web có thay đổi, đã tự động nạp ${localCount} sản phẩm vào Admin để khớp dữ liệu.`
+            : `Dữ liệu Admin và file js/list.js trên web đang khớp nhau 100%. Lần kiểm tra: ${new Date().toLocaleTimeString("vi-VN")}`;
+        } else {
+          statusCard.className = "web-sync-status-card warning";
+          statusTitle.textContent = `🟡 Đang hiển thị dữ liệu bộ nhớ cục bộ (${adminProducts.length} sản phẩm)`;
+          statusDesc.textContent = `Chưa kết nối được web server trực tiếp (do mở bằng file://). Bấm "Kiểm tra lại dữ liệu web" hoặc "Đồng bộ GitHub" để đối soát.`;
+        }
       }
 
       if (!silent) {
-        showToast("Đang kéo cấu hình index.html từ GitHub...");
+        showToast(`Đã kiểm tra xong file hiện tại! (${adminProducts.length} sản phẩm)`, "success");
       }
+    }
 
-      try {
-        const headers = {};
-        if (secret) headers["X-Admin-Key"] = secret;
-
-        // Gắn thêm timestamp để triệt tiêu cache HTTP từ Cloudflare/trình duyệt
-        const reqUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=index.html&_t=${Date.now()}`;
-        const res = await fetch(reqUrl, { method: "GET", headers });
-        const text = await res.text();
-        let data;
-        try {
-          data = JSON.parse(text);
-        } catch (e) {
-          throw new Error(`Worker phản hồi không phải JSON (${res.status}): ${text.slice(0, 100)}`);
-        }
-
-        if (res.ok && data.success) {
-          if (data.siteConfig && typeof data.siteConfig === "object") {
-            siteConfig = data.siteConfig;
-            localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
-            populateConfigForms();
-          }
-
-          if (Array.isArray(data.products) && data.products.length > 0) {
-            adminProducts = data.products;
-            localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
-            filterAdminItems();
-            updateStats();
-          }
-
-          if (!silent) {
-            showToast(`Đã đồng bộ thành công từ ${data.repo || "GitHub"}! (Tổng số: ${adminProducts.length} vật phẩm)`, "success");
-          } else {
-            showToast(`Đã tự động nạp ${adminProducts.length} sản phẩm từ file index.html trên GitHub!`, "success");
-          }
-        } else {
-          if (!silent) {
-            showToast(`Lỗi đồng bộ: ${data.error || res.statusText}`, "error");
-          }
-        }
-      } catch (err) {
-        console.error("Lỗi syncFromGithubWorker:", err);
-        if (!silent) {
-          showToast(`Không thể kết nối Worker: ${err.message}`, "error");
-        }
-      }
+    // Hàm gọi từ nút navbar "Đồng bộ GitHub"
+    async function syncFromGithubWorker(silent = false) {
+      await checkCurrentWebsiteFiles(silent);
     }
 
     // Kiểm tra kết nối Worker
@@ -2227,9 +2480,9 @@
     }
 
     // ========================================================================
-    // BẮN POST REQUEST LÊN WORKER ĐỂ TRÁO CODE VÀO FILE INDEX.HTML
+    // 1. LƯU CẤU HÌNH GIAO DIỆN & SEO VÀO INDEX.HTML
     // ========================================================================
-    async function publishToGithubWorker() {
+    async function publishConfigToGithub() {
       saveWorkerSettings();
       const workerUrl = document.getElementById("workerUrlInput").value.trim();
       const secret = document.getElementById("workerSecretInput").value.trim();
@@ -2240,26 +2493,22 @@
         return;
       }
 
-      const btn = document.getElementById("btnPublishGithub");
-      const btnText = document.getElementById("publishText");
+      const btn = document.getElementById("btnPublishConfig");
+      const btnText = document.getElementById("publishConfigText");
       btn.disabled = true;
-      btnText.textContent = "ĐANG TRÁO & LƯU INDEX.HTML...";
+      btnText.textContent = "ĐANG LƯU INDEX.HTML...";
 
       try {
         const cfg = collectConfigFromForms();
-
-        const headers = {
-          "Content-Type": "application/json"
-        };
-        if (secret) {
-          headers["X-Admin-Key"] = secret;
-        }
+        const headers = { "Content-Type": "application/json" };
+        if (secret) headers["X-Admin-Key"] = secret;
 
         const payload = {
-          siteConfig: cfg,
-          products: adminProducts,
+          target: "siteConfig",
           filePath: "index.html",
-          message: `Admin Edge-SSG: Tráo file index.html (${adminProducts.length} vật phẩm - ${new Date().toLocaleString("vi-VN")})`
+          siteConfig: cfg,
+          totalCount: adminProducts.length,
+          message: `Admin Edge-SSG: Cập nhật cấu hình index.html (${new Date().toLocaleString("vi-VN")})`
         };
 
         const res = await fetch(workerUrl, {
@@ -2268,31 +2517,69 @@
           body: JSON.stringify(payload)
         });
 
-        const text = await res.text();
-        let data;
-        try {
-          data = JSON.parse(text);
-        } catch (parseErr) {
-          throw new Error(`Worker phản hồi không phải JSON (${res.status}): ${text.slice(0, 100)}`);
-        }
-
+        const data = await res.json();
         if (res.ok && data.success) {
-          localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
           localStorage.setItem("wontrade_site_config", JSON.stringify(cfg));
-
-          const banner = document.getElementById("publishSuccessBanner");
-          banner.classList.add("show");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-
-          showToast("Tráo code vào index.html thành công! Vui lòng đợi 1-3 phút để cập nhật.", "success");
+          showToast("Đã tráo và lưu Cấu hình vào index.html thành công!", "success");
         } else {
-          showToast(`Lỗi khi lưu: ${data.error || data.details || "Không rõ nguyên nhân"}`, "error");
+          showToast(`Lỗi lưu cấu hình: ${data.error || "Không rõ nguyên nhân"}`, "error");
         }
       } catch (err) {
         showToast(`Lỗi kết nối tới Worker: ${err.message}`, "error");
       } finally {
         btn.disabled = false;
-        btnText.textContent = "LƯU VÀO INDEX.HTML";
+        btnText.textContent = "LƯU CẤU HÌNH WEB";
+      }
+    }
+
+    // ========================================================================
+    // 2. LƯU DANH SÁCH SẢN PHẨM & ẢNH IMGBB VÀO JS/LIST.JS
+    // ========================================================================
+    async function publishProductsToGithub() {
+      saveWorkerSettings();
+      const workerUrl = document.getElementById("workerUrlInput").value.trim();
+      const secret = document.getElementById("workerSecretInput").value.trim();
+
+      if (!workerUrl) {
+        showToast("Vui lòng nhập đường dẫn Cloudflare Worker URL ở thanh trên!", "error");
+        document.getElementById("workerUrlInput").focus();
+        return;
+      }
+
+      const btn = document.getElementById("btnPublishProducts");
+      const btnText = document.getElementById("publishProductsText");
+      btn.disabled = true;
+      btnText.textContent = "ĐANG LƯU JS/LIST.JS...";
+
+      try {
+        const headers = { "Content-Type": "application/json" };
+        if (secret) headers["X-Admin-Key"] = secret;
+
+        const payload = {
+          target: "products",
+          filePath: "js/list.js",
+          products: adminProducts,
+          message: `Admin Edge-SSG: Lưu danh sách sản phẩm & ảnh ImgBB js/list.js (${adminProducts.length} acc - ${new Date().toLocaleString("vi-VN")})`
+        };
+
+        const res = await fetch(workerUrl, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
+          showToast(`Đã lưu ${adminProducts.length} sản phẩm & ảnh ImgBB vào js/list.js thành công!`, "success");
+        } else {
+          showToast(`Lỗi lưu sản phẩm: ${data.error || "Không rõ nguyên nhân"}`, "error");
+        }
+      } catch (err) {
+        showToast(`Lỗi kết nối tới Worker: ${err.message}`, "error");
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = "LƯU SẢN PHẨM & ẢNH";
       }
     }
 

@@ -127,35 +127,50 @@ function updateIndexHtmlWithData(html, data) {
   }
 
   // 6. Tráo số lượng vật phẩm tĩnh (SSR)
-  const countStr = String(products.length);
-  html = html.replace(/<strong\s+class=["']item-count-val["']>\d+<\/strong>/g, `<strong class="item-count-val">${countStr}</strong>`);
+  if (data.totalCount !== undefined || products.length > 0) {
+    const countStr = String(data.totalCount !== undefined ? data.totalCount : products.length);
+    html = html.replace(/<strong\s+class=["']item-count-val["']>\d+<\/strong>/g, `<strong class="item-count-val">${countStr}</strong>`);
+  }
 
-  // 7. Tráo Thẻ Script Chứa Cấu Hình & Mảng Vật Phẩm Hoàn Chỉnh
-  const scriptTag = `  <!-- DỮ LIỆU CẤU HÌNH & VẬT PHẨM TỰ ĐỘNG CẬP NHẬT QUA CLOUDFLARE WORKER & GITHUB API (EDGE-SSG) -->
+  // 7. Tráo Thẻ Script Chứa Cấu Hình Giao Diện & Nạp js/list.js (Không nhồi mockProducts vào index.html)
+  const scriptTag = `  <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
   <script id="siteDataScript">
     var siteConfig = ${JSON.stringify(siteConfig, null, 2)};
-    var mockProducts = ${JSON.stringify(products, null, 2)};
     if (typeof window !== "undefined") {
       window.siteConfig = siteConfig;
-      window.mockProducts = mockProducts;
     }
-  </script>`;
+  </script>
+  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
+  <script src="js/list.js?v=${Date.now()}"></script>`;
 
-  if (/<script\s+id=["']siteDataScript["']>[\s\S]*?<\/script>/i.test(html)) {
-    html = html.replace(/<script\s+id=["']siteDataScript["']>[\s\S]*?<\/script>/i, scriptTag);
+  if (/<script\s+id=["']siteDataScript["']>[\s\S]*?<\/script>(?:\s*<script\s+src=["']js\/list\.js(?:\?v=[^"']*)?["']><\/script>)?/i.test(html)) {
+    html = html.replace(/<script\s+id=["']siteDataScript["']>[\s\S]*?<\/script>(?:\s*<script\s+src=["']js\/list\.js(?:\?v=[^"']*)?["']><\/script>)?/i, scriptTag);
   } else {
     // Chèn trước thẻ nạp script tương tác
     html = html.replace(/<script\s+src=["']js\/index\.js["']><\/script>/i, `${scriptTag}\n  <script src="js/index.js"></script>`);
   }
 
-  // 8. Tự động xóa bỏ thẻ nạp js/list.js để ngăn chặn hoàn toàn việc ghi đè lên dữ liệu mới
-  html = html.replace(/<script\s+src=["'](?:js\/)?list\.js["']><\/script>\s*/gi, '');
-
-  // 9. Đảm bảo loại bỏ hoàn toàn popup iframe modal nếu còn sót lại
+  // 8. Đảm bảo loại bỏ hoàn toàn popup iframe modal nếu còn sót lại
   html = html.replace(/<!--\s*=+\s*9:16 VERTICAL POPUP IFRAME MODAL[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/i, '');
   html = html.replace(/<div\s+class=["']iframe-modal-backdrop["'][\s\S]*?id=["']productIframeModal["'][\s\S]*?<\/iframe>[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/i, '');
 
   return html;
+}
+
+// BỘ CÔNG THỨC TẠO FILE JS/LIST.JS ĐỘC LẬP (CHỨA MẢNG SẢN PHẨM & LINK ẢNH IMGBB)
+function generateListJsContent(products) {
+  return `/**
+ * WONTRADE - Rise of Kingdoms (ROK)
+ * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
+ * Tự động đồng bộ qua Cloudflare Worker: ${new Date().toLocaleString("vi-VN")}
+ */
+
+var mockProducts = ${JSON.stringify(products, null, 2)};
+
+if (typeof window !== "undefined") {
+  window.mockProducts = mockProducts;
+}
+`;
 }
 
 // Headers CORS chuẩn
@@ -275,27 +290,51 @@ export default {
         const data = await ghRes.json();
         const contentStr = data.content ? base64ToUtf8(data.content) : "";
 
-        // Trích xuất an toàn siteConfig và mockProducts từ HTML bằng Function Sandbox
+        // Trích xuất an toàn siteConfig và mockProducts
         let parsedSiteConfig = null;
         let parsedProducts = null;
 
-        // 1. Tìm toàn bộ nội dung trong thẻ <script id="siteDataScript">...</script>
+        // Nếu yêu cầu file js/list.js
+        if (targetPath.endsWith("list.js")) {
+          try {
+            const sandboxFn = new Function(
+              "mockProducts",
+              "window",
+              contentStr + "\n; return (window.mockProducts && window.mockProducts.length > 0) ? window.mockProducts : mockProducts;"
+            );
+            const extracted = sandboxFn([], {});
+            if (Array.isArray(extracted)) {
+              parsedProducts = extracted;
+            }
+          } catch (fnErr) {
+            console.error("Lỗi parse list.js:", fnErr);
+          }
+
+          return jsonResponse({
+            success: true,
+            exists: true,
+            sha: data.sha,
+            filePath: targetPath,
+            repo: `${REPO_OWNER}/${REPO_NAME}`,
+            branch: BRANCH,
+            products: parsedProducts || [],
+            totalProducts: (parsedProducts || []).length,
+            content: contentStr,
+          });
+        }
+
+        // Nếu yêu cầu file index.html
         const scriptMatch = contentStr.match(/<script\s+id=["']siteDataScript["']>([\s\S]*?)<\/script>/i);
         if (scriptMatch) {
           try {
             const rawCode = scriptMatch[1];
-            const sandboxFn = new Function(`
-              "use strict";
-              var siteConfig = null;
-              var mockProducts = null;
-              var window = {};
-              ${rawCode}
-              return {
-                siteConfig: siteConfig || window.siteConfig,
-                products: mockProducts || window.mockProducts
-              };
-            `);
-            const extracted = sandboxFn();
+            const sandboxFn = new Function(
+              "siteConfig",
+              "mockProducts",
+              "window",
+              rawCode + "\n; return { siteConfig: siteConfig || window.siteConfig, products: mockProducts || window.mockProducts };"
+            );
+            const extracted = sandboxFn(null, null, {});
             if (extracted.siteConfig && typeof extracted.siteConfig === "object") {
               parsedSiteConfig = extracted.siteConfig;
             }
@@ -307,15 +346,26 @@ export default {
           }
         }
 
-        // 2. Fallback: Nếu chưa lấy được mockProducts, thử quét regex từ khóa mockProducts
-        if (!parsedProducts) {
-          const matchProducts = contentStr.match(/var\s+mockProducts\s*=\s*(\[[\s\S]*?\])\s*;\s*(?:var|if|<\/script>)/i);
-          if (matchProducts) {
-            try {
-              const pFn = new Function(`"use strict"; return (${matchProducts[1]});`);
-              const pRes = pFn();
-              if (Array.isArray(pRes)) parsedProducts = pRes;
-            } catch (e) {}
+        // CƠ CHẾ ĐỒNG BỘ: Nếu index.html không chứa products (vì đã tách sang js/list.js), tự động kéo luôn js/list.js từ GitHub
+        if (!parsedProducts || parsedProducts.length === 0) {
+          try {
+            const listApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/js/list.js?ref=${BRANCH}`;
+            const listRes = await fetch(listApiUrl, { headers: githubHeaders });
+            if (listRes.ok) {
+              const listData = await listRes.json();
+              const listStr = listData.content ? base64ToUtf8(listData.content) : "";
+              const sandboxFn = new Function(
+                "mockProducts",
+                "window",
+                listStr + "\n; return (window.mockProducts && window.mockProducts.length > 0) ? window.mockProducts : mockProducts;"
+              );
+              const extracted = sandboxFn([], {});
+              if (Array.isArray(extracted) && extracted.length > 0) {
+                parsedProducts = extracted;
+              }
+            }
+          } catch (listErr) {
+            console.warn("Tự động kéo js/list.js kèm theo:", listErr.message);
           }
         }
 
@@ -340,7 +390,7 @@ export default {
     }
 
     // ========================================================================
-    // POST: Tráo code trực tiếp vào file index.html và commit lên GitHub
+    // POST: Lưu độc lập vào index.html (Cấu hình) hoặc js/list.js (Sản phẩm)
     // ========================================================================
     if (request.method === "POST") {
       let body;
@@ -350,11 +400,17 @@ export default {
         return jsonResponse({ success: false, error: "Dữ liệu JSON không hợp lệ!" }, 400);
       }
 
-      const targetPath = body.filePath || DEFAULT_FILE_PATH;
+      // Tự động phân loại target file: "js/list.js" hoặc "index.html"
+      let isListJs = false;
+      if (body.target === "products" || (body.filePath && body.filePath.endsWith("list.js"))) {
+        isListJs = true;
+      }
+
+      const targetPath = isListJs ? "js/list.js" : (body.filePath || DEFAULT_FILE_PATH);
       const getApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}?ref=${BRANCH}`;
 
       try {
-        // 1. Kéo file index.html hiện tại từ GitHub để lấy SHA và mã nguồn gốc
+        // 1. Kéo file hiện tại từ GitHub để lấy SHA và mã nguồn gốc
         const getRes = await fetch(getApiUrl, { headers: githubHeaders });
         let currentSha = null;
         let oldHtml = "";
@@ -375,30 +431,38 @@ export default {
           );
         }
 
-        // 2. Tạo nội dung file mới (nếu gửi content string thì dùng trực tiếp, ngược lại chạy hàm tráo code)
+        // 2. Tạo nội dung file mới theo loại file
         let newContent = body.content;
-        if (!newContent && (body.siteConfig || body.products || body.profile)) {
-          const dataToUpdate = {
-            siteConfig: body.siteConfig || body.profile || {},
-            products: Array.isArray(body.products) ? body.products : [],
-          };
-          newContent = updateIndexHtmlWithData(oldHtml, dataToUpdate);
+        if (!newContent) {
+          if (isListJs) {
+            const productsArray = Array.isArray(body.products) ? body.products : [];
+            newContent = generateListJsContent(productsArray);
+          } else {
+            const dataToUpdate = {
+              siteConfig: body.siteConfig || body.profile || {},
+              products: Array.isArray(body.products) ? body.products : [],
+              totalCount: body.totalCount !== undefined ? body.totalCount : (body.products ? body.products.length : undefined)
+            };
+            newContent = updateIndexHtmlWithData(oldHtml, dataToUpdate);
+          }
         }
 
         if (typeof newContent !== "string" || !newContent.trim()) {
           return jsonResponse(
             {
               success: false,
-              error: "Nội dung cập nhật không hợp lệ! Vui lòng cung cấp 'siteConfig' và 'products'.",
+              error: `Nội dung cập nhật file ${targetPath} không hợp lệ!`,
             },
             400
           );
         }
 
-        // 3. Commit ghi đè trực tiếp lên index.html
-        const commitMessage =
-          body.message ||
-          `Admin Edge-SSG: Tráo file ${targetPath} (${new Date().toLocaleString("vi-VN")})`;
+        // 3. Commit ghi đè trực tiếp lên GitHub
+        const defaultMsg = isListJs
+          ? `Admin Edge-SSG: Lưu danh sách sản phẩm & ảnh ImgBB js/list.js (${body.products?.length || 0} mục - ${new Date().toLocaleString("vi-VN")})`
+          : `Admin Edge-SSG: Tráo cấu hình file ${targetPath} (${new Date().toLocaleString("vi-VN")})`;
+
+        const commitMessage = body.message || defaultMsg;
 
         const putPayload = {
           message: commitMessage,

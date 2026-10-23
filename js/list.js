@@ -1,32 +1,10 @@
 /**
- * ==============================================================================
- * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
- * FILE QUẢN LÝ DANH SÁCH VẬT PHẨM (Tổng số: 19 vật phẩm)
- * ==============================================================================
- * 
- * HƯỚNG DẪN:
- * Để thêm, sửa, xóa hoặc thay đổi giá/thông số vật phẩm hiển thị trên website,
- * bạn chỉ cần chỉnh sửa trực tiếp mảng `mockProducts` trong file này.
- * Không cần chỉnh sửa trong file index.html hay js/index.js.
- * 
- * Cấu trúc mỗi vật phẩm gồm:
- * - id: Mã số sản phẩm (số nguyên)
- * - title: Tên tiêu đề sản phẩm
- * - price: Giá bán (VNĐ)
- * - link: Đường dẫn URL trang web mở trong Popup Iframe dạng dọc (tỷ lệ 9:16)
- * - favorites: Số lượt yêu thích
- * - isFavorited: Trạng thái đã thích (true / false)
- * - badges: Huy hiệu [ { text: "Chơi", type: "red" }, { text: "...", type: "dark" } ]
- * - info: Thông tin vương quốc & nhập cư (ví dụ: "#2654 | Có thể nhập cư")
- * - stats: Thông số tài khoản (Cấp độ | Sức mạnh | VIP | Điểm Tiêu Diệt)
- * - tags: Các thẻ đặc điểm (type: 'orange' hoặc 'blue')
- * - commanders: Danh sách 5 tướng (id, name, level, isImg)
- * - gemMultiplier: Hệ số sao/ngọc (ví dụ: 5)
- * - countdownSeconds: Thời gian đếm ngược còn lại (tính bằng giây)
+ * WONTRADE - Rise of Kingdoms (ROK)
+ * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
+ * File này được quản lý tự động từ Admin CMS hoặc chỉnh sửa trực tiếp.
  */
 
 var mockProducts = [
-  // 1. Vật phẩm ID 2654
   {
     id: 2654,
     title: "Mùa Chinh Phạt",
@@ -34,10 +12,11 @@ var mockProducts = [
     link: "guide/index.html?id=2654",
     favorites: 5,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" },
-      { text: "BẢN ANH HÙNG CA", type: "dark" }
+    images: [
+      "assets/rok_avatar.jpg",
+      "assets/arthur.jpg"
     ],
+    badges: [{ text: "Chơi", type: "red" }, { text: "BẢN ANH HÙNG CA", type: "dark" }],
     info: "#2654 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 91,652,733 | VIP 16 | Điểm Tiêu Diệt 7,527,939,303",
     tags: [
@@ -58,10 +37,8 @@ var mockProducts = [
       { id: "scipio", name: "Scipio Africanus", level: 60 }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 7 * 86400 + 7 * 3600 + 44 * 60 + 35
+    countdownSeconds: 632675
   },
-
-  // 2. Vật phẩm ID 2638
   {
     id: 2638,
     title: "5 Trang Phục Thiên Định Sức Mạnh Chỉ Huy Bộ Binh Chỉ Huy Cung Thủ Chỉ Huy Kỵ Binh",
@@ -69,9 +46,8 @@ var mockProducts = [
     link: "guide/index.html?id=2638",
     favorites: 2,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }],
     info: "#2638 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 200,087,220 | VIP 19 | Điểm Tiêu Diệt 12,428,178,750",
     tags: [
@@ -92,10 +68,8 @@ var mockProducts = [
       { id: "alparslan", name: "Alp Arslan", level: 60 }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 14 * 86400 + 12 * 3600 + 30 * 60 + 18
+    countdownSeconds: 1254618
   },
-
-  // 3. Vật phẩm ID 2322
   {
     id: 2322,
     title: "Chỉ Huy Bộ Binh Chuyên Nghiệp",
@@ -103,9 +77,8 @@ var mockProducts = [
     link: "guide/index.html?id=2322",
     favorites: 2,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }],
     info: "#2322 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 126,690,958 | VIP 19 | Điểm Tiêu Diệt 2,784,766,573",
     tags: [
@@ -125,10 +98,8 @@ var mockProducts = [
       { id: "tontu", name: "Tôn Tử", level: 60 }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 6 * 86400 + 6 * 3600 + 58 * 60 + 40
+    countdownSeconds: 543520
   },
-
-  // 4. Vật phẩm ID 1109
   {
     id: 1109,
     title: "Chỉ Huy Cung Thủ",
@@ -136,9 +107,8 @@ var mockProducts = [
     link: "guide/index.html?id=1109",
     favorites: 0,
     isFavorited: false,
-    badges: [
-      { text: "VUA VƯƠNG QUỐC ANH", type: "dark" }
-    ],
+    images: [],
+    badges: [{ text: "VUA VƯƠNG QUỐC ANH", type: "dark" }],
     info: "#1109 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 109,665,659 | VIP 17 | Điểm Tiêu Diệt 11,318,883,510",
     tags: [
@@ -159,10 +129,8 @@ var mockProducts = [
       { id: "luutriet", name: "Lưu Triệt", level: 60 }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 29 * 86400 + 17 * 3600 + 6 * 60 + 52
+    countdownSeconds: 2567212
   },
-
-  // 5. Vật phẩm ID 1888
   {
     id: 1888,
     title: "Kỵ Binh Siêu Tốc Nevsky + Joan | Full Đồ Cam Tài Năng",
@@ -170,10 +138,8 @@ var mockProducts = [
     link: "guide/index.html?id=1888",
     favorites: 8,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" },
-      { text: "CHIẾN THẦN", type: "dark" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }, { text: "CHIẾN THẦN", type: "dark" }],
     info: "#1888 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 135,420,110 | VIP 18 | Điểm Tiêu Diệt 8,920,330,120",
     tags: [
@@ -194,10 +160,8 @@ var mockProducts = [
       { id: "alparslan", name: "Alp Arslan", level: 60 }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 11 * 86400 + 4 * 3600 + 15 * 60 + 20
+    countdownSeconds: 965720
   },
-
-  // 6. Vật phẩm ID 2455
   {
     id: 2455,
     title: "Mùa Chinh Phạt - Full T5 3 Đạo Bộ Binh & Kỵ Binh",
@@ -205,9 +169,8 @@ var mockProducts = [
     link: "guide/index.html?id=2455",
     favorites: 4,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }],
     info: "#2455 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 98,350,000 | VIP 16 | Điểm Tiêu Diệt 4,560,120,890",
     tags: [
@@ -227,10 +190,8 @@ var mockProducts = [
       { id: "arthur", name: "Arthur Pendragon", level: 60, isImg: true }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 18 * 86400 + 19 * 3600 + 42 * 60 + 10
+    countdownSeconds: 1626130
   },
-
-  // 7. Vật phẩm ID 3012
   {
     id: 3012,
     title: "Acc VIP 18 - Đội Hình Cung Thủ Gia Cát Lượng Thức Tỉnh",
@@ -238,10 +199,8 @@ var mockProducts = [
     link: "guide/index.html?id=3012",
     favorites: 7,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" },
-      { text: "BẢN ANH HÙNG CA", type: "dark" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }, { text: "BẢN ANH HÙNG CA", type: "dark" }],
     info: "#3012 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 115,800,450 | VIP 18 | Điểm Tiêu Diệt 6,780,210,000",
     tags: [
@@ -262,10 +221,8 @@ var mockProducts = [
       { id: "arthur", name: "Arthur Pendragon", level: 60, isImg: true }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 5 * 86400 + 14 * 3600 + 22 * 60 + 45
+    countdownSeconds: 483765
   },
-
-  // 8. Vật phẩm ID 1688
   {
     id: 1688,
     title: "Tài Khoản KVK 4 - Sức Mạnh 88M Sẵn 45 Hộ Chiếu",
@@ -273,9 +230,8 @@ var mockProducts = [
     link: "guide/index.html?id=1688",
     favorites: 3,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }],
     info: "#1688 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 88,240,600 | VIP 15 | Điểm Tiêu Diệt 3,120,450,200",
     tags: [
@@ -295,10 +251,8 @@ var mockProducts = [
       { id: "choiyoung", name: "Choi Young", level: 60 }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 8 * 86400 + 9 * 3600 + 12 * 60 + 55
+    countdownSeconds: 724375
   },
-
-  // 9. Vật phẩm ID 2790
   {
     id: 2790,
     title: "Siêu Phẩm VIP 19 - Full T5 5 Đạo Ra Trận KVK",
@@ -306,10 +260,8 @@ var mockProducts = [
     link: "guide/index.html?id=2790",
     favorites: 14,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" },
-      { text: "VUA VƯƠNG QUỐC ANH", type: "dark" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }, { text: "VUA VƯƠNG QUỐC ANH", type: "dark" }],
     info: "#2790 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 185,600,000 | VIP 19 | Điểm Tiêu Diệt 15,200,900,000",
     tags: [
@@ -330,10 +282,8 @@ var mockProducts = [
       { id: "arthur", name: "Arthur Pendragon", level: 60, isImg: true }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 21 * 86400 + 2 * 3600 + 50 * 60 + 12
+    countdownSeconds: 1824612
   },
-
-  // 10. Vật phẩm ID 1420
   {
     id: 1420,
     title: "Chỉ Huy Thủ Thành & Đồn Trú Vững Chắc Zenobia + YSS",
@@ -341,9 +291,8 @@ var mockProducts = [
     link: "guide/index.html?id=1420",
     favorites: 6,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }],
     info: "#1420 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 110,400,200 | VIP 17 | Điểm Tiêu Diệt 5,890,100,400",
     tags: [
@@ -364,10 +313,8 @@ var mockProducts = [
       { id: "arthur", name: "Arthur Pendragon", level: 60, isImg: true }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 12 * 86400 + 18 * 3600 + 35 * 60 + 40
+    countdownSeconds: 1103740
   },
-
-  // 11. Vật phẩm ID 2108
   {
     id: 2108,
     title: "Bộ Binh Chuyên Nghiệp Quan Vũ + Scipio Prime Max Skill",
@@ -375,10 +322,8 @@ var mockProducts = [
     link: "guide/index.html?id=2108",
     favorites: 9,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" },
-      { text: "CHIẾN THẦN", type: "dark" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }, { text: "CHIẾN THẦN", type: "dark" }],
     info: "#2108 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 105,200,300 | VIP 17 | Điểm Tiêu Diệt 6,100,500,000",
     tags: [
@@ -398,10 +343,8 @@ var mockProducts = [
       { id: "achilles", name: "Achilles", level: 60 }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 9 * 86400 + 11 * 3600 + 5 * 60 + 15
+    countdownSeconds: 817515
   },
-
-  // 12. Vật phẩm ID 2855
   {
     id: 2855,
     title: "Acc Farm T5 & Chiến Đấu Đa Năng - 75M Power Giá Tốt",
@@ -409,9 +352,8 @@ var mockProducts = [
     link: "guide/index.html?id=2855",
     favorites: 1,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }],
     info: "#2855 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 75,300,100 | VIP 15 | Điểm Tiêu Diệt 2,400,000,000",
     tags: [
@@ -431,10 +373,8 @@ var mockProducts = [
       { id: "arthur", name: "Arthur Pendragon", level: 60, isImg: true }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 4 * 86400 + 8 * 3600 + 19 * 60 + 30
+    countdownSeconds: 375570
   },
-
-  // 13. Vật phẩm ID 1777
   {
     id: 1777,
     title: "Đạo Quân Kỵ Binh Tốc Độ Cao - Xiang Yu + Nevsky",
@@ -442,10 +382,8 @@ var mockProducts = [
     link: "guide/index.html?id=1777",
     favorites: 11,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" },
-      { text: "BẢN ANH HÙNG CA", type: "dark" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }, { text: "BẢN ANH HÙNG CA", type: "dark" }],
     info: "#1777 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 128,750,000 | VIP 18 | Điểm Tiêu Diệt 9,450,200,000",
     tags: [
@@ -466,10 +404,8 @@ var mockProducts = [
       { id: "scipio", name: "Scipio Africanus", level: 60 }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 15 * 86400 + 20 * 3600 + 40 * 60 + 50
+    countdownSeconds: 1370450
   },
-
-  // 14. Vật phẩm ID 2990
   {
     id: 2990,
     title: "Mùa Chinh Phạt - Acc Rally Chuyên Nghiệp VIP 19",
@@ -477,10 +413,8 @@ var mockProducts = [
     link: "guide/index.html?id=2990",
     favorites: 15,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" },
-      { text: "CHIẾN THẦN", type: "dark" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }, { text: "CHIẾN THẦN", type: "dark" }],
     info: "#2990 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 165,800,000 | VIP 19 | Điểm Tiêu Diệt 13,800,000,000",
     tags: [
@@ -501,10 +435,8 @@ var mockProducts = [
       { id: "arthur", name: "Arthur Pendragon", level: 60, isImg: true }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 25 * 86400 + 16 * 3600 + 10 * 60 + 25
+    countdownSeconds: 2218225
   },
-
-  // 15. Vật phẩm ID 2304
   {
     id: 2304,
     title: "Chỉ Huy Cung Thủ Boudica Prime + Zhuge Liang Max",
@@ -512,9 +444,8 @@ var mockProducts = [
     link: "guide/index.html?id=2304",
     favorites: 8,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }],
     info: "#2304 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 122,400,000 | VIP 18 | Điểm Tiêu Diệt 7,920,400,000",
     tags: [
@@ -535,10 +466,8 @@ var mockProducts = [
       { id: "arthur", name: "Arthur Pendragon", level: 60, isImg: true }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 17 * 86400 + 5 * 3600 + 33 * 60 + 12
+    countdownSeconds: 1488792
   },
-
-  // 16. Vật phẩm ID 1555
   {
     id: 1555,
     title: "Acc T5 Chuẩn KVK - Full Công Nghệ Quân Sự 25",
@@ -546,10 +475,8 @@ var mockProducts = [
     link: "guide/index.html?id=1555",
     favorites: 5,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" },
-      { text: "BẢN ANH HÙNG CA", type: "dark" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }, { text: "BẢN ANH HÙNG CA", type: "dark" }],
     info: "#1555 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 94,100,500 | VIP 16 | Điểm Tiêu Diệt 4,120,800,000",
     tags: [
@@ -569,10 +496,8 @@ var mockProducts = [
       { id: "arthur", name: "Arthur Pendragon", level: 60, isImg: true }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 10 * 86400 + 12 * 3600 + 48 * 60 + 18
+    countdownSeconds: 910098
   },
-
-  // 17. Vật phẩm ID 2710
   {
     id: 2710,
     title: "Acc VIP 17 - 108M Sức Mạnh Sẵn 70 Vé Hộ Chiếu Bay Ngay",
@@ -580,9 +505,8 @@ var mockProducts = [
     link: "guide/index.html?id=2710",
     favorites: 6,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }],
     info: "#2710 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 108,600,000 | VIP 17 | Điểm Tiêu Diệt 5,430,200,000",
     tags: [
@@ -603,10 +527,8 @@ var mockProducts = [
       { id: "alparslan", name: "Alp Arslan", level: 60 }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 13 * 86400 + 8 * 3600 + 25 * 60 + 35
+    countdownSeconds: 1153535
   },
-
-  // 18. Vật phẩm ID 1999
   {
     id: 1999,
     title: "Đạo Quân Đa Năng 5 Cặp Thức Tỉnh - Đồ Cam Full Set",
@@ -614,10 +536,8 @@ var mockProducts = [
     link: "guide/index.html?id=1999",
     favorites: 13,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" },
-      { text: "CHIẾN THẦN", type: "dark" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }, { text: "CHIẾN THẦN", type: "dark" }],
     info: "#1999 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 142,300,000 | VIP 18 | Điểm Tiêu Diệt 10,650,000,000",
     tags: [
@@ -638,10 +558,8 @@ var mockProducts = [
       { id: "arthur", name: "Arthur Pendragon", level: 60, isImg: true }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 22 * 86400 + 15 * 3600 + 55 * 60 + 40
+    countdownSeconds: 1958140
   },
-
-  // 19. Vật phẩm ID 2240
   {
     id: 2240,
     title: "Acc Khủng Top Vương Quốc - VIP 19 Sức Mạnh 210M 16B KP",
@@ -649,10 +567,8 @@ var mockProducts = [
     link: "guide/index.html?id=2240",
     favorites: 26,
     isFavorited: false,
-    badges: [
-      { text: "Chơi", type: "red" },
-      { text: "VUA VƯƠNG QUỐC ANH", type: "dark" }
-    ],
+    images: [],
+    badges: [{ text: "Chơi", type: "red" }, { text: "VUA VƯƠNG QUỐC ANH", type: "dark" }],
     info: "#2240 | Có thể nhập cư",
     stats: "Cấp độ 25 | Sức mạnh 210,500,000 | VIP 19 | Điểm Tiêu Diệt 16,850,000,000",
     tags: [
@@ -673,128 +589,10 @@ var mockProducts = [
       { id: "arthur", name: "Arthur Pendragon", level: 60, isImg: true }
     ],
     gemMultiplier: 5,
-    countdownSeconds: 28 * 86400 + 22 * 3600 + 59 * 60 + 50
+    countdownSeconds: 2501990
   }
 ];
 
-// CẤU HÌNH THÔNG TIN PROFILE (Được quản lý tự động qua /profile/admin/index.html & Cloudflare Worker)
-var profileConfig = {
-  brand: {
-    name: "Meo Meo Rise",
-    title: "Rise Of KingDoms",
-    slogan: "Trung Gian Giao Dịch & Dịch Vụ ROK Uy Tín",
-    websiteName: "MEOMEORISE.VN",
-    websiteUrl: "https://meomeorise.vn",
-    avatar: "icon/icon.jpg",
-    logo: "icon/icon.png",
-    verified: true
-  },
-  services: [
-    { title: "Trung Gian Giao Dịch", icon: "shield", desc: "Bảo đảm an toàn tuyệt đối mọi giao dịch tài khoản ROK" },
-    { title: "Phát Triển Cộng Đồng Rok", icon: "users", desc: "Kết nối hàng nghìn game thủ và liên minh trên toàn quốc" },
-    { title: "Tư Vấn Mọi Chức Năng", icon: "message", desc: "Hỗ trợ định giá acc, build tướng, nhập cư vương quốc" }
-  ],
-  contact: {
-    phone: "0949257924",
-    phoneDisplay: "0949.257.924",
-    zalo: "0949257924",
-    zaloUrl: "https://zalo.me/84949257924",
-    email: "longnhat712@gmail.com",
-    address: "Biên Hòa, Đồng Nai (Toàn Quốc)",
-    website: "https://meomeorise.vn"
-  },
-  socials: [
-    { id: "facebook", name: "Facebook", username: "MeoMeoRise", url: "https://www.facebook.com/MeoMeoRise", icon: "facebook", active: true },
-    { id: "zalo", name: "Zalo", username: "0949257924", url: "https://zalo.me/84949257924", icon: "zalo", active: true },
-    { id: "telegram", name: "Telegram", username: "@meomeorise", url: "https://t.me/meomeorise", icon: "telegram", active: true },
-    { id: "tiktok", name: "TikTok", username: "@meomeorise", url: "https://www.tiktok.com", icon: "tiktok", active: true },
-    { id: "youtube", name: "YouTube", username: "MeoMeoRise", url: "https://www.youtube.com", icon: "youtube", active: true }
-  ],
-  socialGroups: {
-    facebookGroups: [
-      {
-        id: "fb_group_1",
-        name: "Cộng Đồng Rise Of Kingdoms Việt Nam",
-        desc: "Giao lưu, chia sẻ kinh nghiệm chiến thuật và hỗ trợ tân thủ ROK",
-        members: "55.000+ thành viên",
-        url: "https://www.facebook.com/groups/MeoMeoRise",
-        icon: "https://www.google.com/s2/favicons?domain=facebook.com&sz=128"
-      },
-      {
-        id: "fb_group_2",
-        name: "Chợ Mua Bán Acc ROK Uy Tín (Admin Meo Meo)",
-        desc: "Đăng tin mua bán acc, định giá tài khoản an toàn 24/7",
-        members: "28.000+ thành viên",
-        url: "https://www.facebook.com/groups/MeoMeoRise",
-        icon: "https://www.google.com/s2/favicons?domain=facebook.com&sz=128"
-      }
-    ],
-    zaloGroups: [
-      {
-        id: "zl_group_1",
-        name: "Box Zalo Giao Dịch ROK VIP 1",
-        desc: "Cập nhật tài khoản xả lỗ, giá tốt hằng ngày",
-        members: "1.000 thành viên (Đầy)",
-        url: "https://zalo.me/g/xxxxxx",
-        icon: "https://www.google.com/s2/favicons?domain=zalo.me&sz=128"
-      },
-      {
-        id: "zl_group_2",
-        name: "Box Zalo Giao Dịch & Hỗ Trợ ROK VIP 2",
-        desc: "Hỗ trợ định giá acc, trung gian giao dịch bảo hiểm 100%",
-        members: "850 thành viên",
-        url: "https://zalo.me/g/yyyyyy",
-        icon: "https://www.google.com/s2/favicons?domain=zalo.me&sz=128"
-      }
-    ]
-  },
-  banks: [
-    {
-      id: "mbbank",
-      bankName: "Ngân hàng Quân Đội (MB Bank)",
-      bankCode: "MB",
-      accountNumber: "0949257924",
-      accountHolder: "NGUYEN LONG NHAT",
-      qrUrl: "https://api.vietqr.io/image/970422-0949257924-compact.jpg?accountName=NGUYEN%20LONG%20NHAT",
-      logoType: "mb"
-    },
-    {
-      id: "mbv",
-      bankName: "Ngân hàng MBV",
-      bankCode: "MBV",
-      accountNumber: "0949257924",
-      accountHolder: "NGUYEN LONG NHAT",
-      qrUrl: "https://api.vietqr.io/image/970422-0949257924-compact.jpg?accountName=NGUYEN%20LONG%20NHAT",
-      logoType: "mbv"
-    }
-  ],
-  systemChannels: {
-    title: "Hệ Thống Kênh & Cộng Đồng",
-    description: "Các kênh truyền thông chính thức và box cộng đồng Rise of Kingdoms.",
-    channels: [
-      { name: "Box Zalo Giao Dịch ROK VIP", desc: "Thảo luận mua bán, trao đổi tài khoản uy tín", url: "https://zalo.me/84949257924", badge: "VIP" },
-      { name: "Fanpage Facebook Chính Thức", desc: "Cập nhật tin tức vương quốc, sự kiện quà tặng", url: "https://www.facebook.com/MeoMeoRise", badge: "Official" },
-      { name: "Kênh Telegram Báo Giá Acc", desc: "Nhận thông báo tài khoản xả lỗ, giá tốt tức thì", url: "https://t.me/meomeorise", badge: "24/7" }
-    ]
-  },
-  footer: {
-    sloganTitle: "Rise Of KingDoms - Uy Tín Tạo Nên Thương Hiệu",
-    aboutText: "- Trung Gian Giao Dịch\n- Phát Triển Cộng Đồng Rok\n- Tư Vấn Mọi Chức Năng Game Rok",
-    copyrightYear: 2026,
-    copyrightText: "Rise Of KingDoms Services. All Rights Reserved."
-  }
-};
-
-// Gán vào window để đảm bảo tương thích mọi ngữ cảnh trình duyệt (Chỉ gán nếu index.html chưa có dữ liệu)
 if (typeof window !== "undefined") {
-  if (!window.mockProducts || !Array.isArray(window.mockProducts) || window.mockProducts.length === 0) {
-    window.mockProducts = mockProducts;
-  }
-  window.profileConfig = profileConfig;
+  window.mockProducts = mockProducts;
 }
-
-// Hỗ trợ môi trường Module/NodeJS nếu cần
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = { mockProducts, profileConfig };
-}
-

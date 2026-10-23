@@ -469,18 +469,27 @@ function renderListings(itemsToRender) {
 }
 
 // ============================================================================
-// ITEM CARD CLICK HANDLER (Loại bỏ popup iframe, chuyển hướng trực tiếp / liên hệ Zalo)
+// PRODUCT DETAIL POPUP MODAL & IMGBB GALLERY CONTROLLER
 // ============================================================================
+
+let currentModalItem = null;
+let currentModalImages = [];
+let currentModalImageIndex = 0;
 
 window.handleItemCardClick = function(id, event) {
   if (event && (event.target.closest('.btn-fav') || event.target.tagName === 'BUTTON')) return;
+  openProductModal(id);
+};
 
+window.openProductModal = function(id) {
   const productsList = (window.mockProducts && window.mockProducts.length > 0)
     ? window.mockProducts
     : (typeof mockProducts !== "undefined" ? mockProducts : []);
 
-  const item = productsList.find(p => p.id === id);
+  const item = productsList.find(p => Number(p.id) === Number(id));
   if (!item) return;
+
+  currentModalItem = item;
 
   // 1. Lưu vào lịch sử xem vật phẩm (history)
   try {
@@ -501,30 +510,213 @@ window.handleItemCardClick = function(id, event) {
       badges: item.badges,
       tags: item.tags,
       commanders: item.commanders,
+      images: item.images || [],
       viewedAt: timeStr
     });
     if (history.length > 50) history = history.slice(0, 50);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
   } catch(e) {
-    console.error(e);
+    console.error("Lỗi lưu history:", e);
   }
 
-  // 2. Chuyển hướng trực tiếp (không dùng popup iframe)
-  if (item.link && item.link !== '#' && !item.link.startsWith('javascript:')) {
-    if (item.link.startsWith('http://') || item.link.startsWith('https://')) {
-      window.open(item.link, '_blank');
-    } else {
-      window.location.href = item.link;
-    }
-  } else {
-    // Mở Zalo tư vấn tài khoản
-    const zaloPhone = (window.siteConfig && window.siteConfig.contact && window.siteConfig.contact.zalo) || '0372996420';
-    if (typeof showActionNotice === 'function') {
-      showActionNotice(`Đang kết nối Zalo tư vấn vật phẩm #${item.id}...`);
-    }
-    window.open(`https://zalo.me/${zaloPhone}`, '_blank');
+  // 2. Điền thông tin vào Modal
+  const modal = document.getElementById("productDetailModal");
+  if (!modal) return;
+
+  // ID & Title
+  const idEl = document.getElementById("modalProductId");
+  if (idEl) idEl.textContent = `#${item.id}`;
+
+  const titleEl = document.getElementById("modalProductTitle");
+  if (titleEl) titleEl.textContent = item.title;
+
+  // Badges
+  const badgesEl = document.getElementById("modalBadges");
+  if (badgesEl) {
+    const badges = Array.isArray(item.badges) ? item.badges : [];
+    badgesEl.innerHTML = badges.map(b => `
+      <span class="${b.type === 'red' ? 'badge-play' : 'badge-dark'}">${escapeModalHtml(b.text)}</span>
+    `).join("");
+  }
+
+  // Giá VNĐ
+  const rawPrice = Number(item.price) || 0;
+  const vndPrice = rawPrice < 50000 ? Math.round(rawPrice * 25400) : rawPrice;
+  const priceEl = document.getElementById("modalProductPrice");
+  if (priceEl) priceEl.textContent = vndPrice.toLocaleString("vi-VN") + " ₫";
+
+  // Vương quốc & Nhập cư
+  const infoEl = document.getElementById("modalProductInfo");
+  if (infoEl) infoEl.textContent = item.info || "Đang cập nhật";
+
+  // Stats
+  const statsEl = document.getElementById("modalProductStats");
+  if (statsEl) statsEl.textContent = item.stats || "Cấp độ 25 | Sức mạnh đầy đủ";
+
+  // 5 Tướng chính
+  const commEl = document.getElementById("modalCommanders");
+  if (commEl && Array.isArray(item.commanders)) {
+    commEl.innerHTML = item.commanders.map(c => {
+      let portraitHtml = "";
+      if (c.isImg) {
+        portraitHtml = `<img src="assets/arthur.jpg" alt="${c.name}" class="commander-img" onerror="this.outerHTML='${commanderSvgs.arthur.replace(/'/g, "\\'")}'" />`;
+      } else {
+        portraitHtml = commanderSvgs[c.id] || commanderSvgs.arthur;
+      }
+      return `
+        <div class="commander-item" title="${escapeModalHtml(c.name)} (Lv ${c.level || 60})">
+          <div class="commander-frame">
+            ${portraitHtml}
+            <div class="level-badge">${c.level || 60}</div>
+          </div>
+          <div class="commander-name">${escapeModalHtml(c.name)}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  // Tags
+  const tagsEl = document.getElementById("modalProductTags");
+  if (tagsEl && Array.isArray(item.tags)) {
+    tagsEl.innerHTML = item.tags.map(t => `
+      <span class="tag-badge ${t.type || 'orange'}">${escapeModalHtml(t.text)}</span>
+    `).join("");
+  }
+
+  // 3. Khởi tạo danh sách ảnh Gallery
+  currentModalImages = (Array.isArray(item.images) && item.images.length > 0)
+    ? item.images
+    : ["assets/rok_avatar.jpg"];
+  currentModalImageIndex = 0;
+  updateModalGalleryView();
+
+  // 4. Cập nhật nút Zalo mua acc
+  const zaloBtn = document.getElementById("modalZaloBuyBtn");
+  if (zaloBtn) {
+    const zaloPhone = (window.siteConfig && window.siteConfig.contact && window.siteConfig.contact.zalo) || "0372996420";
+    zaloBtn.href = `https://zalo.me/${zaloPhone}`;
+    zaloBtn.title = `Nhắn tin Zalo mua acc #${item.id}`;
+  }
+
+  // 5. Hiển thị modal
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+};
+
+window.closeProductModal = function() {
+  const modal = document.getElementById("productDetailModal");
+  if (modal) {
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden", "true");
+  }
+  document.body.style.overflow = "";
+  closeLightbox();
+};
+
+window.handleModalBackdropClick = function(event) {
+  if (event.target.id === "productDetailModal") {
+    closeProductModal();
   }
 };
+
+window.updateModalGalleryView = function() {
+  if (currentModalImages.length === 0) return;
+  if (currentModalImageIndex < 0) currentModalImageIndex = currentModalImages.length - 1;
+  if (currentModalImageIndex >= currentModalImages.length) currentModalImageIndex = 0;
+
+  const currentSrc = currentModalImages[currentModalImageIndex];
+  const mainImg = document.getElementById("modalMainImage");
+  if (mainImg) {
+    mainImg.src = currentSrc;
+    mainImg.onerror = function() {
+      this.src = "assets/rok_avatar.jpg";
+    };
+  }
+
+  const counterEl = document.getElementById("modalImageCounter");
+  if (counterEl) {
+    counterEl.textContent = `${currentModalImageIndex + 1}/${currentModalImages.length}`;
+  }
+
+  // Ẩn/Hiện nút prev next nếu chỉ có 1 ảnh
+  const prevBtn = document.querySelector(".gallery-nav-btn.prev");
+  const nextBtn = document.querySelector(".gallery-nav-btn.next");
+  if (prevBtn) prevBtn.style.display = currentModalImages.length > 1 ? "flex" : "none";
+  if (nextBtn) nextBtn.style.display = currentModalImages.length > 1 ? "flex" : "none";
+
+  // Render Thumbnails
+  const thumbsContainer = document.getElementById("modalThumbnailsStrip");
+  if (thumbsContainer) {
+    if (currentModalImages.length <= 1) {
+      thumbsContainer.style.display = "none";
+    } else {
+      thumbsContainer.style.display = "flex";
+      thumbsContainer.innerHTML = currentModalImages.map((src, idx) => `
+        <div class="modal-thumb-item ${idx === currentModalImageIndex ? 'active' : ''}" onclick="selectModalImage(${idx})">
+          <img src="${escapeModalHtml(src)}" alt="Ảnh ${idx + 1}" onerror="this.src='assets/rok_avatar.jpg'">
+        </div>
+      `).join("");
+    }
+  }
+};
+
+window.navigateModalGallery = function(direction) {
+  currentModalImageIndex += direction;
+  updateModalGalleryView();
+};
+
+window.selectModalImage = function(index) {
+  currentModalImageIndex = index;
+  updateModalGalleryView();
+};
+
+// Fullscreen Lightbox
+window.openLightbox = function(src) {
+  const box = document.getElementById("fullscreenLightbox");
+  const img = document.getElementById("lightboxImage");
+  if (box && img) {
+    img.src = src || (currentModalImages[currentModalImageIndex] || "assets/rok_avatar.jpg");
+    box.classList.add("show");
+  }
+};
+
+window.closeLightbox = function() {
+  const box = document.getElementById("fullscreenLightbox");
+  if (box) box.classList.remove("show");
+};
+
+function escapeModalHtml(str) {
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// Bắt phím Escape và Mũi tên bàn phím
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    const lightbox = document.getElementById("fullscreenLightbox");
+    if (lightbox && lightbox.classList.contains("show")) {
+      closeLightbox();
+      return;
+    }
+    closeProductModal();
+  } else if (e.key === "ArrowLeft") {
+    const modal = document.getElementById("productDetailModal");
+    if (modal && modal.classList.contains("show")) {
+      navigateModalGallery(-1);
+    }
+  } else if (e.key === "ArrowRight") {
+    const modal = document.getElementById("productDetailModal");
+    if (modal && modal.classList.contains("show")) {
+      navigateModalGallery(1);
+    }
+  }
+});
 
 // Toggle Favorite Star
 window.toggleFavorite = function(id) {

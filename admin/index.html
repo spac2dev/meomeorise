@@ -1596,8 +1596,9 @@
     document.addEventListener("DOMContentLoaded", () => {
       // 1. Cấu hình Worker URL
       const defaultWorkerUrl = "https://meomeorise.text2developer.workers.dev";
+      const defaultSecret = "spac2meomeorise";
       const savedWorkerUrl = localStorage.getItem("wontrade_worker_url") || defaultWorkerUrl;
-      const savedSecret = localStorage.getItem("wontrade_worker_secret") || "";
+      const savedSecret = localStorage.getItem("wontrade_worker_secret") || defaultSecret;
       if (document.getElementById("workerUrlInput")) document.getElementById("workerUrlInput").value = savedWorkerUrl;
       if (document.getElementById("workerSecretInput")) document.getElementById("workerSecretInput").value = savedSecret;
 

@@ -2379,15 +2379,15 @@ body.iframe-modal-open {
   width: 100%;
   max-width: 920px;
   max-height: 90vh;
-  background: #171b22;
-  border: 1px solid rgba(250, 173, 20, 0.28);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 20px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 30px rgba(250, 173, 20, 0.12);
+  box-shadow: 0 25px 70px -10px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  color: #f1f5f9;
+  color: #0f172a;
   transform: scale(0.96) translateY(10px);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -2396,7 +2396,7 @@ body.iframe-modal-open {
   transform: scale(1) translateY(0);
 }
 
-/* Close Button */
+/* Close Button (Clean Bright Style) */
 .modal-close-btn {
   position: absolute;
   top: 14px;
@@ -2404,9 +2404,9 @@ body.iframe-modal-open {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #e2e8f0;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #475569;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2416,41 +2416,61 @@ body.iframe-modal-open {
 }
 
 .modal-close-btn:hover {
-  background: rgba(230, 0, 18, 0.25);
-  border-color: #e60012;
-  color: #fff;
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #dc2626;
   transform: rotate(90deg);
 }
 
-/* Modal Body */
+/* Modal Body (Ẩn thanh cuộn hoàn toàn nhưng vẫn cuộn mượt mà) */
 .product-modal-body {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
   overflow-y: auto;
   max-height: 90vh;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-/* Left: Gallery Column */
+.product-modal-container,
+.product-modal-body,
+.modal-info-col,
+.modal-thumbnails-strip {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.product-modal-container::-webkit-scrollbar,
+.product-modal-body::-webkit-scrollbar,
+.modal-info-col::-webkit-scrollbar,
+.modal-thumbnails-strip::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Left: Gallery Column (Nền sáng hiện đại) */
 .modal-gallery-col {
-  background: #101318;
+  background: #f8fafc;
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  border-right: 1px solid #e2e8f0;
 }
 
 .modal-main-image-wrap {
   width: 100%;
   aspect-ratio: 16 / 10;
-  background: #090b0e;
+  background: #ffffff;
   border-radius: 14px;
-  border: 1px solid rgba(250, 173, 20, 0.25);
+  border: 1px solid #e2e8f0;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
 .modal-main-image-wrap img {
@@ -2465,7 +2485,7 @@ body.iframe-modal-open {
   transform: scale(1.02);
 }
 
-/* Gallery Nav Buttons */
+/* Gallery Nav Buttons (Trắng viền mềm) */
 .gallery-nav-btn {
   position: absolute;
   top: 50%;
@@ -2473,22 +2493,24 @@ body.iframe-modal-open {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(255, 255, 255, 0.95);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
 }
 
 .gallery-nav-btn:hover {
   background: #e60012;
-  border-color: #ff3b30;
+  border-color: #e60012;
+  color: #fff;
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -2500,31 +2522,32 @@ body.iframe-modal-open {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #cbd5e1;
+  color: #334155;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 4px 10px;
   border-radius: 9999px;
   display: flex;
   align-items: center;
   gap: 5px;
   cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   transition: all 0.2s;
 }
 
 .image-zoom-hint:hover {
-  background: #faad14;
-  color: #000;
-  border-color: #faad14;
+  background: #e60012;
+  color: #fff;
+  border-color: #e60012;
 }
 
 .image-counter-pill {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(15, 23, 42, 0.75);
   color: #f1f5f9;
   font-size: 11px;
   font-weight: 700;
@@ -2540,6 +2563,8 @@ body.iframe-modal-open {
   gap: 8px;
   overflow-x: auto;
   padding: 4px 2px 8px;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 .modal-thumb-item {
@@ -2547,12 +2572,13 @@ body.iframe-modal-open {
   height: 48px;
   flex-shrink: 0;
   border-radius: 8px;
-  border: 2px solid transparent;
-  background: #1e2430;
+  border: 2px solid #e2e8f0;
+  background: #ffffff;
   cursor: pointer;
   overflow: hidden;
   transition: all 0.2s ease;
-  opacity: 0.65;
+  opacity: 0.75;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .modal-thumb-item img {
@@ -2563,23 +2589,27 @@ body.iframe-modal-open {
 }
 
 .modal-thumb-item:hover {
-  opacity: 0.95;
+  opacity: 1;
   transform: translateY(-2px);
+  border-color: #94a3b8;
 }
 
 .modal-thumb-item.active {
   opacity: 1;
-  border-color: #faad14;
-  box-shadow: 0 0 12px rgba(250, 173, 20, 0.4);
+  border-color: #e60012;
+  box-shadow: 0 0 0 2px rgba(230, 0, 18, 0.25);
 }
 
-/* Right: Information Column */
+/* Right: Information Column (Nền trắng tinh tế, không thanh cuộn thô) */
 .modal-info-col {
+  background: #ffffff;
   padding: 24px 28px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   overflow-y: auto;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 .modal-id-row {
@@ -2605,34 +2635,55 @@ body.iframe-modal-open {
   gap: 6px;
 }
 
-.modal-title {
-  font-size: 18px;
-  font-weight: 800;
+.modal-badges-wrap .badge-play {
+  background: #e60012;
   color: #ffffff;
+  font-weight: 800;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 6px rgba(230, 0, 18, 0.25);
+}
+
+.modal-badges-wrap .badge-dark {
+  background: #1e293b;
+  color: #f8fafc;
+  font-weight: 800;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  letter-spacing: 0.3px;
+}
+
+.modal-title {
+  font-size: 19px;
+  font-weight: 800;
+  color: #0f172a;
   line-height: 1.35;
 }
 
-/* Price Box */
+/* Price Box (Nền đỏ hồng nhạt sang trọng) */
 .modal-price-box {
-  background: linear-gradient(135deg, rgba(230, 0, 18, 0.15) 0%, rgba(20, 24, 33, 0.9) 100%);
-  border: 1px solid rgba(230, 0, 18, 0.35);
+  background: linear-gradient(135deg, #fff5f5 0%, #fff1f2 100%);
+  border: 1px solid #fecdd3;
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 14px 18px;
 }
 
 .modal-price-label {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #94a3b8;
-  font-weight: 600;
+  color: #e11d48;
+  font-weight: 700;
 }
 
 .modal-price-val {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 900;
-  color: #ff3b30;
-  text-shadow: 0 2px 10px rgba(230, 0, 18, 0.4);
+  color: #e60012;
+  letter-spacing: -0.5px;
   margin-top: 2px;
 }
 
@@ -2644,27 +2695,28 @@ body.iframe-modal-open {
 }
 
 .modal-section-title {
-  font-size: 11.5px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #faad14;
+  letter-spacing: 0.6px;
+  color: #64748b;
 }
 
 .modal-kingdom-text {
-  font-size: 13px;
-  color: #cbd5e1;
-  font-weight: 600;
+  font-size: 13.5px;
+  color: #0f172a;
+  font-weight: 700;
 }
 
 .modal-stats-text {
   font-size: 12.5px;
-  color: #94a3b8;
-  line-height: 1.5;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #334155;
+  line-height: 1.55;
+  background: #f8fafc;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-weight: 500;
 }
 
 .modal-commanders-row {
@@ -2674,16 +2726,85 @@ body.iframe-modal-open {
   flex-wrap: wrap;
 }
 
+.modal-commanders-row .commander-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.modal-commanders-row .commander-item .commander-frame {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: #f8fafc;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s;
+}
+
+.modal-commanders-row .commander-item:hover .commander-frame {
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+}
+
+.modal-commanders-row .commander-item .commander-frame .level-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15, 23, 42, 0.85);
+  color: #faad14;
+  font-size: 9.5px;
+  font-weight: 800;
+  text-align: center;
+  line-height: 14px;
+}
+
+.modal-commanders-row .commander-item .commander-name {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #334155;
+  max-width: 60px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .modal-tags-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
+.modal-tags-grid .tag-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.modal-tags-grid .tag-badge.orange {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+}
+
+.modal-tags-grid .tag-badge.blue {
+  background: #f0f9ff;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
 /* CTA Wrap & Zalo Button */
 .modal-cta-wrap {
   margin-top: auto;
-  padding-top: 12px;
+  padding-top: 14px;
 }
 
 .btn-modal-zalo {
@@ -2693,21 +2814,21 @@ body.iframe-modal-open {
   gap: 10px;
   width: 100%;
   padding: 13px 20px;
-  background: linear-gradient(135deg, #e60012 0%, #b3000d 100%);
+  background: linear-gradient(135deg, #e60012 0%, #c8000f 100%);
   color: #ffffff;
   border-radius: 12px;
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.5px;
   text-decoration: none;
-  box-shadow: 0 6px 20px rgba(230, 0, 18, 0.4);
+  box-shadow: 0 6px 20px rgba(230, 0, 18, 0.35);
   transition: all 0.25s ease;
 }
 
 .btn-modal-zalo:hover {
-  background: linear-gradient(135deg, #ff1a2b 0%, #cf0010 100%);
+  background: linear-gradient(135deg, #ff1a2b 0%, #d60011 100%);
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(230, 0, 18, 0.55);
+  box-shadow: 0 10px 26px rgba(230, 0, 18, 0.45);
   color: #fff;
 }
 
@@ -2737,7 +2858,7 @@ body.iframe-modal-open {
   max-height: 95vh;
   object-fit: contain;
   border-radius: 8px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
   transform: scale(0.95);
   transition: transform 0.25s ease;
 }
@@ -2780,7 +2901,7 @@ body.iframe-modal-open {
   .modal-gallery-col {
     padding: 16px;
     border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid #e2e8f0;
   }
   .modal-info-col {
     padding: 16px 18px 24px;
@@ -2789,7 +2910,7 @@ body.iframe-modal-open {
     font-size: 16px;
   }
   .modal-price-val {
-    font-size: 20px;
+    font-size: 22px;
   }
 }
 

@@ -413,6 +413,20 @@ function renderListings(itemsToRender) {
       ? `<svg class="star-svg active" width="15" height="15" viewBox="0 0 24 24" fill="#ff9500" stroke="#ff9500" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
       : `<svg class="star-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
 
+    // Image computation: Cover image & Total count for Showcase
+    const catsObj = item.imageCategories || {};
+    const allImages = (Array.isArray(item.images) && item.images.length > 0)
+      ? item.images
+      : [
+          ...(catsObj.tuong || []),
+          ...(catsObj.trangbi || []),
+          ...(catsObj.rss || []),
+          ...(catsObj.vebay || [])
+        ];
+    const coverImg = allImages[0] || (catsObj.tuong?.[0]) || 'assets/banner_hero_1791716494779.jpg';
+    const totalPhotos = allImages.length;
+    const escapedTitle = String(item.title || '').replace(/"/g, '&quot;');
+
     return `
       <div class="product-card" data-id="${item.id}" onclick="handleItemCardClick(${item.id}, event)" style="cursor: pointer;">
         <!-- Mobile Price Anchor (shown only on mobile layout) -->
@@ -424,7 +438,42 @@ function renderListings(itemsToRender) {
           </button>
         </div>
 
-        <!-- Left Column -->
+        <!-- Left Showcase Column: Tấm ảnh chính + Khối 4 nút xem ảnh (Khớp 100% Ảnh mẫu 1) -->
+        <div class="card-cover-column" onclick="event.stopPropagation()">
+          <div class="card-cover-wrap" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp vào để mở xem trọn bộ ảnh chi tiết">
+            <img src="${coverImg}" alt="${escapedTitle}" class="card-cover-img" loading="lazy" onerror="this.src='assets/banner_hero_1791716494779.jpg'">
+            <div class="card-cover-overlay">
+              <span class="cover-zoom-icon">🔍</span>
+              <span class="cover-zoom-text">Xem ${totalPhotos > 0 ? totalPhotos + ' ảnh' : 'chi tiết'}</span>
+            </div>
+            ${totalPhotos > 0 ? `<div class="card-cover-count-badge">📷 ${totalPhotos} ảnh</div>` : ''}
+          </div>
+          <div class="cat-trigger-label">NHẤN [XEM CHI TIẾT] ĐỂ XEM NHIỀU HƠN</div>
+          <div class="cat-buttons-row">
+            <button type="button" class="btn-cat-view" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Xem ảnh tướng">
+              <span class="cat-arrow">▼</span>
+              <span class="cat-l1">XEM</span>
+              <span class="cat-l2">TƯỚNG</span>
+            </button>
+            <button type="button" class="btn-cat-view" onclick="openCategoryModal(${item.id}, 'trangbi', event)" title="Xem ảnh trang bị">
+              <span class="cat-arrow">▼</span>
+              <span class="cat-l1">XEM</span>
+              <span class="cat-l2">TRANG BỊ</span>
+            </button>
+            <button type="button" class="btn-cat-view" onclick="openCategoryModal(${item.id}, 'rss', event)" title="Xem ảnh rss kho">
+              <span class="cat-arrow">▼</span>
+              <span class="cat-l1">XEM</span>
+              <span class="cat-l2">RSS KHO</span>
+            </button>
+            <button type="button" class="btn-cat-view" onclick="openCategoryModal(${item.id}, 'vebay', event)" title="Xem ảnh vé bay">
+              <span class="cat-arrow">▼</span>
+              <span class="cat-l1">XEM</span>
+              <span class="cat-l2">VÉ BAY</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Middle Column: Thông tin tài khoản -->
         <div class="card-left">
           <div class="card-title-row">
             <span class="card-title">${item.title}</span>
@@ -440,7 +489,7 @@ function renderListings(itemsToRender) {
           </div>
         </div>
 
-        <!-- Right Column -->
+        <!-- Right Column: Giá, Tướng chính & Đếm ngược -->
         <div class="card-right">
           <!-- Desktop Price & Fav row (hidden on mobile) -->
           <div class="price-fav-row">
@@ -477,131 +526,12 @@ let currentModalImages = [];
 let currentModalImageIndex = 0;
 
 window.handleItemCardClick = function(id, event) {
-  if (event && (event.target.closest('.btn-fav') || event.target.tagName === 'BUTTON')) return;
-  openProductModal(id);
+  if (event && (event.target.closest('.btn-fav') || event.target.tagName === 'BUTTON' || event.target.closest('.btn-cat-view'))) return;
+  openCategoryModal(id, 'tuong', event);
 };
 
 window.openProductModal = function(id) {
-  const productsList = (window.mockProducts && window.mockProducts.length > 0)
-    ? window.mockProducts
-    : (typeof mockProducts !== "undefined" ? mockProducts : []);
-
-  const item = productsList.find(p => Number(p.id) === Number(id));
-  if (!item) return;
-
-  currentModalItem = item;
-
-  // 1. Lưu vào lịch sử xem vật phẩm (history)
-  try {
-    const STORAGE_KEY = 'wontrade_viewed_history';
-    let history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    history = history.filter(h => h.id !== item.id);
-    const now = new Date();
-    const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
-    const rawPrice = Number(item.price) || 0;
-    const vndPrice = rawPrice < 50000 ? Math.round(rawPrice * 25400) : rawPrice;
-    history.unshift({
-      id: item.id,
-      title: item.title,
-      price: vndPrice,
-      link: item.link,
-      info: item.info,
-      stats: item.stats,
-      badges: item.badges,
-      tags: item.tags,
-      commanders: item.commanders,
-      images: item.images || [],
-      viewedAt: timeStr
-    });
-    if (history.length > 50) history = history.slice(0, 50);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-  } catch(e) {
-    console.error("Lỗi lưu history:", e);
-  }
-
-  // 2. Điền thông tin vào Modal
-  const modal = document.getElementById("productDetailModal");
-  if (!modal) return;
-
-  // ID & Title
-  const idEl = document.getElementById("modalProductId");
-  if (idEl) idEl.textContent = `#${item.id}`;
-
-  const titleEl = document.getElementById("modalProductTitle");
-  if (titleEl) titleEl.textContent = item.title;
-
-  // Badges
-  const badgesEl = document.getElementById("modalBadges");
-  if (badgesEl) {
-    const badges = Array.isArray(item.badges) ? item.badges : [];
-    badgesEl.innerHTML = badges.map(b => `
-      <span class="${b.type === 'red' ? 'badge-play' : 'badge-dark'}">${escapeModalHtml(b.text)}</span>
-    `).join("");
-  }
-
-  // Giá VNĐ
-  const rawPrice = Number(item.price) || 0;
-  const vndPrice = rawPrice < 50000 ? Math.round(rawPrice * 25400) : rawPrice;
-  const priceEl = document.getElementById("modalProductPrice");
-  if (priceEl) priceEl.textContent = vndPrice.toLocaleString("vi-VN") + " ₫";
-
-  // Vương quốc & Nhập cư
-  const infoEl = document.getElementById("modalProductInfo");
-  if (infoEl) infoEl.textContent = item.info || "Đang cập nhật";
-
-  // Stats
-  const statsEl = document.getElementById("modalProductStats");
-  if (statsEl) statsEl.textContent = item.stats || "Cấp độ 25 | Sức mạnh đầy đủ";
-
-  // 5 Tướng chính
-  const commEl = document.getElementById("modalCommanders");
-  if (commEl && Array.isArray(item.commanders)) {
-    commEl.innerHTML = item.commanders.map(c => {
-      let portraitHtml = "";
-      if (c.isImg) {
-        portraitHtml = `<img src="assets/arthur.jpg" alt="${c.name}" class="commander-img" onerror="this.outerHTML='${commanderSvgs.arthur.replace(/'/g, "\\'")}'" />`;
-      } else {
-        portraitHtml = commanderSvgs[c.id] || commanderSvgs.arthur;
-      }
-      return `
-        <div class="commander-item" title="${escapeModalHtml(c.name)} (Lv ${c.level || 60})">
-          <div class="commander-frame">
-            ${portraitHtml}
-            <div class="level-badge">${c.level || 60}</div>
-          </div>
-          <div class="commander-name">${escapeModalHtml(c.name)}</div>
-        </div>
-      `;
-    }).join("");
-  }
-
-  // Tags
-  const tagsEl = document.getElementById("modalProductTags");
-  if (tagsEl && Array.isArray(item.tags)) {
-    tagsEl.innerHTML = item.tags.map(t => `
-      <span class="tag-badge ${t.type || 'orange'}">${escapeModalHtml(t.text)}</span>
-    `).join("");
-  }
-
-  // 3. Khởi tạo danh sách ảnh Gallery
-  currentModalImages = (Array.isArray(item.images) && item.images.length > 0)
-    ? item.images
-    : ["assets/rok_avatar.jpg"];
-  currentModalImageIndex = 0;
-  updateModalGalleryView();
-
-  // 4. Cập nhật nút Zalo mua acc
-  const zaloBtn = document.getElementById("modalZaloBuyBtn");
-  if (zaloBtn) {
-    const zaloPhone = (window.siteConfig && window.siteConfig.contact && window.siteConfig.contact.zalo) || "0372996420";
-    zaloBtn.href = `https://zalo.me/${zaloPhone}`;
-    zaloBtn.title = `Nhắn tin Zalo mua acc #${item.id}`;
-  }
-
-  // 5. Hiển thị modal
-  modal.classList.add("show");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
+  openCategoryModal(id, 'tuong');
 };
 
 window.closeProductModal = function() {
@@ -696,12 +626,251 @@ function escapeModalHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
+// ============================================================================
+// FULLSCREEN CATEGORY SHOWCASE MODAL (TƯỚNG / TRANG BỊ / RSS KHO / VÉ BAY)
+// ============================================================================
+let currentCategoryModalItem = null;
+let currentActiveCategory = 'tuong'; // 'tuong' | 'trangbi' | 'rss' | 'vebay'
+
+const categoryMetaMap = {
+  tuong: { title: "CHI TIẾT TƯỚNG", label: "tướng", icon: "👑" },
+  trangbi: { title: "CHI TIẾT TRANG BỊ", label: "trang bị", icon: "⚔️" },
+  rss: { title: "CHI TIẾT RSS KHO", label: "rss kho", icon: "🌾" },
+  vebay: { title: "CHI TIẾT VÉ BAY", label: "vé bay", icon: "✈️" }
+};
+
+window.openCategoryModal = function(id, category = 'tuong', event) {
+  if (event) event.stopPropagation();
+
+  const productList = (window.mockProducts && window.mockProducts.length > 0)
+    ? window.mockProducts
+    : (typeof products !== 'undefined' ? products : []);
+  const item = productList.find(p => p && Number(p.id) === Number(id));
+  if (!item) return;
+
+  currentCategoryModalItem = item;
+  currentActiveCategory = category || 'tuong';
+
+  const modal = document.getElementById("fullscreenCatModal");
+  if (!modal) return;
+
+  const rawPrice = Number(item.price) || 0;
+  const vndPrice = rawPrice < 50000 ? Math.round(rawPrice * 25400) : rawPrice;
+  const priceFormatted = vndPrice.toLocaleString("vi-VN") + " ₫";
+
+  // 1. Cập nhật Sticky Header
+  const headerIdEl = document.getElementById("catModalHeaderId");
+  if (headerIdEl) headerIdEl.textContent = `#${item.id}`;
+
+  const headerTitleEl = document.getElementById("catModalHeaderAccTitle");
+  if (headerTitleEl) headerTitleEl.textContent = item.title;
+
+  const subEl = document.getElementById("catModalSubtitle");
+  if (subEl) {
+    subEl.textContent = `Giá: ${priceFormatted} • ${item.info || 'Rise of Kingdoms'}`;
+  }
+
+  // 2. Điền thẻ Thông Tin Tài Khoản Chi Tiết (Account Info Card)
+  const accIdEl = document.getElementById("catAccId");
+  if (accIdEl) accIdEl.textContent = `#${item.id}`;
+
+  const accTitleEl = document.getElementById("catAccTitle");
+  if (accTitleEl) accTitleEl.textContent = item.title;
+
+  const accPriceEl = document.getElementById("catAccPrice");
+  if (accPriceEl) accPriceEl.textContent = priceFormatted;
+
+  const badgesEl = document.getElementById("catAccBadges");
+  if (badgesEl) {
+    const badges = Array.isArray(item.badges) ? item.badges : [];
+    badgesEl.innerHTML = badges.map(b => {
+      const bType = typeof b === 'object' && b.type === 'red' ? 'badge-play' : 'badge-dark';
+      const bText = typeof b === 'object' ? b.text : String(b);
+      return `<span class="${bType}">${escapeModalHtml(bText)}</span>`;
+    }).join("");
+  }
+
+  const kingdomEl = document.getElementById("catAccKingdom");
+  if (kingdomEl) kingdomEl.textContent = item.info || "Đang cập nhật";
+
+  const statsEl = document.getElementById("catAccStats");
+  if (statsEl) statsEl.textContent = item.stats || "Cấp độ 25 | Sức mạnh đầy đủ";
+
+  // 5 Tướng chính
+  const commEl = document.getElementById("catAccCommanders");
+  if (commEl && Array.isArray(item.commanders)) {
+    commEl.innerHTML = item.commanders.map(c => {
+      let portraitHtml = "";
+      if (c.isImg) {
+        portraitHtml = `<img src="assets/arthur.jpg" alt="${c.name}" class="commander-img" onerror="this.outerHTML='${commanderSvgs.arthur.replace(/'/g, "\\'")}'" />`;
+      } else {
+        portraitHtml = commanderSvgs[c.id] || commanderSvgs.arthur;
+      }
+      return `
+        <div class="commander-item" title="${escapeModalHtml(c.name)} (Lv ${c.level || 60})">
+          <div class="commander-frame">
+            ${portraitHtml}
+            <div class="level-badge">${c.level || 60}</div>
+          </div>
+          <div class="commander-name">${escapeModalHtml(c.name)}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  // Tags
+  const tagsEl = document.getElementById("catAccTags");
+  if (tagsEl && Array.isArray(item.tags)) {
+    tagsEl.innerHTML = item.tags.map(t => {
+      const tType = typeof t === 'object' && t.type ? t.type : 'orange';
+      const tText = typeof t === 'object' ? t.text : String(t);
+      return `<span class="tag-badge ${tType}">${escapeModalHtml(tText)}</span>`;
+    }).join("");
+  }
+
+  // Cập nhật các nút Zalo (Header, Thẻ bảo hành, Bottom Dock)
+  const zaloPhone = (window.siteConfig && window.siteConfig.contact && window.siteConfig.contact.zalo) || "0372996420";
+  const zaloUrl = `https://zalo.me/${zaloPhone}`;
+
+  const headerZalo = document.getElementById("catHeaderZaloBtn");
+  if (headerZalo) headerZalo.href = zaloUrl;
+
+  const directZalo = document.getElementById("catAccZaloDirectBtn");
+  if (directZalo) directZalo.href = zaloUrl;
+
+  const zaloBtn = document.getElementById("catModalZaloBtn");
+  const zaloTxt = document.getElementById("catModalZaloTxt");
+  if (zaloBtn) {
+    zaloBtn.href = zaloUrl;
+    if (zaloTxt) {
+      zaloTxt.textContent = `NHẮN ZALO MUA ACC #${item.id} (${priceFormatted})`;
+    }
+  }
+
+  // 3. Cập nhật số lượng ảnh trên 4 tabs
+  updateCategoryModalCounts(item);
+
+  // 4. Hiển thị nội dung stream ảnh theo tab đang chọn
+  renderCategoryModalContent();
+
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+};
+
+window.closeCategoryModal = function() {
+  const modal = document.getElementById("fullscreenCatModal");
+  if (modal) {
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden", "true");
+  }
+  document.body.style.overflow = "";
+  closeLightbox();
+};
+
+window.handleCatModalBackdropClick = function(event) {
+  if (event.target.id === "fullscreenCatModal") {
+    closeCategoryModal();
+  }
+};
+
+window.switchCategoryModalTab = function(category) {
+  currentActiveCategory = category;
+  renderCategoryModalContent();
+};
+
+function updateCategoryModalCounts(item) {
+  const cats = item.imageCategories || {};
+  const tuongImgs = Array.isArray(cats.tuong) ? cats.tuong : (Array.isArray(item.images) ? item.images : []);
+  const trangbiImgs = Array.isArray(cats.trangbi) ? cats.trangbi : [];
+  const rssImgs = Array.isArray(cats.rss) ? cats.rss : [];
+  const vebayImgs = Array.isArray(cats.vebay) ? cats.vebay : [];
+
+  const elTuong = document.getElementById("modalCatCount_tuong");
+  const elTrangbi = document.getElementById("modalCatCount_trangbi");
+  const elRss = document.getElementById("modalCatCount_rss");
+  const elVebay = document.getElementById("modalCatCount_vebay");
+
+  if (elTuong) elTuong.textContent = tuongImgs.length;
+  if (elTrangbi) elTrangbi.textContent = trangbiImgs.length;
+  if (elRss) elRss.textContent = rssImgs.length;
+  if (elVebay) elVebay.textContent = vebayImgs.length;
+}
+
+function renderCategoryModalContent() {
+  if (!currentCategoryModalItem) return;
+  const item = currentCategoryModalItem;
+  const meta = categoryMetaMap[currentActiveCategory] || categoryMetaMap.tuong;
+
+  // Cập nhật Badge tiêu đề của stream ảnh & Tiêu đề lớn Header (Khớp Ảnh mẫu 2)
+  const streamIconEl = document.getElementById("catStreamIcon");
+  if (streamIconEl) streamIconEl.textContent = meta.icon;
+
+  const streamTitleEl = document.getElementById("catStreamTitle");
+  if (streamTitleEl) streamTitleEl.textContent = meta.title;
+
+  const centerTitleEl = document.getElementById("catModalCenterTitle");
+  if (centerTitleEl) centerTitleEl.textContent = meta.title;
+
+  // Active tab state
+  document.querySelectorAll(".cat-modal-tab-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.cat === currentActiveCategory);
+  });
+
+  // Lấy ảnh của category này
+  const cats = item.imageCategories || {};
+  let imagesForCat = [];
+  if (currentActiveCategory === 'tuong') {
+    imagesForCat = Array.isArray(cats.tuong) && cats.tuong.length > 0
+      ? cats.tuong
+      : (Array.isArray(item.images) ? item.images : []);
+  } else {
+    imagesForCat = Array.isArray(cats[currentActiveCategory]) ? cats[currentActiveCategory] : [];
+  }
+
+  const bodyEl = document.getElementById("catModalBody");
+  if (!bodyEl) return;
+
+  if (imagesForCat.length === 0) {
+    bodyEl.innerHTML = `
+      <div class="cat-empty-state">
+        <div class="cat-empty-icon">${meta.icon}</div>
+        <div class="cat-empty-title">Chưa có ảnh mục ${meta.label} cho Acc #${item.id}</div>
+        <p class="cat-empty-desc">
+          Tài khoản này chưa có ảnh riêng cho mục <strong>${meta.label}</strong>. Quý khách vui lòng nhấn nút "Nhắn Zalo" bên dưới để Shop gửi ảnh chụp trực tiếp từ game trong 30 giây!
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  bodyEl.innerHTML = imagesForCat.map((src, idx) => `
+    <div class="cat-image-card">
+      <div class="cat-image-caption">
+        <span class="cap-dot"></span>
+        <span>${idx + 1}. Acc #${item.id} - ${item.title} - hình ảnh ${meta.label}</span>
+      </div>
+      <img src="${escapeModalHtml(src)}" 
+           alt="Ảnh ${meta.label} ${idx + 1}" 
+           class="cat-full-image" 
+           loading="lazy"
+           onclick="openLightbox('${escapeModalHtml(src)}')" 
+           onerror="this.src='assets/banner_hero_1791716494779.jpg'">
+    </div>
+  `).join("");
+}
+
 // Bắt phím Escape và Mũi tên bàn phím
 window.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     const lightbox = document.getElementById("fullscreenLightbox");
     if (lightbox && lightbox.classList.contains("show")) {
       closeLightbox();
+      return;
+    }
+    const catModal = document.getElementById("fullscreenCatModal");
+    if (catModal && catModal.classList.contains("show")) {
+      closeCategoryModal();
       return;
     }
     closeProductModal();

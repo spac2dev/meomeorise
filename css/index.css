@@ -51,6 +51,20 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Ẩn thanh cuộn toàn bộ trang (vẫn cuộn mượt mà bình thường) */
+html, body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE & Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera, Edge */
+  width: 0 !important;
+  height: 0 !important;
+}
+
 body {
   font-family: var(--font-family);
   background-color: var(--bg-color);
@@ -962,6 +976,124 @@ body.force-mobile .app-viewport {
   align-items: center;
 }
 
+.custom-select-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #ffffff;
+  border: 1.5px solid #e5e6eb;
+  border-radius: var(--radius-pill);
+  padding: 6px 14px 6px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d2129;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  user-select: none;
+  min-width: 200px;
+}
+
+.custom-select-trigger:hover {
+  border-color: #ff3b30;
+  color: #ff3b30;
+  box-shadow: 0 2px 8px rgba(255, 59, 48, 0.12);
+}
+
+.custom-select-box.open .custom-select-trigger {
+  border-color: #ff3b30;
+  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.14);
+  color: #ff3b30;
+}
+
+.custom-select-trigger .chevron-svg {
+  color: #86909c;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.custom-select-box.open .chevron-svg {
+  transform: rotate(180deg);
+  color: #ff3b30;
+}
+
+/* Custom Dropdown Menu Card (Tránh khung thô mặc định của trình duyệt) */
+.custom-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 236px;
+  background: rgba(255, 255, 255, 0.98);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 
+    0 16px 38px -4px rgba(15, 23, 42, 0.16),
+    0 6px 16px -2px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(0, 0, 0, 0.03);
+  padding: 6px;
+  z-index: 1000;
+  animation: customDropdownIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.custom-select-box.open .custom-dropdown-menu {
+  display: block;
+}
+
+@keyframes customDropdownIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.custom-dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  user-select: none;
+}
+
+.custom-dropdown-item:hover {
+  background: rgba(255, 59, 48, 0.08);
+  color: #ff3b30;
+  transform: translateX(2px);
+}
+
+.custom-dropdown-item .check-icon {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.16s ease;
+  color: #ff3b30;
+  flex-shrink: 0;
+}
+
+.custom-dropdown-item.active {
+  background: rgba(255, 59, 48, 0.09);
+  color: #e60012;
+  font-weight: 700;
+}
+
+.custom-dropdown-item.active .check-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Fallback Sort Select */
 .sort-select {
   appearance: none;
   -webkit-appearance: none;
@@ -975,25 +1107,6 @@ body.force-mobile .app-viewport {
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-}
-
-.sort-select:hover {
-  border-color: #ff3b30;
-  color: #ff3b30;
-}
-
-.sort-select:focus {
-  outline: none;
-  border-color: #ff3b30;
-  box-shadow: 0 0 0 2px rgba(255, 59, 48, 0.12);
-}
-
-.custom-select-box .chevron-svg {
-  position: absolute;
-  right: 12px;
-  pointer-events: none;
-  color: #86909c;
-  transition: transform 0.2s ease;
 }
 
 /* Mobile Filter Bar Overlay/Row */
@@ -1760,19 +1873,19 @@ body.force-mobile .app-viewport {
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 32px);
-  max-width: 336px;
-  height: 64px;
-  background: rgba(255, 255, 255, 0.93);
-  -webkit-backdrop-filter: blur(30px) saturate(210%);
-  backdrop-filter: blur(30px) saturate(210%);
+  max-width: 326px;
+  height: 62px;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  backdrop-filter: blur(28px) saturate(190%);
   border-radius: 9999px;
-  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.95);
   box-shadow: 
-    0 16px 36px -4px rgba(15, 23, 42, 0.16),
-    0 6px 16px -2px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(0, 0, 0, 0.05),
+    0 16px 36px -4px rgba(15, 23, 42, 0.12),
+    0 6px 16px -2px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(0, 0, 0, 0.04),
     inset 0 1.5px 2px rgba(255, 255, 255, 1);
-  padding: 0 10px;
+  padding: 4px 5px;
   z-index: 10000;
   justify-content: space-between;
   align-items: center;
@@ -1794,7 +1907,7 @@ body.force-mobile .app-viewport {
   }
 }
 
-/* iOS Tab Item - 100% Equal, Spacious, Elegant */
+/* iOS Tab Item - High-end Tactile Capsule Navigation */
 .mobile-dock-item {
   display: flex;
   flex-direction: column;
@@ -1806,55 +1919,42 @@ body.force-mobile .app-viewport {
   cursor: pointer;
   flex: 1;
   height: 100%;
-  padding: 6px 0 5px 0;
+  padding: 4px 6px;
   box-sizing: border-box;
-  border-radius: 20px;
+  border-radius: 9999px;
   position: relative;
-  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.18s ease;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              background 0.22s ease, 
+              box-shadow 0.22s ease, 
+              color 0.2s ease,
+              border-color 0.2s ease;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  border: 1px solid transparent;
 }
 
 .mobile-dock-item:active {
-  transform: scale(0.90);
+  transform: scale(0.93);
 }
 
 .mobile-dock-icon-box {
-  width: 44px;
-  height: 30px;
+  width: auto;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 15px;
-  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* SF Symbols: Outline vs Fill Handling */
+/* SF Symbols & Icons */
 .sf-icon {
   width: 22px;
   height: 22px;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.18s ease;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), stroke-width 0.2s ease;
   flex-shrink: 0;
-}
-
-/* Default / Inactive State: Show Outline, Hide Fill */
-.mobile-dock-item .sf-fill {
-  display: none !important;
-}
-
-.mobile-dock-item .sf-outline {
-  display: block !important;
-  color: #8e8e93;
-}
-
-/* Active State: Show Fill, Hide Outline */
-.mobile-dock-item.active .sf-fill {
-  display: block !important;
-  color: var(--primary-red, #e60012);
-}
-
-.mobile-dock-item.active .sf-outline {
-  display: none !important;
 }
 
 .mobile-dock-label {
@@ -1868,19 +1968,19 @@ body.force-mobile .app-viewport {
   transition: color 0.2s ease, font-weight 0.2s ease;
 }
 
-/* Active Tab Highlight - Apple Crimson Tint with Soft Tactile Pill */
+/* Active State - Tactile Elevated Capsule in White */
 .mobile-dock-item.active {
+  background: #ffffff;
   color: var(--primary-red, #e60012);
+  border: 1px solid rgba(230, 0, 18, 0.14);
+  box-shadow: 
+    0 4px 14px -2px rgba(230, 0, 18, 0.14),
+    0 2px 6px -1px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1.5px #ffffff;
 }
 
-.mobile-dock-item.active .mobile-dock-icon-box {
-  background: rgba(230, 0, 18, 0.10);
-  border: 0.5px solid rgba(230, 0, 18, 0.16);
-  transform: translateY(-1px);
-}
-
-.mobile-dock-item.active .sf-fill {
-  transform: scale(1.06);
+.mobile-dock-item.active .sf-icon {
+  transform: scale(1.05);
 }
 
 .mobile-dock-item.active .mobile-dock-label {

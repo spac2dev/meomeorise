@@ -10,7 +10,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/index.css">
-  <link rel="icon" href="assets/rok_avatar.jpg" type="image/jpeg">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
 
   <style>
     /* ========================================================================
@@ -189,6 +193,123 @@
     .m-tab-btn.active .m-tab-count {
       color: #ffffff;
       opacity: 0.85;
+    }
+
+    /* 2.5. Mobile Top Horizontal All-Photos Slider (Cuộn Ngang Tất Cả Ảnh Sản Phẩm) */
+    .m-all-photos-section {
+      position: relative;
+      width: 100%;
+      margin-top: 8px;
+      padding: 0 10px;
+    }
+
+    .m-all-photos-slider {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .m-all-photos-slider::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    .m-slider-card {
+      flex: 0 0 calc(100% - 24px);
+      scroll-snap-align: center;
+      position: relative;
+      height: 230px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0f172a;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      border: 0.5px solid rgba(60, 60, 67, 0.12);
+      cursor: zoom-in;
+      transition: transform 0.15s ease;
+    }
+
+    .m-slider-card:active {
+      transform: scale(0.985);
+    }
+
+    .m-slider-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #0f172a;
+    }
+
+    .m-slider-card .m-slider-cat-pill {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(15, 23, 42, 0.85);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 0.5px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .m-slider-card .m-slider-zoom-tag {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(15, 23, 42, 0.8);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .m-slider-floating-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 4px 0 4px;
+    }
+
+    .m-slider-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #ffffff;
+      color: #1c1c1e;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      border: 0.5px solid rgba(60, 60, 67, 0.1);
+    }
+
+    .m-slider-swipe-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: #8e8e93;
+      font-weight: 600;
     }
 
     /* 3. Mobile Hero Card (Giá tiền, Tiêu đề, Trạng thái) */
@@ -648,6 +769,23 @@
         </a>
       </header>
 
+      <!-- 1.5. Slider Ảnh Cuộn Ngang Toàn Bộ Ảnh Sản Phẩm (Tất Cả Tướng, Trang Bị, Kho RSS, Vé Bay) -->
+      <section class="m-all-photos-section" aria-label="Bộ sưu tập ảnh sản phẩm">
+        <div class="m-all-photos-slider" id="mAllPhotosSlider">
+          <!-- Render toàn bộ ảnh qua JavaScript -->
+        </div>
+        <div class="m-slider-floating-bar">
+          <div class="m-slider-counter" id="mSliderCounterBadge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span id="mSliderCounterTxt">1 / 1</span>
+          </div>
+          <div class="m-slider-swipe-hint">
+            <span>Cuộn ngang xem tất cả ảnh</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+      </section>
+
       <!-- 2. Thẻ Thông Tin Quan Trọng (Giá, Mã acc, Trạng thái nhập cư) -->
       <section class="m-hero-card">
         <div class="m-price-row">
@@ -952,8 +1090,75 @@
           if (mCountEl) mCountEl.textContent = count + " ảnh";
         });
 
-        // 4. Khởi chạy danh mục ban đầu
+        // 4. Khởi chạy thanh cuộn ngang tất cả ảnh Mobile
+        renderMobileAllPhotosSlider();
+
+        // 5. Khởi chạy danh mục ban đầu
         window.switchCategory(categoryMeta[initialCat] ? initialCat : 'tuong');
+      }
+
+      function renderMobileAllPhotosSlider() {
+        var slider = document.getElementById("mAllPhotosSlider");
+        var counterTxt = document.getElementById("mSliderCounterTxt");
+        if (!slider || !currentItem) return;
+
+        var allPhotos = [];
+        var cats = currentItem.imageCategories || {};
+        var catMetaTitles = {
+          tuong: { label: "TƯỚNG", icon: "👑" },
+          trangbi: { label: "TRANG BỊ", icon: "⚔️" },
+          rss: { label: "KHO RSS", icon: "🌾" },
+          vebay: { label: "VÉ BAY", icon: "🎫" }
+        };
+
+        ['tuong', 'trangbi', 'rss', 'vebay'].forEach(function(k) {
+          if (Array.isArray(cats[k])) {
+            cats[k].forEach(function(url) {
+              if (url && !allPhotos.some(function(p) { return p.url === url; })) {
+                allPhotos.push({ url: url, cat: k, meta: catMetaTitles[k] || { label: "ẢNH", icon: "📷" } });
+              }
+            });
+          }
+        });
+
+        if (Array.isArray(currentItem.images)) {
+          currentItem.images.forEach(function(url) {
+            if (url && !allPhotos.some(function(p) { return p.url === url; })) {
+              allPhotos.push({ url: url, cat: 'tuong', meta: catMetaTitles.tuong });
+            }
+          });
+        }
+
+        if (allPhotos.length === 0) {
+          allPhotos.push({ url: 'assets/banner_hero_1791716494779.jpg', cat: 'tuong', meta: catMetaTitles.tuong });
+        }
+
+        if (counterTxt) {
+          counterTxt.textContent = "1 / " + allPhotos.length;
+        }
+
+        slider.innerHTML = allPhotos.map(function(item, idx) {
+          var safe = escapeHtml(item.url);
+          return '\
+            <div class="m-slider-card" data-cat="' + item.cat + '" onclick="openLightbox(\'' + safe + '\')" data-idx="' + (idx + 1) + '" title="Nhấp xem phóng to">\
+              <div class="m-slider-cat-pill">' + item.meta.icon + ' ' + item.meta.label + ' • #' + (idx + 1) + '</div>\
+              <div class="m-slider-zoom-tag">\
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>\
+                <span>Phóng to</span>\
+              </div>\
+              <img src="' + safe + '" alt="Ảnh ' + (idx + 1) + '" loading="lazy" onerror="this.src=\'assets/banner_hero_1791716494779.jpg\'">\
+            </div>';
+        }).join("");
+
+        // Cập nhật số trang khi người dùng cuộn ngang slider
+        slider.addEventListener("scroll", function() {
+          if (!counterTxt || allPhotos.length <= 1) return;
+          var firstCard = slider.querySelector('.m-slider-card');
+          if (!firstCard) return;
+          var cardWidth = firstCard.offsetWidth + 10; // 10px gap
+          var currentIndex = Math.min(allPhotos.length, Math.max(1, Math.round(slider.scrollLeft / cardWidth) + 1));
+          counterTxt.textContent = currentIndex + " / " + allPhotos.length;
+        }, { passive: true });
       }
 
       window.switchCategory = function(catKey) {
@@ -969,6 +1174,15 @@
             btn.classList.remove('active');
           }
         });
+
+        // Cuộn slider ngang đến ảnh đầu tiên của danh mục tương ứng (nếu có)
+        var slider = document.getElementById("mAllPhotosSlider");
+        if (slider) {
+          var targetCard = slider.querySelector('.m-slider-card[data-cat="' + catKey + '"]');
+          if (targetCard) {
+            slider.scrollTo({ left: targetCard.offsetLeft - 10, behavior: 'smooth' });
+          }
+        }
 
         // Tiêu đề danh mục Desktop
         var centerTitle = document.getElementById("detailCenterTitle");
@@ -1012,10 +1226,6 @@
               var safe = escapeHtml(src);
               return '\
                 <article class="cat-image-card">\
-                  <div class="cat-image-caption">\
-                    <span class="cap-dot"></span>\
-                    <span>Ảnh ' + (idx + 1) + '/' + imgList.length + ' - ' + meta.title + '</span>\
-                  </div>\
                   <img src="' + safe + '" alt="' + meta.title + ' - Ảnh ' + (idx + 1) + '" class="cat-full-image" loading="lazy" onclick="openLightbox(\'' + safe + '\')" onerror="this.src=\'assets/banner_hero_1791716494779.jpg\'">\
                 </article>';
             }).join("");

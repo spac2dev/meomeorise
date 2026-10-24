@@ -831,10 +831,6 @@ function renderCategoryModalContent() {
 
   bodyEl.innerHTML = imagesForCat.map((src, idx) => `
     <div class="cat-image-card">
-      <div class="cat-image-caption">
-        <span class="cap-dot"></span>
-        <span>${idx + 1}. Acc #${item.id} - ${item.title} - hình ảnh ${meta.label}</span>
-      </div>
       <img src="${escapeModalHtml(src)}" 
            alt="Ảnh ${meta.label} ${idx + 1}" 
            class="cat-full-image" 
@@ -979,6 +975,7 @@ window.setQuickPrice = function(min, max, btnEl) {
 window.syncDesktopSort = function(val) {
   const sortM = document.getElementById("sortOrderSelectMobile");
   if (sortM) sortM.value = val;
+  updateCustomSortUI(val);
   applyFilters();
 };
 
@@ -986,8 +983,22 @@ window.syncDesktopSort = function(val) {
 window.syncMobileSort = function(val) {
   const sortD = document.getElementById("sortOrderSelect");
   if (sortD) sortD.value = val;
+  updateCustomSortUI(val);
   applyFilters();
 };
+
+function updateCustomSortUI(val) {
+  const sortVal = document.getElementById("customSortVal");
+  const items = document.querySelectorAll("#customSortMenu .custom-dropdown-item");
+  items.forEach(item => {
+    if (item.dataset.value === val) {
+      item.classList.add("active");
+      if (sortVal) sortVal.textContent = item.querySelector("span")?.textContent || "";
+    } else {
+      item.classList.remove("active");
+    }
+  });
+}
 
 // Reset toàn bộ bộ lọc về mặc định
 window.resetFilters = function() {
@@ -1004,6 +1015,8 @@ window.resetFilters = function() {
   if (maxP) maxP.value = "";
   if (sortD) sortD.value = "default";
   if (sortM) sortM.value = "default";
+
+  updateCustomSortUI("default");
 
   document.querySelectorAll(".quick-chip").forEach(c => {
     if (c.dataset.range === "all") {
@@ -1146,4 +1159,53 @@ document.addEventListener("DOMContentLoaded", () => {
       item.classList.add("active");
     });
   });
+
+  // Khởi tạo Custom Sort Dropdown (Menu bo góc đổ bóng sang trọng, bỏ khung thô mặc định)
+  const sortBox = document.getElementById("customSortDropdown");
+  const sortTrigger = document.getElementById("customSortTrigger");
+  const sortVal = document.getElementById("customSortVal");
+  const sortMenu = document.getElementById("customSortMenu");
+  const nativeSort = document.getElementById("sortOrderSelect");
+
+  if (sortBox && sortTrigger && sortMenu) {
+    sortTrigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = sortBox.classList.toggle("open");
+      sortTrigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+
+    const items = sortMenu.querySelectorAll(".custom-dropdown-item");
+    items.forEach(item => {
+      item.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const val = item.dataset.value;
+        const text = item.querySelector("span")?.textContent || "";
+
+        items.forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
+        if (sortVal) sortVal.textContent = text;
+        sortBox.classList.remove("open");
+        sortTrigger.setAttribute("aria-expanded", "false");
+
+        if (nativeSort) {
+          nativeSort.value = val;
+          syncDesktopSort(val);
+        }
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!sortBox.contains(e.target)) {
+        sortBox.classList.remove("open");
+        sortTrigger.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        sortBox.classList.remove("open");
+        sortTrigger.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
 });

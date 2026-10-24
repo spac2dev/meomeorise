@@ -47,9 +47,9 @@ function updateIndexHtmlWithData(html, data) {
   const contact = siteConfig.contact || {};
   const banner = siteConfig.banner || {};
 
-  const title = seo.title || "WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức";
-  const desc = seo.description || "Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng.";
-  const keywords = seo.keywords || "wontrade, rise of kingdoms, rok, mua bán acc rok, giao dịch rok";
+  const title = seo.title || "Meo Meo Rise - Nền tảng giao dịch Rise of Kingdoms chính thức";
+  const desc = seo.description || "Meo Meo Rise - Nền tảng giao dịch tài khoản Rise of Kingdoms chính thức và uy tín hàng đầu. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng.";
+  const keywords = seo.keywords || "Meo Meo Rise, meomeorise, nền tảng giao dịch rise of kingdoms chính thức, mua bán acc rok, giao dịch rok";
   const avatar = seo.ogImage || brand.avatar || "assets/rok_avatar.jpg";
   const gameName = brand.gameName || "Rise of Kingdoms";
   const zaloPhone = contact.zalo || contact.phone || "0372996420";

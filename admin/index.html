@@ -1353,6 +1353,17 @@
       transform: translateY(-1px);
     }
 
+    .btn-warning-save {
+      background: #d97706;
+      color: #ffffff;
+      border: 1px solid #b45309;
+      font-weight: 700;
+    }
+    .btn-warning-save:hover {
+      background: #b45309;
+      transform: translateY(-1px);
+    }
+
     /* Banner Thumbnails Management Grid */
     .banner-thumbs-grid {
       display: grid;
@@ -1754,6 +1765,12 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
           <span id="publishProductsText">LƯU SẢN PHẨM & ẢNH</span>
         </button>
+
+        <!-- Save Banner to js/thum.js -->
+        <button class="btn btn-warning-save" id="btnPublishBanner" onclick="publishBannerToGithub()" title="Lưu riêng danh sách ảnh banner vào file js/thum.js">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          <span id="publishBannerText">LƯU ẢNH BANNER (thum.js)</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -1995,43 +2012,28 @@
         </div>
       </div>
 
-      <!-- Card Quản lý Ảnh Banner / Thumbnail Trang Chủ (Hero Banner Slider) -->
+      <!-- Card Quản lý Ảnh Banner / Thumbnail Trang Chủ (File độc lập: js/thum.js) -->
       <div class="form-card" style="margin-top: 16px;">
-        <div class="form-card-header">
+        <div class="form-card-header" style="flex-wrap: wrap; gap: 12px;">
           <div>
             <h3 class="form-card-title">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-              Quản lý Ảnh Banner / Thumbnail Trang Chủ (Hero Banner Slider)
+              Quản lý Ảnh Banner Trang Chủ (File độc lập: js/thum.js)
             </h3>
-            <p class="form-card-subtitle">Cấu hình danh sách các ảnh chạy qua lại trên banner trang chủ. Hỗ trợ upload ảnh ImgBB (có nén ảnh thông minh), kéo thả, Ctrl+V, hoặc nhập link.</p>
-          </div>
-          <div style="display: flex; gap: 8px;">
-            <button type="button" class="btn btn-secondary" onclick="resetDefaultBannerImages()" style="font-size: 12px; padding: 6px 12px;" title="Đặt lại về 2 ảnh mẫu assets/thum1.png và assets/thum2.png">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 2v6h6M21.5 22v-6h-6"></path><path d="M22 11.5A10 10 0 0 0 3.2 7.2L2.5 8M2 12.5a10 10 0 0 0 18.8 4.3l.7-.8"></path></svg>
-              <span>Dùng 2 ảnh mẫu</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Thanh Kiểm Tra & Đối Soát Ảnh Banner Đang Dùng Trên Website Thực Tế -->
-        <div class="web-sync-status-card checking" id="bannerLiveCheckCard" style="margin-bottom: 16px; padding: 12px 16px;">
-          <div class="web-sync-status-left" style="gap: 10px;">
-            <div class="sync-status-dot" id="bannerSyncDot"></div>
-            <div>
-              <strong class="sync-status-title" id="bannerSyncTitle" style="font-size: 13px;">Đang kiểm tra ảnh banner trên website thực tế...</strong>
-              <div class="sync-status-desc" id="bannerSyncDesc" style="font-size: 11.5px; margin-top: 3px;">
-                Đối soát danh sách ảnh banner trong file index.html thực tế để tránh nhầm lẫn.
-              </div>
-            </div>
+            <p class="form-card-subtitle">Mục này quản lý danh sách ảnh chạy qua lại trên banner trang chủ và lưu riêng biệt vào file <code>js/thum.js</code>. Khi cần cập nhật ảnh mới, bạn tải ảnh lên hoặc nhập link rồi bấm <strong>"LƯU ẢNH BANNER (thum.js)"</strong> để xuất bản độc lập mà không ảnh hưởng tới các phần khác.</p>
           </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-            <button type="button" class="btn btn-secondary" onclick="checkLiveWebsiteBanner(false)" style="font-size: 12px; padding: 6px 12px;" title="Kiểm tra lại xem trang web hiện tại đang dùng ảnh nào">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-              <span>Kiểm tra ảnh trên web</span>
+            <button type="button" class="btn btn-secondary" onclick="resetDefaultBannerImages()" style="font-size: 12px; padding: 6px 12px;" title="Đặt lại về 2 ảnh mẫu assets/thum1.png và assets/thum2.png">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 2v6h6M21.5 22v-6h-6"></path><path d="M22 11.5A10 10 0 0 0 3.2 7.2L2.5 8M2 12.5a10 10 0 0 1 18.8 4.3l.7-.8"></path></svg>
+              <span>Dùng 2 ảnh mẫu</span>
             </button>
-            <button type="button" class="btn btn-primary" id="btnPullLiveBanner" onclick="pullLiveBannerImagesToAdmin()" style="font-size: 12px; padding: 6px 12px; display: none;" title="Nạp danh sách ảnh đang chạy thực tế trên web vào khung quản lý">
+            <button type="button" class="btn btn-secondary" onclick="exportThumJsFile()" style="font-size: 12px; padding: 6px 12px;" title="Tải file js/thum.js về máy tính để dự phòng">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              <span>Nạp từ web về Admin</span>
+              <span>Tải thum.js</span>
+            </button>
+            <button type="button" class="btn btn-warning-save" id="btnSaveBannerInCard" onclick="publishBannerToGithub()" style="font-size: 12.5px; padding: 7px 14px;" title="Xuất bản danh sách ảnh banner vào file js/thum.js trên GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              <span>LƯU ẢNH BANNER (thum.js)</span>
             </button>
           </div>
         </div>
@@ -2366,6 +2368,8 @@
 
   <!-- Fallback nạp danh sách sản phẩm từ file gốc js/list.js -->
   <script src="../js/list.js"></script>
+  <!-- Nạp danh sách ảnh banner từ file riêng js/thum.js -->
+  <script src="../js/thum.js"></script>
   <script>
     // ========================================================================
     // STATE MANAGEMENT
@@ -2447,9 +2451,24 @@
       renderAdminTable();
       updateStats();
 
-      // 4. TỰ ĐỘNG CHẠY KIỂM TRA ĐỐI SOÁT FILE HIỆN TẠI TRÊN WEBSITE & GITHUB ĐỂ ĐẢM BẢO CHÍNH XÁC
+      // 4. Nạp danh sách ảnh banner từ js/thum.js hoặc cache
+      const savedBannerImgs = localStorage.getItem("wontrade_admin_banner_images");
+      if (savedBannerImgs) {
+        try {
+          const parsed = JSON.parse(savedBannerImgs);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            if (!siteConfig.banner) siteConfig.banner = {};
+            siteConfig.banner.images = parsed;
+          }
+        } catch (e) {}
+      } else if (typeof bannerImages !== "undefined" && Array.isArray(bannerImages)) {
+        if (!siteConfig.banner) siteConfig.banner = {};
+        siteConfig.banner.images = [...bannerImages];
+      }
+      renderBannerImagesGrid();
+
+      // 5. Kiểm tra đối soát file sản phẩm & cấu hình web
       checkCurrentWebsiteFiles(true);
-      checkLiveWebsiteBanner(true);
 
       // Scroll to Top Listener
       window.addEventListener("scroll", () => {
@@ -2470,7 +2489,7 @@
         p.classList.toggle("active", p.id === tabId);
       });
       if (tabId === "tab-banner") {
-        checkLiveWebsiteBanner(true);
+        renderBannerImagesGrid();
       }
     }
 
@@ -3413,112 +3432,9 @@
     }
 
     // ========================================================================
-    // QUẢN LÝ ẢNH HERO BANNER / THUMBNAIL TRANG CHỦ (HERO BANNER SLIDER)
+    // QUẢN LÝ ẢNH HERO BANNER / THUMBNAIL TRANG CHỦ (ĐỘC LẬP: JS/THUM.JS)
     // ========================================================================
     let isBannerUploadCancelled = false;
-    let liveWebsiteBannerImages = [];
-
-    // Kiểm tra & đối soát danh sách ảnh banner đang thực sự chạy trên website
-    async function checkLiveWebsiteBanner(silent = false) {
-      const card = document.getElementById("bannerLiveCheckCard");
-      const title = document.getElementById("bannerSyncTitle");
-      const desc = document.getElementById("bannerSyncDesc");
-      const btnPull = document.getElementById("btnPullLiveBanner");
-
-      if (card) {
-        card.className = "web-sync-status-card checking";
-        if (title) title.textContent = "Đang kiểm tra ảnh banner trên website thực tế (index.html)...";
-      }
-
-      let fetchedLiveImages = null;
-
-      // 1. Fetch trực tiếp ../index.html
-      try {
-        const res = await fetch(`../index.html?_t=${Date.now()}`);
-        if (res.ok) {
-          const text = await res.text();
-          const match = text.match(new RegExp('<script\\s+id=["\']siteDataScript["\']>([\\s\\S]*?)<\\/script>', 'i'));
-          if (match) {
-            const sandboxFn = new Function("siteConfig", "window", match[1] + "\n; return siteConfig || window.siteConfig;");
-            const parsed = sandboxFn(null, {});
-            if (parsed?.banner && Array.isArray(parsed.banner.images)) {
-              fetchedLiveImages = parsed.banner.images;
-            }
-          }
-        }
-      } catch (err) {
-        console.warn("Không thể fetch trực tiếp ../index.html:", err);
-      }
-
-      // 2. Nếu có cài đặt Cloudflare Worker, kiểm tra qua Worker
-      const workerUrl = document.getElementById("workerUrlInput")?.value?.trim();
-      const secret = document.getElementById("workerSecretInput")?.value?.trim();
-      if (workerUrl) {
-        try {
-          const headers = {};
-          if (secret) headers["X-Admin-Key"] = secret;
-          const syncUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=index.html&_t=${Date.now()}`;
-          const wRes = await fetch(syncUrl, { method: "GET", headers });
-          if (wRes.ok) {
-            const data = await wRes.json();
-            if (data?.siteConfig?.banner && Array.isArray(data.siteConfig.banner.images)) {
-              fetchedLiveImages = data.siteConfig.banner.images;
-            }
-          }
-        } catch (wErr) {
-          console.warn("Không thể kiểm tra banner qua Worker:", wErr);
-        }
-      }
-
-      if (fetchedLiveImages !== null) {
-        liveWebsiteBannerImages = fetchedLiveImages;
-      } else if (liveWebsiteBannerImages.length === 0) {
-        liveWebsiteBannerImages = ["assets/thum1.png", "assets/thum2.png"];
-      }
-
-      // 3. So sánh với danh sách ảnh đang chỉnh sửa trong Admin
-      const adminImages = (siteConfig.banner && Array.isArray(siteConfig.banner.images))
-        ? siteConfig.banner.images
-        : [];
-
-      const isMatching = JSON.stringify(liveWebsiteBannerImages) === JSON.stringify(adminImages);
-
-      if (card && title && desc) {
-        if (isMatching) {
-          card.className = "web-sync-status-card";
-          title.textContent = `🟢 Đang chạy trên website: ${liveWebsiteBannerImages.length} ảnh banner`;
-          const names = liveWebsiteBannerImages.map(u => u.split("/").pop()).join(", ");
-          desc.textContent = `Dữ liệu Admin đang KHỚP 100% với website thực tế index.html (${names}). Lần kiểm tra: ${new Date().toLocaleTimeString("vi-VN")}`;
-          if (btnPull) btnPull.style.display = "none";
-        } else {
-          card.className = "web-sync-status-card warning";
-          title.textContent = `🟡 Phát hiện khác biệt: Web đang dùng ${liveWebsiteBannerImages.length} ảnh, Admin đang có ${adminImages.length} ảnh`;
-          const liveNames = liveWebsiteBannerImages.map(u => u.split("/").pop()).join(", ");
-          desc.textContent = `Website thực tế đang chạy: [${liveNames}]. Bấm "LƯU CẤU HÌNH WEB" ở thanh trên để áp dụng ảnh mới ra web, hoặc bấm "Nạp từ web về Admin" nếu muốn lấy ảnh hiện tại trên web.`;
-          if (btnPull) btnPull.style.display = "inline-flex";
-        }
-      }
-
-      renderBannerImagesGrid();
-
-      if (!silent) {
-        showToast(`Đã kiểm tra xong ảnh banner trên website! (${liveWebsiteBannerImages.length} ảnh)`, "success");
-      }
-    }
-
-    // Nạp danh sách ảnh đang chạy thực tế trên web vào Admin
-    function pullLiveBannerImagesToAdmin() {
-      if (!Array.isArray(liveWebsiteBannerImages) || liveWebsiteBannerImages.length === 0) {
-        showToast("Không tìm thấy ảnh nào trên website thực tế để nạp!", "error");
-        return;
-      }
-      if (!siteConfig.banner) siteConfig.banner = {};
-      siteConfig.banner.images = [...liveWebsiteBannerImages];
-      collectConfigFromForms();
-      renderBannerImagesGrid();
-      checkLiveWebsiteBanner(true);
-      showToast(`Đã nạp thành công ${liveWebsiteBannerImages.length} ảnh từ website vào Admin!`, "success");
-    }
 
     function renderBannerImagesGrid() {
       const grid = document.getElementById("bannerImagesGrid");
@@ -3536,22 +3452,15 @@
           <div style="grid-column: 1 / -1; text-align: center; padding: 32px 16px; background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 10px; color: #64748b;">
             <div style="font-size: 26px; margin-bottom: 6px;">🖼️</div>
             <div style="font-weight: 700; font-size: 13.5px; color: #334155;">Chưa có ảnh banner nào</div>
-            <div style="font-size: 12px; margin-top: 4px;">Bấm nút <strong>"Dùng 2 ảnh mẫu"</strong> hoặc tải ảnh lên bên dưới để chạy slide qua lại.</div>
+            <div style="font-size: 12px; margin-top: 4px;">Bấm nút <strong>"Dùng 2 ảnh mẫu"</strong> hoặc tải ảnh lên bên dưới, sau đó bấm <strong>"LƯU ẢNH BANNER (thum.js)"</strong> để xuất bản.</div>
           </div>
         `;
         return;
       }
 
-      grid.innerHTML = imgs.map((url, idx) => {
-        const isLive = liveWebsiteBannerImages.includes(url);
-        const liveBadgeHtml = isLive
-          ? `<span class="banner-badge-live" title="Ảnh này đang chạy trên website thực tế">🟢 Đang chạy trên web</span>`
-          : `<span class="banner-badge-pending" title="Ảnh mới thêm trong Admin, chưa bấm Lưu Cấu Hình Web">🟡 Mới thêm (Chưa lưu)</span>`;
-
-        return `
+      grid.innerHTML = imgs.map((url, idx) => `
         <div class="banner-thumb-card" data-idx="${idx}">
           <span class="banner-badge-order">#${idx + 1}</span>
-          ${liveBadgeHtml}
           <img src="${escapeHtml(url)}" class="thumb-img" alt="Banner #${idx + 1}" onerror="this.src='../assets/banner.jpg'">
           
           <div class="card-actions-bar">
@@ -3573,8 +3482,7 @@
             </button>
           </div>
         </div>
-      `;
-      }).join("");
+      `).join("");
     }
 
     function triggerBannerFileInput() {
@@ -4214,6 +4122,29 @@ if (typeof window !== "undefined") {
         console.warn("Không thể fetch trực tiếp ../index.html:", e.message);
       }
 
+      // 2b. Kiểm tra trực tiếp file ../js/thum.js trên hosting
+      try {
+        const localThumRes = await fetch(`../js/thum.js?_t=${Date.now()}`);
+        if (localThumRes.ok) {
+          const thumContent = await localThumRes.text();
+          const sandboxFn = new Function(
+            "bannerImages",
+            "window",
+            thumContent + "\n; return (window.bannerImages && window.bannerImages.length > 0) ? window.bannerImages : bannerImages;"
+          );
+          const extractedImgs = sandboxFn([], {});
+          if (Array.isArray(extractedImgs) && extractedImgs.length > 0) {
+            window.bannerImages = extractedImgs;
+            if (!siteConfig.banner) siteConfig.banner = {};
+            siteConfig.banner.images = extractedImgs;
+            localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(extractedImgs));
+            renderBannerImagesGrid();
+          }
+        }
+      } catch (e) {
+        console.warn("Không thể fetch trực tiếp ../js/thum.js:", e.message);
+      }
+
       // 3. Đồng bộ qua Cloudflare Worker từ GitHub nếu có cài đặt
       const workerUrl = document.getElementById("workerUrlInput").value.trim();
       const secret = document.getElementById("workerSecretInput").value.trim();
@@ -4243,6 +4174,24 @@ if (typeof window !== "undefined") {
                 updateStats();
               }
             }
+          }
+
+          // Đồng bộ thêm js/thum.js từ Worker nếu có
+          try {
+            const thumSyncUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=js/thum.js&_t=${Date.now()}`;
+            const thumRes = await fetch(thumSyncUrl, { method: "GET", headers });
+            if (thumRes.ok) {
+              const thumData = await thumRes.json();
+              if (thumData.success && Array.isArray(thumData.bannerImages) && thumData.bannerImages.length > 0) {
+                window.bannerImages = thumData.bannerImages;
+                if (!siteConfig.banner) siteConfig.banner = {};
+                siteConfig.banner.images = thumData.bannerImages;
+                localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(thumData.bannerImages));
+                renderBannerImagesGrid();
+              }
+            }
+          } catch (thumErr) {
+            console.warn("Không thể kéo js/thum.js từ Worker:", thumErr.message);
           }
         } catch (workerErr) {
           console.warn("Không thể kết nối Worker kiểm tra:", workerErr.message);
@@ -4356,7 +4305,6 @@ if (typeof window !== "undefined") {
         if (res.ok && data.success) {
           localStorage.setItem("wontrade_site_config", JSON.stringify(cfg));
           showToast("Đã tráo và lưu Cấu hình vào index.html thành công!", "success");
-          checkLiveWebsiteBanner(true);
         } else {
           showToast(`Lỗi lưu cấu hình: ${data.error || "Không rõ nguyên nhân"}`, "error");
         }
@@ -4418,6 +4366,105 @@ if (typeof window !== "undefined") {
         btnText.textContent = "LƯU SẢN PHẨM & ẢNH";
       }
     }
+
+    // ========================================================================
+    // 3. LƯU & XUẤT BẢN DANH SÁCH ẢNH BANNER VÀO JS/THUM.JS
+    // ========================================================================
+    async function publishBannerToGithub() {
+      saveWorkerSettings();
+      const workerUrl = document.getElementById("workerUrlInput").value.trim();
+      const secret = document.getElementById("workerSecretInput").value.trim();
+
+      if (!workerUrl) {
+        showToast("Vui lòng nhập đường dẫn Cloudflare Worker URL ở thanh trên!", "error");
+        document.getElementById("workerUrlInput").focus();
+        return;
+      }
+
+      const imgs = (siteConfig.banner && Array.isArray(siteConfig.banner.images))
+        ? siteConfig.banner.images
+        : (window.bannerImages || ["assets/thum1.png", "assets/thum2.png"]);
+
+      if (imgs.length === 0) {
+        showToast("Vui lòng thêm ít nhất 1 ảnh cho banner trước khi lưu!", "warning");
+        return;
+      }
+
+      const btnNav = document.getElementById("btnPublishBanner");
+      const btnNavText = document.getElementById("publishBannerText");
+      const btnCard = document.getElementById("btnSaveBannerInCard");
+      if (btnNav) btnNav.disabled = true;
+      if (btnNavText) btnNavText.textContent = "ĐANG LƯU JS/THUM.JS...";
+      if (btnCard) { btnCard.disabled = true; btnCard.textContent = "Đang lưu..."; }
+
+      try {
+        const headers = { "Content-Type": "application/json" };
+        if (secret) headers["X-Admin-Key"] = secret;
+
+        const payload = {
+          target: "banner",
+          filePath: "js/thum.js",
+          bannerImages: imgs,
+          message: `Admin Edge-SSG: Cập nhật danh sách ảnh banner js/thum.js (${imgs.length} ảnh - ${new Date().toLocaleString("vi-VN")})`
+        };
+
+        const res = await fetch(workerUrl, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(imgs));
+          window.bannerImages = [...imgs];
+          showToast(`Đã lưu & xuất bản ${imgs.length} ảnh banner vào file js/thum.js thành công!`, "success");
+        } else {
+          showToast(`Lỗi lưu ảnh banner: ${data.error || "Không rõ nguyên nhân"}`, "error");
+        }
+      } catch (err) {
+        showToast(`Lỗi kết nối tới Worker: ${err.message}`, "error");
+      } finally {
+        if (btnNav) btnNav.disabled = false;
+        if (btnNavText) btnNavText.textContent = "LƯU ẢNH BANNER (thum.js)";
+        if (btnCard) {
+          btnCard.disabled = false;
+          btnCard.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> <span>LƯU ẢNH BANNER (thum.js)</span>`;
+        }
+      }
+    }
+
+    // Tải file thum.js về máy tính để dự phòng
+    function exportThumJsFile() {
+      const imgs = (siteConfig.banner && Array.isArray(siteConfig.banner.images))
+        ? siteConfig.banner.images
+        : (window.bannerImages || ["assets/thum1.png", "assets/thum2.png"]);
+
+      const content = `/**
+ * ==============================================================================
+ * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
+ * FILE QUẢN LÝ DANH SÁCH ẢNH BANNER TRANG CHỦ (js/thum.js)
+ * Tự động xuất bản từ Admin CMS Edge-SSG: ${new Date().toLocaleString("vi-VN")}
+ * ==============================================================================
+ */
+
+var bannerImages = ${JSON.stringify(imgs, null, 2)};
+
+if (typeof window !== "undefined") {
+  window.bannerImages = bannerImages;
+}
+`;
+
+      const blob = new Blob([content], { type: "application/javascript;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "thum.js";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast("Đã tải file thum.js về máy thành công!", "success");
+    }
+
 
     function escapeHtml(str) {
       if (!str) return "";

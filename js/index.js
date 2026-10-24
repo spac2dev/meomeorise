@@ -1107,10 +1107,11 @@ function initHeroBannerCarousel() {
   const heroBanner = document.getElementById("heroBannerCarousel");
   if (!track || !heroBanner) return;
 
-  // Lấy danh sách ảnh từ siteConfig hoặc mặc định 2 ảnh mẫu assets/thum1.png và assets/thum2.png
-  const cfgImgs = window.siteConfig?.banner?.images;
-  if (Array.isArray(cfgImgs) && cfgImgs.length > 0) {
-    bannerImagesList = [...cfgImgs];
+  // Ưu tiên lấy danh sách ảnh từ js/thum.js (window.bannerImages), sau đó mới tới siteConfig hoặc 2 ảnh mẫu
+  if (Array.isArray(window.bannerImages) && window.bannerImages.length > 0) {
+    bannerImagesList = [...window.bannerImages];
+  } else if (Array.isArray(window.siteConfig?.banner?.images) && window.siteConfig.banner.images.length > 0) {
+    bannerImagesList = [...window.siteConfig.banner.images];
   } else {
     bannerImagesList = ["assets/thum1.png", "assets/thum2.png"];
   }

@@ -115,13 +115,19 @@ function updateIndexHtmlWithData(html, data) {
     html = html.replace(/<div\s+class=["']mobile-banner-subtitle["']>[\s\S]*?<\/div>/i, `<div class="mobile-banner-subtitle">${banner.mobileSubtitle}</div>`);
   }
 
-  // Tráo các slide ảnh Banner tĩnh trong HTML (SSR)
+  // Tráo các slide ảnh Banner tĩnh trong HTML (SSR) an toàn tuyệt đối, không làm vỡ thẻ hero-banner
   if (banner && Array.isArray(banner.images) && banner.images.length > 0) {
     const slidesHtml = banner.images.map((url, idx) => 
       `          <div class="banner-slide ${idx === 0 ? 'active' : ''}" style="background-image: url('${url}');"></div>`
     ).join("\n");
-    html = html.replace(/<div\s+class=["']banner-slides-track["'][\s\S]*?<\/div>/i, 
-      `<div class="banner-slides-track" id="bannerSlidesTrack">\n${slidesHtml}\n        </div>`);
+
+    if (/<!--\s*BANNER_SLIDES_START\s*-->[\s\S]*?<!--\s*BANNER_SLIDES_END\s*-->/i.test(html)) {
+      html = html.replace(/<!--\s*BANNER_SLIDES_START\s*-->[\s\S]*?<!--\s*BANNER_SLIDES_END\s*-->/i, 
+        `<!-- BANNER_SLIDES_START -->\n${slidesHtml}\n          <!-- BANNER_SLIDES_END -->`);
+    } else if (/<div\s+class=["']banner-slides-track["'][^>]*>[\s\S]*?<\/div>(?=\s*(?:<!--\s*Desktop|<button[^>]*class=["']banner-arrow-btn))/i.test(html)) {
+      html = html.replace(/<div\s+class=["']banner-slides-track["'][^>]*>[\s\S]*?<\/div>(?=\s*(?:<!--\s*Desktop|<button[^>]*class=["']banner-arrow-btn))/i, 
+        `<div class="banner-slides-track" id="bannerSlidesTrack">\n          <!-- BANNER_SLIDES_START -->\n${slidesHtml}\n          <!-- BANNER_SLIDES_END -->\n        </div>`);
+    }
   }
 
   // 4. Tráo Game Name & Brand
@@ -178,6 +184,28 @@ var mockProducts = ${JSON.stringify(products, null, 2)};
 
 if (typeof window !== "undefined") {
   window.mockProducts = mockProducts;
+}
+`;
+}
+
+// BỘ CÔNG THỨC TẠO FILE JS/THUM.JS ĐỘC LẬP (CHỨA MẢNG LINK ẢNH BANNER TRANG CHỦ)
+function generateThumJsContent(bannerImages) {
+  const list = Array.isArray(bannerImages) && bannerImages.length > 0
+    ? bannerImages
+    : ["assets/thum1.png", "assets/thum2.png"];
+
+  return `/**
+ * ==============================================================================
+ * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
+ * FILE QUẢN LÝ DANH SÁCH ẢNH BANNER TRANG CHỦ (js/thum.js)
+ * Tự động xuất bản từ Admin CMS Edge-SSG: ${new Date().toLocaleString("vi-VN")}
+ * ==============================================================================
+ */
+
+var bannerImages = ${JSON.stringify(list, null, 2)};
+
+if (typeof window !== "undefined") {
+  window.bannerImages = bannerImages;
 }
 `;
 }
@@ -332,6 +360,36 @@ export default {
           });
         }
 
+        // Nếu yêu cầu file js/thum.js
+        if (targetPath.endsWith("thum.js")) {
+          let parsedBannerImages = [];
+          try {
+            const sandboxFn = new Function(
+              "bannerImages",
+              "window",
+              contentStr + "\n; return (window.bannerImages && window.bannerImages.length > 0) ? window.bannerImages : bannerImages;"
+            );
+            const extracted = sandboxFn([], {});
+            if (Array.isArray(extracted)) {
+              parsedBannerImages = extracted;
+            }
+          } catch (fnErr) {
+            console.error("Lỗi parse thum.js:", fnErr);
+          }
+
+          return jsonResponse({
+            success: true,
+            exists: true,
+            sha: data.sha,
+            filePath: targetPath,
+            repo: `${REPO_OWNER}/${REPO_NAME}`,
+            branch: BRANCH,
+            bannerImages: parsedBannerImages,
+            totalImages: parsedBannerImages.length,
+            content: contentStr,
+          });
+        }
+
         // Nếu yêu cầu file index.html
         const scriptMatch = contentStr.match(/<script\s+id=["']siteDataScript["']>([\s\S]*?)<\/script>/i);
         if (scriptMatch) {
@@ -409,13 +467,16 @@ export default {
         return jsonResponse({ success: false, error: "Dữ liệu JSON không hợp lệ!" }, 400);
       }
 
-      // Tự động phân loại target file: "js/list.js" hoặc "index.html"
+      // Tự động phân loại target file: "js/list.js", "js/thum.js" hoặc "index.html"
       let isListJs = false;
+      let isThumJs = false;
       if (body.target === "products" || (body.filePath && body.filePath.endsWith("list.js"))) {
         isListJs = true;
+      } else if (body.target === "banner" || (body.filePath && body.filePath.endsWith("thum.js"))) {
+        isThumJs = true;
       }
 
-      const targetPath = isListJs ? "js/list.js" : (body.filePath || DEFAULT_FILE_PATH);
+      const targetPath = isListJs ? "js/list.js" : (isThumJs ? "js/thum.js" : (body.filePath || DEFAULT_FILE_PATH));
       const getApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}?ref=${BRANCH}`;
 
       try {
@@ -446,6 +507,9 @@ export default {
           if (isListJs) {
             const productsArray = Array.isArray(body.products) ? body.products : [];
             newContent = generateListJsContent(productsArray);
+          } else if (isThumJs) {
+            const bannerArray = Array.isArray(body.bannerImages) ? body.bannerImages : (Array.isArray(body.images) ? body.images : []);
+            newContent = generateThumJsContent(bannerArray);
           } else {
             const dataToUpdate = {
               siteConfig: body.siteConfig || body.profile || {},
@@ -469,6 +533,8 @@ export default {
         // 3. Commit ghi đè trực tiếp lên GitHub
         const defaultMsg = isListJs
           ? `Admin Edge-SSG: Lưu danh sách sản phẩm & ảnh ImgBB js/list.js (${body.products?.length || 0} mục - ${new Date().toLocaleString("vi-VN")})`
+          : isThumJs
+          ? `Admin Edge-SSG: Cập nhật danh sách ảnh banner js/thum.js (${(body.bannerImages || []).length} ảnh - ${new Date().toLocaleString("vi-VN")})`
           : `Admin Edge-SSG: Tráo cấu hình file ${targetPath} (${new Date().toLocaleString("vi-VN")})`;
 
         const commitMessage = body.message || defaultMsg;

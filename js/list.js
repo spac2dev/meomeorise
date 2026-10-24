@@ -1,10 +1,106 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 13:37:36 24/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 13:49:33 24/10/2026
  */
 
 var mockProducts = [
+  {
+    "id": 1556,
+    "title": "tên",
+    "price": 10000000,
+    "link": "detail.html?id=1556",
+    "favorites": 0,
+    "isFavorited": false,
+    "images": [
+      "https://i.ibb.co/RG8yR74p/1792781568365-7880084465306086323-7880084465306086323-d2160c8ee1bd0d62b71d386fcd0dcc91.jpg",
+      "https://i.ibb.co/tPHydWNJ/1792781568512-7880084465306086323-7880084465306086323-b3e4497481e8b378aacf634ce2f186ba.jpg",
+      "https://i.ibb.co/WWm6dFG1/1792781568491-7880084465306086323-7880084465306086323-15ea4693d565ffeafa7cda0b01049dfe.jpg",
+      "https://i.ibb.co/WWm6dFG1/1792781568491-7880084465306086323-7880084465306086323-15ea4693d565ffeafa7cda0b01049dfe.jpg",
+      "https://i.ibb.co/h14qhMBf/1792781568470-7880084465306086323-7880084465306086323-5ec43b9282da27b0eeaff8e20c514038.jpg",
+      "https://i.ibb.co/tPHydWNJ/1792781568512-7880084465306086323-7880084465306086323-b3e4497481e8b378aacf634ce2f186ba.jpg",
+      "https://i.ibb.co/nt9thtw/1792781568386-7880084465306086323-7880084465306086323-eb9fc6bf7c441b3243815dea4e16d605.jpg",
+      "https://i.ibb.co/gBZxpJ8/1792781568574-7880084465306086323-7880084465306086323-a9e4d56662c08edfd4a578439990c909.jpg",
+      "https://i.ibb.co/QvPt0VrS/1792781568595-7880084465306086323-7880084465306086323-499fd11c43a1d9f5209fe4272a7c753c.jpg",
+      "https://i.ibb.co/1GcH88mJ/1792781568827-7880084465306086323-7880084465306086323-8f1aa39e33a30a1de3b1536704bf6791.jpg",
+      "https://i.ibb.co/7JqZXzn8/1792781568553-7880084465306086323-7880084465306086323-eaaad96643faeb52eebf5f3ca7ac8b16.jpg",
+      "https://i.ibb.co/gBZxpJ8/1792781568574-7880084465306086323-7880084465306086323-a9e4d56662c08edfd4a578439990c909.jpg"
+    ],
+    "imageCategories": {
+      "tuong": [
+        "https://i.ibb.co/RG8yR74p/1792781568365-7880084465306086323-7880084465306086323-d2160c8ee1bd0d62b71d386fcd0dcc91.jpg",
+        "https://i.ibb.co/tPHydWNJ/1792781568512-7880084465306086323-7880084465306086323-b3e4497481e8b378aacf634ce2f186ba.jpg",
+        "https://i.ibb.co/WWm6dFG1/1792781568491-7880084465306086323-7880084465306086323-15ea4693d565ffeafa7cda0b01049dfe.jpg"
+      ],
+      "trangbi": [
+        "https://i.ibb.co/WWm6dFG1/1792781568491-7880084465306086323-7880084465306086323-15ea4693d565ffeafa7cda0b01049dfe.jpg",
+        "https://i.ibb.co/h14qhMBf/1792781568470-7880084465306086323-7880084465306086323-5ec43b9282da27b0eeaff8e20c514038.jpg",
+        "https://i.ibb.co/tPHydWNJ/1792781568512-7880084465306086323-7880084465306086323-b3e4497481e8b378aacf634ce2f186ba.jpg",
+        "https://i.ibb.co/nt9thtw/1792781568386-7880084465306086323-7880084465306086323-eb9fc6bf7c441b3243815dea4e16d605.jpg"
+      ],
+      "rss": [
+        "https://i.ibb.co/gBZxpJ8/1792781568574-7880084465306086323-7880084465306086323-a9e4d56662c08edfd4a578439990c909.jpg",
+        "https://i.ibb.co/QvPt0VrS/1792781568595-7880084465306086323-7880084465306086323-499fd11c43a1d9f5209fe4272a7c753c.jpg",
+        "https://i.ibb.co/1GcH88mJ/1792781568827-7880084465306086323-7880084465306086323-8f1aa39e33a30a1de3b1536704bf6791.jpg"
+      ],
+      "vebay": [
+        "https://i.ibb.co/7JqZXzn8/1792781568553-7880084465306086323-7880084465306086323-eaaad96643faeb52eebf5f3ca7ac8b16.jpg",
+        "https://i.ibb.co/gBZxpJ8/1792781568574-7880084465306086323-7880084465306086323-a9e4d56662c08edfd4a578439990c909.jpg"
+      ]
+    },
+    "badges": [
+      {
+        "text": "Chơi",
+        "type": "red"
+      }
+    ],
+    "info": "#1556 | Có thể nhập cư",
+    "stats": "Cấp độ 25 | Sức mạnh 80,000,000 | VIP 15",
+    "tags": [
+      {
+        "text": "Chỉ Huy Thức Tỉnh ×15",
+        "type": "orange"
+      },
+      {
+        "text": "Trang Bị Huyền Thoại ×30",
+        "type": "orange"
+      },
+      {
+        "text": "kkk",
+        "type": "orange"
+      }
+    ],
+    "commanders": [
+      {
+        "id": "arthur",
+        "name": "Arthur Pendragon",
+        "level": 60,
+        "isImg": true
+      },
+      {
+        "id": "tontu",
+        "name": "Tôn Tử",
+        "level": 60
+      },
+      {
+        "id": "achilles",
+        "name": "Achilles",
+        "level": 60
+      },
+      {
+        "id": "scipio",
+        "name": "Scipio Africanus",
+        "level": 60
+      },
+      {
+        "id": "quanvu",
+        "name": "Quan Vũ",
+        "level": 60
+      }
+    ],
+    "gemMultiplier": 5,
+    "countdownSeconds": 604800
+  },
   {
     "id": 1109,
     "title": "Chỉ Huy Cung Thủ",

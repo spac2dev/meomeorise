@@ -168,7 +168,7 @@
         <!-- Desktop Overlay Text -->
         <div class="banner-overlay-content">
           <h1 class="banner-headline">WONTRADE TRANSACTION GUIDELINES UPDATE</h1>
-          <div class="banner-ribbon">LOWER FEE &amp; SIMPLIFIED PROCESS!</div>
+          <div class="banner-ribbon">LOWER FEE & SIMPLIFIED PROCESS!</div>
         </div>
 
         <!-- Mobile Overlay Text (iOS Glass Aesthetic) -->
@@ -180,7 +180,7 @@
             ĐỐI TÁC GIAO DỊCH CHÍNH THỨC
           </div>
           <div class="mobile-banner-title">NHÀ GIAO DỊCH WONTRADE</div>
-          <div class="mobile-banner-subtitle">BẢO HIỂM 100% &bull; XÁC MINH DANH TÍNH MINH BẠCH</div>
+          <div class="mobile-banner-subtitle">BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH</div>
           <div class="carousel-dots">
             <div class="carousel-dot"></div>
             <div class="carousel-dot active"></div>
@@ -523,36 +523,39 @@
   </div>
 
   <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
+    <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
   <script id="siteDataScript">
     var siteConfig = {
-      brand: {
-        name: "WONTRADE",
-        gameName: "Rise of Kingdoms",
-        avatar: "assets/rok_avatar.jpg"
-      },
-      contact: {
-        phone: "0372996420",
-        zalo: "0372996420",
-        zaloUrl: "https://zalo.me/0372996420"
-      },
-      banner: {
-        desktopHeadline: "WONTRADE TRANSACTION GUIDELINES UPDATE",
-        desktopRibbon: "LOWER FEE & SIMPLIFIED PROCESS!",
-        mobileBadge: "ĐỐI TÁC GIAO DỊCH CHÍNH THỨC",
-        mobileTitle: "NHÀ GIAO DỊCH WONTRADE",
-        mobileSubtitle: "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH"
-      },
-      seo: {
-        title: "WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức",
-        description: "Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng.",
-        keywords: "wontrade, rise of kingdoms, rok, mua bán acc rok, giao dịch rok",
-        ogImage: "assets/rok_avatar.jpg"
-      }
-    };
+  "brand": {
+    "name": "WONTRADE",
+    "gameName": "Rise of Kingdoms",
+    "avatar": "assets/rok_avatar.jpg"
+  },
+  "banner": {
+    "desktopHeadline": "WONTRADE TRANSACTION GUIDELINES UPDATE",
+    "desktopRibbon": "LOWER FEE & SIMPLIFIED PROCESS!",
+    "mobileBadge": "ĐỐI TÁC GIAO DỊCH CHÍNH THỨC",
+    "mobileTitle": "NHÀ GIAO DỊCH WONTRADE",
+    "mobileSubtitle": "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH"
+  },
+  "seo": {
+    "title": "WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức",
+    "description": "Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng.",
+    "keywords": "wontrade, rise of kingdoms, rok, mua bán acc rok, giao dịch rok",
+    "ogImage": "assets/rok_avatar.jpg"
+  },
+  "contact": {
+    "phone": "0372996420",
+    "zalo": "0372996420",
+    "zaloUrl": "https://zalo.me/0372996420"
+  }
+};
     if (typeof window !== "undefined") {
       window.siteConfig = siteConfig;
     }
   </script>
+  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
+  <script src="js/list.js?v=1792846610820"></script>
   <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT ĐỂ LUÔN KHỚP VỚI ADMIN) -->
   <script>
     document.write('<script src="js/list.js?v=' + Date.now() + '"><\/script>');

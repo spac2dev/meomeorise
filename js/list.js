@@ -1,10 +1,108 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 13:49:33 24/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 14:00:08 24/10/2026
  */
 
 var mockProducts = [
+  {
+    "id": 1557,
+    "title": "Ten san pham",
+    "price": 10000000,
+    "link": "detail.html?id=1557",
+    "favorites": 0,
+    "isFavorited": false,
+    "images": [
+      "https://i.ibb.co/WWm6dFG1/1792781568491-7880084465306086323-7880084465306086323-15ea4693d565ffeafa7cda0b01049dfe.jpg",
+      "https://i.ibb.co/tpPYVLTr/1792781568449-7880084465306086323-7880084465306086323-849a13792fddb6afe2915e8cfb9276e5.jpg",
+      "https://i.ibb.co/h14qhMBf/1792781568470-7880084465306086323-7880084465306086323-5ec43b9282da27b0eeaff8e20c514038.jpg",
+      "https://i.ibb.co/3Y8B6BR2/nh-ch-p-m-n-h-nh-2026-10-24-020311.jpg",
+      "https://i.ibb.co/RG8yR74p/1792781568365-7880084465306086323-7880084465306086323-d2160c8ee1bd0d62b71d386fcd0dcc91.jpg",
+      "https://i.ibb.co/tpPYVLTr/1792781568449-7880084465306086323-7880084465306086323-849a13792fddb6afe2915e8cfb9276e5.jpg",
+      "https://i.ibb.co/6cMGRDcZ/1792781568428-7880084465306086323-7880084465306086323-02cd9480cb591327966403767a4f4a95.jpg",
+      "https://i.ibb.co/h14qhMBf/1792781568470-7880084465306086323-7880084465306086323-5ec43b9282da27b0eeaff8e20c514038.jpg",
+      "https://i.ibb.co/WWm6dFG1/1792781568491-7880084465306086323-7880084465306086323-15ea4693d565ffeafa7cda0b01049dfe.jpg",
+      "https://i.ibb.co/h14qhMBf/1792781568470-7880084465306086323-7880084465306086323-5ec43b9282da27b0eeaff8e20c514038.jpg",
+      "https://i.ibb.co/WWm6dFG1/1792781568491-7880084465306086323-7880084465306086323-15ea4693d565ffeafa7cda0b01049dfe.jpg"
+    ],
+    "imageCategories": {
+      "tuong": [
+        "https://i.ibb.co/WWm6dFG1/1792781568491-7880084465306086323-7880084465306086323-15ea4693d565ffeafa7cda0b01049dfe.jpg",
+        "https://i.ibb.co/tpPYVLTr/1792781568449-7880084465306086323-7880084465306086323-849a13792fddb6afe2915e8cfb9276e5.jpg",
+        "https://i.ibb.co/h14qhMBf/1792781568470-7880084465306086323-7880084465306086323-5ec43b9282da27b0eeaff8e20c514038.jpg"
+      ],
+      "trangbi": [
+        "https://i.ibb.co/3Y8B6BR2/nh-ch-p-m-n-h-nh-2026-10-24-020311.jpg",
+        "https://i.ibb.co/RG8yR74p/1792781568365-7880084465306086323-7880084465306086323-d2160c8ee1bd0d62b71d386fcd0dcc91.jpg"
+      ],
+      "rss": [
+        "https://i.ibb.co/tpPYVLTr/1792781568449-7880084465306086323-7880084465306086323-849a13792fddb6afe2915e8cfb9276e5.jpg",
+        "https://i.ibb.co/6cMGRDcZ/1792781568428-7880084465306086323-7880084465306086323-02cd9480cb591327966403767a4f4a95.jpg",
+        "https://i.ibb.co/h14qhMBf/1792781568470-7880084465306086323-7880084465306086323-5ec43b9282da27b0eeaff8e20c514038.jpg",
+        "https://i.ibb.co/WWm6dFG1/1792781568491-7880084465306086323-7880084465306086323-15ea4693d565ffeafa7cda0b01049dfe.jpg"
+      ],
+      "vebay": [
+        "https://i.ibb.co/h14qhMBf/1792781568470-7880084465306086323-7880084465306086323-5ec43b9282da27b0eeaff8e20c514038.jpg",
+        "https://i.ibb.co/WWm6dFG1/1792781568491-7880084465306086323-7880084465306086323-15ea4693d565ffeafa7cda0b01049dfe.jpg"
+      ]
+    },
+    "badges": [
+      {
+        "text": "Chơi",
+        "type": "red"
+      },
+      {
+        "text": "play",
+        "type": "dark"
+      }
+    ],
+    "info": "#1557 | Có thể nhập cư",
+    "stats": "Cấp độ 25 | Sức mạnh 80,000,000 | VIP 15",
+    "tags": [
+      {
+        "text": "Chỉ Huy Thức Tỉnh ×15",
+        "type": "orange"
+      },
+      {
+        "text": "Trang Bị Huyền Thoại ×30",
+        "type": "orange"
+      },
+      {
+        "text": "xiinchao",
+        "type": "orange"
+      }
+    ],
+    "commanders": [
+      {
+        "id": "arthur",
+        "name": "Arthur Pendragon",
+        "level": 60,
+        "isImg": true
+      },
+      {
+        "id": "tontu",
+        "name": "Tôn Tử",
+        "level": 60
+      },
+      {
+        "id": "achilles",
+        "name": "Achilles",
+        "level": 60
+      },
+      {
+        "id": "scipio",
+        "name": "Scipio Africanus",
+        "level": 60
+      },
+      {
+        "id": "quanvu",
+        "name": "Quan Vũ",
+        "level": 60
+      }
+    ],
+    "gemMultiplier": 5,
+    "countdownSeconds": 604800
+  },
   {
     "id": 1556,
     "title": "tên",
@@ -262,87 +360,6 @@ var mockProducts = [
     ],
     "gemMultiplier": 5,
     "countdownSeconds": 1103740
-  },
-  {
-    "id": 1555,
-    "title": "Acc T5 Chuẩn KVK - Full Công Nghệ Quân Sự 25",
-    "price": 23368000,
-    "link": "guide/index.html?id=1555",
-    "favorites": 5,
-    "isFavorited": false,
-    "images": [],
-    "badges": [
-      {
-        "text": "Chơi",
-        "type": "red"
-      },
-      {
-        "text": "BẢN ANH HÙNG CA",
-        "type": "dark"
-      }
-    ],
-    "info": "#1555 | Có thể nhập cư",
-    "stats": "Cấp độ 25 | Sức mạnh 94,100,500 | VIP 16 | Điểm Tiêu Diệt 4,120,800,000",
-    "tags": [
-      {
-        "text": "Chỉ Huy Thức Tỉnh Huyền Thoại ×24",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Bị Huyền Thoại ×32",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Bị Tài Năng Đặc Biệt Huyền Thoại ×8",
-        "type": "orange"
-      },
-      {
-        "text": "Minh Văn Đặc Biệt ×5",
-        "type": "orange"
-      },
-      {
-        "text": "Minh Văn Hiếm ×11",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Hộ Chiếu 52",
-        "type": "blue"
-      },
-      {
-        "text": "Tượng Chỉ Huy Huyền Thoại 480",
-        "type": "blue"
-      }
-    ],
-    "commanders": [
-      {
-        "id": "scipio",
-        "name": "Scipio Africanus",
-        "level": 60
-      },
-      {
-        "id": "quanvu",
-        "name": "Quan Vũ",
-        "level": 60
-      },
-      {
-        "id": "tontu",
-        "name": "Tôn Tử",
-        "level": 60
-      },
-      {
-        "id": "choiyoung",
-        "name": "Choi Young",
-        "level": 60
-      },
-      {
-        "id": "arthur",
-        "name": "Arthur Pendragon",
-        "level": 60,
-        "isImg": true
-      }
-    ],
-    "gemMultiplier": 5,
-    "countdownSeconds": 910098
   }
 ];
 

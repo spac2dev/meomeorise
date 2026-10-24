@@ -2467,8 +2467,8 @@
       }
       renderBannerImagesGrid();
 
-      // 5. Kiểm tra đối soát file sản phẩm & cấu hình web
-      checkCurrentWebsiteFiles(true);
+      // 5. Ngay khi mở Admin, CHẠY NGAY LẬP TỨC LỆNH KÉO ĐỒNG BỘ từ GitHub & Web Server (list.js, index.html, thum.js)
+      checkCurrentWebsiteFiles(false);
 
       // Scroll to Top Listener
       window.addEventListener("scroll", () => {
@@ -4053,7 +4053,73 @@ if (typeof window !== "undefined") {
     }
 
     // ========================================================================
-    // CƠ CHẾ KIỂM TRA ĐỐI SOÁT FILE HIỆN TẠI TRÊN WEBSITE & GITHUB (ĐỘC LẬP LIST.JS & INDEX.HTML)
+    // BỘ PHÂN TÍCH DỮ LIỆU ĐỘC LẬP TỪ MÃ NGUỒN FILE (JS / HTML)
+    // ========================================================================
+    function parseProductsFromJs(contentStr) {
+      if (!contentStr || typeof contentStr !== "string") return null;
+      try {
+        const sandboxFn = new Function(
+          "window",
+          contentStr + "\n; return (window && window.mockProducts && window.mockProducts.length > 0) ? window.mockProducts : (typeof mockProducts !== 'undefined' ? mockProducts : null);"
+        );
+        const win = {};
+        const res = sandboxFn(win);
+        if (Array.isArray(res) && res.length > 0) return res;
+      } catch (e) {}
+
+      try {
+        const m = contentStr.match(/(?:var|let|const)\s+mockProducts\s*=\s*(\[[\s\S]*?\]);/);
+        if (m) {
+          const parsed = JSON.parse(m[1]);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+
+      return null;
+    }
+
+    function parseSiteConfigFromHtml(htmlStr) {
+      if (!htmlStr || typeof htmlStr !== "string") return null;
+      try {
+        const m = htmlStr.match(/<script\s+id=["']siteDataScript["']>([\s\S]*?)<\/script>/i);
+        if (m) {
+          const sandboxFn = new Function(
+            "window",
+            m[1] + "\n; return (window && window.siteConfig) ? window.siteConfig : (typeof siteConfig !== 'undefined' ? siteConfig : null);"
+          );
+          const win = {};
+          const res = sandboxFn(win);
+          if (res && typeof res === "object") return res;
+        }
+      } catch (e) {}
+      return null;
+    }
+
+    function parseBannerImagesFromJs(contentStr) {
+      if (!contentStr || typeof contentStr !== "string") return null;
+      try {
+        const sandboxFn = new Function(
+          "window",
+          contentStr + "\n; return (window && window.bannerImages && window.bannerImages.length > 0) ? window.bannerImages : (typeof bannerImages !== 'undefined' ? bannerImages : null);"
+        );
+        const win = {};
+        const res = sandboxFn(win);
+        if (Array.isArray(res) && res.length > 0) return res;
+      } catch (e) {}
+
+      try {
+        const m = contentStr.match(/(?:var|let|const)\s+bannerImages\s*=\s*(\[[\s\S]*?\]);/);
+        if (m) {
+          const parsed = JSON.parse(m[1]);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch (e) {}
+
+      return null;
+    }
+
+    // ========================================================================
+    // CƠ CHẾ KIỂM TRA ĐỐI SOÁT & KÉO ĐỒNG BỘ FILE TỨC THÌ (LIST.JS, INDEX.HTML, THUM.JS)
     // ========================================================================
     async function checkCurrentWebsiteFiles(silent = false) {
       const statusCard = document.getElementById("webSyncStatusCard");
@@ -4062,163 +4128,189 @@ if (typeof window !== "undefined") {
 
       if (statusCard) {
         statusCard.className = "web-sync-status-card checking";
-        statusTitle.textContent = "Đang kiểm tra dữ liệu thực tế trên website (index.html & js/list.js)...";
-        statusDesc.textContent = "Đang đối soát dữ liệu thực tế giữa hosting/GitHub và giao diện Admin...";
-      }
-
-      let localListLoaded = false;
-      let localCount = 0;
-      let diffDetected = false;
-
-      // 1. Kiểm tra trực tiếp file ../js/list.js trên hosting / máy chủ web
-      try {
-        const localListRes = await fetch(`../js/list.js?_t=${Date.now()}`);
-        if (localListRes.ok) {
-          const content = await localListRes.text();
-          const sandboxFn = new Function(
-            "mockProducts",
-            "window",
-            content + "\n; return (window.mockProducts && window.mockProducts.length > 0) ? window.mockProducts : mockProducts;"
-          );
-          const extracted = sandboxFn([], {});
-          if (Array.isArray(extracted) && extracted.length > 0) {
-            localListLoaded = true;
-            localCount = extracted.length;
-            // Nếu dữ liệu trên web khác dữ liệu hiện tại trong Admin, tự động nạp từ web
-            if (JSON.stringify(extracted) !== JSON.stringify(adminProducts)) {
-              diffDetected = true;
-              adminProducts = extracted;
-              localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
-              filterAdminItems();
-              updateStats();
-            }
-          }
-        }
-      } catch (e) {
-        console.warn("Không thể fetch trực tiếp ../js/list.js (có thể chạy file://):", e.message);
-      }
-
-      // 2. Kiểm tra trực tiếp file ../index.html trên hosting
-      try {
-        const localIndexRes = await fetch(`../index.html?_t=${Date.now()}`);
-        if (localIndexRes.ok) {
-          const indexHtml = await localIndexRes.text();
-          const match = indexHtml.match(new RegExp('<script\\s+id=["\']siteDataScript["\']>([\\s\\S]*?)<\\/script>', 'i'));
-          if (match) {
-            const sandboxFn = new Function(
-              "siteConfig",
-              "window",
-              match[1] + "\n; return siteConfig || window.siteConfig;"
-            );
-            const extractedConfig = sandboxFn(null, {});
-            if (extractedConfig && typeof extractedConfig === "object") {
-              siteConfig = extractedConfig;
-              localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
-              populateConfigForms();
-            }
-          }
-        }
-      } catch (e) {
-        console.warn("Không thể fetch trực tiếp ../index.html:", e.message);
-      }
-
-      // 2b. Kiểm tra trực tiếp file ../js/thum.js trên hosting
-      try {
-        const localThumRes = await fetch(`../js/thum.js?_t=${Date.now()}`);
-        if (localThumRes.ok) {
-          const thumContent = await localThumRes.text();
-          const sandboxFn = new Function(
-            "bannerImages",
-            "window",
-            thumContent + "\n; return (window.bannerImages && window.bannerImages.length > 0) ? window.bannerImages : bannerImages;"
-          );
-          const extractedImgs = sandboxFn([], {});
-          if (Array.isArray(extractedImgs) && extractedImgs.length > 0) {
-            window.bannerImages = extractedImgs;
-            if (!siteConfig.banner) siteConfig.banner = {};
-            siteConfig.banner.images = extractedImgs;
-            localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(extractedImgs));
-            renderBannerImagesGrid();
-          }
-        }
-      } catch (e) {
-        console.warn("Không thể fetch trực tiếp ../js/thum.js:", e.message);
-      }
-
-      // 3. Đồng bộ qua Cloudflare Worker từ GitHub nếu có cài đặt
-      const workerUrl = document.getElementById("workerUrlInput").value.trim();
-      const secret = document.getElementById("workerSecretInput").value.trim();
-      let workerSynced = false;
-
-      if (workerUrl) {
-        try {
-          const headers = {};
-          if (secret) headers["X-Admin-Key"] = secret;
-
-          // Gọi Worker kiểm tra (Worker GET tự động nạp cả siteConfig và products từ GitHub)
-          const syncUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=index.html&_t=${Date.now()}`;
-          const res = await fetch(syncUrl, { method: "GET", headers });
-          if (res.ok) {
-            const data = await res.json();
-            if (data.success) {
-              workerSynced = true;
-              if (data.siteConfig && typeof data.siteConfig === "object") {
-                siteConfig = data.siteConfig;
-                localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
-                populateConfigForms();
-              }
-              if (Array.isArray(data.products) && data.products.length > 0) {
-                adminProducts = data.products;
-                localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
-                filterAdminItems();
-                updateStats();
-              }
-            }
-          }
-
-          // Đồng bộ thêm js/thum.js từ Worker nếu có
-          try {
-            const thumSyncUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=js/thum.js&_t=${Date.now()}`;
-            const thumRes = await fetch(thumSyncUrl, { method: "GET", headers });
-            if (thumRes.ok) {
-              const thumData = await thumRes.json();
-              if (thumData.success && Array.isArray(thumData.bannerImages) && thumData.bannerImages.length > 0) {
-                window.bannerImages = thumData.bannerImages;
-                if (!siteConfig.banner) siteConfig.banner = {};
-                siteConfig.banner.images = thumData.bannerImages;
-                localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(thumData.bannerImages));
-                renderBannerImagesGrid();
-              }
-            }
-          } catch (thumErr) {
-            console.warn("Không thể kéo js/thum.js từ Worker:", thumErr.message);
-          }
-        } catch (workerErr) {
-          console.warn("Không thể kết nối Worker kiểm tra:", workerErr.message);
-        }
-      }
-
-      // 4. Cập nhật thẻ trạng thái trực quan
-      if (statusCard) {
-        if (workerSynced) {
-          statusCard.className = "web-sync-status-card";
-          statusTitle.textContent = `🟢 Đã kiểm tra & đồng bộ GitHub thành công (${adminProducts.length} sản phẩm)`;
-          statusDesc.textContent = `File js/list.js và index.html trên GitHub đang khớp 100% với giao diện Admin. Lần kiểm tra: ${new Date().toLocaleTimeString("vi-VN")}`;
-        } else if (localListLoaded) {
-          statusCard.className = "web-sync-status-card";
-          statusTitle.textContent = `🟢 Đã kiểm tra file js/list.js trên web: ${localCount} sản phẩm`;
-          statusDesc.textContent = diffDetected
-            ? `Phát hiện file js/list.js trên web có thay đổi, đã tự động nạp ${localCount} sản phẩm vào Admin để khớp dữ liệu.`
-            : `Dữ liệu Admin và file js/list.js trên web đang khớp nhau 100%. Lần kiểm tra: ${new Date().toLocaleTimeString("vi-VN")}`;
-        } else {
-          statusCard.className = "web-sync-status-card warning";
-          statusTitle.textContent = `🟡 Đang hiển thị dữ liệu bộ nhớ cục bộ (${adminProducts.length} sản phẩm)`;
-          statusDesc.textContent = `Chưa kết nối được web server trực tiếp (do mở bằng file://). Bấm "Kiểm tra lại dữ liệu web" hoặc "Đồng bộ GitHub" để đối soát.`;
-        }
+        statusTitle.textContent = "🔄 Đang tự động kiểm tra & kéo đồng bộ dữ liệu (list.js, index.html, thum.js)...";
+        statusDesc.textContent = "Đang kết nối GitHub (Worker) và Web Server để nạp dữ liệu chuẩn xác nhất trước khi chỉnh sửa...";
       }
 
       if (!silent) {
-        showToast(`Đã kiểm tra xong file hiện tại! (${adminProducts.length} sản phẩm)`, "success");
+        showToast("🔄 Đang đồng bộ dữ liệu mới nhất từ GitHub & Web...", "normal");
+      }
+
+      let workerSyncedList = false;
+      let workerSyncedIndex = false;
+      let workerSyncedThum = false;
+      let localListLoaded = false;
+      let localIndexLoaded = false;
+      let localThumLoaded = false;
+
+      const workerUrl = document.getElementById("workerUrlInput")?.value.trim() || localStorage.getItem("wontrade_worker_url") || "https://meomeorise.text2developer.workers.dev";
+      const secret = document.getElementById("workerSecretInput")?.value.trim() || localStorage.getItem("wontrade_worker_secret") || "spac2meomeorise";
+
+      const headers = {};
+      if (secret) headers["X-Admin-Key"] = secret;
+
+      // Chạy song song tất cả các request để tối ưu tốc độ tối đa
+      const promises = [];
+
+      // 1. Worker kéo js/list.js từ GitHub
+      if (workerUrl) {
+        const listWorkerUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=js/list.js&_t=${Date.now()}`;
+        promises.push(
+          fetch(listWorkerUrl, { method: "GET", headers })
+            .then(res => res.ok ? res.json() : null)
+            .then(data => {
+              if (data && data.success) {
+                let prods = Array.isArray(data.products) && data.products.length > 0 ? data.products : null;
+                if (!prods && data.content) {
+                  prods = parseProductsFromJs(data.content);
+                }
+                if (Array.isArray(prods) && prods.length > 0) {
+                  adminProducts = prods;
+                  localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
+                  workerSyncedList = true;
+                }
+              }
+            })
+            .catch(err => console.warn("Worker fetch list.js error:", err.message))
+        );
+
+        // 2. Worker kéo index.html (cấu hình siteConfig) từ GitHub
+        const indexWorkerUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=index.html&_t=${Date.now()}`;
+        promises.push(
+          fetch(indexWorkerUrl, { method: "GET", headers })
+            .then(res => res.ok ? res.json() : null)
+            .then(data => {
+              if (data && data.success) {
+                let cfg = data.siteConfig && typeof data.siteConfig === "object" ? data.siteConfig : null;
+                if (!cfg && data.content) {
+                  cfg = parseSiteConfigFromHtml(data.content);
+                }
+                if (cfg && typeof cfg === "object") {
+                  siteConfig = cfg;
+                  localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
+                  workerSyncedIndex = true;
+                }
+              }
+            })
+            .catch(err => console.warn("Worker fetch index.html error:", err.message))
+        );
+
+        // 3. Worker kéo js/thum.js (danh sách ảnh banner) từ GitHub
+        const thumWorkerUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=js/thum.js&_t=${Date.now()}`;
+        promises.push(
+          fetch(thumWorkerUrl, { method: "GET", headers })
+            .then(res => res.ok ? res.json() : null)
+            .then(data => {
+              if (data && data.success) {
+                let banners = Array.isArray(data.bannerImages) && data.bannerImages.length > 0 ? data.bannerImages : null;
+                if (!banners && data.content) {
+                  banners = parseBannerImagesFromJs(data.content);
+                }
+                if (Array.isArray(banners) && banners.length > 0) {
+                  if (!siteConfig.banner) siteConfig.banner = {};
+                  siteConfig.banner.images = banners;
+                  window.bannerImages = banners;
+                  localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(banners));
+                  workerSyncedThum = true;
+                }
+              }
+            })
+            .catch(err => console.warn("Worker fetch thum.js error:", err.message))
+        );
+      }
+
+      // 4. Đồng thời fetch trực tiếp từ máy chủ web hosting (dành cho môi trường nội bộ / domain web)
+      promises.push(
+        fetch(`../js/list.js?_t=${Date.now()}`)
+          .then(res => res.ok ? res.text() : null)
+          .then(content => {
+            if (content) {
+              const prods = parseProductsFromJs(content);
+              if (Array.isArray(prods) && prods.length > 0) {
+                localListLoaded = true;
+                if (!workerSyncedList) {
+                  adminProducts = prods;
+                  localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
+                }
+              }
+            }
+          })
+          .catch(err => console.warn("Local fetch list.js error:", err.message))
+      );
+
+      promises.push(
+        fetch(`../index.html?_t=${Date.now()}`)
+          .then(res => res.ok ? res.text() : null)
+          .then(content => {
+            if (content) {
+              const cfg = parseSiteConfigFromHtml(content);
+              if (cfg && typeof cfg === "object") {
+                localIndexLoaded = true;
+                if (!workerSyncedIndex) {
+                  siteConfig = cfg;
+                  localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
+                }
+              }
+            }
+          })
+          .catch(err => console.warn("Local fetch index.html error:", err.message))
+      );
+
+      promises.push(
+        fetch(`../js/thum.js?_t=${Date.now()}`)
+          .then(res => res.ok ? res.text() : null)
+          .then(content => {
+            if (content) {
+              const banners = parseBannerImagesFromJs(content);
+              if (Array.isArray(banners) && banners.length > 0) {
+                localThumLoaded = true;
+                if (!workerSyncedThum) {
+                  if (!siteConfig.banner) siteConfig.banner = {};
+                  siteConfig.banner.images = banners;
+                  window.bannerImages = banners;
+                  localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(banners));
+                }
+              }
+            }
+          })
+          .catch(err => console.warn("Local fetch thum.js error:", err.message))
+      );
+
+      // Chờ hoàn thành tất cả
+      await Promise.allSettled(promises);
+
+      // Cập nhật toàn bộ giao diện với dữ liệu mới nhất
+      filterAdminItems();
+      updateStats();
+      populateConfigForms();
+      renderBannerImagesGrid();
+
+      const bannerCount = (siteConfig.banner && Array.isArray(siteConfig.banner.images)) ? siteConfig.banner.images.length : 0;
+      const anyWorkerSuccess = workerSyncedList || workerSyncedIndex || workerSyncedThum;
+      const anyLocalSuccess = localListLoaded || localIndexLoaded || localThumLoaded;
+
+      if (statusCard) {
+        if (anyWorkerSuccess) {
+          statusCard.className = "web-sync-status-card";
+          statusTitle.textContent = `🟢 Đã kéo đồng bộ 100% từ GitHub (${adminProducts.length} sản phẩm, ${bannerCount} banner)`;
+          statusDesc.textContent = `Dữ liệu js/list.js, index.html và js/thum.js trên GitHub đã được nạp chính xác vào Admin. Lần đồng bộ: ${new Date().toLocaleTimeString("vi-VN")}. Bạn có thể yên tâm chỉnh sửa.`;
+        } else if (anyLocalSuccess) {
+          statusCard.className = "web-sync-status-card";
+          statusTitle.textContent = `🟢 Đã nạp đồng bộ từ Máy chủ Web (${adminProducts.length} sản phẩm, ${bannerCount} banner)`;
+          statusDesc.textContent = `Dữ liệu list.js và thum.js trên máy chủ web đã được nạp vào Admin. Lần kiểm tra: ${new Date().toLocaleTimeString("vi-VN")}`;
+        } else {
+          statusCard.className = "web-sync-status-card warning";
+          statusTitle.textContent = `🟡 Đang hiển thị dữ liệu bộ nhớ cục bộ (${adminProducts.length} sản phẩm)`;
+          statusDesc.textContent = `Chưa kết nối được Worker GitHub/Máy chủ web (có thể do mở dạng file://). Bấm "Kiểm tra lại dữ liệu web" hoặc "Đồng bộ GitHub" để thử lại.`;
+        }
+      }
+
+      if (anyWorkerSuccess) {
+        showToast(`🟢 Đã đồng bộ 100% từ GitHub! (${adminProducts.length} sản phẩm, ${bannerCount} banner)`, "success");
+      } else if (anyLocalSuccess) {
+        showToast(`🟢 Đã đồng bộ từ Web Server! (${adminProducts.length} sản phẩm)`, "success");
+      } else if (!silent) {
+        showToast(`🟡 Chưa kết nối được GitHub, đang dùng dữ liệu lưu tạm (${adminProducts.length} sản phẩm)`, "normal");
       }
     }
 

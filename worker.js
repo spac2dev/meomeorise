@@ -115,6 +115,15 @@ function updateIndexHtmlWithData(html, data) {
     html = html.replace(/<div\s+class=["']mobile-banner-subtitle["']>[\s\S]*?<\/div>/i, `<div class="mobile-banner-subtitle">${banner.mobileSubtitle}</div>`);
   }
 
+  // Tráo các slide ảnh Banner tĩnh trong HTML (SSR)
+  if (banner && Array.isArray(banner.images) && banner.images.length > 0) {
+    const slidesHtml = banner.images.map((url, idx) => 
+      `          <div class="banner-slide ${idx === 0 ? 'active' : ''}" style="background-image: url('${url}');"></div>`
+    ).join("\n");
+    html = html.replace(/<div\s+class=["']banner-slides-track["'][\s\S]*?<\/div>/i, 
+      `<div class="banner-slides-track" id="bannerSlidesTrack">\n${slidesHtml}\n        </div>`);
+  }
+
   // 4. Tráo Game Name & Brand
   if (gameName) {
     html = html.replace(/<span\s+class=["']game-name["']>[\s\S]*?<\/span>/i, `<span class="game-name">${gameName}</span>`);

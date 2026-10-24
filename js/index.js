@@ -1154,22 +1154,36 @@ function initHeroBannerCarousel() {
 
   // Hỗ trợ vuốt tay chuyển ảnh trên màn hình cảm ứng di động
   let touchStartX = 0;
+  let touchStartY = 0;
   let touchEndX = 0;
+  let touchEndY = 0;
+
   heroBanner.addEventListener("touchstart", (e) => {
     touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
   }, { passive: true });
 
   heroBanner.addEventListener("touchend", (e) => {
     touchEndX = e.changedTouches[0].screenX;
-    if (touchEndX < touchStartX - 40) {
-      nextBannerSlide(); // Vuốt sang trái -> chuyển ảnh kế
-    } else if (touchEndX > touchStartX + 40) {
-      prevBannerSlide(); // Vuốt sang phải -> chuyển ảnh trước
+    touchEndY = e.changedTouches[0].screenY;
+    const diffX = touchEndX - touchStartX;
+    const diffY = touchEndY - touchStartY;
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+      if (diffX < 0) {
+        nextBannerSlide(); // Vuốt sang trái -> chuyển ảnh kế
+      } else {
+        prevBannerSlide(); // Vuốt sang phải -> chuyển ảnh trước
+      }
     }
   }, { passive: true });
 }
 
 function updateBannerActiveState() {
+  const track = document.getElementById("bannerSlidesTrack");
+  if (track) {
+    track.style.transform = `translateX(-${currentBannerIndex * 100}%)`;
+  }
+
   const slides = document.querySelectorAll(".banner-slide");
   slides.forEach((s, idx) => {
     s.classList.toggle("active", idx === currentBannerIndex);

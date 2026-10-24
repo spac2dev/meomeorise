@@ -1400,6 +1400,32 @@
     .banner-thumb-card:hover .card-actions-bar {
       opacity: 1;
     }
+    .banner-thumb-card .banner-badge-live {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      background: rgba(22, 101, 52, 0.9);
+      color: #bbf7d0;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1.5px 6px;
+      border-radius: var(--radius-pill);
+      border: 0.5px solid rgba(187, 247, 208, 0.4);
+      z-index: 2;
+    }
+    .banner-thumb-card .banner-badge-pending {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      background: rgba(133, 77, 14, 0.9);
+      color: #fef08a;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1.5px 6px;
+      border-radius: var(--radius-pill);
+      border: 0.5px solid rgba(254, 240, 138, 0.4);
+      z-index: 2;
+    }
 
     @media (max-width: 900px) {
       .admin-container {
@@ -1987,6 +2013,29 @@
           </div>
         </div>
 
+        <!-- Thanh Kiểm Tra & Đối Soát Ảnh Banner Đang Dùng Trên Website Thực Tế -->
+        <div class="web-sync-status-card checking" id="bannerLiveCheckCard" style="margin-bottom: 16px; padding: 12px 16px;">
+          <div class="web-sync-status-left" style="gap: 10px;">
+            <div class="sync-status-dot" id="bannerSyncDot"></div>
+            <div>
+              <strong class="sync-status-title" id="bannerSyncTitle" style="font-size: 13px;">Đang kiểm tra ảnh banner trên website thực tế...</strong>
+              <div class="sync-status-desc" id="bannerSyncDesc" style="font-size: 11.5px; margin-top: 3px;">
+                Đối soát danh sách ảnh banner trong file index.html thực tế để tránh nhầm lẫn.
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+            <button type="button" class="btn btn-secondary" onclick="checkLiveWebsiteBanner(false)" style="font-size: 12px; padding: 6px 12px;" title="Kiểm tra lại xem trang web hiện tại đang dùng ảnh nào">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              <span>Kiểm tra ảnh trên web</span>
+            </button>
+            <button type="button" class="btn btn-primary" id="btnPullLiveBanner" onclick="pullLiveBannerImagesToAdmin()" style="font-size: 12px; padding: 6px 12px; display: none;" title="Nạp danh sách ảnh đang chạy thực tế trên web vào khung quản lý">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Nạp từ web về Admin</span>
+            </button>
+          </div>
+        </div>
+
         <!-- Danh sách ảnh Banner hiện tại -->
         <div style="margin-bottom: 16px;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
@@ -2400,6 +2449,7 @@
 
       // 4. TỰ ĐỘNG CHẠY KIỂM TRA ĐỐI SOÁT FILE HIỆN TẠI TRÊN WEBSITE & GITHUB ĐỂ ĐẢM BẢO CHÍNH XÁC
       checkCurrentWebsiteFiles(true);
+      checkLiveWebsiteBanner(true);
 
       // Scroll to Top Listener
       window.addEventListener("scroll", () => {
@@ -2419,6 +2469,9 @@
       document.querySelectorAll(".tab-panel").forEach(p => {
         p.classList.toggle("active", p.id === tabId);
       });
+      if (tabId === "tab-banner") {
+        checkLiveWebsiteBanner(true);
+      }
     }
 
     // Điền dữ liệu cấu hình vào các form inputs
@@ -3363,6 +3416,109 @@
     // QUẢN LÝ ẢNH HERO BANNER / THUMBNAIL TRANG CHỦ (HERO BANNER SLIDER)
     // ========================================================================
     let isBannerUploadCancelled = false;
+    let liveWebsiteBannerImages = [];
+
+    // Kiểm tra & đối soát danh sách ảnh banner đang thực sự chạy trên website
+    async function checkLiveWebsiteBanner(silent = false) {
+      const card = document.getElementById("bannerLiveCheckCard");
+      const title = document.getElementById("bannerSyncTitle");
+      const desc = document.getElementById("bannerSyncDesc");
+      const btnPull = document.getElementById("btnPullLiveBanner");
+
+      if (card) {
+        card.className = "web-sync-status-card checking";
+        if (title) title.textContent = "Đang kiểm tra ảnh banner trên website thực tế (index.html)...";
+      }
+
+      let fetchedLiveImages = null;
+
+      // 1. Fetch trực tiếp ../index.html
+      try {
+        const res = await fetch(`../index.html?_t=${Date.now()}`);
+        if (res.ok) {
+          const text = await res.text();
+          const match = text.match(new RegExp('<script\\s+id=["\']siteDataScript["\']>([\\s\\S]*?)<\\/script>', 'i'));
+          if (match) {
+            const sandboxFn = new Function("siteConfig", "window", match[1] + "\n; return siteConfig || window.siteConfig;");
+            const parsed = sandboxFn(null, {});
+            if (parsed?.banner && Array.isArray(parsed.banner.images)) {
+              fetchedLiveImages = parsed.banner.images;
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("Không thể fetch trực tiếp ../index.html:", err);
+      }
+
+      // 2. Nếu có cài đặt Cloudflare Worker, kiểm tra qua Worker
+      const workerUrl = document.getElementById("workerUrlInput")?.value?.trim();
+      const secret = document.getElementById("workerSecretInput")?.value?.trim();
+      if (workerUrl) {
+        try {
+          const headers = {};
+          if (secret) headers["X-Admin-Key"] = secret;
+          const syncUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=index.html&_t=${Date.now()}`;
+          const wRes = await fetch(syncUrl, { method: "GET", headers });
+          if (wRes.ok) {
+            const data = await wRes.json();
+            if (data?.siteConfig?.banner && Array.isArray(data.siteConfig.banner.images)) {
+              fetchedLiveImages = data.siteConfig.banner.images;
+            }
+          }
+        } catch (wErr) {
+          console.warn("Không thể kiểm tra banner qua Worker:", wErr);
+        }
+      }
+
+      if (fetchedLiveImages !== null) {
+        liveWebsiteBannerImages = fetchedLiveImages;
+      } else if (liveWebsiteBannerImages.length === 0) {
+        liveWebsiteBannerImages = ["assets/thum1.png", "assets/thum2.png"];
+      }
+
+      // 3. So sánh với danh sách ảnh đang chỉnh sửa trong Admin
+      const adminImages = (siteConfig.banner && Array.isArray(siteConfig.banner.images))
+        ? siteConfig.banner.images
+        : [];
+
+      const isMatching = JSON.stringify(liveWebsiteBannerImages) === JSON.stringify(adminImages);
+
+      if (card && title && desc) {
+        if (isMatching) {
+          card.className = "web-sync-status-card";
+          title.textContent = `🟢 Đang chạy trên website: ${liveWebsiteBannerImages.length} ảnh banner`;
+          const names = liveWebsiteBannerImages.map(u => u.split("/").pop()).join(", ");
+          desc.textContent = `Dữ liệu Admin đang KHỚP 100% với website thực tế index.html (${names}). Lần kiểm tra: ${new Date().toLocaleTimeString("vi-VN")}`;
+          if (btnPull) btnPull.style.display = "none";
+        } else {
+          card.className = "web-sync-status-card warning";
+          title.textContent = `🟡 Phát hiện khác biệt: Web đang dùng ${liveWebsiteBannerImages.length} ảnh, Admin đang có ${adminImages.length} ảnh`;
+          const liveNames = liveWebsiteBannerImages.map(u => u.split("/").pop()).join(", ");
+          desc.textContent = `Website thực tế đang chạy: [${liveNames}]. Bấm "LƯU CẤU HÌNH WEB" ở thanh trên để áp dụng ảnh mới ra web, hoặc bấm "Nạp từ web về Admin" nếu muốn lấy ảnh hiện tại trên web.`;
+          if (btnPull) btnPull.style.display = "inline-flex";
+        }
+      }
+
+      renderBannerImagesGrid();
+
+      if (!silent) {
+        showToast(`Đã kiểm tra xong ảnh banner trên website! (${liveWebsiteBannerImages.length} ảnh)`, "success");
+      }
+    }
+
+    // Nạp danh sách ảnh đang chạy thực tế trên web vào Admin
+    function pullLiveBannerImagesToAdmin() {
+      if (!Array.isArray(liveWebsiteBannerImages) || liveWebsiteBannerImages.length === 0) {
+        showToast("Không tìm thấy ảnh nào trên website thực tế để nạp!", "error");
+        return;
+      }
+      if (!siteConfig.banner) siteConfig.banner = {};
+      siteConfig.banner.images = [...liveWebsiteBannerImages];
+      collectConfigFromForms();
+      renderBannerImagesGrid();
+      checkLiveWebsiteBanner(true);
+      showToast(`Đã nạp thành công ${liveWebsiteBannerImages.length} ảnh từ website vào Admin!`, "success");
+    }
 
     function renderBannerImagesGrid() {
       const grid = document.getElementById("bannerImagesGrid");
@@ -3386,9 +3542,16 @@
         return;
       }
 
-      grid.innerHTML = imgs.map((url, idx) => `
+      grid.innerHTML = imgs.map((url, idx) => {
+        const isLive = liveWebsiteBannerImages.includes(url);
+        const liveBadgeHtml = isLive
+          ? `<span class="banner-badge-live" title="Ảnh này đang chạy trên website thực tế">🟢 Đang chạy trên web</span>`
+          : `<span class="banner-badge-pending" title="Ảnh mới thêm trong Admin, chưa bấm Lưu Cấu Hình Web">🟡 Mới thêm (Chưa lưu)</span>`;
+
+        return `
         <div class="banner-thumb-card" data-idx="${idx}">
           <span class="banner-badge-order">#${idx + 1}</span>
+          ${liveBadgeHtml}
           <img src="${escapeHtml(url)}" class="thumb-img" alt="Banner #${idx + 1}" onerror="this.src='../assets/banner.jpg'">
           
           <div class="card-actions-bar">
@@ -3410,7 +3573,8 @@
             </button>
           </div>
         </div>
-      `).join("");
+      `;
+      }).join("");
     }
 
     function triggerBannerFileInput() {
@@ -4192,6 +4356,7 @@ if (typeof window !== "undefined") {
         if (res.ok && data.success) {
           localStorage.setItem("wontrade_site_config", JSON.stringify(cfg));
           showToast("Đã tráo và lưu Cấu hình vào index.html thành công!", "success");
+          checkLiveWebsiteBanner(true);
         } else {
           showToast(`Lỗi lưu cấu hình: ${data.error || "Không rõ nguyên nhân"}`, "error");
         }

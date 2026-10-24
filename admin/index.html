@@ -905,6 +905,51 @@
       background: #e2e8f0;
       color: #475569;
     }
+    .btn-add-cat-tab {
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      border: 1.5px dashed #3b82f6;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+    }
+    .btn-add-cat-tab:hover {
+      background: #dbeafe;
+      border-color: #2563eb;
+      color: #1e40af;
+      transform: translateY(-1px);
+    }
+    .tab-del-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.1);
+      color: inherit;
+      font-size: 9px;
+      margin-left: 2px;
+      transition: all 0.15s;
+      opacity: 0.7;
+    }
+    .admin-cat-tab-btn.active .tab-del-btn {
+      background: rgba(255,255,255,0.22);
+      color: #fff;
+    }
+    .tab-del-btn:hover {
+      opacity: 1;
+      background: #ef4444 !important;
+      color: #fff !important;
+      transform: scale(1.15);
+    }
     .upload-meta-actions {
       display: flex;
       align-items: center;
@@ -1306,6 +1351,54 @@
     .btn-dark-save:hover {
       background: #0f172a;
       transform: translateY(-1px);
+    }
+
+    /* Banner Thumbnails Management Grid */
+    .banner-thumbs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .banner-thumb-card {
+      position: relative;
+      height: 110px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+      background: #0f172a;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transition: all 0.2s ease;
+    }
+    .banner-thumb-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-color: #3b82f6;
+    }
+    .banner-thumb-card .thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .banner-thumb-card .banner-badge-order {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #ffd60a;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      border: 0.5px solid rgba(255, 214, 10, 0.4);
+      z-index: 2;
+    }
+    .banner-thumb-card .card-actions-bar {
+      opacity: 0.88;
+    }
+    .banner-thumb-card:hover .card-actions-bar {
+      opacity: 1;
     }
 
     @media (max-width: 900px) {
@@ -1875,6 +1968,67 @@
           </div>
         </div>
       </div>
+
+      <!-- Card Quản lý Ảnh Banner / Thumbnail Trang Chủ (Hero Banner Slider) -->
+      <div class="form-card" style="margin-top: 16px;">
+        <div class="form-card-header">
+          <div>
+            <h3 class="form-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              Quản lý Ảnh Banner / Thumbnail Trang Chủ (Hero Banner Slider)
+            </h3>
+            <p class="form-card-subtitle">Cấu hình danh sách các ảnh chạy qua lại trên banner trang chủ. Hỗ trợ upload ảnh ImgBB (có nén ảnh thông minh), kéo thả, Ctrl+V, hoặc nhập link.</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn btn-secondary" onclick="resetDefaultBannerImages()" style="font-size: 12px; padding: 6px 12px;" title="Đặt lại về 2 ảnh mẫu assets/thum1.png và assets/thum2.png">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 2v6h6M21.5 22v-6h-6"></path><path d="M22 11.5A10 10 0 0 0 3.2 7.2L2.5 8M2 12.5a10 10 0 0 0 18.8 4.3l.7-.8"></path></svg>
+              <span>Dùng 2 ảnh mẫu</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Danh sách ảnh Banner hiện tại -->
+        <div style="margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <label class="form-label" style="margin-bottom: 0;">Danh sách ảnh banner (<strong id="bannerImagesCount">0</strong> ảnh)</label>
+            <span style="font-size: 11.5px; color: var(--muted);">Banner trang chủ sẽ tự động chạy qua lại giữa các ảnh này</span>
+          </div>
+          <div id="bannerImagesGrid" class="banner-thumbs-grid">
+            <!-- Dynamic render -->
+          </div>
+        </div>
+
+        <!-- Khu vực tải ảnh lên (ImgBB Dropzone + File Picker) -->
+        <div class="imgbb-dropzone" id="bannerDropzone" onclick="triggerBannerFileInput()" style="padding: 24px 16px; margin-bottom: 12px;">
+          <input type="file" id="bannerFileInput" accept="image/*" multiple style="display: none;" onchange="handleBannerFileSelect(event)">
+          <div class="dropzone-icon" style="font-size: 28px; margin-bottom: 6px;">🖼️</div>
+          <div class="dropzone-text" style="font-size: 13.5px; font-weight: 700;">Nhấp để tải ảnh lên Banner hoặc Kéo thả ảnh vào đây</div>
+          <div class="dropzone-sub" style="font-size: 11.5px; color: #64748b; margin-top: 4px;">Tự động nén ảnh giữ nguyên độ nét, hỗ trợ dán ảnh trực tiếp (Ctrl + V) hoặc upload nhiều ảnh cùng lúc</div>
+        </div>
+
+        <!-- Thanh tiến trình upload ảnh banner -->
+        <div class="upload-progress-box" id="bannerUploadProgressBox" style="display: none; margin-bottom: 12px;">
+          <div class="progress-status-row">
+            <div class="progress-status-left">
+              <div class="progress-spinner"></div>
+              <span class="progress-status-text" id="bannerProgressStatusText">Đang nén & tải ảnh banner...</span>
+            </div>
+            <button type="button" class="btn-cancel-upload" onclick="cancelBannerUploads()">✕ Hủy</button>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="bannerProgressBarFill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Nhập link thủ công -->
+        <div class="manual-url-row" style="display: flex; gap: 8px;">
+          <input type="text" id="manualBannerUrlInput" class="form-control" placeholder="Dán link ảnh (https://... hoặc assets/thum1.png) và bấm Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addManualBannerImage();}">
+          <button type="button" class="btn btn-secondary" onclick="addManualBannerImage()" style="white-space: nowrap;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Thêm link</span>
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- ======================================================================
@@ -2004,31 +2158,20 @@
               </div>
 
               <div class="imgbb-upload-container">
-                <!-- 4 Category Tabs Switcher + Header Toolbar -->
+                <!-- Dynamic Category Tabs Switcher + Header Toolbar -->
                 <div class="admin-upload-header-row">
-                  <div class="admin-upload-cat-tabs">
-                    <button type="button" class="admin-cat-tab-btn active" data-cat="tuong" onclick="switchAdminUploadCat('tuong')">
-                      <span>👑 Ảnh Tướng</span>
-                      <span class="tab-badge" id="adminCatBadge_tuong">0</span>
-                    </button>
-                    <button type="button" class="admin-cat-tab-btn" data-cat="trangbi" onclick="switchAdminUploadCat('trangbi')">
-                      <span>⚔️ Trang bị</span>
-                      <span class="tab-badge" id="adminCatBadge_trangbi">0</span>
-                    </button>
-                    <button type="button" class="admin-cat-tab-btn" data-cat="rss" onclick="switchAdminUploadCat('rss')">
-                      <span>🌾 Rss kho</span>
-                      <span class="tab-badge" id="adminCatBadge_rss">0</span>
-                    </button>
-                    <button type="button" class="admin-cat-tab-btn" data-cat="vebay" onclick="switchAdminUploadCat('vebay')">
-                      <span>✈️ Vé bay</span>
-                      <span class="tab-badge" id="adminCatBadge_vebay">0</span>
-                    </button>
+                  <div class="admin-upload-cat-tabs" id="adminUploadCatTabs">
+                    <!-- Danh mục thẻ ảnh được render tự động qua JavaScript (renderAdminCategoryTabs) -->
                   </div>
 
                   <div class="upload-meta-actions">
                     <button type="button" class="btn-clear-cat" id="btnClearCatBtn" onclick="clearCurrentCategoryImages()" title="Xóa toàn bộ ảnh trong mục đang chọn">
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path></svg>
-                      <span>Xóa mục này</span>
+                      <span>Xóa ảnh mục này</span>
+                    </button>
+                    <button type="button" class="btn-clear-cat" style="background: #fff; border-color: #cbd5e1; color: #475569;" id="btnDeleteCurrentTabBtn" onclick="deleteCurrentCategoryTab()" title="Xóa hẳn thẻ ảnh này">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                      <span>Xóa thẻ này</span>
                     </button>
                   </div>
                 </div>
@@ -2195,7 +2338,8 @@
         desktopRibbon: "LOWER FEE & SIMPLIFIED PROCESS!",
         mobileBadge: "ĐỐI TÁC GIAO DỊCH CHÍNH THỨC",
         mobileTitle: "NHÀ GIAO DỊCH MEO MEO RISE",
-        mobileSubtitle: "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH"
+        mobileSubtitle: "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH",
+        images: ["assets/thum1.png", "assets/thum2.png"]
       },
       seo: {
         title: "Meo Meo Rise - Nền tảng giao dịch Rise of Kingdoms chính thức",
@@ -2293,6 +2437,11 @@
       document.getElementById("cfgBrandGameName").value = br.gameName || "";
       document.getElementById("cfgBrandAvatar").value = br.avatar || "";
 
+      if (!Array.isArray(b.images)) {
+        b.images = ["assets/thum1.png", "assets/thum2.png"];
+      }
+      renderBannerImagesGrid();
+
       // SEO
       document.getElementById("cfgSeoTitle").value = s.title || "";
       document.getElementById("cfgSeoDesc").value = s.description || "";
@@ -2307,9 +2456,13 @@
 
     // Thu thập cấu hình từ các form inputs
     function collectConfigFromForms() {
+      const currentImgs = (siteConfig.banner && Array.isArray(siteConfig.banner.images))
+        ? siteConfig.banner.images
+        : ["assets/thum1.png", "assets/thum2.png"];
+
       siteConfig = {
         brand: {
-          name: "WONTRADE",
+          name: siteConfig.brand?.name || "WONTRADE",
           gameName: document.getElementById("cfgBrandGameName").value.trim() || "Rise of Kingdoms",
           avatar: document.getElementById("cfgBrandAvatar").value.trim() || "assets/rok_avatar.jpg"
         },
@@ -2318,7 +2471,8 @@
           desktopRibbon: document.getElementById("cfgBannerRibbon").value.trim() || "LOWER FEE & SIMPLIFIED PROCESS!",
           mobileBadge: document.getElementById("cfgBannerMobileBadge").value.trim() || "ĐỐI TÁC GIAO DỊCH CHÍNH THỨC",
           mobileTitle: document.getElementById("cfgBannerMobileTitle").value.trim() || "NHÀ GIAO DỊCH WONTRADE",
-          mobileSubtitle: document.getElementById("cfgBannerMobileSubtitle").value.trim() || "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH"
+          mobileSubtitle: document.getElementById("cfgBannerMobileSubtitle").value.trim() || "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH",
+          images: currentImgs
         },
         seo: {
           title: document.getElementById("cfgSeoTitle").value.trim() || "WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức",
@@ -2500,7 +2654,13 @@
     // ========================================================================
     const IMGBB_API_KEY = "ab6c72e9bb94abb2b83870bc2d45bf6c";
 
-    let activeImageCategory = "tuong"; // "tuong" | "trangbi" | "rss" | "vebay"
+    let activeImageCategory = "tuong";
+    let editingCategoryTabs = [
+      { id: "tuong", name: "Ảnh Tướng" },
+      { id: "trangbi", name: "Trang bị" },
+      { id: "rss", name: "Rss kho" },
+      { id: "vebay", name: "Vé bay" }
+    ];
     let editingCategories = {
       tuong: [],
       trangbi: [],
@@ -2516,12 +2676,108 @@
     let completedBatchFiles = 0;
     let totalBytesSaved = 0;
 
-    const catTitles = {
-      tuong: "👑 Ảnh Tướng",
-      trangbi: "⚔️ Trang bị",
-      rss: "🌾 Rss kho",
-      vebay: "✈️ Vé bay"
-    };
+    function getCategoryName(catId) {
+      const t = editingCategoryTabs.find(tab => tab.id === catId);
+      if (t) return t.name;
+      const fallback = { tuong: "Ảnh Tướng", trangbi: "Trang bị", rss: "Rss kho", vebay: "Vé bay" };
+      return fallback[catId] || String(catId);
+    }
+
+    const catTitles = new Proxy({}, {
+      get(target, prop) {
+        if (typeof prop === "symbol") return undefined;
+        return getCategoryName(prop);
+      }
+    });
+
+    function renderAdminCategoryTabs() {
+      const container = document.getElementById("adminUploadCatTabs");
+      if (!container) return;
+
+      const tabsHtml = editingCategoryTabs.map((cat) => {
+        const isActive = cat.id === activeImageCategory;
+        const count = (editingCategories[cat.id] || []).length;
+        return `
+          <button type="button" class="admin-cat-tab-btn ${isActive ? 'active' : ''}" data-cat="${escapeHtml(cat.id)}" onclick="switchAdminUploadCat('${escapeHtml(cat.id)}')">
+            <span class="tab-label" title="Nhấp đúp để đổi tên thẻ" ondblclick="renameCategoryTab(event, '${escapeHtml(cat.id)}')">${escapeHtml(cat.name)}</span>
+            <span class="tab-badge" id="adminCatBadge_${escapeHtml(cat.id)}">${count}</span>
+            ${editingCategoryTabs.length > 1 ? `<span class="tab-del-btn" onclick="deleteCategoryTab(event, '${escapeHtml(cat.id)}')" title="Xóa thẻ '${escapeHtml(cat.name)}'">✕</span>` : ''}
+          </button>
+        `;
+      }).join("");
+
+      const addBtnHtml = `
+        <button type="button" class="btn-add-cat-tab" onclick="promptAddNewCategory()" title="Thêm thẻ danh mục ảnh mới">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>Thêm thẻ</span>
+        </button>
+      `;
+
+      container.innerHTML = tabsHtml + addBtnHtml;
+    }
+
+    function promptAddNewCategory() {
+      const name = prompt("Nhập tên thẻ ảnh mới (Ví dụ: Thú cưỡi, Viện nghiên cứu, Pet...):");
+      if (!name || !name.trim()) return;
+      const trimmed = name.trim();
+      const slugId = "cat_" + Date.now().toString(36) + "_" + Math.floor(Math.random() * 1000);
+      editingCategoryTabs.push({ id: slugId, name: trimmed });
+      editingCategories[slugId] = [];
+      activeImageCategory = slugId;
+      renderAdminCategoryTabs();
+      switchAdminUploadCat(slugId);
+      updateAdminCatBadges();
+      renderUploadedImagesGrid();
+      showToast(`Đã thêm thẻ mới: [${trimmed}]`, "success");
+    }
+
+    function deleteCategoryTab(event, catId) {
+      if (event) event.stopPropagation();
+      const tab = editingCategoryTabs.find(t => t.id === catId);
+      const tabName = tab ? tab.name : catId;
+      const imgCount = (editingCategories[catId] || []).length;
+
+      if (editingCategoryTabs.length <= 1) {
+        showToast("Phải giữ lại ít nhất 1 thẻ ảnh!", "error");
+        return;
+      }
+
+      const confirmMsg = imgCount > 0
+        ? `Bạn có chắc muốn XÓA THẺ [${tabName}] cùng ${imgCount} ảnh bên trong?`
+        : `Bạn có chắc muốn XÓA THẺ [${tabName}]?`;
+
+      if (!confirm(confirmMsg)) return;
+
+      delete editingCategories[catId];
+      editingCategoryTabs = editingCategoryTabs.filter(t => t.id !== catId);
+
+      if (activeImageCategory === catId) {
+        activeImageCategory = editingCategoryTabs[0].id;
+      }
+
+      renderAdminCategoryTabs();
+      switchAdminUploadCat(activeImageCategory);
+      updateAdminCatBadges();
+      renderUploadedImagesGrid();
+      showToast(`Đã xóa thẻ [${tabName}]!`, "normal");
+    }
+
+    function deleteCurrentCategoryTab() {
+      deleteCategoryTab(null, activeImageCategory);
+    }
+
+    function renameCategoryTab(event, catId) {
+      if (event) event.stopPropagation();
+      const tab = editingCategoryTabs.find(t => t.id === catId);
+      if (!tab) return;
+      const newName = prompt(`Đổi tên thẻ [${tab.name}] thành:`, tab.name);
+      if (!newName || !newName.trim() || newName.trim() === tab.name) return;
+      tab.name = newName.trim();
+      renderAdminCategoryTabs();
+      switchAdminUploadCat(activeImageCategory);
+      renderUploadedImagesGrid();
+      showToast(`Đã đổi tên thẻ thành [${tab.name}]!`, "success");
+    }
 
     function switchAdminUploadCat(cat) {
       activeImageCategory = cat;
@@ -2530,45 +2786,38 @@
       });
       const titleEl = document.getElementById("adminDropzoneTitle");
       if (titleEl) {
-        titleEl.innerHTML = `<strong>Bấm chọn ảnh ${catTitles[cat]}</strong> hoặc <strong>Kéo & thả nhiều ảnh vào đây</strong>`;
+        titleEl.innerHTML = `<strong>Bấm chọn ảnh ${escapeHtml(getCategoryName(cat))}</strong> hoặc <strong>Kéo & thả nhiều ảnh vào đây</strong>`;
       }
       renderUploadedImagesGrid();
     }
 
     function updateAdminCatBadges() {
-      const bTuong = document.getElementById("adminCatBadge_tuong");
-      const bTrangbi = document.getElementById("adminCatBadge_trangbi");
-      const bRss = document.getElementById("adminCatBadge_rss");
-      const bVebay = document.getElementById("adminCatBadge_vebay");
+      let total = 0;
+      editingCategoryTabs.forEach(t => {
+        const count = (editingCategories[t.id] || []).length;
+        total += count;
+        const badge = document.getElementById(`adminCatBadge_${t.id}`);
+        if (badge) badge.textContent = count;
+      });
       const totalBadge = document.getElementById("uploadTotalBadge");
-
-      const cTuong = (editingCategories.tuong || []).length;
-      const cTrangbi = (editingCategories.trangbi || []).length;
-      const cRss = (editingCategories.rss || []).length;
-      const cVebay = (editingCategories.vebay || []).length;
-      const total = cTuong + cTrangbi + cRss + cVebay;
-
-      if (bTuong) bTuong.textContent = cTuong;
-      if (bTrangbi) bTrangbi.textContent = cTrangbi;
-      if (bRss) bRss.textContent = cRss;
-      if (bVebay) bVebay.textContent = cVebay;
       if (totalBadge) totalBadge.textContent = `Tổng: ${total} ảnh`;
     }
 
     // Xóa sạch ảnh trong mục đang chọn
     function clearCurrentCategoryImages() {
       const currentList = editingCategories[activeImageCategory] || [];
+      const catName = getCategoryName(activeImageCategory);
       if (currentList.length === 0) {
-        showToast(`Mục [${catTitles[activeImageCategory]}] hiện không có ảnh nào để xóa!`, "normal");
+        showToast(`Mục [${catName}] hiện không có ảnh nào để xóa!`, "normal");
         return;
       }
-      if (!confirm(`Bạn có chắc chắn muốn xóa TOÀN BỘ ${currentList.length} ảnh trong mục [${catTitles[activeImageCategory]}]?`)) {
+      if (!confirm(`Bạn có chắc chắn muốn xóa TOÀN BỘ ${currentList.length} ảnh trong mục [${catName}]?`)) {
         return;
       }
       editingCategories[activeImageCategory] = [];
       updateAdminCatBadges();
       renderUploadedImagesGrid();
-      showToast(`Đã xóa toàn bộ ảnh trong mục [${catTitles[activeImageCategory]}]!`, "normal");
+      showToast(`Đã xóa toàn bộ ảnh trong mục [${catName}]!`, "normal");
     }
 
     // ========================================================================
@@ -2913,13 +3162,14 @@
       const grid = document.getElementById("uploadedImagesGrid");
       if (!grid) return;
 
+      const currentCatName = getCategoryName(activeImageCategory);
       const list = editingCategories[activeImageCategory] || [];
       const queueList = uploadQueue.filter(q => q.cat === activeImageCategory);
 
       if (list.length === 0 && queueList.length === 0) {
         grid.innerHTML = `
           <div style="grid-column: 1 / -1; font-size: 12.5px; color: #94a3b8; text-align: center; padding: 22px; background: #f8fafc; border: 1px dashed var(--border); border-radius: var(--radius-md);">
-            Chưa có ảnh nào trong mục <strong>[${catTitles[activeImageCategory]}]</strong>.<br>
+            Chưa có ảnh nào trong mục <strong>[${escapeHtml(currentCatName)}]</strong>.<br>
             <span style="font-size: 11.5px; color: #64748b;">Kéo & thả ảnh từ máy tính hoặc nhấn Ctrl+V để dán trực tiếp ảnh vào mục này!</span>
           </div>
         `;
@@ -2927,12 +3177,18 @@
       }
 
       let html = "";
+      const primaryCatId = editingCategoryTabs[0]?.id || 'tuong';
 
       // 1. Render các ảnh đã tải lên hoàn tất
       list.forEach((src, idx) => {
-        const isCover = (activeImageCategory === 'tuong' && idx === 0);
+        const isCover = (activeImageCategory === primaryCatId && idx === 0);
+        const moveOptions = editingCategoryTabs
+          .filter(t => t.id !== activeImageCategory)
+          .map(t => `<button type="button" class="cat-move-item" onclick="moveImageCategory(${idx}, '${escapeHtml(t.id)}')">${escapeHtml(t.name)}</button>`)
+          .join("");
+
         html += `
-          <div class="uploaded-img-card ${isCover ? 'cover-img' : ''}" onclick="previewUploadedImage('${escapeHtml(src)}', '${escapeHtml(catTitles[activeImageCategory])} #${idx + 1}')" title="Bấm để phóng to ảnh">
+          <div class="uploaded-img-card ${isCover ? 'cover-img' : ''}" onclick="previewUploadedImage('${escapeHtml(src)}', '${escapeHtml(currentCatName)} #${idx + 1}')" title="Bấm để phóng to ảnh">
             <img src="${escapeHtml(src)}" alt="Ảnh #${idx + 1}" loading="lazy" onerror="this.src='../assets/rok_avatar.jpg'">
             
             ${isCover
@@ -2944,18 +3200,17 @@
               ${!isCover ? `
                 <button type="button" class="card-action-btn btn-cover" onclick="setAsCoverImage(${idx})" title="Đặt ảnh này làm ẢNH BÌA của acc">★</button>
               ` : ''}
-              <button type="button" class="card-action-btn btn-move" onclick="toggleMoveDropdown(event, ${idx})" title="Chuyển ảnh này sang mục khác">⇄</button>
-              <button type="button" class="card-action-btn btn-zoom" onclick="previewUploadedImage('${escapeHtml(src)}', '${escapeHtml(catTitles[activeImageCategory])} #${idx + 1}')" title="Phóng to">🔍</button>
+              ${editingCategoryTabs.length > 1 ? `
+                <button type="button" class="card-action-btn btn-move" onclick="toggleMoveDropdown(event, ${idx})" title="Chuyển ảnh này sang thẻ khác">⇄</button>
+              ` : ''}
+              <button type="button" class="card-action-btn btn-zoom" onclick="previewUploadedImage('${escapeHtml(src)}', '${escapeHtml(currentCatName)} #${idx + 1}')" title="Phóng to">🔍</button>
               <button type="button" class="card-action-btn btn-del" onclick="deleteUploadedImage(${idx})" title="Xóa ảnh này">✕</button>
             </div>
 
             <!-- Menu chuyển mục -->
             <div class="cat-move-dropdown" id="moveMenu_${idx}" onclick="event.stopPropagation()">
               <div style="font-size: 10px; font-weight: 700; color: #94a3b8; padding: 2px 6px; border-bottom: 1px solid #f1f5f9;">CHUYỂN SANG:</div>
-              ${activeImageCategory !== 'tuong' ? `<button type="button" class="cat-move-item" onclick="moveImageCategory(${idx}, 'tuong')">👑 Ảnh Tướng</button>` : ''}
-              ${activeImageCategory !== 'trangbi' ? `<button type="button" class="cat-move-item" onclick="moveImageCategory(${idx}, 'trangbi')">⚔️ Trang bị</button>` : ''}
-              ${activeImageCategory !== 'rss' ? `<button type="button" class="cat-move-item" onclick="moveImageCategory(${idx}, 'rss')">🌾 Rss kho</button>` : ''}
-              ${activeImageCategory !== 'vebay' ? `<button type="button" class="cat-move-item" onclick="moveImageCategory(${idx}, 'vebay')">✈️ Vé bay</button>` : ''}
+              ${moveOptions}
             </div>
           </div>
         `;
@@ -2996,29 +3251,28 @@
       grid.innerHTML = html;
     }
 
-    // Đặt ảnh làm ảnh bìa (Đưa lên đầu mục Tướng)
+    // Đặt ảnh làm ảnh bìa (Đưa lên đầu danh mục chính)
     function setAsCoverImage(idx) {
       const list = editingCategories[activeImageCategory];
       if (!list || idx < 0 || idx >= list.length) return;
 
       const targetImg = list[idx];
+      const primaryCatId = editingCategoryTabs[0]?.id || 'tuong';
 
-      if (activeImageCategory === 'tuong') {
+      if (activeImageCategory === primaryCatId) {
         list.splice(idx, 1);
         list.unshift(targetImg);
         showToast("Đã đặt ảnh này làm ẢNH BÌA chính của acc!", "success");
       } else {
-        // Chuyển sang mục Tướng và đưa lên đầu
         list.splice(idx, 1);
-        if (!editingCategories.tuong) editingCategories.tuong = [];
-        editingCategories.tuong.unshift(targetImg);
-        showToast(`Đã chuyển ảnh sang mục [👑 Ảnh Tướng] và đặt làm ẢNH BÌA!`, "success");
-        activeImageCategory = 'tuong';
-        document.querySelectorAll(".admin-cat-tab-btn").forEach(btn => {
-          btn.classList.toggle("active", btn.dataset.cat === 'tuong');
-        });
+        if (!editingCategories[primaryCatId]) editingCategories[primaryCatId] = [];
+        editingCategories[primaryCatId].unshift(targetImg);
+        showToast(`Đã chuyển ảnh sang mục [${getCategoryName(primaryCatId)}] và đặt làm ẢNH BÌA!`, "success");
+        activeImageCategory = primaryCatId;
+        renderAdminCategoryTabs();
       }
 
+      renderAdminCategoryTabs();
       updateAdminCatBadges();
       renderUploadedImagesGrid();
     }
@@ -3047,18 +3301,20 @@
       if (!editingCategories[targetCat]) editingCategories[targetCat] = [];
       editingCategories[targetCat].push(img);
 
+      renderAdminCategoryTabs();
       updateAdminCatBadges();
       renderUploadedImagesGrid();
-      showToast(`Đã chuyển 1 ảnh sang mục [${catTitles[targetCat]}]!`, "success");
+      showToast(`Đã chuyển 1 ảnh sang mục [${getCategoryName(targetCat)}]!`, "success");
     }
 
     function deleteUploadedImage(idx) {
       const list = editingCategories[activeImageCategory];
       if (list && idx >= 0 && idx < list.length) {
         list.splice(idx, 1);
+        renderAdminCategoryTabs();
         updateAdminCatBadges();
         renderUploadedImagesGrid();
-        showToast(`Đã gỡ ảnh khỏi mục [${catTitles[activeImageCategory]}]!`, "normal");
+        showToast(`Đã gỡ ảnh khỏi mục [${getCategoryName(activeImageCategory)}]!`, "normal");
       }
     }
 
@@ -3103,16 +3359,195 @@
       showToast(`Đã thêm thành công ${urls.length} link ảnh vào mục [${catTitles[activeImageCategory]}]!`, "success");
     }
 
-    // Bắt sự kiện Dán ảnh (Ctrl + V) từ Clipboard vào đúng mục đang chọn
-    window.addEventListener("paste", (e) => {
-      const modal = document.getElementById("itemModalBackdrop");
-      if (!modal || !modal.classList.contains("show")) return;
+    // ========================================================================
+    // QUẢN LÝ ẢNH HERO BANNER / THUMBNAIL TRANG CHỦ (HERO BANNER SLIDER)
+    // ========================================================================
+    let isBannerUploadCancelled = false;
 
-      // Không chặn dán nếu đang gõ trong input text hoặc textarea
+    function renderBannerImagesGrid() {
+      const grid = document.getElementById("bannerImagesGrid");
+      const countEl = document.getElementById("bannerImagesCount");
+      if (!grid) return;
+
+      const imgs = (siteConfig.banner && Array.isArray(siteConfig.banner.images))
+        ? siteConfig.banner.images
+        : [];
+      
+      if (countEl) countEl.textContent = imgs.length;
+
+      if (imgs.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 32px 16px; background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 10px; color: #64748b;">
+            <div style="font-size: 26px; margin-bottom: 6px;">🖼️</div>
+            <div style="font-weight: 700; font-size: 13.5px; color: #334155;">Chưa có ảnh banner nào</div>
+            <div style="font-size: 12px; margin-top: 4px;">Bấm nút <strong>"Dùng 2 ảnh mẫu"</strong> hoặc tải ảnh lên bên dưới để chạy slide qua lại.</div>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = imgs.map((url, idx) => `
+        <div class="banner-thumb-card" data-idx="${idx}">
+          <span class="banner-badge-order">#${idx + 1}</span>
+          <img src="${escapeHtml(url)}" class="thumb-img" alt="Banner #${idx + 1}" onerror="this.src='../assets/banner.jpg'">
+          
+          <div class="card-actions-bar">
+            <!-- Xem to -->
+            <button type="button" class="card-action-btn btn-zoom" onclick="previewUploadedImage('${escapeHtml(url)}', 'Ảnh Banner #${idx + 1}')" title="Phóng to ảnh">
+              🔍
+            </button>
+            <!-- Di chuyển sang trái / trước -->
+            <button type="button" class="card-action-btn btn-move" onclick="moveBannerImage(${idx}, -1)" title="Chuyển lên trước" ${idx === 0 ? 'disabled style="opacity: 0.35; cursor: not-allowed;"' : ''}>
+              ◀
+            </button>
+            <!-- Di chuyển sang phải / sau -->
+            <button type="button" class="card-action-btn btn-move" onclick="moveBannerImage(${idx}, 1)" title="Chuyển xuống sau" ${idx === imgs.length - 1 ? 'disabled style="opacity: 0.35; cursor: not-allowed;"' : ''}>
+              ▶
+            </button>
+            <!-- Xóa ảnh -->
+            <button type="button" class="card-action-btn btn-del" onclick="deleteBannerImage(${idx})" title="Xóa ảnh này">
+              ✕
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function triggerBannerFileInput() {
+      const input = document.getElementById("bannerFileInput");
+      if (input) input.click();
+    }
+
+    function handleBannerFileSelect(e) {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        addBannerFilesToUploadQueue(Array.from(files));
+        e.target.value = "";
+      }
+    }
+
+    function resetDefaultBannerImages() {
+      if (!siteConfig.banner) siteConfig.banner = {};
+      siteConfig.banner.images = ["assets/thum1.png", "assets/thum2.png"];
+      collectConfigFromForms();
+      renderBannerImagesGrid();
+      showToast("Đã đặt lại 2 ảnh mẫu assets/thum1.png và assets/thum2.png cho Banner!", "success");
+    }
+
+    function deleteBannerImage(idx) {
+      if (!siteConfig.banner?.images) return;
+      siteConfig.banner.images.splice(idx, 1);
+      collectConfigFromForms();
+      renderBannerImagesGrid();
+      showToast("Đã xóa ảnh khỏi danh sách banner!", "normal");
+    }
+
+    function moveBannerImage(idx, direction) {
+      const imgs = siteConfig.banner?.images;
+      if (!imgs) return;
+      const targetIdx = idx + direction;
+      if (targetIdx < 0 || targetIdx >= imgs.length) return;
+      const temp = imgs[idx];
+      imgs[idx] = imgs[targetIdx];
+      imgs[targetIdx] = temp;
+      collectConfigFromForms();
+      renderBannerImagesGrid();
+      showToast(`Đã đổi vị trí ảnh thành #${targetIdx + 1}!`, "normal");
+    }
+
+    function addManualBannerImage() {
+      const input = document.getElementById("manualBannerUrlInput");
+      const val = input.value.trim();
+      if (!val) return;
+
+      const urls = val.split(/[\s,\n]+/).map(u => u.trim()).filter(Boolean);
+      if (urls.length === 0) return;
+
+      if (!siteConfig.banner) siteConfig.banner = {};
+      if (!Array.isArray(siteConfig.banner.images)) siteConfig.banner.images = [];
+
+      siteConfig.banner.images.push(...urls);
+      input.value = "";
+      collectConfigFromForms();
+      renderBannerImagesGrid();
+      showToast(`Đã thêm ${urls.length} ảnh vào Banner!`, "success");
+    }
+
+    function cancelBannerUploads() {
+      isBannerUploadCancelled = true;
+      const progressBox = document.getElementById("bannerUploadProgressBox");
+      if (progressBox) progressBox.style.display = "none";
+      showToast("Đã hủy tải ảnh banner lên!", "normal");
+    }
+
+    async function addBannerFilesToUploadQueue(filesList) {
+      const imageFiles = filesList.filter(f => f && f.type && f.type.startsWith("image/"));
+      if (imageFiles.length === 0) {
+        showToast("Vui lòng chọn các file định dạng ảnh hợp lệ (PNG, JPG, WEBP)!", "error");
+        return;
+      }
+
+      isBannerUploadCancelled = false;
+      const progressBox = document.getElementById("bannerUploadProgressBox");
+      const progressBar = document.getElementById("bannerProgressBarFill");
+      const progressText = document.getElementById("bannerProgressStatusText");
+      if (progressBox) progressBox.style.display = "flex";
+
+      let completed = 0;
+      const total = imageFiles.length;
+
+      for (const file of imageFiles) {
+        if (isBannerUploadCancelled) break;
+
+        if (progressText) {
+          progressText.textContent = `Đang nén & tải ảnh banner lên ImgBB (${completed + 1}/${total}): ${file.name}`;
+        }
+        if (progressBar) {
+          progressBar.style.width = `${Math.round((completed / total) * 100)}%`;
+        }
+
+        try {
+          // Nén ảnh thông minh trước khi upload (giữ chất lượng cao 1920x1080)
+          const compressed = await compressImage(file, 1920, 1080, 0.85);
+          if (isBannerUploadCancelled) break;
+
+          // Upload ImgBB
+          const uploadedUrl = await uploadSingleFileToImgBB(compressed);
+          if (isBannerUploadCancelled) break;
+
+          if (!siteConfig.banner) siteConfig.banner = {};
+          if (!Array.isArray(siteConfig.banner.images)) siteConfig.banner.images = [];
+          siteConfig.banner.images.push(uploadedUrl);
+
+          completed++;
+          collectConfigFromForms();
+          renderBannerImagesGrid();
+        } catch (err) {
+          console.error("Lỗi upload banner file:", file.name, err);
+          showToast(`Lỗi upload ảnh "${file.name}": ${err.message}`, "error");
+        }
+      }
+
+      if (progressBar) progressBar.style.width = "100%";
+      setTimeout(() => {
+        if (progressBox) progressBox.style.display = "none";
+      }, 1000);
+
+      showToast(`Đã tải thành công ${completed}/${total} ảnh lên Banner!`, "success");
+    }
+
+    // Bắt sự kiện Dán ảnh (Ctrl + V) từ Clipboard vào mục sản phẩm hoặc Banner
+    window.addEventListener("paste", (e) => {
       const targetTag = e.target?.tagName?.toLowerCase();
       if (targetTag === 'input' || targetTag === 'textarea') {
         return;
       }
+
+      const modal = document.getElementById("itemModalBackdrop");
+      const isProductModalOpen = modal && modal.classList.contains("show");
+      const isBannerTabActive = document.getElementById("tab-banner")?.classList.contains("active");
+
+      if (!isProductModalOpen && !isBannerTabActive) return;
 
       const clipboardItems = (e.clipboardData || e.originalEvent?.clipboardData)?.items;
       if (!clipboardItems) return;
@@ -3127,13 +3562,19 @@
 
       if (imageFiles.length > 0) {
         e.preventDefault();
-        showToast(`Đang nhận ${imageFiles.length} ảnh dán vào mục [${catTitles[activeImageCategory]}]...`, "normal");
-        addFilesToUploadQueue(imageFiles);
+        if (isProductModalOpen) {
+          showToast(`Đang nhận ${imageFiles.length} ảnh dán vào mục [${catTitles[activeImageCategory]}]...`, "normal");
+          addFilesToUploadQueue(imageFiles);
+        } else if (isBannerTabActive) {
+          showToast(`Đang nhận ${imageFiles.length} ảnh dán vào Banner trang chủ...`, "normal");
+          addBannerFilesToUploadQueue(imageFiles);
+        }
       }
     });
 
-    // Kéo thả Dropzone đa ảnh
+    // Kéo thả Dropzone đa ảnh (Sản phẩm & Banner)
     document.addEventListener("DOMContentLoaded", () => {
+      // 1. Dropzone Sản phẩm
       const dropzone = document.getElementById("imgbbDropzone");
       if (dropzone) {
         ["dragenter", "dragover"].forEach(eventName => {
@@ -3157,6 +3598,34 @@
           const files = dt?.files;
           if (files && files.length > 0) {
             addFilesToUploadQueue(Array.from(files));
+          }
+        }, false);
+      }
+
+      // 2. Dropzone Banner
+      const bannerDropzone = document.getElementById("bannerDropzone");
+      if (bannerDropzone) {
+        ["dragenter", "dragover"].forEach(eventName => {
+          bannerDropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            bannerDropzone.classList.add("dragover");
+          }, false);
+        });
+
+        ["dragleave", "drop"].forEach(eventName => {
+          bannerDropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            bannerDropzone.classList.remove("dragover");
+          }, false);
+        });
+
+        bannerDropzone.addEventListener("drop", (e) => {
+          const dt = e.dataTransfer;
+          const files = dt?.files;
+          if (files && files.length > 0) {
+            addBannerFilesToUploadQueue(Array.from(files));
           }
         }, false);
       }
@@ -3191,12 +3660,20 @@
       const progressBox = document.getElementById("uploadProgressBox");
       if (progressBox) progressBox.style.display = "none";
 
+      editingCategoryTabs = [
+        { id: "tuong", name: "Ảnh Tướng" },
+        { id: "trangbi", name: "Trang bị" },
+        { id: "rss", name: "Rss kho" },
+        { id: "vebay", name: "Vé bay" }
+      ];
       editingCategories = {
         tuong: [],
         trangbi: [],
         rss: [],
         vebay: []
       };
+      activeImageCategory = "tuong";
+      renderAdminCategoryTabs();
       switchAdminUploadCat('tuong');
       updateAdminCatBadges();
       renderUploadedImagesGrid();
@@ -3238,14 +3715,36 @@
       if (progressBox) progressBox.style.display = "none";
 
       const rawCats = item.imageCategories || {};
-      editingCategories = {
-        tuong: Array.isArray(rawCats.tuong) ? [...rawCats.tuong] : (Array.isArray(item.images) ? [...item.images] : []),
-        trangbi: Array.isArray(rawCats.trangbi) ? [...rawCats.trangbi] : [],
-        rss: Array.isArray(rawCats.rss) ? [...rawCats.rss] : [],
-        vebay: Array.isArray(rawCats.vebay) ? [...rawCats.vebay] : []
-      };
+      if (Array.isArray(item.categoryTabs) && item.categoryTabs.length > 0) {
+        editingCategoryTabs = item.categoryTabs.map(t => ({
+          id: t.id,
+          name: t.name || t.label || t.id
+        }));
+      } else {
+        const knownNames = { tuong: "Ảnh Tướng", trangbi: "Trang bị", rss: "Rss kho", vebay: "Vé bay" };
+        const keys = Object.keys(rawCats);
+        if (keys.length === 0) {
+          keys.push('tuong', 'trangbi', 'rss', 'vebay');
+        }
+        editingCategoryTabs = keys.map(k => ({
+          id: k,
+          name: knownNames[k] || k
+        }));
+      }
 
-      switchAdminUploadCat('tuong');
+      editingCategories = {};
+      editingCategoryTabs.forEach(t => {
+        editingCategories[t.id] = Array.isArray(rawCats[t.id]) ? [...rawCats[t.id]] : [];
+      });
+
+      const firstCatId = editingCategoryTabs[0]?.id || 'tuong';
+      if ((!editingCategories[firstCatId] || editingCategories[firstCatId].length === 0) && Array.isArray(item.images) && item.images.length > 0) {
+        editingCategories[firstCatId] = [...item.images];
+      }
+
+      activeImageCategory = editingCategoryTabs[0]?.id || "tuong";
+      renderAdminCategoryTabs();
+      switchAdminUploadCat(activeImageCategory);
       updateAdminCatBadges();
       renderUploadedImagesGrid();
 
@@ -3307,12 +3806,16 @@
 
       const hours = Number(document.getElementById("fCountdownHours").value) || 168;
 
-      const allFlatImages = [
-        ...(editingCategories.tuong || []),
-        ...(editingCategories.trangbi || []),
-        ...(editingCategories.rss || []),
-        ...(editingCategories.vebay || [])
-      ];
+      const allFlatImages = [];
+      editingCategoryTabs.forEach(t => {
+        const imgs = editingCategories[t.id] || [];
+        allFlatImages.push(...imgs);
+      });
+
+      const savedCategories = {};
+      editingCategoryTabs.forEach(t => {
+        savedCategories[t.id] = [...(editingCategories[t.id] || [])];
+      });
 
       const itemData = {
         id: newId,
@@ -3322,12 +3825,8 @@
         favorites: Number(document.getElementById("fFavorites").value) || 0,
         isFavorited: false,
         images: allFlatImages,
-        imageCategories: {
-          tuong: [...(editingCategories.tuong || [])],
-          trangbi: [...(editingCategories.trangbi || [])],
-          rss: [...(editingCategories.rss || [])],
-          vebay: [...(editingCategories.vebay || [])]
-        },
+        categoryTabs: editingCategoryTabs.map(t => ({ id: t.id, name: t.name })),
+        imageCategories: savedCategories,
         badges,
         info: document.getElementById("fInfo").value.trim(),
         stats: document.getElementById("fStats").value.trim(),

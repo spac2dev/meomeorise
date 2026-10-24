@@ -415,15 +415,15 @@ function renderListings(itemsToRender) {
 
     // Image computation: Cover image & Total count for Showcase
     const catsObj = item.imageCategories || {};
-    const allImages = (Array.isArray(item.images) && item.images.length > 0)
-      ? item.images
-      : [
-          ...(catsObj.tuong || []),
-          ...(catsObj.trangbi || []),
-          ...(catsObj.rss || []),
-          ...(catsObj.vebay || [])
-        ];
-    const coverImg = allImages[0] || (catsObj.tuong?.[0]) || 'assets/banner_hero_1791716494779.jpg';
+    let allImages = (Array.isArray(item.images) && item.images.length > 0)
+      ? [...item.images]
+      : [];
+    if (allImages.length === 0) {
+      Object.values(catsObj).forEach(arr => {
+        if (Array.isArray(arr)) allImages.push(...arr);
+      });
+    }
+    const coverImg = allImages[0] || (catsObj.tuong?.[0]) || Object.values(catsObj)[0]?.[0] || 'assets/thum1.jpg';
     const totalPhotos = allImages.length;
     const escapedTitle = String(item.title || '').replace(/"/g, '&quot;');
 
@@ -440,7 +440,7 @@ function renderListings(itemsToRender) {
         <!-- Cột 1: Tấm ảnh chính + Hộp giá tiền nổi bật -->
         <div class="card-cover-column">
           <div class="card-cover-wrap" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp vào để mở xem trọn bộ ảnh chi tiết">
-            <img src="${coverImg}" alt="${escapedTitle}" class="card-cover-img" loading="lazy" onerror="this.src='assets/banner_hero_1791716494779.jpg'">
+            <img src="${coverImg}" alt="${escapedTitle}" class="card-cover-img" loading="lazy" onerror="this.src='assets/thum1.jpg'">
             <div class="card-cover-overlay">
               <span class="cover-zoom-icon">🔍</span>
               <span class="cover-zoom-text">Xem ${totalPhotos > 0 ? totalPhotos + ' ảnh' : 'chi tiết'}</span>
@@ -486,7 +486,7 @@ function renderListings(itemsToRender) {
           <!-- Time Countdown & CTA -->
           <div class="card-right-bottom">
             <div class="time-status">
-              <svg class="time-clock-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <svg class="time-clock-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               <span>Còn: <strong class="timer-tick" data-sec="${item.countdownSeconds}">${formatCountdown(item.countdownSeconds)}</strong></span>
             </div>
             <button type="button" class="btn-card-detail" onclick="openProductModal(${item.id})">Xem chi tiết →</button>
@@ -618,130 +618,17 @@ let currentCategoryModalItem = null;
 let currentActiveCategory = 'tuong'; // 'tuong' | 'trangbi' | 'rss' | 'vebay'
 
 const categoryMetaMap = {
-  tuong: { title: "CHI TIẾT TƯỚNG", label: "tướng", icon: "👑" },
-  trangbi: { title: "CHI TIẾT TRANG BỊ", label: "trang bị", icon: "⚔️" },
-  rss: { title: "CHI TIẾT RSS KHO", label: "rss kho", icon: "🌾" },
-  vebay: { title: "CHI TIẾT VÉ BAY", label: "vé bay", icon: "✈️" }
+  tuong: { title: "CHI TIẾT TƯỚNG", label: "Tướng" },
+  trangbi: { title: "CHI TIẾT TRANG BỊ", label: "Trang bị" },
+  rss: { title: "CHI TIẾT RSS KHO", label: "Rss kho" },
+  vebay: { title: "CHI TIẾT VÉ BAY", label: "Vé bay" }
 };
 
 window.openCategoryModal = function(id, category = 'tuong', event) {
   if (event) event.stopPropagation();
-
-  const productList = (window.mockProducts && window.mockProducts.length > 0)
-    ? window.mockProducts
-    : (typeof products !== 'undefined' ? products : []);
-  const item = productList.find(p => p && Number(p.id) === Number(id));
-  if (!item) return;
-
-  currentCategoryModalItem = item;
-  currentActiveCategory = category || 'tuong';
-
-  const modal = document.getElementById("fullscreenCatModal");
-  if (!modal) return;
-
-  const rawPrice = Number(item.price) || 0;
-  const vndPrice = rawPrice < 50000 ? Math.round(rawPrice * 25400) : rawPrice;
-  const priceFormatted = vndPrice.toLocaleString("vi-VN") + " ₫";
-
-  // 1. Cập nhật Sticky Header
-  const headerIdEl = document.getElementById("catModalHeaderId");
-  if (headerIdEl) headerIdEl.textContent = `#${item.id}`;
-
-  const headerTitleEl = document.getElementById("catModalHeaderAccTitle");
-  if (headerTitleEl) headerTitleEl.textContent = item.title;
-
-  const subEl = document.getElementById("catModalSubtitle");
-  if (subEl) {
-    subEl.textContent = `Giá: ${priceFormatted} • ${item.info || 'Rise of Kingdoms'}`;
-  }
-
-  // 2. Điền thẻ Thông Tin Tài Khoản Chi Tiết (Account Info Card)
-  const accIdEl = document.getElementById("catAccId");
-  if (accIdEl) accIdEl.textContent = `#${item.id}`;
-
-  const accTitleEl = document.getElementById("catAccTitle");
-  if (accTitleEl) accTitleEl.textContent = item.title;
-
-  const accPriceEl = document.getElementById("catAccPrice");
-  if (accPriceEl) accPriceEl.textContent = priceFormatted;
-
-  const badgesEl = document.getElementById("catAccBadges");
-  if (badgesEl) {
-    const badges = Array.isArray(item.badges) ? item.badges : [];
-    badgesEl.innerHTML = badges.map(b => {
-      const bType = typeof b === 'object' && b.type === 'red' ? 'badge-play' : 'badge-dark';
-      const bText = typeof b === 'object' ? b.text : String(b);
-      return `<span class="${bType}">${escapeModalHtml(bText)}</span>`;
-    }).join("");
-  }
-
-  const kingdomEl = document.getElementById("catAccKingdom");
-  if (kingdomEl) kingdomEl.textContent = item.info || "Đang cập nhật";
-
-  const statsEl = document.getElementById("catAccStats");
-  if (statsEl) statsEl.textContent = item.stats || "Cấp độ 25 | Sức mạnh đầy đủ";
-
-  // 5 Tướng chính
-  const commEl = document.getElementById("catAccCommanders");
-  if (commEl && Array.isArray(item.commanders)) {
-    commEl.innerHTML = item.commanders.map(c => {
-      let portraitHtml = "";
-      if (c.isImg) {
-        portraitHtml = `<img src="assets/arthur.jpg" alt="${c.name}" class="commander-img" onerror="this.outerHTML='${commanderSvgs.arthur.replace(/'/g, "\\'")}'" />`;
-      } else {
-        portraitHtml = commanderSvgs[c.id] || commanderSvgs.arthur;
-      }
-      return `
-        <div class="commander-item" title="${escapeModalHtml(c.name)} (Lv ${c.level || 60})">
-          <div class="commander-frame">
-            ${portraitHtml}
-            <div class="level-badge">${c.level || 60}</div>
-          </div>
-          <div class="commander-name">${escapeModalHtml(c.name)}</div>
-        </div>
-      `;
-    }).join("");
-  }
-
-  // Tags
-  const tagsEl = document.getElementById("catAccTags");
-  if (tagsEl && Array.isArray(item.tags)) {
-    tagsEl.innerHTML = item.tags.map(t => {
-      const tType = typeof t === 'object' && t.type ? t.type : 'orange';
-      const tText = typeof t === 'object' ? t.text : String(t);
-      return `<span class="tag-badge ${tType}">${escapeModalHtml(tText)}</span>`;
-    }).join("");
-  }
-
-  // Cập nhật các nút Zalo (Header, Thẻ bảo hành, Bottom Dock)
-  const zaloPhone = (window.siteConfig && window.siteConfig.contact && window.siteConfig.contact.zalo) || "0372996420";
-  const zaloUrl = `https://zalo.me/${zaloPhone}`;
-
-  const headerZalo = document.getElementById("catHeaderZaloBtn");
-  if (headerZalo) headerZalo.href = zaloUrl;
-
-  const directZalo = document.getElementById("catAccZaloDirectBtn");
-  if (directZalo) directZalo.href = zaloUrl;
-
-  const zaloBtn = document.getElementById("catModalZaloBtn");
-  const zaloTxt = document.getElementById("catModalZaloTxt");
-  if (zaloBtn) {
-    zaloBtn.href = zaloUrl;
-    if (zaloTxt) {
-      zaloTxt.textContent = `NHẮN ZALO MUA ACC #${item.id} (${priceFormatted})`;
-    }
-  }
-
-  // 3. Cập nhật số lượng ảnh trên 4 tabs
-  updateCategoryModalCounts(item);
-
-  // 4. Hiển thị nội dung stream ảnh theo tab đang chọn
-  renderCategoryModalContent();
-
-  modal.classList.add("show");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
+  window.location.href = `detail.html?id=${id}&cat=${category || 'tuong'}`;
 };
+
 
 window.closeCategoryModal = function() {
   const modal = document.getElementById("fullscreenCatModal");
@@ -787,10 +674,6 @@ function renderCategoryModalContent() {
   const item = currentCategoryModalItem;
   const meta = categoryMetaMap[currentActiveCategory] || categoryMetaMap.tuong;
 
-  // Cập nhật Badge tiêu đề của stream ảnh & Tiêu đề lớn Header (Khớp Ảnh mẫu 2)
-  const streamIconEl = document.getElementById("catStreamIcon");
-  if (streamIconEl) streamIconEl.textContent = meta.icon;
-
   const streamTitleEl = document.getElementById("catStreamTitle");
   if (streamTitleEl) streamTitleEl.textContent = meta.title;
 
@@ -819,10 +702,9 @@ function renderCategoryModalContent() {
   if (imagesForCat.length === 0) {
     bodyEl.innerHTML = `
       <div class="cat-empty-state">
-        <div class="cat-empty-icon">${meta.icon}</div>
-        <div class="cat-empty-title">Chưa có ảnh mục ${meta.label} cho Acc #${item.id}</div>
+        <div class="cat-empty-title">Chưa có ảnh mục ${escapeModalHtml(meta.label)} cho Acc #${item.id}</div>
         <p class="cat-empty-desc">
-          Tài khoản này chưa có ảnh riêng cho mục <strong>${meta.label}</strong>. Quý khách vui lòng nhấn nút "Nhắn Zalo" bên dưới để Shop gửi ảnh chụp trực tiếp từ game trong 30 giây!
+          Tài khoản này chưa có ảnh riêng cho mục <strong>${escapeModalHtml(meta.label)}</strong>. Quý khách vui lòng nhấn nút "Nhắn Zalo" bên dưới để Shop gửi ảnh chụp trực tiếp từ game trong 30 giây!
         </p>
       </div>
     `;
@@ -836,7 +718,7 @@ function renderCategoryModalContent() {
            class="cat-full-image" 
            loading="lazy"
            onclick="openLightbox('${escapeModalHtml(src)}')" 
-           onerror="this.src='assets/banner_hero_1791716494779.jpg'">
+           onerror="this.src='assets/thum1.jpg'">
     </div>
   `).join("");
 }
@@ -1208,4 +1090,143 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // Khởi tạo Hero Banner Carousel chạy qua lại các ảnh thum
+  initHeroBannerCarousel();
 });
+
+// ============================================================================
+// HERO BANNER CAROUSEL (Chạy qua lại các ảnh Banner / Thum)
+// ============================================================================
+let currentBannerIndex = 0;
+let bannerAutoTimer = null;
+let bannerImagesList = [];
+
+function initHeroBannerCarousel() {
+  const track = document.getElementById("bannerSlidesTrack");
+  const heroBanner = document.getElementById("heroBannerCarousel");
+  if (!track || !heroBanner) return;
+
+  // Lấy danh sách ảnh từ siteConfig hoặc mặc định 2 ảnh mẫu assets/thum1.png và assets/thum2.png
+  const cfgImgs = window.siteConfig?.banner?.images;
+  if (Array.isArray(cfgImgs) && cfgImgs.length > 0) {
+    bannerImagesList = [...cfgImgs];
+  } else {
+    bannerImagesList = ["assets/thum1.png", "assets/thum2.png"];
+  }
+
+  // Render các slide ảnh
+  track.innerHTML = bannerImagesList.map((url, idx) => `
+    <div class="banner-slide ${idx === 0 ? 'active' : ''}" 
+         data-idx="${idx}" 
+         style="background-image: url('${url}');">
+    </div>
+  `).join("");
+
+  // Render Desktop Dots
+  const desktopDots = document.getElementById("bannerDesktopDots");
+  if (desktopDots) {
+    desktopDots.innerHTML = bannerImagesList.map((_, idx) => `
+      <div class="b-dot ${idx === 0 ? 'active' : ''}" 
+           title="Xem ảnh ${idx + 1}" 
+           onclick="goToBannerSlide(${idx})">
+      </div>
+    `).join("");
+  }
+
+  // Render Mobile Dots
+  const mobileDots = document.getElementById("bannerMobileDots");
+  if (mobileDots) {
+    mobileDots.innerHTML = bannerImagesList.map((_, idx) => `
+      <div class="carousel-dot ${idx === 0 ? 'active' : ''}" 
+           title="Xem ảnh ${idx + 1}" 
+           onclick="goToBannerSlide(${idx})">
+      </div>
+    `).join("");
+  }
+
+  currentBannerIndex = 0;
+  startBannerAutoPlay();
+
+  // Tạm dừng khi rê chuột vào để đọc nội dung, tiếp tục khi rê ra ngoài
+  heroBanner.addEventListener("mouseenter", stopBannerAutoPlay);
+  heroBanner.addEventListener("mouseleave", startBannerAutoPlay);
+
+  // Hỗ trợ vuốt tay chuyển ảnh trên màn hình cảm ứng di động
+  let touchStartX = 0;
+  let touchEndX = 0;
+  heroBanner.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  heroBanner.addEventListener("touchend", (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    if (touchEndX < touchStartX - 40) {
+      nextBannerSlide(); // Vuốt sang trái -> chuyển ảnh kế
+    } else if (touchEndX > touchStartX + 40) {
+      prevBannerSlide(); // Vuốt sang phải -> chuyển ảnh trước
+    }
+  }, { passive: true });
+}
+
+function updateBannerActiveState() {
+  const slides = document.querySelectorAll(".banner-slide");
+  slides.forEach((s, idx) => {
+    s.classList.toggle("active", idx === currentBannerIndex);
+  });
+
+  const dDots = document.querySelectorAll("#bannerDesktopDots .b-dot");
+  dDots.forEach((d, idx) => {
+    d.classList.toggle("active", idx === currentBannerIndex);
+  });
+
+  const mDots = document.querySelectorAll("#bannerMobileDots .carousel-dot");
+  mDots.forEach((d, idx) => {
+    d.classList.toggle("active", idx === currentBannerIndex);
+  });
+}
+
+window.goToBannerSlide = function(idx) {
+  if (idx < 0 || idx >= bannerImagesList.length) return;
+  currentBannerIndex = idx;
+  updateBannerActiveState();
+  restartBannerAutoPlay();
+};
+
+window.nextBannerSlide = function(e) {
+  if (e) e.stopPropagation();
+  if (bannerImagesList.length <= 1) return;
+  currentBannerIndex = (currentBannerIndex + 1) % bannerImagesList.length;
+  updateBannerActiveState();
+  restartBannerAutoPlay();
+};
+
+window.prevBannerSlide = function(e) {
+  if (e) e.stopPropagation();
+  if (bannerImagesList.length <= 1) return;
+  currentBannerIndex = (currentBannerIndex - 1 + bannerImagesList.length) % bannerImagesList.length;
+  updateBannerActiveState();
+  restartBannerAutoPlay();
+};
+
+function startBannerAutoPlay() {
+  stopBannerAutoPlay();
+  if (bannerImagesList.length > 1) {
+    bannerAutoTimer = setInterval(() => {
+      currentBannerIndex = (currentBannerIndex + 1) % bannerImagesList.length;
+      updateBannerActiveState();
+    }, 4500); // Tự động chạy qua lại mỗi 4.5 giây
+  }
+}
+
+function stopBannerAutoPlay() {
+  if (bannerAutoTimer) {
+    clearInterval(bannerAutoTimer);
+    bannerAutoTimer = null;
+  }
+}
+
+function restartBannerAutoPlay() {
+  stopBannerAutoPlay();
+  startBannerAutoPlay();
+}

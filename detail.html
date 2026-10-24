@@ -657,35 +657,15 @@
       </header>
 
       <!-- 2. Sticky Category Switcher Bar Desktop -->
-      <nav class="cat-modal-tabs-dock" aria-label="Danh mục ảnh tài khoản">
-        <button type="button" class="cat-modal-tab-btn active" data-cat="tuong" onclick="switchCategory('tuong')">
-          <span class="tab-arrow">▼</span>
-          <span class="tab-txt">XEM TƯỚNG</span>
-          <span class="tab-count" id="count_tuong">0</span>
-        </button>
-        <button type="button" class="cat-modal-tab-btn" data-cat="trangbi" onclick="switchCategory('trangbi')">
-          <span class="tab-arrow">▼</span>
-          <span class="tab-txt">XEM TRANG BỊ</span>
-          <span class="tab-count" id="count_trangbi">0</span>
-        </button>
-        <button type="button" class="cat-modal-tab-btn" data-cat="rss" onclick="switchCategory('rss')">
-          <span class="tab-arrow">▼</span>
-          <span class="tab-txt">XEM RSS KHO</span>
-          <span class="tab-count" id="count_rss">0</span>
-        </button>
-        <button type="button" class="cat-modal-tab-btn" data-cat="vebay" onclick="switchCategory('vebay')">
-          <span class="tab-arrow">▼</span>
-          <span class="tab-txt">XEM VÉ BAY</span>
-          <span class="tab-count" id="count_vebay">0</span>
-        </button>
+      <nav class="cat-modal-tabs-dock" id="detailCatTabsDock" aria-label="Danh mục ảnh tài khoản">
+        <!-- Render động qua JavaScript -->
       </nav>
 
       <!-- 3. Main Grid Body Desktop -->
       <main class="cat-modal-grid-body">
         <section class="cat-modal-left-stream" aria-label="Luồng ảnh chi tiết">
           <div class="cat-stream-header-badge" id="streamHeaderBadge">
-            <span id="streamIcon">👑</span>
-            <span id="streamTitle">CHI TIẾT TƯỚNG</span>
+            <span id="streamTitle">ẢNH TƯỚNG</span>
           </div>
           <div class="cat-modal-body" id="detailImagesBody"></div>
         </section>
@@ -828,31 +808,15 @@
         <div class="m-tags-flex" id="mTags"></div>
       </section>
 
-      <!-- 5. 4 Tabs Danh Mục (Nằm ngay trên phần ảnh theo yêu cầu) -->
-      <nav class="m-tabs-bar" aria-label="Tabs danh mục mobile">
-        <button type="button" class="m-tab-btn active" data-cat="tuong" onclick="switchCategory('tuong')">
-          <span class="m-tab-label">TƯỚNG</span>
-          <span class="m-tab-count" id="mCount_tuong">0 ảnh</span>
-        </button>
-        <button type="button" class="m-tab-btn" data-cat="trangbi" onclick="switchCategory('trangbi')">
-          <span class="m-tab-label">TRANG BỊ</span>
-          <span class="m-tab-count" id="mCount_trangbi">0 ảnh</span>
-        </button>
-        <button type="button" class="m-tab-btn" data-cat="rss" onclick="switchCategory('rss')">
-          <span class="m-tab-label">RSS KHO</span>
-          <span class="m-tab-count" id="mCount_rss">0 ảnh</span>
-        </button>
-        <button type="button" class="m-tab-btn" data-cat="vebay" onclick="switchCategory('vebay')">
-          <span class="m-tab-label">VÉ BAY</span>
-          <span class="m-tab-count" id="mCount_vebay">0 ảnh</span>
-        </button>
+      <!-- 5. Tabs Danh Mục Mobile (Render động qua JavaScript) -->
+      <nav class="m-tabs-bar" id="mTabsBar" aria-label="Tabs danh mục mobile">
+        <!-- Render động qua JavaScript -->
       </nav>
 
       <!-- 6. Luồng Ảnh Trực Quan Cho Mobile (Tap để phóng to) -->
       <section class="m-gallery-section">
         <div class="m-gallery-header">
           <div class="m-gallery-title">
-            <span id="mStreamIcon">👑</span>
             <span id="mStreamTitle">ẢNH TƯỚNG</span>
           </div>
           <span class="m-gallery-count" id="mStreamBadge">0 ảnh</span>
@@ -913,13 +877,25 @@
     (function() {
       var currentItem = null;
       var activeCategory = 'tuong';
+      var itemTabs = [];
 
-      var categoryMeta = {
-        tuong: { title: "CHI TIẾT TƯỚNG", label: "tướng", icon: "👑", mTitle: "ẢNH TƯỚNG" },
-        trangbi: { title: "CHI TIẾT TRANG BỊ", label: "trang bị", icon: "⚔️", mTitle: "ẢNH TRANG BỊ" },
-        rss: { title: "CHI TIẾT RSS KHO", label: "rss kho", icon: "🌾", mTitle: "ẢNH RSS KHO" },
-        vebay: { title: "CHI TIẾT VÉ BAY", label: "vé bay", icon: "✈️", mTitle: "ẢNH VÉ BAY" }
-      };
+      function getItemTabs(item) {
+        if (!item) return [];
+        if (Array.isArray(item.categoryTabs) && item.categoryTabs.length > 0) {
+          return item.categoryTabs.map(function(t) {
+            return { id: t.id, name: t.name || t.label || t.id };
+          });
+        }
+        var cats = item.imageCategories || {};
+        var knownNames = { tuong: "Ảnh Tướng", trangbi: "Trang bị", rss: "Rss kho", vebay: "Vé bay" };
+        var keys = Object.keys(cats);
+        if (keys.length === 0) {
+          keys.push('tuong', 'trangbi', 'rss', 'vebay');
+        }
+        return keys.map(function(k) {
+          return { id: k, name: knownNames[k] || k };
+        });
+      }
 
       function formatPrice(num) {
         var n = Number(num) || 0;
@@ -980,6 +956,8 @@
           document.body.innerHTML = '<div style="text-align:center; padding:60px 20px;"><h2>Không tìm thấy thông tin tài khoản</h2><p><a href="index.html">← Quay lại trang chủ</a></p></div>';
           return;
         }
+
+        itemTabs = getItemTabs(currentItem);
 
         var priceTxt = formatPrice(currentItem.price);
         document.title = "#" + currentItem.id + " - " + currentItem.title + " (" + priceTxt + ") | WONTRADE";
@@ -1079,22 +1057,43 @@
         if (mDockTxt) mDockTxt.textContent = "NHẮN ZALO MUA • " + priceTxt;
 
         // -------------------------------------------------------------
-        // 3. CẬP NHẬT SỐ LƯỢNG ẢNH TRÊN CẢ DESKTOP & MOBILE TABS
+        // 3. RENDER TABS & CẬP NHẬT SỐ LƯỢNG ẢNH TRÊN CẢ DESKTOP & MOBILE
         // -------------------------------------------------------------
         var cats = currentItem.imageCategories || {};
-        ['tuong', 'trangbi', 'rss', 'vebay'].forEach(function(catKey) {
-          var count = (Array.isArray(cats[catKey]) ? cats[catKey].length : 0);
-          var dCountEl = document.getElementById("count_" + catKey);
-          if (dCountEl) dCountEl.textContent = count;
-          var mCountEl = document.getElementById("mCount_" + catKey);
-          if (mCountEl) mCountEl.textContent = count + " ảnh";
-        });
+
+        var dTabsDock = document.getElementById("detailCatTabsDock");
+        if (dTabsDock) {
+          dTabsDock.innerHTML = itemTabs.map(function(tab) {
+            var count = (Array.isArray(cats[tab.id]) ? cats[tab.id].length : 0);
+            return '\
+              <button type="button" class="cat-modal-tab-btn" data-cat="' + escapeHtml(tab.id) + '" onclick="switchCategory(\'' + escapeHtml(tab.id) + '\')">\
+                <span class="tab-arrow">▼</span>\
+                <span class="tab-txt">' + escapeHtml(tab.name.toUpperCase()) + '</span>\
+                <span class="tab-count" id="count_' + escapeHtml(tab.id) + '">' + count + '</span>\
+              </button>';
+          }).join("");
+        }
+
+        var mTabsBar = document.getElementById("mTabsBar");
+        if (mTabsBar) {
+          mTabsBar.innerHTML = itemTabs.map(function(tab) {
+            var count = (Array.isArray(cats[tab.id]) ? cats[tab.id].length : 0);
+            return '\
+              <button type="button" class="m-tab-btn" data-cat="' + escapeHtml(tab.id) + '" onclick="switchCategory(\'' + escapeHtml(tab.id) + '\')">\
+                <span class="m-tab-label">' + escapeHtml(tab.name.toUpperCase()) + '</span>\
+                <span class="m-tab-count" id="mCount_' + escapeHtml(tab.id) + '">' + count + ' ảnh</span>\
+              </button>';
+          }).join("");
+        }
 
         // 4. Khởi chạy thanh cuộn ngang tất cả ảnh Mobile
         renderMobileAllPhotosSlider();
 
         // 5. Khởi chạy danh mục ban đầu
-        window.switchCategory(categoryMeta[initialCat] ? initialCat : 'tuong');
+        var initialValidCat = itemTabs.some(function(t) { return t.id === initialCat; })
+          ? initialCat
+          : (itemTabs[0] ? itemTabs[0].id : 'tuong');
+        window.switchCategory(initialValidCat);
       }
 
       function renderMobileAllPhotosSlider() {
@@ -1104,18 +1103,12 @@
 
         var allPhotos = [];
         var cats = currentItem.imageCategories || {};
-        var catMetaTitles = {
-          tuong: { label: "TƯỚNG", icon: "👑" },
-          trangbi: { label: "TRANG BỊ", icon: "⚔️" },
-          rss: { label: "KHO RSS", icon: "🌾" },
-          vebay: { label: "VÉ BAY", icon: "🎫" }
-        };
 
-        ['tuong', 'trangbi', 'rss', 'vebay'].forEach(function(k) {
-          if (Array.isArray(cats[k])) {
-            cats[k].forEach(function(url) {
+        itemTabs.forEach(function(t) {
+          if (Array.isArray(cats[t.id])) {
+            cats[t.id].forEach(function(url) {
               if (url && !allPhotos.some(function(p) { return p.url === url; })) {
-                allPhotos.push({ url: url, cat: k, meta: catMetaTitles[k] || { label: "ẢNH", icon: "📷" } });
+                allPhotos.push({ url: url, cat: t.id, tabName: t.name });
               }
             });
           }
@@ -1124,13 +1117,15 @@
         if (Array.isArray(currentItem.images)) {
           currentItem.images.forEach(function(url) {
             if (url && !allPhotos.some(function(p) { return p.url === url; })) {
-              allPhotos.push({ url: url, cat: 'tuong', meta: catMetaTitles.tuong });
+              var fallbackTab = itemTabs[0] || { id: 'tuong', name: 'ẢNH' };
+              allPhotos.push({ url: url, cat: fallbackTab.id, tabName: fallbackTab.name });
             }
           });
         }
 
         if (allPhotos.length === 0) {
-          allPhotos.push({ url: 'assets/banner_hero_1791716494779.jpg', cat: 'tuong', meta: catMetaTitles.tuong });
+          var fallbackTab = itemTabs[0] || { id: 'tuong', name: 'ẢNH' };
+          allPhotos.push({ url: 'assets/banner_hero_1791716494779.jpg', cat: fallbackTab.id, tabName: fallbackTab.name });
         }
 
         if (counterTxt) {
@@ -1140,8 +1135,8 @@
         slider.innerHTML = allPhotos.map(function(item, idx) {
           var safe = escapeHtml(item.url);
           return '\
-            <div class="m-slider-card" data-cat="' + item.cat + '" onclick="openLightbox(\'' + safe + '\')" data-idx="' + (idx + 1) + '" title="Nhấp xem phóng to">\
-              <div class="m-slider-cat-pill">' + item.meta.icon + ' ' + item.meta.label + ' • #' + (idx + 1) + '</div>\
+            <div class="m-slider-card" data-cat="' + escapeHtml(item.cat) + '" onclick="openLightbox(\'' + safe + '\')" data-idx="' + (idx + 1) + '" title="Nhấp xem phóng to">\
+              <div class="m-slider-cat-pill">' + escapeHtml(item.tabName.toUpperCase()) + ' • #' + (idx + 1) + '</div>\
               <div class="m-slider-zoom-tag">\
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>\
                 <span>Phóng to</span>\
@@ -1162,9 +1157,10 @@
       }
 
       window.switchCategory = function(catKey) {
-        if (!categoryMeta[catKey]) catKey = 'tuong';
+        var currentTab = itemTabs.find(function(t) { return t.id === catKey; }) || itemTabs[0];
+        if (!currentTab) return;
+        catKey = currentTab.id;
         activeCategory = catKey;
-        var meta = categoryMeta[catKey];
 
         // Đồng bộ trạng thái active của tabs trên cả Desktop & Mobile
         document.querySelectorAll('.cat-modal-tab-btn, .m-tab-btn').forEach(function(btn) {
@@ -1184,26 +1180,25 @@
           }
         }
 
+        var tabTitle = currentTab.name.toUpperCase();
+
         // Tiêu đề danh mục Desktop
         var centerTitle = document.getElementById("detailCenterTitle");
-        if (centerTitle) centerTitle.textContent = meta.title;
-        var streamIcon = document.getElementById("streamIcon");
+        if (centerTitle) centerTitle.textContent = tabTitle;
         var streamTitle = document.getElementById("streamTitle");
-        if (streamIcon) streamIcon.textContent = meta.icon;
-        if (streamTitle) streamTitle.textContent = meta.title;
+        if (streamTitle) streamTitle.textContent = tabTitle;
 
         // Tiêu đề danh mục Mobile
-        var mStreamIcon = document.getElementById("mStreamIcon");
         var mStreamTitle = document.getElementById("mStreamTitle");
         var mStreamBadge = document.getElementById("mStreamBadge");
-        if (mStreamIcon) mStreamIcon.textContent = meta.icon;
-        if (mStreamTitle) mStreamTitle.textContent = meta.mTitle;
+        if (mStreamTitle) mStreamTitle.textContent = tabTitle;
 
         // Lấy danh sách ảnh
         var cats = (currentItem && currentItem.imageCategories) || {};
         var imgList = Array.isArray(cats[catKey]) ? cats[catKey] : [];
 
-        if (imgList.length === 0 && catKey === 'tuong' && currentItem && Array.isArray(currentItem.images) && currentItem.images.length > 0) {
+        var firstId = itemTabs[0] ? itemTabs[0].id : 'tuong';
+        if (imgList.length === 0 && catKey === firstId && currentItem && Array.isArray(currentItem.images) && currentItem.images.length > 0) {
           imgList = currentItem.images;
         }
 
@@ -1215,8 +1210,7 @@
           if (imgList.length === 0) {
             dBody.innerHTML = '\
               <div class="cat-empty-state">\
-                <div class="cat-empty-icon">' + meta.icon + '</div>\
-                <div class="cat-empty-title">Chưa có ảnh trong mục ' + meta.label + '</div>\
+                <div class="cat-empty-title">Chưa có ảnh trong mục ' + escapeHtml(currentTab.name) + '</div>\
                 <p style="font-size: 13px; color: #64748b; margin: 0;">\
                   Bạn có thể nhắn tin Zalo với Admin qua số <strong>0372996420</strong> để nhận thêm ảnh chụp chi tiết.\
                 </p>\
@@ -1226,7 +1220,7 @@
               var safe = escapeHtml(src);
               return '\
                 <article class="cat-image-card">\
-                  <img src="' + safe + '" alt="' + meta.title + ' - Ảnh ' + (idx + 1) + '" class="cat-full-image" loading="lazy" onclick="openLightbox(\'' + safe + '\')" onerror="this.src=\'assets/banner_hero_1791716494779.jpg\'">\
+                  <img src="' + safe + '" alt="' + escapeHtml(tabTitle) + ' - Ảnh ' + (idx + 1) + '" class="cat-full-image" loading="lazy" onclick="openLightbox(\'' + safe + '\')" onerror="this.src=\'assets/banner_hero_1791716494779.jpg\'">\
                 </article>';
             }).join("");
           }
@@ -1238,9 +1232,8 @@
           if (imgList.length === 0) {
             mBody.innerHTML = '\
               <div style="background:#fff; border-radius:14px; padding:28px 16px; text-align:center; border:1px dashed #cbd5e1;">\
-                <div style="font-size:32px; margin-bottom:6px;">' + meta.icon + '</div>\
-                <div style="font-size:13px; font-weight:700; color:#334155;">Chưa có ảnh ' + meta.label + '</div>\
-                <p style="font-size:11.5px; color:#8e8e93; margin-top:4px;">Nhắn tin Zalo 0372996420 để yêu cầu chụp thêm ảnh.</p>\
+                <div style="font-size:14px; font-weight:700; color:#334155; margin-bottom:4px;">Chưa có ảnh ' + escapeHtml(currentTab.name) + '</div>\
+                <p style="font-size:11.5px; color:#8e8e93; margin:0;">Nhắn tin Zalo 0372996420 để yêu cầu chụp thêm ảnh.</p>\
               </div>';
           } else {
             mBody.innerHTML = imgList.map(function(src, idx) {
@@ -1252,7 +1245,7 @@
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>\
                     <span>Chạm phóng to</span>\
                   </span>\
-                  <img src="' + safe + '" alt="' + meta.title + ' ' + (idx + 1) + '" loading="lazy" onerror="this.src=\'assets/banner_hero_1791716494779.jpg\'">\
+                  <img src="' + safe + '" alt="' + escapeHtml(tabTitle) + ' ' + (idx + 1) + '" loading="lazy" onerror="this.src=\'assets/banner_hero_1791716494779.jpg\'">\
                 </div>';
             }).join("");
           }

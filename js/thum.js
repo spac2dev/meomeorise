@@ -2,13 +2,12 @@
  * ==============================================================================
  * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
  * FILE QUẢN LÝ DANH SÁCH ẢNH BANNER TRANG CHỦ (js/thum.js)
- * Tự động xuất bản từ Admin CMS Edge-SSG: 16:08:08 24/10/2026
+ * Tự động xuất bản từ Admin CMS Edge-SSG: 16:08:21 24/10/2026
  * ==============================================================================
  */
 
 var bannerImages = [
-  "assets/thum1.png",
-  "assets/thum2.png"
+  "https://i.ibb.co/G4WQ1jD8/1792854019763-7880084465306086323-7880084465306086323-dcdc29bf0f7e7c5f157ada4f17ef9a06.jpg"
 ];
 
 if (typeof window !== "undefined") {

@@ -199,53 +199,111 @@
         <div class="ios-sheet-handle" aria-hidden="true"></div>
 
         <!-- ==================================================================
-             ITEM COUNT & PRICE SORT BAR (BỘ LỌC GIÁ TIỀN CAO - THẤP)
+             BỘ LỌC VÀ SẮP XẾP SẢN PHẨM (TRANG CHỦ)
              ================================================================== -->
         <div class="filter-section">
-          <div class="filter-row-bottom" style="margin: 0; padding: 4px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div class="filter-row-top">
+            <!-- Tìm kiếm theo mã ID / từ khóa -->
+            <div class="search-input-wrapper">
+              <svg class="search-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8c8c8c" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="searchInputDesktop" class="search-input" placeholder="Tìm theo mã số #..., tướng, vương quốc...">
+            </div>
+
+            <!-- Lọc khoảng giá -->
+            <div class="price-range-group">
+              <span class="filter-label">Mức giá:</span>
+              <div class="price-input-wrapper">
+                <input type="number" id="minPrice" class="price-input" placeholder="Từ (₫)" min="0" step="500000">
+                <span class="price-currency">₫</span>
+              </div>
+              <span class="range-dash">-</span>
+              <div class="price-input-wrapper">
+                <input type="number" id="maxPrice" class="price-input" placeholder="Đến (₫)" min="0" step="500000">
+                <span class="price-currency">₫</span>
+              </div>
+            </div>
+
+            <!-- Các mốc giá chọn nhanh -->
+            <div class="price-quick-chips">
+              <button type="button" class="quick-chip active" data-range="all" onclick="setQuickPrice(0, 0, this)">Tất cả</button>
+              <button type="button" class="quick-chip" data-range="u10" onclick="setQuickPrice(0, 10000000, this)">Dưới 10tr</button>
+              <button type="button" class="quick-chip" data-range="10-30" onclick="setQuickPrice(10000000, 30000000, this)">10tr - 30tr</button>
+              <button type="button" class="quick-chip" data-range="30-100" onclick="setQuickPrice(30000000, 100000000, this)">30tr - 100tr</button>
+              <button type="button" class="quick-chip" data-range="o100" onclick="setQuickPrice(100000000, 0, this)">Trên 100tr</button>
+            </div>
+          </div>
+
+          <div class="filter-row-bottom">
             <div class="filter-bottom-left">
               <span>Tổng số: <strong class="item-count-val">19</strong> vật phẩm</span>
-            </div>
-            <!-- Bộ lọc sắp xếp theo giá tiền -->
-            <div class="filter-price-sort-wrap">
-              <span class="price-sort-label">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 6h18M6 12h12M9 18h6"></path>
+              <button type="button" id="resetFilterBtn" class="btn-reset-filter" onclick="resetFilters()" title="Đặt lại bộ lọc">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M2.5 2v6h6M21.5 22v-6h-6"></path>
+                  <path d="M22 11.5A10 10 0 0 0 3.2 7.2L2.5 8M2 12.5a10 10 0 0 0 18.8 4.3l.7-.8"></path>
                 </svg>
-                Lọc giá:
-              </span>
-              <div class="price-sort-pills" role="radiogroup" aria-label="Sắp xếp theo giá tiền">
-                <button type="button" class="sort-pill-btn active" data-sort="default" onclick="setPriceSort('default')" title="Thứ tự mặc định">
-                  Mặc định
-                </button>
-                <button type="button" class="sort-pill-btn" data-sort="asc" onclick="setPriceSort('asc')" title="Giá tiền từ thấp đến cao">
-                  <span class="pill-icon">▲</span> Giá: Thấp &rarr; Cao
-                </button>
-                <button type="button" class="sort-pill-btn" data-sort="desc" onclick="setPriceSort('desc')" title="Giá tiền từ cao đến thấp">
-                  <span class="pill-icon">▼</span> Giá: Cao &rarr; Thấp
-                </button>
+                <span>Đặt lại</span>
+              </button>
+            </div>
+
+            <!-- Sắp xếp theo giá tiền / tiêu chí khác -->
+            <div class="filter-bottom-right">
+              <div class="sort-select-wrapper">
+                <label for="sortOrderSelect" class="sort-label">Sắp xếp:</label>
+                <div class="custom-select-box">
+                  <select id="sortOrderSelect" class="sort-select" onchange="syncDesktopSort(this.value)">
+                    <option value="default">Mặc định (Mới nhất)</option>
+                    <option value="price_asc">Giá: Thấp đến Cao (Tăng dần)</option>
+                    <option value="price_desc">Giá: Cao đến Thấp (Giảm dần)</option>
+                    <option value="favorite_desc">Được yêu thích nhất</option>
+                  </select>
+                  <svg class="chevron-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Mobile Item Count Bar & Price Sort -->
+        <!-- Mobile Filter Bar -->
         <div class="mobile-filter-bar">
-          <div class="mobile-filter-subrow" style="margin-top: 0; padding: 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
-            <div class="mobile-count-text">Tổng số: <strong class="item-count-val">19</strong> vật phẩm</div>
-            <div class="mobile-sort-select-box">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="mobile-sort-icon">
-                <path d="M3 6h18M6 12h12M9 18h6"></path>
+          <div class="mobile-search-row">
+            <div class="mobile-search-box">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8c8c8c" stroke-width="2" style="margin-right: 6px; flex-shrink: 0;">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
-              <select id="mobilePriceSort" class="mobile-price-sort-select" onchange="setPriceSort(this.value)" aria-label="Sắp xếp giá tiền">
-                <option value="default">Mặc định</option>
-                <option value="asc">Giá: Thấp &rarr; Cao (₫ ▲)</option>
-                <option value="desc">Giá: Cao &rarr; Thấp (₫ ▼)</option>
+              <input type="text" id="searchInputMobile" placeholder="Tìm kiếm theo mã số, tướng...">
+            </div>
+            <div class="mobile-sort-box">
+              <select id="sortOrderSelectMobile" class="mobile-sort-select" onchange="syncMobileSort(this.value)">
+                <option value="default">Sắp xếp</option>
+                <option value="price_asc">Giá tăng ↑</option>
+                <option value="price_desc">Giá giảm ↓</option>
+                <option value="favorite_desc">Yêu thích ★</option>
               </select>
-              <svg class="sort-chevron-svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <svg class="chevron-svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </div>
+          </div>
+
+          <div class="mobile-quick-chips-row">
+            <button type="button" class="quick-chip active" data-range="all" onclick="setQuickPrice(0, 0, this)">Tất cả</button>
+            <button type="button" class="quick-chip" data-range="u10" onclick="setQuickPrice(0, 10000000, this)">&lt; 10tr</button>
+            <button type="button" class="quick-chip" data-range="10-30" onclick="setQuickPrice(10000000, 30000000, this)">10 - 30tr</button>
+            <button type="button" class="quick-chip" data-range="30-100" onclick="setQuickPrice(30000000, 100000000, this)">30 - 100tr</button>
+            <button type="button" class="quick-chip" data-range="o100" onclick="setQuickPrice(100000000, 0, this)">&gt; 100tr</button>
+          </div>
+
+          <div class="mobile-filter-subrow">
+            <div>Tổng số: <strong class="item-count-val">19</strong> vật phẩm</div>
+            <button type="button" class="btn-reset-filter mobile-reset-btn" onclick="resetFilters()">
+              Đặt lại
+            </button>
           </div>
         </div>
 
@@ -456,158 +514,7 @@
 
 
 
-  <!-- ======================================================================
-       FULLSCREEN CATEGORY SHOWCASE MODAL (Xem chi tiết Tướng, Trang bị, Rss kho, Vé bay)
-       Chuẩn giao diện game: Mở popup xem toàn bộ ảnh theo danh mục, full màn hình
-       ====================================================================== -->
-  <div class="fullscreen-cat-modal" id="fullscreenCatModal" aria-hidden="true" onclick="handleCatModalBackdropClick(event)">
-    <div class="fullscreen-cat-container" role="dialog" aria-modal="true" aria-labelledby="catModalCenterTitle">
-      <!-- 1. Top Header Sạch Sẽ (Khớp Ảnh mẫu 2) -->
-      <div class="cat-modal-header">
-        <div class="cat-modal-header-left">
-          <button type="button" class="cat-back-btn" onclick="closeCategoryModal()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            <span>Quay lại</span>
-          </button>
-          <div class="cat-header-info">
-            <h2 class="cat-modal-title" id="catModalHeaderTitle">
-              <span id="catModalHeaderId" class="cat-header-id-pill">#0000</span>
-              <span id="catModalHeaderAccTitle">Chi tiết tài khoản</span>
-            </h2>
-          </div>
-        </div>
 
-        <!-- Tiêu đề lớn căn giữa chuẩn ảnh mẫu 2 (CHI TIẾT TÚI ĐỒ / CHI TIẾT TƯỚNG) -->
-        <div class="cat-modal-center-title" id="catModalCenterTitle">CHI TIẾT TƯỚNG</div>
-
-        <div class="cat-modal-header-right">
-          <a href="https://zalo.me/0372996420" id="catHeaderZaloBtn" target="_blank" rel="noopener noreferrer" class="btn-header-zalo-buy">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-            <span>Nhắn Zalo Mua</span>
-          </a>
-          <button class="cat-modal-close-btn" onclick="closeCategoryModal()" aria-label="Đóng popup">✕</button>
-        </div>
-      </div>
-
-      <!-- 2. Sticky Category Switcher Bar (4 Tabs tím sang trọng với Icon SVG Động) -->
-      <div class="cat-modal-tabs-dock">
-        <button type="button" class="cat-modal-tab-btn active" data-cat="tuong" onclick="switchCategoryModalTab('tuong')" title="Xem trọn bộ ảnh Tướng thức tỉnh">
-          <svg class="tab-svg-icon icon-tuong" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14v2H5v-2z"/>
-          </svg>
-          <span class="tab-txt">XEM TƯỚNG</span>
-          <span class="tab-count" id="modalCatCount_tuong">0</span>
-        </button>
-        <button type="button" class="cat-modal-tab-btn" data-cat="trangbi" onclick="switchCategoryModalTab('trangbi')" title="Xem chi tiết túi đồ & trang bị huyền thoại">
-          <svg class="tab-svg-icon icon-trangbi" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            <path d="M8 11l3 3 5-5"/>
-          </svg>
-          <span class="tab-txt">XEM TRANG BỊ</span>
-          <span class="tab-count" id="modalCatCount_trangbi">0</span>
-        </button>
-        <button type="button" class="cat-modal-tab-btn" data-cat="rss" onclick="switchCategoryModalTab('rss')" title="Xem chi tiết kho tài nguyên RSS">
-          <svg class="tab-svg-icon icon-rss" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-            <circle cx="12" cy="14" r="1.5" fill="currentColor"/>
-          </svg>
-          <span class="tab-txt">XEM RSS KHO</span>
-          <span class="tab-count" id="modalCatCount_rss">0</span>
-        </button>
-        <button type="button" class="cat-modal-tab-btn" data-cat="vebay" onclick="switchCategoryModalTab('vebay')" title="Xem số lượng vé bay và hộ chiếu">
-          <svg class="tab-svg-icon icon-vebay" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.5-.1-.9.1-1.2.4l-.7.7 5.4 3.4L6.1 14l-2.6-.5-1.2 1.2 3.8 2.3 2.3 3.8 1.2-1.2-.5-2.6 2.8-2.7 3.4 5.4.7-.7c.3-.3.5-.7.4-1.2z"/>
-          </svg>
-          <span class="tab-txt">XEM VÉ BAY</span>
-          <span class="tab-count" id="modalCatCount_vebay">0</span>
-        </button>
-      </div>
-
-      <!-- 3. Modal 2-Column Body Layout: Trực quan, ảnh hiện ngay lập tức -->
-      <div class="cat-modal-grid-body">
-        <!-- Cột Trái: Luồng ảnh cuộn trực tiếp đập vào mắt người xem (Khớp 100% Ảnh mẫu 2) -->
-        <div class="cat-modal-left-stream">
-          <div class="cat-stream-header-badge" id="catStreamHeaderBadge">
-            <span id="catStreamIcon">👑</span>
-            <span id="catStreamTitle">CHI TIẾT TƯỚNG</span>
-          </div>
-          <div class="cat-modal-body" id="catModalBody">
-            <!-- Dynamic vertical images render here -->
-          </div>
-        </div>
-
-        <!-- Cột Phải: Thông tin tài khoản & Bàn giao & Zalo Mua -->
-        <div class="cat-modal-right-sidebar">
-          <!-- Price & Buy Card -->
-          <div class="cat-side-card price-side-card">
-            <div class="side-price-header">
-              <span class="side-price-label">Giá chuyển nhượng:</span>
-              <span class="side-price-val" id="catAccPrice">0 ₫</span>
-            </div>
-            <div class="side-id-title">
-              <span class="info-id-badge" id="catAccId">#0000</span>
-              <span class="side-title-txt" id="catAccTitle">Tiêu đề tài khoản</span>
-            </div>
-            <div class="info-badges-wrap" id="catAccBadges" style="margin-top: 6px;"></div>
-            <a href="https://zalo.me/0372996420" id="catAccZaloDirectBtn" target="_blank" rel="noopener noreferrer" class="btn-side-zalo-buy" title="Nhắn tin Zalo trực tiếp để mua tài khoản">
-              <span class="btn-shine-sweep"></span>
-              <svg class="zalo-chat-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor"></circle>
-                <circle cx="12" cy="11.5" r="0.9" fill="currentColor"></circle>
-                <circle cx="15.5" cy="11.5" r="0.9" fill="currentColor"></circle>
-              </svg>
-              <span>NHẮN ZALO MUA TÀI KHOẢN</span>
-            </a>
-          </div>
-
-          <!-- Account Specs Card -->
-          <div class="cat-side-card specs-side-card">
-            <div class="side-card-title">⚔️ THÔNG TIN VƯƠNG QUỐC & CHỈ SỐ</div>
-            <div class="side-spec-item">
-              <span class="spec-k">Vương quốc & Nhập cư:</span>
-              <span class="spec-v" id="catAccKingdom">Đang cập nhật...</span>
-            </div>
-            <div class="side-spec-item">
-              <span class="spec-k">Chỉ số tài khoản (Stats):</span>
-              <span class="spec-v" id="catAccStats">Cấp độ 25 | Đang tải chỉ số...</span>
-            </div>
-            <div class="side-spec-item">
-              <span class="spec-k">Trang bị & Đặc điểm:</span>
-              <div class="info-tags-grid" id="catAccTags"></div>
-            </div>
-          </div>
-
-          <!-- WonTrade Guarantee Card -->
-          <div class="cat-side-card guarantee-side-card">
-            <div class="guarantee-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <span>WONTRADE BẢO ĐẢM GIAO DỊCH</span>
-            </div>
-            <ul class="guarantee-list">
-              <li>Bảo hiểm hoàn tiền 100% nếu có bất kỳ tranh chấp</li>
-              <li>Bàn giao tài khoản & đổi thông tin bảo mật 24/7</li>
-              <li>Hỗ trợ nhập cư và hướng dẫn người mua tận tình</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. Sticky Bottom CTA (Mobile View) -->
-      <div class="cat-modal-footer">
-        <a href="https://zalo.me/0372996420" id="catModalZaloBtn" target="_blank" rel="noopener noreferrer" class="btn-cat-zalo">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-            <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-            <circle cx="12" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-            <circle cx="15.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-          </svg>
-          <span id="catModalZaloTxt">NHẮN ZALO MUA ACC NÀY</span>
-        </a>
-      </div>
-    </div>
-  </div>
 
   <!-- Fullscreen Lightbox Zoom -->
   <div class="fullscreen-lightbox" id="fullscreenLightbox" onclick="closeLightbox()">

@@ -429,18 +429,17 @@ function renderListings(itemsToRender) {
 
     return `
       <div class="product-card" data-id="${item.id}" onclick="handleItemCardClick(${item.id}, event)" style="cursor: pointer;">
-        <!-- Mobile Price Anchor (shown only on mobile layout) -->
+        <!-- Mobile Floating Favorite Button (ghim trên ảnh) -->
         <div class="mobile-price-container">
-          <div class="price-text">${formattedPrice}</div>
-          <button class="btn-fav ${item.isFavorited ? 'active' : ''}" onclick="toggleFavorite(${item.id})" aria-label="Thích">
+          <button class="btn-fav ${item.isFavorited ? 'active' : ''}" onclick="toggleFavorite(${item.id}, event)" aria-label="Thích">
             ${starSvg}
             <span>${item.favorites}</span>
           </button>
         </div>
 
-        <!-- Left Showcase Column: Tấm ảnh chính + Số tiền nổi bật (Khớp yêu cầu) -->
-        <div class="card-cover-column" onclick="event.stopPropagation()">
-          <div class="card-cover-wrap" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp vào để xem trọn bộ ảnh chi tiết">
+        <!-- Cột 1: Tấm ảnh chính + Hộp giá tiền nổi bật -->
+        <div class="card-cover-column">
+          <div class="card-cover-wrap" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp vào để mở xem trọn bộ ảnh chi tiết">
             <img src="${coverImg}" alt="${escapedTitle}" class="card-cover-img" loading="lazy" onerror="this.src='assets/banner_hero_1791716494779.jpg'">
             <div class="card-cover-overlay">
               <span class="cover-zoom-icon">🔍</span>
@@ -448,56 +447,49 @@ function renderListings(itemsToRender) {
             </div>
             ${totalPhotos > 0 ? `<div class="card-cover-count-badge">📷 ${totalPhotos} ảnh</div>` : ''}
           </div>
-          <div class="card-cover-price-box" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp xem chi tiết tài khoản">
-            <span class="cover-price-val">${formattedPrice}</span>
+          <div class="card-cover-price-box" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp để xem chi tiết tài khoản">
+            <span class="cover-price-amount">${formattedPrice}</span>
+            <span class="cover-price-cta">Chi tiết →</span>
           </div>
         </div>
 
-        <!-- Middle Column: Thông tin tài khoản -->
+        <!-- Cột 2: Thông tin chi tiết tài khoản -->
         <div class="card-left">
           <div class="card-title-row">
             <span class="card-title">${item.title}</span>
             ${badgesHtml}
           </div>
           <div class="kingdom-info">
-            <span>${item.info.split('|')[0].trim()}</span> | 
+            <span class="k-code">🏰 ${item.info.split('|')[0].trim()}</span>
+            <span class="k-divider">•</span>
             <span class="immigration">${item.info.split('|')[1]?.trim() || ''}</span>
           </div>
-          <div class="stats-info">${item.stats}</div>
+          <div class="stats-info">
+            <svg class="stats-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span>${item.stats}</span>
+          </div>
           <div class="tags-wrap">
             ${tagsHtml}
           </div>
         </div>
 
-        <!-- Right Column: Mã tài khoản, Tướng chính & Đếm ngược -->
+        <!-- Cột 3: Nút Thích, Thời gian mở bán & Nút xem chi tiết (Desktop) -->
         <div class="card-right">
+          <!-- Desktop Fav row -->
           <div class="price-fav-row">
-            <span class="card-acc-id-tag">MÃ: #${item.id}</span>
-            <button class="btn-fav ${item.isFavorited ? 'active' : ''}" onclick="toggleFavorite(${item.id})" aria-label="Thích">
+            <button class="btn-fav ${item.isFavorited ? 'active' : ''}" onclick="toggleFavorite(${item.id}, event)" aria-label="Thích">
               ${starSvg}
               <span>${item.favorites}</span>
             </button>
           </div>
 
-          <!-- Nút Bấm Xem Kho Đồ / Chi Tiết Acc (Thiết kế SVG Game & Hiệu ứng Động) -->
-          <div class="card-action-row" onclick="event.stopPropagation()">
-            <button type="button" class="btn-card-view-item" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp mở popup xem trọn bộ ảnh tướng, trang bị & kho đồ">
-              <span class="btn-shine-sweep"></span>
-              <svg class="btn-item-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                <path d="M8 11l3 3 5-5"/>
-              </svg>
-              <span>XEM KHO ĐỒ</span>
-              <svg class="btn-arrow-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
-          </div>
-
-          <!-- Time Countdown -->
-          <div class="time-status">
-            <svg class="time-clock-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span>Thời gian mở bán còn: <strong class="timer-tick" data-sec="${item.countdownSeconds}">${formatCountdown(item.countdownSeconds)}</strong></span>
+          <!-- Time Countdown & CTA -->
+          <div class="card-right-bottom">
+            <div class="time-status">
+              <svg class="time-clock-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Còn: <strong class="timer-tick" data-sec="${item.countdownSeconds}">${formatCountdown(item.countdownSeconds)}</strong></span>
+            </div>
+            <button type="button" class="btn-card-detail" onclick="openProductModal(${item.id})">Xem chi tiết →</button>
           </div>
         </div>
       </div>
@@ -514,12 +506,17 @@ let currentModalImages = [];
 let currentModalImageIndex = 0;
 
 window.handleItemCardClick = function(id, event) {
-  if (event && (event.target.closest('.btn-fav') || event.target.tagName === 'BUTTON' || event.target.closest('.btn-cat-view'))) return;
-  openCategoryModal(id, 'tuong', event);
+  if (event && (event.target.closest('.btn-fav') || event.target.tagName === 'BUTTON')) return;
+  window.location.href = `detail.html?id=${id}`;
 };
 
 window.openProductModal = function(id) {
-  openCategoryModal(id, 'tuong');
+  window.location.href = `detail.html?id=${id}`;
+};
+
+window.openCategoryModal = function(id, category = 'tuong', event) {
+  if (event) event.stopPropagation();
+  window.location.href = `detail.html?id=${id}&cat=${category || 'tuong'}`;
 };
 
 window.closeProductModal = function() {
@@ -876,7 +873,11 @@ window.addEventListener("keydown", (e) => {
 });
 
 // Toggle Favorite Star
-window.toggleFavorite = function(id) {
+window.toggleFavorite = function(id, event) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
   const item = mockProducts.find(p => p.id === id);
   if (item) {
     item.isFavorited = !item.isFavorited;
@@ -885,49 +886,15 @@ window.toggleFavorite = function(id) {
   }
 };
 
-// State for Price Sorting: 'default' | 'asc' | 'desc'
-let currentPriceSort = "default";
-
-// Helper: Get product effective price in VND
-function getProductEffectivePrice(item) {
+// Helper: Tính toán giá quy đổi VND chuẩn xác
+function getItemVndPrice(item) {
   if (!item) return 0;
   const rawPrice = Number(item.price) || 0;
   return rawPrice < 50000 ? Math.round(rawPrice * 25400) : rawPrice;
 }
 
-// Function to set and apply price sort (used by desktop pills and mobile dropdown)
-window.setPriceSort = function(sortType) {
-  currentPriceSort = sortType || "default";
-
-  // Sync Desktop Pill buttons
-  const pills = document.querySelectorAll(".sort-pill-btn");
-  pills.forEach(btn => {
-    if (btn.dataset.sort === currentPriceSort) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
-    }
-  });
-
-  // Sync Mobile Select dropdown
-  const mobileSelect = document.getElementById("mobilePriceSort");
-  if (mobileSelect && mobileSelect.value !== currentPriceSort) {
-    mobileSelect.value = currentPriceSort;
-  }
-
-  // Toast Notice
-  let sortLabel = "Mặc định";
-  if (currentPriceSort === "asc") sortLabel = "Giá: Thấp đến Cao (₫ ▲)";
-  if (currentPriceSort === "desc") sortLabel = "Giá: Cao đến Thấp (₫ ▼)";
-  if (typeof showActionNotice === "function") {
-    showActionNotice(`Sắp xếp: ${sortLabel}`);
-  }
-
-  applyFilters();
-};
-
 // Filter & Search Logic
-function applyFilters() {
+window.applyFilters = function() {
   const searchVal = (
     document.getElementById("searchInputDesktop")?.value ||
     document.getElementById("searchInputMobile")?.value ||
@@ -935,62 +902,120 @@ function applyFilters() {
   ).trim().toLowerCase();
 
   const minPrice = parseFloat(document.getElementById("minPrice")?.value) || 0;
-  const maxPrice = parseFloat(document.getElementById("maxPrice")?.value) || Infinity;
-  const usableOnly = document.getElementById("usableCheck")?.checked;
+  const maxPrice = parseFloat(document.getElementById("maxPrice")?.value) || 0;
+  const sortOrder = document.getElementById("sortOrderSelect")?.value ||
+                    document.getElementById("sortOrderSelectMobile")?.value ||
+                    "default";
 
-  let filtered = mockProducts.filter(item => {
-    // Search by ID or title
+  const allItems = (window.mockProducts && window.mockProducts.length > 0)
+    ? window.mockProducts
+    : mockProducts;
+
+  let filtered = allItems.filter(item => {
+    const itemVnd = getItemVndPrice(item);
+
+    // 1. Tìm kiếm theo mã số (#2654...), tiêu đề, vương quốc, tướng
     if (searchVal) {
-      const matchId = String(item.id).includes(searchVal);
-      const matchTitle = item.title.toLowerCase().includes(searchVal);
-      if (!matchId && !matchTitle) return false;
+      const cleanSearch = searchVal.replace(/^#/, "");
+      const matchId = String(item.id).includes(cleanSearch);
+      const matchTitle = (item.title || "").toLowerCase().includes(searchVal);
+      const matchInfo = (item.info || "").toLowerCase().includes(searchVal);
+      const matchStats = (item.stats || "").toLowerCase().includes(searchVal);
+      const matchCommanders = Array.isArray(item.commanders) && item.commanders.some(c => 
+        (c.name || "").toLowerCase().includes(searchVal)
+      );
+      if (!matchId && !matchTitle && !matchInfo && !matchStats && !matchCommanders) {
+        return false;
+      }
     }
-    // Price range
-    const effectivePrice = getProductEffectivePrice(item);
-    if (minPrice > 0 && effectivePrice < minPrice) return false;
-    if (maxPrice < Infinity && effectivePrice > maxPrice) return false;
+
+    // 2. Lọc theo khoảng giá (VND)
+    if (minPrice > 0 && itemVnd < minPrice) return false;
+    if (maxPrice > 0 && itemVnd > maxPrice) return false;
+
     return true;
   });
 
-  // Sort by Price: Thấp đến Cao (asc) hoặc Cao đến Thấp (desc)
-  if (currentPriceSort === "asc") {
-    filtered.sort((a, b) => getProductEffectivePrice(a) - getProductEffectivePrice(b));
-  } else if (currentPriceSort === "desc") {
-    filtered.sort((a, b) => getProductEffectivePrice(b) - getProductEffectivePrice(a));
+  // 3. Sắp xếp danh sách sản phẩm
+  if (sortOrder === "price_asc") {
+    // Giá tăng dần (thấp đến cao)
+    filtered.sort((a, b) => getItemVndPrice(a) - getItemVndPrice(b));
+  } else if (sortOrder === "price_desc") {
+    // Giá giảm dần (cao đến thấp)
+    filtered.sort((a, b) => getItemVndPrice(b) - getItemVndPrice(a));
+  } else if (sortOrder === "favorite_desc") {
+    // Yêu thích nhiều nhất
+    filtered.sort((a, b) => (b.favorites || 0) - (a.favorites || 0));
   }
 
   renderListings(filtered);
 
-  // Update total count labels
+  // Cập nhật nhãn tổng số lượng vật phẩm
   const countLabels = document.querySelectorAll(".item-count-val");
   countLabels.forEach(el => el.textContent = filtered.length);
-}
+};
 
-// Reset Filters
-function resetFilters() {
+// Đặt khoảng giá nhanh từ các nút chip (Dưới 10tr, 10tr - 30tr, ...)
+window.setQuickPrice = function(min, max, btnEl) {
+  const minP = document.getElementById("minPrice");
+  const maxP = document.getElementById("maxPrice");
+  if (minP) minP.value = min > 0 ? min : "";
+  if (maxP) maxP.value = max > 0 ? max : "";
+
+  // Đồng bộ trạng thái active trên cả desktop và mobile
+  const rangeAttr = btnEl ? btnEl.dataset.range : null;
+  document.querySelectorAll(".quick-chip").forEach(c => {
+    if (rangeAttr && c.dataset.range === rangeAttr) {
+      c.classList.add("active");
+    } else {
+      c.classList.remove("active");
+    }
+  });
+
+  applyFilters();
+};
+
+// Đồng bộ sắp xếp Desktop -> Mobile
+window.syncDesktopSort = function(val) {
+  const sortM = document.getElementById("sortOrderSelectMobile");
+  if (sortM) sortM.value = val;
+  applyFilters();
+};
+
+// Đồng bộ sắp xếp Mobile -> Desktop
+window.syncMobileSort = function(val) {
+  const sortD = document.getElementById("sortOrderSelect");
+  if (sortD) sortD.value = val;
+  applyFilters();
+};
+
+// Reset toàn bộ bộ lọc về mặc định
+window.resetFilters = function() {
   const searchD = document.getElementById("searchInputDesktop");
   const searchM = document.getElementById("searchInputMobile");
   const minP = document.getElementById("minPrice");
   const maxP = document.getElementById("maxPrice");
-  const usable = document.getElementById("usableCheck");
+  const sortD = document.getElementById("sortOrderSelect");
+  const sortM = document.getElementById("sortOrderSelectMobile");
 
   if (searchD) searchD.value = "";
   if (searchM) searchM.value = "";
   if (minP) minP.value = "";
   if (maxP) maxP.value = "";
-  if (usable) usable.checked = false;
+  if (sortD) sortD.value = "default";
+  if (sortM) sortM.value = "default";
 
-  currentPriceSort = "default";
-  const pills = document.querySelectorAll(".sort-pill-btn");
-  pills.forEach(btn => {
-    if (btn.dataset.sort === "default") btn.classList.add("active");
-    else btn.classList.remove("active");
+  document.querySelectorAll(".quick-chip").forEach(c => {
+    if (c.dataset.range === "all") {
+      c.classList.add("active");
+    } else {
+      c.classList.remove("active");
+    }
   });
-  const mobileSelect = document.getElementById("mobilePriceSort");
-  if (mobileSelect) mobileSelect.value = "default";
 
   applyFilters();
-}
+  showActionNotice("Đã đặt lại bộ lọc");
+};
 
 // Countdown Live Tick
 function startTimerTicker() {
@@ -1072,11 +1097,21 @@ document.addEventListener("DOMContentLoaded", () => {
   renderListings(mockProducts);
   startTimerTicker();
 
-  // Search input listeners
+  // Search input listeners with desktop/mobile sync
   const searchD = document.getElementById("searchInputDesktop");
   const searchM = document.getElementById("searchInputMobile");
-  if (searchD) searchD.addEventListener("input", applyFilters);
-  if (searchM) searchM.addEventListener("input", applyFilters);
+  if (searchD) {
+    searchD.addEventListener("input", () => {
+      if (searchM && searchM.value !== searchD.value) searchM.value = searchD.value;
+      applyFilters();
+    });
+  }
+  if (searchM) {
+    searchM.addEventListener("input", () => {
+      if (searchD && searchD.value !== searchM.value) searchD.value = searchM.value;
+      applyFilters();
+    });
+  }
 
   // Price input listeners
   const minP = document.getElementById("minPrice");

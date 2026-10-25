@@ -1,7 +1,7 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 03:00:24 25/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 03:06:49 25/10/2026
  */
 
 var mockProducts = [
@@ -1444,10 +1444,34 @@ var mockProducts = [
     "id": 1999,
     "title": "Đạo Quân Đa Năng 5 Cặp Thức Tỉnh - Đồ Cam Full Set",
     "price": 104140000,
-    "link": "guide/index.html?id=1999",
+    "link": "detail.html?id=1999",
     "favorites": 13,
     "isFavorited": false,
     "images": [],
+    "categoryTabs": [
+      {
+        "id": "tuong",
+        "name": "Ảnh Tướng"
+      },
+      {
+        "id": "trangbi",
+        "name": "Trang bị"
+      },
+      {
+        "id": "vebay",
+        "name": "Vé bay"
+      },
+      {
+        "id": "cat_mvn8sfjl_223",
+        "name": "Tài Nguyên"
+      }
+    ],
+    "imageCategories": {
+      "tuong": [],
+      "trangbi": [],
+      "vebay": [],
+      "cat_mvn8sfjl_223": []
+    },
     "badges": [
       {
         "text": "Chơi",
@@ -1479,7 +1503,7 @@ var mockProducts = [
       },
       {
         "text": "Minh Văn Hiếm ×24",
-        "type": "orange"
+        "type": "blue"
       },
       {
         "text": "Số Dư Xu Lung Linh 9",
@@ -1518,12 +1542,11 @@ var mockProducts = [
       {
         "id": "arthur",
         "name": "Arthur Pendragon",
-        "level": 60,
-        "isImg": true
+        "level": 60
       }
     ],
     "gemMultiplier": 5,
-    "countdownSeconds": 1958140
+    "countdownSeconds": 1958400
   },
   {
     "id": 2240,

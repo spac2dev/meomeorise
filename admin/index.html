@@ -213,130 +213,239 @@
       line-height: 1.5;
     }
 
-    /* Config Card (Worker Settings) */
-    .config-card {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      margin-bottom: 20px;
+    /* ==========================================================================
+       ADMIN AUTHENTICATION & SYNC GATEWAY MODAL (FULLSCREEN OVERLAY)
+       ========================================================================== */
+    .admin-auth-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: radial-gradient(circle at 50% 25%, #172033 0%, #070a12 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+    .admin-auth-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(22, 27, 36, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(230, 0, 18, 0.15);
+      border-radius: 20px;
+      padding: 32px 28px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      animation: authCardIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes authCardIn {
+      from { opacity: 0; transform: scale(0.92) translateY(12px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .auth-brand {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+    .auth-brand .logo-dagger {
+      color: var(--primary);
+      font-size: 27px;
+    }
+    .auth-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .auth-badge {
+      background: rgba(230, 0, 18, 0.15);
+      color: #ff6b72;
+      border: 1px solid rgba(230, 0, 18, 0.3);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      letter-spacing: 0.5px;
+    }
+    .auth-subtitle {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 10px;
+      line-height: 1.45;
+    }
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .auth-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .auth-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #cbd5e1;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      box-shadow: var(--shadow-sm);
     }
-    .config-left {
+    .auth-input-wrap {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 14px;
-      flex: 1;
-      flex-wrap: wrap;
     }
-    .config-input-group {
+    .auth-input {
+      width: 100%;
+      padding: 11px 14px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 13.5px;
+      transition: all 0.2s;
+    }
+    .auth-input:focus {
+      border-color: #e60012;
+      box-shadow: 0 0 0 3px rgba(230, 0, 18, 0.25);
+      background: #111a2e;
+    }
+    .auth-input.has-eye {
+      padding-right: 42px;
+    }
+    .auth-eye-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: color 0.2s;
+    }
+    .auth-eye-btn:hover {
+      color: #fff;
+    }
+    .auth-checkbox-row {
       display: flex;
       align-items: center;
       gap: 8px;
-      flex: 1;
-      min-width: 240px;
+      font-size: 12.5px;
+      color: #94a3b8;
+      cursor: pointer;
     }
-    .config-label {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--muted);
-      white-space: nowrap;
+    .auth-checkbox-row input {
+      accent-color: var(--primary);
+      cursor: pointer;
     }
-    .input-text {
+    .btn-auth-submit {
       width: 100%;
-      padding: 7px 12px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      font-size: 13px;
-      background: #f8fafc;
-      transition: all 0.2s;
-    }
-    .input-text:focus {
-      background: #fff;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-    }
-
-    /* Web Sync Status Card */
-    .web-sync-status-card {
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-radius: var(--radius-md);
       padding: 12px 18px;
-      margin-bottom: 20px;
+      background: linear-gradient(135deg, #e60012 0%, #b3000e 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(230, 0, 18, 0.35);
+      margin-top: 4px;
+    }
+    .btn-auth-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 22px rgba(230, 0, 18, 0.5);
+    }
+    .btn-auth-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .auth-progress-box {
+      margin-top: 6px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .auth-progress-box.show {
+      display: flex;
+    }
+    .auth-step-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s ease;
-    }
-    .web-sync-status-card.warning {
-      background: #fffbeb;
-      border-color: #fde68a;
-    }
-    .web-sync-status-card.checking {
-      background: #eff6ff;
-      border-color: #bfdbfe;
-    }
-    .web-sync-status-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex: 1;
-    }
-    .sync-status-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
-      flex-shrink: 0;
-    }
-    .web-sync-status-card.warning .sync-status-dot {
-      background: #f59e0b;
-      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
-    }
-    .web-sync-status-card.checking .sync-status-dot {
-      background: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-      animation: pulseDot 1.2s infinite;
-    }
-    @keyframes pulseDot {
-      0% { transform: scale(0.9); opacity: 0.6; }
-      50% { transform: scale(1.15); opacity: 1; }
-      100% { transform: scale(0.9); opacity: 0.6; }
-    }
-    .sync-status-title {
-      font-size: 13px;
-
-      font-weight: 700;
-
-      color: #166534;
-      display: block;
-    }
-    .web-sync-status-card.warning .sync-status-title {
-      color: #92400e;
-    }
-    .web-sync-status-card.checking .sync-status-title {
-      color: #1e40af;
-    }
-    .sync-status-desc {
+      gap: 8px;
       font-size: 12px;
-      color: #15803d;
-      margin-top: 2px;
+      color: #94a3b8;
+      transition: color 0.2s;
+    }
+    .auth-step-row.active {
+      color: #38bdf8;
+      font-weight: 700;
+    }
+    .auth-step-row.done {
+      color: #4ade80;
+      font-weight: 600;
+    }
+    .auth-step-row.error {
+      color: #f87171;
+      font-weight: 700;
+    }
+    .auth-step-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .auth-error-box {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      line-height: 1.4;
+      margin-top: 6px;
+      display: none;
+    }
+    .auth-error-box.show {
       display: block;
-    }
-    .web-sync-status-card.warning .sync-status-desc {
-      color: #b45309;
-    }
-    .web-sync-status-card.checking .sync-status-desc {
-      color: #2563eb;
     }
 
     /* Stats Grid */
@@ -1499,55 +1608,13 @@
         margin: 12px auto 40px;
       }
 
-      /* Config Card */
-      .config-card {
-        padding: 12px;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
+      /* Auth Card Mobile */
+      .auth-card {
+        padding: 24px 18px;
+        border-radius: 16px;
       }
-      .config-left {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-        width: 100%;
-      }
-      .config-input-group {
-        flex-direction: column;
-        align-items: flex-start;
-        min-width: 0;
-        width: 100%;
-        max-width: 100% !important;
-        gap: 4px;
-      }
-      .config-input-group .input-text {
-        width: 100%;
-      }
-      .config-card > div:last-child {
-        width: 100%;
-      }
-      .config-card > div:last-child .btn {
-        width: 100%;
-        justify-content: center;
-      }
-
-      /* Web Sync Status Card */
-      .web-sync-status-card {
-        padding: 12px;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-      }
-      .web-sync-status-left {
-        align-items: flex-start;
-        gap: 10px;
-      }
-      .web-sync-status-card > div:last-child {
-        width: 100%;
-      }
-      .web-sync-status-card > div:last-child .btn {
-        width: 100%;
-        justify-content: center;
+      .auth-brand {
+        font-size: 21px;
       }
 
       /* Compact 2x2 Stats Grid for Mobile */
@@ -1730,6 +1797,76 @@
 </head>
 <body>
 
+  <!-- ======================================================================
+       MÀN HÌNH ĐĂNG NHẬP & KÉO ĐỒNG BỘ DỮ LIỆU TỰ ĐỘNG (ADMIN AUTH GATEWAY)
+       ====================================================================== -->
+  <div id="adminAuthOverlay" class="admin-auth-overlay">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-brand">
+          WON<span class="logo-dagger">†</span>RADE
+        </div>
+        <div class="auth-badge-row">
+          <span class="auth-badge">ADMIN SECURITY GATEWAY</span>
+          <span class="edge-badge">EDGE-SSG</span>
+        </div>
+        <div class="auth-subtitle">
+          Vui lòng nhập Cloudflare Worker URL và Secret Key để xác thực và tự động kéo đồng bộ toàn bộ dữ liệu (list.js, index.html, thum.js) mới nhất.
+        </div>
+      </div>
+
+      <form id="adminAuthForm" class="auth-form" onsubmit="event.preventDefault(); handleAdminLoginSubmit();">
+        <div class="auth-form-group">
+          <label class="auth-label" for="loginWorkerUrl">Cloudflare Worker URL *</label>
+          <div class="auth-input-wrap">
+            <input type="url" id="loginWorkerUrl" class="auth-input" placeholder="https://your-worker.workers.dev" required>
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label class="auth-label" for="loginWorkerSecret">Secret Key (Mã bí mật) *</label>
+          <div class="auth-input-wrap">
+            <input type="password" id="loginWorkerSecret" class="auth-input has-eye" placeholder="Nhập Secret Key bảo mật..." required>
+            <button type="button" class="auth-eye-btn" onclick="togglePasswordVisibility('loginWorkerSecret', this)" title="Ẩn/Hiện mật khẩu">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+
+        <label class="auth-checkbox-row">
+          <input type="checkbox" id="loginRememberMe" checked>
+          <span>Ghi nhớ thông tin trên trình duyệt này</span>
+        </label>
+
+        <button type="submit" id="btnLoginSubmit" class="btn-auth-submit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span id="loginSubmitBtnText">ĐĂNG NHẬP & KÉO ĐỒNG BỘ DỮ LIỆU</span>
+        </button>
+
+        <div id="authProgressBox" class="auth-progress-box">
+          <div id="stepAuth" class="auth-step-row">
+            <span class="auth-step-icon">⏳</span>
+            <span>1. Xác thực Secret Key với Worker...</span>
+          </div>
+          <div id="stepList" class="auth-step-row">
+            <span class="auth-step-icon">⏳</span>
+            <span>2. Kéo đồng bộ sản phẩm từ js/list.js...</span>
+          </div>
+          <div id="stepIndex" class="auth-step-row">
+            <span class="auth-step-icon">⏳</span>
+            <span>3. Kéo đồng bộ cấu hình từ index.html...</span>
+          </div>
+          <div id="stepThum" class="auth-step-row">
+            <span class="auth-step-icon">⏳</span>
+            <span>4. Kéo đồng bộ ảnh banner từ js/thum.js...</span>
+          </div>
+        </div>
+
+        <div id="authErrorBox" class="auth-error-box"></div>
+      </form>
+    </div>
+  </div>
+
   <!-- Top Navbar -->
   <nav class="admin-navbar">
     <div class="navbar-inner">
@@ -1748,10 +1885,10 @@
           <span>Xem Web</span>
         </a>
 
-        <!-- Sync from GitHub (Worker GET) -->
-        <button class="btn btn-secondary" onclick="syncFromGithubWorker()" title="Tải dữ liệu mới nhất trực tiếp từ file index.html và js/list.js trên GitHub">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-          <span>Đồng bộ GitHub</span>
+        <!-- Logout / Re-authenticate Button -->
+        <button class="btn btn-secondary" onclick="logoutAdmin()" title="Đăng xuất khỏi hệ thống và khóa màn hình quản trị">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Đăng xuất</span>
         </button>
 
         <!-- Save Config to index.html -->
@@ -1786,45 +1923,6 @@
       </div>
       <div class="banner-desc">
         Hệ thống Edge-SSG đã cập nhật xong file <strong>index.html</strong> (chuẩn SEO Google, Zalo OpenGraph, hiển thị tĩnh SSR). Vui lòng đợi <strong>1 - 3 phút</strong> để GitHub Pages / Cloudflare Pages tự động cập nhật bản mới ra toàn cầu.
-      </div>
-    </div>
-
-    <!-- Cloudflare Worker Configuration Bar -->
-    <div class="config-card">
-      <div class="config-left">
-        <div class="config-input-group">
-          <span class="config-label">Cloudflare Worker URL:</span>
-          <input type="url" id="workerUrlInput" class="input-text" value="https://meomeorise.text2developer.workers.dev" placeholder="https://your-worker.workers.dev" onchange="saveWorkerSettings()">
-        </div>
-
-        <div class="config-input-group" style="max-width: 240px;">
-          <span class="config-label">Secret Key:</span>
-          <input type="password" id="workerSecretInput" class="input-text" placeholder="(Tùy chọn) X-Admin-Key" onchange="saveWorkerSettings()">
-        </div>
-      </div>
-
-      <div style="display: flex; gap: 8px;">
-        <button class="btn btn-secondary" onclick="testWorkerConnection()" style="font-size: 12px; padding: 6px 14px;">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-          <span>Kiểm tra kết nối</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Web & GitHub Data Verification Status Bar -->
-    <div class="web-sync-status-card checking" id="webSyncStatusCard">
-      <div class="web-sync-status-left">
-        <div class="sync-status-dot"></div>
-        <div>
-          <strong class="sync-status-title" id="syncStatusTitle">Đang kiểm tra file hiện tại trên website & GitHub...</strong>
-          <span class="sync-status-desc" id="syncStatusDesc">Đối soát dữ liệu giữa file js/list.js thực tế và giao diện Admin để đảm bảo 100% chính xác.</span>
-        </div>
-      </div>
-      <div style="display: flex; gap: 8px;">
-        <button class="btn btn-secondary" onclick="checkCurrentWebsiteFiles(false)" style="font-size: 12px; padding: 6px 14px;" title="Kiểm tra lại file hiện tại trên web và GitHub">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-          <span>Kiểm tra lại dữ liệu web</span>
-        </button>
       </div>
     </div>
 
@@ -1865,21 +1963,31 @@
 
     <!-- Tab Navigation Bar -->
     <div class="admin-tab-nav">
+      <!-- Tab 1: Danh sách Sản phẩm -->
       <button class="tab-item active" data-tab="tab-products" onclick="switchAdminTab('tab-products')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
         <span>Danh sách Sản phẩm (<strong id="tabBadgeCount">19</strong>)</span>
       </button>
 
-      <button class="tab-item" data-tab="tab-banner" onclick="switchAdminTab('tab-banner')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-        <span>Giao diện & Hero Banner</span>
+      <!-- Tab 2: Quản lý Ảnh Banner Trang Chủ (thum.js) - TAB RIÊNG -->
+      <button class="tab-item" data-tab="tab-banner-images" onclick="switchAdminTab('tab-banner-images')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <span>Ảnh Banner Trang Chủ (thum.js) (<strong id="tabBadgeBannerCount">0</strong>)</span>
       </button>
 
+      <!-- Tab 3: Nội dung Text Hero Banner & Nhận diện -->
+      <button class="tab-item" data-tab="tab-banner-text" onclick="switchAdminTab('tab-banner-text')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+        <span>Giao diện & Chữ Banner</span>
+      </button>
+
+      <!-- Tab 4: SEO & MXH -->
       <button class="tab-item" data-tab="tab-seo" onclick="switchAdminTab('tab-seo')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
         <span>SEO & Mạng xã hội (Zalo / FB)</span>
       </button>
 
+      <!-- Tab 5: Liên hệ -->
       <button class="tab-item" data-tab="tab-contact" onclick="switchAdminTab('tab-contact')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
         <span>Liên hệ & Zalo CSKH</span>
@@ -1951,69 +2059,10 @@
     </div>
 
     <!-- ======================================================================
-         TAB 2: GIAO DIỆN & HERO BANNER
+         TAB 2: QUẢN LÝ ẢNH BANNER TRANG CHỦ (FILE ĐỘC LẬP: JS/THUM.JS) - TAB RIÊNG BIỆT
          ====================================================================== -->
-    <div class="tab-panel" id="tab-banner">
+    <div class="tab-panel" id="tab-banner-images">
       <div class="form-card">
-        <div class="form-card-header">
-          <div>
-            <h3 class="form-card-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-              Nội dung Hero Banner & Nhận Diện Thương Hiệu
-            </h3>
-            <p class="form-card-subtitle">Các thông số này sẽ được Cloudflare Worker tráo trực tiếp vào các thẻ HTML tương ứng trên trang index.html</p>
-          </div>
-        </div>
-
-        <div class="form-grid">
-          <!-- Desktop Headline -->
-          <div class="form-group full">
-            <label class="form-label">Tiêu đề Banner Desktop (.banner-headline)</label>
-            <input type="text" id="cfgBannerHeadline" class="form-control" placeholder="WONTRADE TRANSACTION GUIDELINES UPDATE" onchange="autoSaveSiteConfig()">
-            <span class="form-hint">Tiêu đề lớn hiển thị trên banner giao diện máy tính</span>
-          </div>
-
-          <!-- Desktop Ribbon -->
-          <div class="form-group full">
-            <label class="form-label">Dải chữ ruy băng vàng Desktop (.banner-ribbon)</label>
-            <input type="text" id="cfgBannerRibbon" class="form-control" placeholder="LOWER FEE & SIMPLIFIED PROCESS!" onchange="autoSaveSiteConfig()">
-            <span class="form-hint">Dòng chữ màu vàng phong cách game Rise of Kingdoms trên màn hình lớn</span>
-          </div>
-
-          <!-- Mobile Badge -->
-          <div class="form-group">
-            <label class="form-label">Huy hiệu Banner Mobile (.mobile-banner-badge)</label>
-            <input type="text" id="cfgBannerMobileBadge" class="form-control" placeholder="ĐỐI TÁC GIAO DỊCH CHÍNH THỨC" onchange="autoSaveSiteConfig()">
-          </div>
-
-          <!-- Mobile Title -->
-          <div class="form-group">
-            <label class="form-label">Tiêu đề Banner Mobile (.mobile-banner-title)</label>
-            <input type="text" id="cfgBannerMobileTitle" class="form-control" placeholder="NHÀ GIAO DỊCH WONTRADE" onchange="autoSaveSiteConfig()">
-          </div>
-
-          <!-- Mobile Subtitle -->
-          <div class="form-group full">
-            <label class="form-label">Phụ đề Banner Mobile (.mobile-banner-subtitle)</label>
-            <input type="text" id="cfgBannerMobileSubtitle" class="form-control" placeholder="BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH" onchange="autoSaveSiteConfig()">
-          </div>
-
-          <!-- Brand Game Name -->
-          <div class="form-group">
-            <label class="form-label">Tên Game (.game-name)</label>
-            <input type="text" id="cfgBrandGameName" class="form-control" placeholder="Rise of Kingdoms" onchange="autoSaveSiteConfig()">
-          </div>
-
-          <!-- Brand Avatar / Icon -->
-          <div class="form-group">
-            <label class="form-label">Đường dẫn Icon / Ảnh đại diện Game</label>
-            <input type="text" id="cfgBrandAvatar" class="form-control" placeholder="assets/rok_avatar.jpg" onchange="autoSaveSiteConfig()">
-          </div>
-        </div>
-      </div>
-
-      <!-- Card Quản lý Ảnh Banner / Thumbnail Trang Chủ (File độc lập: js/thum.js) -->
-      <div class="form-card" style="margin-top: 16px;">
         <div class="form-card-header" style="flex-wrap: wrap; gap: 12px;">
           <div>
             <h3 class="form-card-title">
@@ -2078,6 +2127,69 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             <span>Thêm link</span>
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         TAB 3: NỘI DUNG HERO BANNER & NHẬN DIỆN THƯƠNG HIỆU
+         ====================================================================== -->
+    <div class="tab-panel" id="tab-banner-text">
+      <div class="form-card">
+        <div class="form-card-header">
+          <div>
+            <h3 class="form-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+              Nội dung Hero Banner & Nhận Diện Thương Hiệu
+            </h3>
+            <p class="form-card-subtitle">Các thông số này sẽ được Cloudflare Worker tráo trực tiếp vào các thẻ HTML tương ứng trên trang index.html</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <!-- Desktop Headline -->
+          <div class="form-group full">
+            <label class="form-label">Tiêu đề Banner Desktop (.banner-headline)</label>
+            <input type="text" id="cfgBannerHeadline" class="form-control" placeholder="WONTRADE TRANSACTION GUIDELINES UPDATE" onchange="autoSaveSiteConfig()">
+            <span class="form-hint">Tiêu đề lớn hiển thị trên banner giao diện máy tính</span>
+          </div>
+
+          <!-- Desktop Ribbon -->
+          <div class="form-group full">
+            <label class="form-label">Dải chữ ruy băng vàng Desktop (.banner-ribbon)</label>
+            <input type="text" id="cfgBannerRibbon" class="form-control" placeholder="LOWER FEE & SIMPLIFIED PROCESS!" onchange="autoSaveSiteConfig()">
+            <span class="form-hint">Dòng chữ màu vàng phong cách game Rise of Kingdoms trên màn hình lớn</span>
+          </div>
+
+          <!-- Mobile Badge -->
+          <div class="form-group">
+            <label class="form-label">Huy hiệu Banner Mobile (.mobile-banner-badge)</label>
+            <input type="text" id="cfgBannerMobileBadge" class="form-control" placeholder="ĐỐI TÁC GIAO DỊCH CHÍNH THỨC" onchange="autoSaveSiteConfig()">
+          </div>
+
+          <!-- Mobile Title -->
+          <div class="form-group">
+            <label class="form-label">Tiêu đề Banner Mobile (.mobile-banner-title)</label>
+            <input type="text" id="cfgBannerMobileTitle" class="form-control" placeholder="NHÀ GIAO DỊCH WONTRADE" onchange="autoSaveSiteConfig()">
+          </div>
+
+          <!-- Mobile Subtitle -->
+          <div class="form-group full">
+            <label class="form-label">Phụ đề Banner Mobile (.mobile-banner-subtitle)</label>
+            <input type="text" id="cfgBannerMobileSubtitle" class="form-control" placeholder="BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH" onchange="autoSaveSiteConfig()">
+          </div>
+
+          <!-- Brand Game Name -->
+          <div class="form-group">
+            <label class="form-label">Tên Game (.game-name)</label>
+            <input type="text" id="cfgBrandGameName" class="form-control" placeholder="Rise of Kingdoms" onchange="autoSaveSiteConfig()">
+          </div>
+
+          <!-- Brand Avatar / Icon -->
+          <div class="form-group">
+            <label class="form-label">Đường dẫn Icon / Ảnh đại diện Game</label>
+            <input type="text" id="cfgBrandAvatar" class="form-control" placeholder="assets/rok_avatar.jpg" onchange="autoSaveSiteConfig()">
+          </div>
         </div>
       </div>
     </div>
@@ -2416,15 +2528,87 @@
       alparslan: "Alp Arslan"
     };
 
-    // Khởi tạo
-    document.addEventListener("DOMContentLoaded", () => {
-      // 1. Cấu hình Worker URL
+    // Lấy thông tin kết nối Worker an toàn từ localStorage
+    function getWorkerConfig() {
       const defaultWorkerUrl = "https://meomeorise.text2developer.workers.dev";
       const defaultSecret = "spac2meomeorise";
-      const savedWorkerUrl = localStorage.getItem("wontrade_worker_url") || defaultWorkerUrl;
-      const savedSecret = localStorage.getItem("wontrade_worker_secret") || defaultSecret;
-      if (document.getElementById("workerUrlInput")) document.getElementById("workerUrlInput").value = savedWorkerUrl;
-      if (document.getElementById("workerSecretInput")) document.getElementById("workerSecretInput").value = savedSecret;
+      const url = localStorage.getItem("wontrade_worker_url") || defaultWorkerUrl;
+      const secret = localStorage.getItem("wontrade_worker_secret") || defaultSecret;
+      return { url, secret };
+    }
+
+    // Ẩn / Hiện Secret Key trên form đăng nhập
+    function togglePasswordVisibility(inputId, btnEl) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === "password") {
+        input.type = "text";
+        btnEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+        btnEl.title = "Ẩn mật khẩu";
+      } else {
+        input.type = "password";
+        btnEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+        btnEl.title = "Hiện mật khẩu";
+      }
+    }
+
+    // Khởi tạo kiểm tra đăng nhập
+    function initAdminAuth() {
+      const { url, secret } = getWorkerConfig();
+      const urlInput = document.getElementById("loginWorkerUrl");
+      const secretInput = document.getElementById("loginWorkerSecret");
+      if (urlInput) urlInput.value = url;
+      if (secretInput) secretInput.value = secret;
+
+      const isAuthenticated = sessionStorage.getItem("wontrade_admin_authenticated") === "true";
+      const overlay = document.getElementById("adminAuthOverlay");
+
+      if (isAuthenticated && url && secret) {
+        // Đã đăng nhập hợp lệ trong phiên này
+        if (overlay) overlay.classList.add("hidden");
+      } else {
+        // Chưa đăng nhập: khóa toàn bộ giao diện, hiển thị overlay bắt buộc
+        if (overlay) overlay.classList.remove("hidden");
+        setTimeout(() => {
+          if (secretInput && !secretInput.value) secretInput.focus();
+          else if (secretInput) { secretInput.focus(); secretInput.select(); }
+        }, 150);
+      }
+    }
+
+    // Đăng xuất khỏi hệ thống
+    function logoutAdmin() {
+      if (!confirm("Bạn có chắc chắn muốn đăng xuất khỏi trang quản trị?")) return;
+      sessionStorage.removeItem("wontrade_admin_authenticated");
+      const overlay = document.getElementById("adminAuthOverlay");
+      if (overlay) overlay.classList.remove("hidden");
+
+      const progressBox = document.getElementById("authProgressBox");
+      if (progressBox) progressBox.className = "auth-progress-box";
+      const errorBox = document.getElementById("authErrorBox");
+      if (errorBox) { errorBox.textContent = ""; errorBox.className = "auth-error-box"; }
+
+      ["stepAuth", "stepList", "stepIndex", "stepThum"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.className = "auth-step-row";
+          const icon = el.querySelector(".auth-step-icon");
+          if (icon) icon.innerHTML = "⏳";
+        }
+      });
+
+      const secretInput = document.getElementById("loginWorkerSecret");
+      if (secretInput) {
+        secretInput.focus();
+        secretInput.select();
+      }
+      showToast("Đã đăng xuất! Màn hình quản trị đã được khóa an toàn.", "normal");
+    }
+
+    // Khởi tạo
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Kiểm tra xác thực Gateway
+      initAdminAuth();
 
       // 2. Nạp siteConfig từ cache trước
       const savedConfig = localStorage.getItem("wontrade_site_config");
@@ -2467,9 +2651,6 @@
       }
       renderBannerImagesGrid();
 
-      // 5. Ngay khi mở Admin, CHẠY NGAY LẬP TỨC LỆNH KÉO ĐỒNG BỘ từ GitHub & Web Server (list.js, index.html, thum.js)
-      checkCurrentWebsiteFiles(false);
-
       // Scroll to Top Listener
       window.addEventListener("scroll", () => {
         const btn = document.getElementById("scrollTopBtn");
@@ -2488,7 +2669,7 @@
       document.querySelectorAll(".tab-panel").forEach(p => {
         p.classList.toggle("active", p.id === tabId);
       });
-      if (tabId === "tab-banner") {
+      if (tabId === "tab-banner-images") {
         renderBannerImagesGrid();
       }
     }
@@ -3446,6 +3627,8 @@
         : [];
       
       if (countEl) countEl.textContent = imgs.length;
+      const tabBadgeBanner = document.getElementById("tabBadgeBannerCount");
+      if (tabBadgeBanner) tabBadgeBanner.textContent = imgs.length;
 
       if (imgs.length === 0) {
         grid.innerHTML = `
@@ -3617,7 +3800,7 @@
 
       const modal = document.getElementById("itemModalBackdrop");
       const isProductModalOpen = modal && modal.classList.contains("show");
-      const isBannerTabActive = document.getElementById("tab-banner")?.classList.contains("active");
+      const isBannerTabActive = document.getElementById("tab-banner-images")?.classList.contains("active");
 
       if (!isProductModalOpen && !isBannerTabActive) return;
 
@@ -4119,239 +4302,250 @@ if (typeof window !== "undefined") {
     }
 
     // ========================================================================
-    // CƠ CHẾ KIỂM TRA ĐỐI SOÁT & KÉO ĐỒNG BỘ FILE TỨC THÌ (LIST.JS, INDEX.HTML, THUM.JS)
+    // QUY TRÌNH ĐĂNG NHẬP & KÉO ĐỒNG BỘ TOÀN BỘ FILE (LIST.JS, INDEX.HTML, THUM.JS)
     // ========================================================================
-    async function checkCurrentWebsiteFiles(silent = false) {
-      const statusCard = document.getElementById("webSyncStatusCard");
-      const statusTitle = document.getElementById("syncStatusTitle");
-      const statusDesc = document.getElementById("syncStatusDesc");
+    async function handleAdminLoginSubmit() {
+      const urlInput = document.getElementById("loginWorkerUrl");
+      const secretInput = document.getElementById("loginWorkerSecret");
+      const rememberCheckbox = document.getElementById("loginRememberMe");
+      const submitBtn = document.getElementById("btnLoginSubmit");
+      const submitBtnText = document.getElementById("loginSubmitBtnText");
+      const progressBox = document.getElementById("authProgressBox");
+      const errorBox = document.getElementById("authErrorBox");
 
-      if (statusCard) {
-        statusCard.className = "web-sync-status-card checking";
-        statusTitle.textContent = "🔄 Đang tự động kiểm tra & kéo đồng bộ dữ liệu (list.js, index.html, thum.js)...";
-        statusDesc.textContent = "Đang kết nối GitHub (Worker) và Web Server để nạp dữ liệu chuẩn xác nhất trước khi chỉnh sửa...";
-      }
-
-      if (!silent) {
-        showToast("🔄 Đang đồng bộ dữ liệu mới nhất từ GitHub & Web...", "normal");
-      }
-
-      let workerSyncedList = false;
-      let workerSyncedIndex = false;
-      let workerSyncedThum = false;
-      let localListLoaded = false;
-      let localIndexLoaded = false;
-      let localThumLoaded = false;
-
-      const workerUrl = document.getElementById("workerUrlInput")?.value.trim() || localStorage.getItem("wontrade_worker_url") || "https://meomeorise.text2developer.workers.dev";
-      const secret = document.getElementById("workerSecretInput")?.value.trim() || localStorage.getItem("wontrade_worker_secret") || "spac2meomeorise";
-
-      const headers = {};
-      if (secret) headers["X-Admin-Key"] = secret;
-
-      // Chạy song song tất cả các request để tối ưu tốc độ tối đa
-      const promises = [];
-
-      // 1. Worker kéo js/list.js từ GitHub
-      if (workerUrl) {
-        const listWorkerUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=js/list.js&_t=${Date.now()}`;
-        promises.push(
-          fetch(listWorkerUrl, { method: "GET", headers })
-            .then(res => res.ok ? res.json() : null)
-            .then(data => {
-              if (data && data.success) {
-                let prods = Array.isArray(data.products) && data.products.length > 0 ? data.products : null;
-                if (!prods && data.content) {
-                  prods = parseProductsFromJs(data.content);
-                }
-                if (Array.isArray(prods) && prods.length > 0) {
-                  adminProducts = prods;
-                  localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
-                  workerSyncedList = true;
-                }
-              }
-            })
-            .catch(err => console.warn("Worker fetch list.js error:", err.message))
-        );
-
-        // 2. Worker kéo index.html (cấu hình siteConfig) từ GitHub
-        const indexWorkerUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=index.html&_t=${Date.now()}`;
-        promises.push(
-          fetch(indexWorkerUrl, { method: "GET", headers })
-            .then(res => res.ok ? res.json() : null)
-            .then(data => {
-              if (data && data.success) {
-                let cfg = data.siteConfig && typeof data.siteConfig === "object" ? data.siteConfig : null;
-                if (!cfg && data.content) {
-                  cfg = parseSiteConfigFromHtml(data.content);
-                }
-                if (cfg && typeof cfg === "object") {
-                  siteConfig = cfg;
-                  localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
-                  workerSyncedIndex = true;
-                }
-              }
-            })
-            .catch(err => console.warn("Worker fetch index.html error:", err.message))
-        );
-
-        // 3. Worker kéo js/thum.js (danh sách ảnh banner) từ GitHub
-        const thumWorkerUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=js/thum.js&_t=${Date.now()}`;
-        promises.push(
-          fetch(thumWorkerUrl, { method: "GET", headers })
-            .then(res => res.ok ? res.json() : null)
-            .then(data => {
-              if (data && data.success) {
-                let banners = Array.isArray(data.bannerImages) && data.bannerImages.length > 0 ? data.bannerImages : null;
-                if (!banners && data.content) {
-                  banners = parseBannerImagesFromJs(data.content);
-                }
-                if (Array.isArray(banners) && banners.length > 0) {
-                  if (!siteConfig.banner) siteConfig.banner = {};
-                  siteConfig.banner.images = banners;
-                  window.bannerImages = banners;
-                  localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(banners));
-                  workerSyncedThum = true;
-                }
-              }
-            })
-            .catch(err => console.warn("Worker fetch thum.js error:", err.message))
-        );
-      }
-
-      // 4. Đồng thời fetch trực tiếp từ máy chủ web hosting (dành cho môi trường nội bộ / domain web)
-      promises.push(
-        fetch(`../js/list.js?_t=${Date.now()}`)
-          .then(res => res.ok ? res.text() : null)
-          .then(content => {
-            if (content) {
-              const prods = parseProductsFromJs(content);
-              if (Array.isArray(prods) && prods.length > 0) {
-                localListLoaded = true;
-                if (!workerSyncedList) {
-                  adminProducts = prods;
-                  localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
-                }
-              }
-            }
-          })
-          .catch(err => console.warn("Local fetch list.js error:", err.message))
-      );
-
-      promises.push(
-        fetch(`../index.html?_t=${Date.now()}`)
-          .then(res => res.ok ? res.text() : null)
-          .then(content => {
-            if (content) {
-              const cfg = parseSiteConfigFromHtml(content);
-              if (cfg && typeof cfg === "object") {
-                localIndexLoaded = true;
-                if (!workerSyncedIndex) {
-                  siteConfig = cfg;
-                  localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
-                }
-              }
-            }
-          })
-          .catch(err => console.warn("Local fetch index.html error:", err.message))
-      );
-
-      promises.push(
-        fetch(`../js/thum.js?_t=${Date.now()}`)
-          .then(res => res.ok ? res.text() : null)
-          .then(content => {
-            if (content) {
-              const banners = parseBannerImagesFromJs(content);
-              if (Array.isArray(banners) && banners.length > 0) {
-                localThumLoaded = true;
-                if (!workerSyncedThum) {
-                  if (!siteConfig.banner) siteConfig.banner = {};
-                  siteConfig.banner.images = banners;
-                  window.bannerImages = banners;
-                  localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(banners));
-                }
-              }
-            }
-          })
-          .catch(err => console.warn("Local fetch thum.js error:", err.message))
-      );
-
-      // Chờ hoàn thành tất cả
-      await Promise.allSettled(promises);
-
-      // Cập nhật toàn bộ giao diện với dữ liệu mới nhất
-      filterAdminItems();
-      updateStats();
-      populateConfigForms();
-      renderBannerImagesGrid();
-
-      const bannerCount = (siteConfig.banner && Array.isArray(siteConfig.banner.images)) ? siteConfig.banner.images.length : 0;
-      const anyWorkerSuccess = workerSyncedList || workerSyncedIndex || workerSyncedThum;
-      const anyLocalSuccess = localListLoaded || localIndexLoaded || localThumLoaded;
-
-      if (statusCard) {
-        if (anyWorkerSuccess) {
-          statusCard.className = "web-sync-status-card";
-          statusTitle.textContent = `🟢 Đã kéo đồng bộ 100% từ GitHub (${adminProducts.length} sản phẩm, ${bannerCount} banner)`;
-          statusDesc.textContent = `Dữ liệu js/list.js, index.html và js/thum.js trên GitHub đã được nạp chính xác vào Admin. Lần đồng bộ: ${new Date().toLocaleTimeString("vi-VN")}. Bạn có thể yên tâm chỉnh sửa.`;
-        } else if (anyLocalSuccess) {
-          statusCard.className = "web-sync-status-card";
-          statusTitle.textContent = `🟢 Đã nạp đồng bộ từ Máy chủ Web (${adminProducts.length} sản phẩm, ${bannerCount} banner)`;
-          statusDesc.textContent = `Dữ liệu list.js và thum.js trên máy chủ web đã được nạp vào Admin. Lần kiểm tra: ${new Date().toLocaleTimeString("vi-VN")}`;
-        } else {
-          statusCard.className = "web-sync-status-card warning";
-          statusTitle.textContent = `🟡 Đang hiển thị dữ liệu bộ nhớ cục bộ (${adminProducts.length} sản phẩm)`;
-          statusDesc.textContent = `Chưa kết nối được Worker GitHub/Máy chủ web (có thể do mở dạng file://). Bấm "Kiểm tra lại dữ liệu web" hoặc "Đồng bộ GitHub" để thử lại.`;
-        }
-      }
-
-      if (anyWorkerSuccess) {
-        showToast(`🟢 Đã đồng bộ 100% từ GitHub! (${adminProducts.length} sản phẩm, ${bannerCount} banner)`, "success");
-      } else if (anyLocalSuccess) {
-        showToast(`🟢 Đã đồng bộ từ Web Server! (${adminProducts.length} sản phẩm)`, "success");
-      } else if (!silent) {
-        showToast(`🟡 Chưa kết nối được GitHub, đang dùng dữ liệu lưu tạm (${adminProducts.length} sản phẩm)`, "normal");
-      }
-    }
-
-    // Hàm gọi từ nút navbar "Đồng bộ GitHub"
-    async function syncFromGithubWorker(silent = false) {
-      await checkCurrentWebsiteFiles(silent);
-    }
-
-    // Kiểm tra kết nối Worker
-    async function testWorkerConnection() {
-      saveWorkerSettings();
-      const workerUrl = document.getElementById("workerUrlInput").value.trim();
-      const secret = document.getElementById("workerSecretInput").value.trim();
+      const workerUrl = (urlInput?.value || "").trim();
+      const secret = (secretInput?.value || "").trim();
 
       if (!workerUrl) {
-        showToast("Vui lòng nhập Worker URL trước!", "error");
+        showAuthError("Vui lòng nhập đường dẫn Cloudflare Worker URL!");
+        if (urlInput) urlInput.focus();
+        return;
+      }
+      if (!secret) {
+        showAuthError("Vui lòng nhập Secret Key (Mã bí mật) để mở khóa Admin!");
+        if (secretInput) secretInput.focus();
         return;
       }
 
-      showToast("Đang kiểm tra kết nối tới Cloudflare Worker...");
+      if (errorBox) {
+        errorBox.textContent = "";
+        errorBox.className = "auth-error-box";
+      }
+      if (progressBox) {
+        progressBox.className = "auth-progress-box show";
+      }
+
+      if (submitBtn) submitBtn.disabled = true;
+      if (submitBtnText) submitBtnText.textContent = "ĐANG XÁC THỰC & KÉO ĐỒNG BỘ...";
+
+      const setStep = (stepId, status, text) => {
+        const el = document.getElementById(stepId);
+        if (!el) return;
+        el.className = `auth-step-row ${status}`;
+        const icon = el.querySelector(".auth-step-icon");
+        const span = el.querySelector("span:last-child");
+        if (status === "active") icon.innerHTML = "🔄";
+        else if (status === "done") icon.innerHTML = "✅";
+        else if (status === "error") icon.innerHTML = "❌";
+        else icon.innerHTML = "⏳";
+        if (text && span) span.textContent = text;
+      };
 
       try {
-        const headers = {};
-        if (secret) headers["X-Admin-Key"] = secret;
-
-        const res = await fetch(workerUrl, { method: "GET", headers });
-        const text = await res.text();
-        let data;
+        // BƯỚC 1: XÁC THỰC SECRET KEY VỚI WORKER
+        setStep("stepAuth", "active", "1. Đang xác thực Secret Key với Cloudflare Worker...");
+        const headers = { "X-Admin-Key": secret };
+        
+        let pingRes;
         try {
-          data = JSON.parse(text);
-        } catch (parseErr) {
-          throw new Error(`Worker phản hồi không phải JSON (${res.status}): ${text.slice(0, 100)}`);
+          pingRes = await fetch(workerUrl, { method: "GET", headers });
+        } catch (netErr) {
+          setStep("stepAuth", "error", "1. Không thể kết nối tới Cloudflare Worker URL!");
+          throw new Error(`Không thể kết nối tới Worker: "${workerUrl}". Vui lòng kiểm tra lại đường dẫn mạng hoặc URL Worker!`);
         }
 
-        if (res.ok && data.success) {
-          showToast(`Kết nối Worker & GitHub thành công! (${data.repo || "OK"})`, "success");
-        } else {
-          showToast(`Lỗi Worker: ${data.error || res.statusText}`, "error");
+        if (pingRes.status === 401) {
+          setStep("stepAuth", "error", "1. Secret Key không chính xác! Worker từ chối quyền truy cập.");
+          throw new Error("Secret Key không chính xác (401 Unauthorized)! Vui lòng kiểm tra lại mã bí mật đã cấu hình trên Cloudflare Worker.");
         }
+
+        if (!pingRes.ok) {
+          setStep("stepAuth", "error", `1. Worker phản hồi lỗi HTTP ${pingRes.status}`);
+          throw new Error(`Lỗi kết nối Cloudflare Worker (Mã lỗi ${pingRes.status}: ${pingRes.statusText})`);
+        }
+
+        const pingData = await pingRes.json().catch(() => null);
+        if (pingData && pingData.success === false && pingData.error && pingData.error.toLowerCase().includes("unauthorized")) {
+          setStep("stepAuth", "error", "1. Secret Key không chính xác!");
+          throw new Error("Secret Key không chính xác! Worker từ chối quyền truy cập.");
+        }
+
+        setStep("stepAuth", "done", "1. Xác thực Secret Key thành công!");
+
+        // BƯỚC 2: KÉO ĐỒNG BỘ FILE JS/LIST.JS (SẢN PHẨM & ẢNH IMGBB)
+        setStep("stepList", "active", "2. Đang kéo đồng bộ file js/list.js từ GitHub & máy chủ web...");
+        let syncedProducts = false;
+
+        try {
+          const listUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=js/list.js&_t=${Date.now()}`;
+          const listRes = await fetch(listUrl, { headers });
+          if (listRes.ok) {
+            const listData = await listRes.json();
+            if (listData && listData.success) {
+              let prods = Array.isArray(listData.products) && listData.products.length > 0 ? listData.products : null;
+              if (!prods && listData.content) prods = parseProductsFromJs(listData.content);
+              if (Array.isArray(prods) && prods.length > 0) {
+                adminProducts = prods;
+                localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
+                syncedProducts = true;
+              }
+            }
+          }
+        } catch (e) {
+          console.warn("Worker fetch list.js error:", e);
+        }
+
+        // Fallback đọc từ file máy chủ web
+        if (!syncedProducts) {
+          try {
+            const localListRes = await fetch(`../js/list.js?_t=${Date.now()}`);
+            if (localListRes.ok) {
+              const content = await localListRes.text();
+              const prods = parseProductsFromJs(content);
+              if (Array.isArray(prods) && prods.length > 0) {
+                adminProducts = prods;
+                localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
+                syncedProducts = true;
+              }
+            }
+          } catch (e) {}
+        }
+        setStep("stepList", "done", `2. Đã đồng bộ ${adminProducts.length} sản phẩm & ảnh từ js/list.js!`);
+
+        // BƯỚC 3: KÉO ĐỒNG BỘ FILE INDEX.HTML (CẤU HÌNH SEO, BANNER TEXT, ZALO)
+        setStep("stepIndex", "active", "3. Đang kéo đồng bộ cấu hình từ index.html...");
+        let syncedIndex = false;
+
+        try {
+          const indexUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=index.html&_t=${Date.now()}`;
+          const indexRes = await fetch(indexUrl, { headers });
+          if (indexRes.ok) {
+            const indexData = await indexRes.json();
+            if (indexData && indexData.success) {
+              let cfg = indexData.siteConfig && typeof indexData.siteConfig === "object" ? indexData.siteConfig : null;
+              if (!cfg && indexData.content) cfg = parseSiteConfigFromHtml(indexData.content);
+              if (cfg && typeof cfg === "object") {
+                siteConfig = cfg;
+                localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
+                syncedIndex = true;
+              }
+            }
+          }
+        } catch (e) {
+          console.warn("Worker fetch index.html error:", e);
+        }
+
+        // Fallback đọc từ web host
+        if (!syncedIndex) {
+          try {
+            const localIndexRes = await fetch(`../index.html?_t=${Date.now()}`);
+            if (localIndexRes.ok) {
+              const content = await localIndexRes.text();
+              const cfg = parseSiteConfigFromHtml(content);
+              if (cfg && typeof cfg === "object") {
+                siteConfig = cfg;
+                localStorage.setItem("wontrade_site_config", JSON.stringify(siteConfig));
+                syncedIndex = true;
+              }
+            }
+          } catch (e) {}
+        }
+        setStep("stepIndex", "done", "3. Đã đồng bộ cấu hình SEO, Zalo & giao diện từ index.html!");
+
+        // BƯỚC 4: KÉO ĐỒNG BỘ FILE JS/THUM.JS (ẢNH HERO BANNER)
+        setStep("stepThum", "active", "4. Đang kéo đồng bộ ảnh banner từ js/thum.js...");
+        let syncedThum = false;
+
+        try {
+          const thumUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}path=js/thum.js&_t=${Date.now()}`;
+          const thumRes = await fetch(thumUrl, { headers });
+          if (thumRes.ok) {
+            const thumData = await thumRes.json();
+            if (thumData && thumData.success) {
+              let banners = Array.isArray(thumData.bannerImages) && thumData.bannerImages.length > 0 ? thumData.bannerImages : null;
+              if (!banners && thumData.content) banners = parseBannerImagesFromJs(thumData.content);
+              if (Array.isArray(banners) && banners.length > 0) {
+                if (!siteConfig.banner) siteConfig.banner = {};
+                siteConfig.banner.images = banners;
+                window.bannerImages = banners;
+                localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(banners));
+                syncedThum = true;
+              }
+            }
+          }
+        } catch (e) {
+          console.warn("Worker fetch thum.js error:", e);
+        }
+
+        if (!syncedThum) {
+          try {
+            const localThumRes = await fetch(`../js/thum.js?_t=${Date.now()}`);
+            if (localThumRes.ok) {
+              const content = await localThumRes.text();
+              const banners = parseBannerImagesFromJs(content);
+              if (Array.isArray(banners) && banners.length > 0) {
+                if (!siteConfig.banner) siteConfig.banner = {};
+                siteConfig.banner.images = banners;
+                window.bannerImages = banners;
+                localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(banners));
+                syncedThum = true;
+              }
+            }
+          } catch (e) {}
+        }
+        const bannerTotal = (siteConfig.banner && Array.isArray(siteConfig.banner.images)) ? siteConfig.banner.images.length : 0;
+        setStep("stepThum", "done", `4. Đã đồng bộ ${bannerTotal} ảnh banner từ js/thum.js!`);
+
+        // BƯỚC 5: LƯU THÔNG TIN & MỞ KHÓA GIAO DIỆN
+        if (rememberCheckbox && rememberCheckbox.checked) {
+          localStorage.setItem("wontrade_worker_url", workerUrl);
+          localStorage.setItem("wontrade_worker_secret", secret);
+          localStorage.setItem("wontrade_remember_login", "true");
+        } else {
+          localStorage.removeItem("wontrade_worker_url");
+          localStorage.removeItem("wontrade_worker_secret");
+          localStorage.setItem("wontrade_remember_login", "false");
+        }
+        sessionStorage.setItem("wontrade_admin_authenticated", "true");
+
+        // Cập nhật toàn bộ giao diện với dữ liệu chuẩn xác nhất
+        filterAdminItems();
+        updateStats();
+        populateConfigForms();
+        renderBannerImagesGrid();
+
+        // Ẩn overlay sau 400ms để người dùng xem kết quả đồng bộ
+        setTimeout(() => {
+          const overlay = document.getElementById("adminAuthOverlay");
+          if (overlay) overlay.classList.add("hidden");
+          if (submitBtn) submitBtn.disabled = false;
+          if (submitBtnText) submitBtnText.textContent = "ĐĂNG NHẬP & KÉO ĐỒNG BỘ DỮ LIỆU";
+          showToast(`🟢 Đăng nhập & đồng bộ toàn bộ file thành công! (${adminProducts.length} sản phẩm, ${bannerTotal} banner)`, "success");
+        }, 450);
+
       } catch (err) {
-        showToast(`Không thể kết nối Worker: ${err.message}`, "error");
+        console.error("Lỗi đăng nhập & đồng bộ:", err);
+        showAuthError(err.message || "Đã xảy ra lỗi khi kết nối và đồng bộ với Cloudflare Worker!");
+        if (submitBtn) submitBtn.disabled = false;
+        if (submitBtnText) submitBtnText.textContent = "ĐĂNG NHẬP & KÉO ĐỒNG BỘ DỮ LIỆU";
+      }
+    }
+
+    function showAuthError(msg) {
+      const errorBox = document.getElementById("authErrorBox");
+      if (errorBox) {
+        errorBox.textContent = msg;
+        errorBox.className = "auth-error-box show";
       }
     }
 
@@ -4359,20 +4553,18 @@ if (typeof window !== "undefined") {
     // 1. LƯU CẤU HÌNH GIAO DIỆN & SEO VÀO INDEX.HTML
     // ========================================================================
     async function publishConfigToGithub() {
-      saveWorkerSettings();
-      const workerUrl = document.getElementById("workerUrlInput").value.trim();
-      const secret = document.getElementById("workerSecretInput").value.trim();
+      const { url: workerUrl, secret } = getWorkerConfig();
 
-      if (!workerUrl) {
-        showToast("Vui lòng nhập đường dẫn Cloudflare Worker URL ở thanh trên!", "error");
-        document.getElementById("workerUrlInput").focus();
+      if (!workerUrl || !secret) {
+        showToast("Phiên làm việc đã hết hạn hoặc chưa đăng nhập. Vui lòng đăng nhập lại!", "error");
+        logoutAdmin();
         return;
       }
 
       const btn = document.getElementById("btnPublishConfig");
       const btnText = document.getElementById("publishConfigText");
-      btn.disabled = true;
-      btnText.textContent = "ĐANG LƯU INDEX.HTML...";
+      if (btn) btn.disabled = true;
+      if (btnText) btnText.textContent = "ĐANG LƯU INDEX.HTML...";
 
       try {
         const cfg = collectConfigFromForms();
@@ -4403,8 +4595,8 @@ if (typeof window !== "undefined") {
       } catch (err) {
         showToast(`Lỗi kết nối tới Worker: ${err.message}`, "error");
       } finally {
-        btn.disabled = false;
-        btnText.textContent = "LƯU CẤU HÌNH WEB";
+        if (btn) btn.disabled = false;
+        if (btnText) btnText.textContent = "LƯU CẤU HÌNH WEB";
       }
     }
 
@@ -4412,20 +4604,18 @@ if (typeof window !== "undefined") {
     // 2. LƯU DANH SÁCH SẢN PHẨM & ẢNH IMGBB VÀO JS/LIST.JS
     // ========================================================================
     async function publishProductsToGithub() {
-      saveWorkerSettings();
-      const workerUrl = document.getElementById("workerUrlInput").value.trim();
-      const secret = document.getElementById("workerSecretInput").value.trim();
+      const { url: workerUrl, secret } = getWorkerConfig();
 
-      if (!workerUrl) {
-        showToast("Vui lòng nhập đường dẫn Cloudflare Worker URL ở thanh trên!", "error");
-        document.getElementById("workerUrlInput").focus();
+      if (!workerUrl || !secret) {
+        showToast("Phiên làm việc đã hết hạn hoặc chưa đăng nhập. Vui lòng đăng nhập lại!", "error");
+        logoutAdmin();
         return;
       }
 
       const btn = document.getElementById("btnPublishProducts");
       const btnText = document.getElementById("publishProductsText");
-      btn.disabled = true;
-      btnText.textContent = "ĐANG LƯU JS/LIST.JS...";
+      if (btn) btn.disabled = true;
+      if (btnText) btnText.textContent = "ĐANG LƯU JS/LIST.JS...";
 
       try {
         const headers = { "Content-Type": "application/json" };
@@ -4454,8 +4644,8 @@ if (typeof window !== "undefined") {
       } catch (err) {
         showToast(`Lỗi kết nối tới Worker: ${err.message}`, "error");
       } finally {
-        btn.disabled = false;
-        btnText.textContent = "LƯU SẢN PHẨM & ẢNH";
+        if (btn) btn.disabled = false;
+        if (btnText) btnText.textContent = "LƯU SẢN PHẨM & ẢNH";
       }
     }
 
@@ -4463,13 +4653,11 @@ if (typeof window !== "undefined") {
     // 3. LƯU & XUẤT BẢN DANH SÁCH ẢNH BANNER VÀO JS/THUM.JS
     // ========================================================================
     async function publishBannerToGithub() {
-      saveWorkerSettings();
-      const workerUrl = document.getElementById("workerUrlInput").value.trim();
-      const secret = document.getElementById("workerSecretInput").value.trim();
+      const { url: workerUrl, secret } = getWorkerConfig();
 
-      if (!workerUrl) {
-        showToast("Vui lòng nhập đường dẫn Cloudflare Worker URL ở thanh trên!", "error");
-        document.getElementById("workerUrlInput").focus();
+      if (!workerUrl || !secret) {
+        showToast("Phiên làm việc đã hết hạn hoặc chưa đăng nhập. Vui lòng đăng nhập lại!", "error");
+        logoutAdmin();
         return;
       }
 

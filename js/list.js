@@ -1,7 +1,7 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 16:05:58 24/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 03:00:24 25/10/2026
  */
 
 var mockProducts = [
@@ -471,10 +471,34 @@ var mockProducts = [
     "id": 2455,
     "title": "Mùa Chinh Phạt - Full T5 3 Đạo Bộ Binh & Kỵ Binh",
     "price": 31750000,
-    "link": "guide/index.html?id=2455",
+    "link": "detail.html?id=2455",
     "favorites": 4,
     "isFavorited": false,
     "images": [],
+    "categoryTabs": [
+      {
+        "id": "tuong",
+        "name": "Ảnh Tướng"
+      },
+      {
+        "id": "trangbi",
+        "name": "Trang bị"
+      },
+      {
+        "id": "rss",
+        "name": "Rss kho"
+      },
+      {
+        "id": "vebay",
+        "name": "Vé bay"
+      }
+    ],
+    "imageCategories": {
+      "tuong": [],
+      "trangbi": [],
+      "rss": [],
+      "vebay": []
+    },
     "badges": [
       {
         "text": "Chơi",
@@ -485,15 +509,15 @@ var mockProducts = [
     "stats": "Cấp độ 25 | Sức mạnh 98,350,000 | VIP 16 | Điểm Tiêu Diệt 4,560,120,890",
     "tags": [
       {
-        "text": "Chỉ Huy Thức Tỉnh Huyền Thoại ×28",
+        "text": "Tướng max ×28 con",
         "type": "orange"
       },
       {
-        "text": "Trang Bị Huyền Thoại ×35",
+        "text": "Trang Bị Cam ×35",
         "type": "orange"
       },
       {
-        "text": "Trang Bị Tài Năng Đặc Biệt Huyền Thoại ×10",
+        "text": "Trang Bị Talen×10",
         "type": "orange"
       },
       {
@@ -502,47 +526,20 @@ var mockProducts = [
       },
       {
         "text": "Minh Văn Hiếm ×12",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Hộ Chiếu 65",
         "type": "blue"
       },
       {
-        "text": "Tượng Chỉ Huy Huyền Thoại 640",
+        "text": "Vé Bay 65",
+        "type": "blue"
+      },
+      {
+        "text": "Trọc cam : 640",
         "type": "blue"
       }
     ],
-    "commanders": [
-      {
-        "id": "quanvu",
-        "name": "Quan Vũ",
-        "level": 60
-      },
-      {
-        "id": "scipio",
-        "name": "Scipio Africanus",
-        "level": 60
-      },
-      {
-        "id": "tontu",
-        "name": "Tôn Tử",
-        "level": 60
-      },
-      {
-        "id": "bachkhoi",
-        "name": "Bạch Khởi",
-        "level": 60
-      },
-      {
-        "id": "arthur",
-        "name": "Arthur Pendragon",
-        "level": 60,
-        "isImg": true
-      }
-    ],
+    "commanders": [],
     "gemMultiplier": 5,
-    "countdownSeconds": 1626130
+    "countdownSeconds": 3600000
   },
   {
     "id": 3012,

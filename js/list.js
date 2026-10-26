@@ -1,10 +1,100 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 12:18:19 25/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 12:51:12 26/10/2026
  */
 
 var mockProducts = [
+  {
+    "id": 1421,
+    "title": "IN",
+    "price": 10000000,
+    "link": "detail.html?id=1421",
+    "favorites": 0,
+    "isFavorited": false,
+    "images": [
+      "https://i.ibb.co/zWLnfd5k/Logoc.jpg"
+    ],
+    "categoryTabs": [
+      {
+        "id": "tuong",
+        "name": "Ảnh Tướng"
+      },
+      {
+        "id": "trangbi",
+        "name": "Trang bị"
+      },
+      {
+        "id": "rss",
+        "name": "Rss kho"
+      },
+      {
+        "id": "vebay",
+        "name": "Vé bay"
+      },
+      {
+        "id": "cat_mvp98y49_490",
+        "name": "xinchao"
+      }
+    ],
+    "imageCategories": {
+      "tuong": [],
+      "trangbi": [],
+      "rss": [],
+      "vebay": [],
+      "cat_mvp98y49_490": [
+        "https://i.ibb.co/zWLnfd5k/Logoc.jpg"
+      ]
+    },
+    "badges": [
+      {
+        "text": "Chơi",
+        "type": "red"
+      }
+    ],
+    "info": "#1421 | Có thể nhập cư",
+    "stats": "Cấp độ 25 | Sức mạnh 80,000,000 | VIP 15",
+    "tags": [
+      {
+        "text": "Chỉ Huy Thức Tỉnh ×15",
+        "type": "orange"
+      },
+      {
+        "text": "Trang Bị Huyền Thoại ×30",
+        "type": "orange"
+      }
+    ],
+    "commanders": [
+      {
+        "id": "arthur",
+        "name": "Arthur Pendragon",
+        "level": 60,
+        "isImg": true
+      },
+      {
+        "id": "tontu",
+        "name": "Tôn Tử",
+        "level": 60
+      },
+      {
+        "id": "achilles",
+        "name": "Achilles",
+        "level": 60
+      },
+      {
+        "id": "scipio",
+        "name": "Scipio Africanus",
+        "level": 60
+      },
+      {
+        "id": "quanvu",
+        "name": "Quan Vũ",
+        "level": 60
+      }
+    ],
+    "gemMultiplier": 5,
+    "countdownSeconds": 604800
+  },
   {
     "id": 1109,
     "title": "Chỉ Huy Cung Thủ",

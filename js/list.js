@@ -1,7 +1,7 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 12:51:40 26/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 03:49:52 27/10/2026
  */
 
 var mockProducts = [
@@ -13,6 +13,7 @@ var mockProducts = [
     "favorites": 0,
     "isFavorited": false,
     "images": [
+      "https://i.ibb.co/zWLnfd5k/Logoc.jpg",
       "https://i.ibb.co/zWLnfd5k/Logoc.jpg"
     ],
     "categoryTabs": [
@@ -38,7 +39,9 @@ var mockProducts = [
       }
     ],
     "imageCategories": {
-      "tuong": [],
+      "tuong": [
+        "https://i.ibb.co/zWLnfd5k/Logoc.jpg"
+      ],
       "trangbi": [],
       "rss": [],
       "vebay": [],
@@ -52,7 +55,7 @@ var mockProducts = [
         "type": "red"
       }
     ],
-    "info": "#1421 | Có thể nhập cư",
+    "info": "#1421 | Không thể nhập cư",
     "stats": "Cấp độ 25 | Sức mạnh 80,000,000 | VIP 15",
     "tags": [
       {
@@ -62,6 +65,22 @@ var mockProducts = [
       {
         "text": "Trang Bị Huyền Thoại ×30",
         "type": "orange"
+      },
+      {
+        "text": "Trọc vàng 1000",
+        "type": "orange"
+      },
+      {
+        "text": "vé bay 200",
+        "type": "orange"
+      },
+      {
+        "text": "tăng tốc 2000 ngày",
+        "type": "blue"
+      },
+      {
+        "text": "rss kho 10 tỷ",
+        "type": "blue"
       }
     ],
     "commanders": [
@@ -93,7 +112,7 @@ var mockProducts = [
       }
     ],
     "gemMultiplier": 5,
-    "countdownSeconds": 604800
+    "countdownSeconds": 3600000
   },
   {
     "id": 1109,

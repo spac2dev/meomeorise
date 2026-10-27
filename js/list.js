@@ -1,7 +1,7 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 03:51:56 27/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 04:38:48 27/10/2026
  */
 
 var mockProducts = [
@@ -118,13 +118,104 @@ var mockProducts = [
     "id": 1109,
     "title": "Chỉ Huy Cung Thủ",
     "price": 68489000,
-    "link": "guide/index.html?id=1109",
+    "link": "detail.html?id=1109",
     "favorites": 0,
     "isFavorited": false,
-    "images": [],
+    "images": [
+      "https://i.ibb.co/QFmWb8JM/z7196139252478-825e17e31ee22654d8a68b9a7ea04adb.jpg",
+      "https://i.ibb.co/pvLdq80S/z7196139272788-28423d97d05777e196b7187cc4c4a555.jpg",
+      "https://i.ibb.co/fzZXHdSc/z7196139266548-10b7d2cd6ac7ddc5709ca55151a1970b.jpg",
+      "https://i.ibb.co/4wY2zjHL/z7196139286388-670d9fe51682fbc631d2d73eff2fdd0f.jpg",
+      "https://i.ibb.co/ymgVsmQm/z7196139291795-7e606f626f35a80c476b0d6ce36a5c11.jpg",
+      "https://i.ibb.co/q3hPFHkB/z7196139310931-b19ed09c5226f722d09cd974b917881e.jpg",
+      "https://i.ibb.co/L2GtGnV/z7196139305565-065f88ceea49d25d8dd260258aafc03c.jpg",
+      "https://i.ibb.co/fVdQPmrp/z7196139347990-16338c2eae6cf8e633f76b123b288ab6.jpg",
+      "https://i.ibb.co/DgSy5xVF/z7196139354103-a5b27dbbebbd9853e32c208542df10b4.jpg",
+      "https://i.ibb.co/qMbDXXF6/z7196154515838-14fdc3fa6cdd53f3f89648b8968a66ad.jpg",
+      "https://i.ibb.co/Y4XpHZ62/z7196161654180-65eb851a052e6420dab80e517d844450.jpg",
+      "https://i.ibb.co/xKF5NpB2/z7277673074212-6bcc6458044ef423b62b0e17dea9888a.jpg",
+      "https://i.ibb.co/xnyVvpX/z7277673074003-1e599455e404003dd54aec285215c1be.jpg",
+      "https://i.ibb.co/kggGdJ1z/z7277673075207-31a1fad49dd60a550653d63f1acd3bab.jpg",
+      "https://i.ibb.co/nsd3TKM3/z7277673091036-4d976166e86dfe046eb991ad56f2a958.jpg",
+      "https://i.ibb.co/3Ypw57cP/z7277673094233-b609b304de0ef826b958d3a2abb487b4.jpg",
+      "https://i.ibb.co/PGfHGxKx/z7277673100655-5b6912a390dfbf63103e6328fc60ce74.jpg",
+      "https://i.ibb.co/nqczsnQM/z7277673102198-ecad0d73565a7305bfe29b9261569b37.jpg",
+      "https://i.ibb.co/whVtRMpV/z7277673106243-d9d64730714916b1743f806be7122f3a.jpg",
+      "https://i.ibb.co/d0zjZL9j/z7277673116596-0032b5c80ad7e641c1c593afb990779e.jpg",
+      "https://i.ibb.co/qMbDXXF6/z7196154515838-14fdc3fa6cdd53f3f89648b8968a66ad.jpg",
+      "https://i.ibb.co/Y4XpHZ62/z7196161654180-65eb851a052e6420dab80e517d844450.jpg",
+      "https://i.ibb.co/xnyVvpX/z7277673074003-1e599455e404003dd54aec285215c1be.jpg",
+      "https://i.ibb.co/xKF5NpB2/z7277673074212-6bcc6458044ef423b62b0e17dea9888a.jpg",
+      "https://i.ibb.co/whVtRMpV/z7277673106243-d9d64730714916b1743f806be7122f3a.jpg",
+      "https://i.ibb.co/d0zjZL9j/z7277673116596-0032b5c80ad7e641c1c593afb990779e.jpg",
+      "https://i.ibb.co/QFmWb8JM/z7196139252478-825e17e31ee22654d8a68b9a7ea04adb.jpg",
+      "https://i.ibb.co/bRvBdc42/z7196139238398-bd63db528b332bdec0c805af43eb7262.jpg",
+      "https://i.ibb.co/pvLdq80S/z7196139272788-28423d97d05777e196b7187cc4c4a555.jpg"
+    ],
+    "categoryTabs": [
+      {
+        "id": "tuong",
+        "name": "Ảnh Tướng"
+      },
+      {
+        "id": "trangbi",
+        "name": "Trang bị"
+      },
+      {
+        "id": "vebay",
+        "name": "Vé bay"
+      },
+      {
+        "id": "cat_mvq70y01_931",
+        "name": "Tài Nguyên"
+      }
+    ],
+    "imageCategories": {
+      "tuong": [
+        "https://i.ibb.co/QFmWb8JM/z7196139252478-825e17e31ee22654d8a68b9a7ea04adb.jpg",
+        "https://i.ibb.co/pvLdq80S/z7196139272788-28423d97d05777e196b7187cc4c4a555.jpg",
+        "https://i.ibb.co/fzZXHdSc/z7196139266548-10b7d2cd6ac7ddc5709ca55151a1970b.jpg",
+        "https://i.ibb.co/4wY2zjHL/z7196139286388-670d9fe51682fbc631d2d73eff2fdd0f.jpg",
+        "https://i.ibb.co/ymgVsmQm/z7196139291795-7e606f626f35a80c476b0d6ce36a5c11.jpg",
+        "https://i.ibb.co/q3hPFHkB/z7196139310931-b19ed09c5226f722d09cd974b917881e.jpg",
+        "https://i.ibb.co/L2GtGnV/z7196139305565-065f88ceea49d25d8dd260258aafc03c.jpg",
+        "https://i.ibb.co/fVdQPmrp/z7196139347990-16338c2eae6cf8e633f76b123b288ab6.jpg",
+        "https://i.ibb.co/DgSy5xVF/z7196139354103-a5b27dbbebbd9853e32c208542df10b4.jpg",
+        "https://i.ibb.co/qMbDXXF6/z7196154515838-14fdc3fa6cdd53f3f89648b8968a66ad.jpg",
+        "https://i.ibb.co/Y4XpHZ62/z7196161654180-65eb851a052e6420dab80e517d844450.jpg",
+        "https://i.ibb.co/xKF5NpB2/z7277673074212-6bcc6458044ef423b62b0e17dea9888a.jpg",
+        "https://i.ibb.co/xnyVvpX/z7277673074003-1e599455e404003dd54aec285215c1be.jpg",
+        "https://i.ibb.co/kggGdJ1z/z7277673075207-31a1fad49dd60a550653d63f1acd3bab.jpg",
+        "https://i.ibb.co/nsd3TKM3/z7277673091036-4d976166e86dfe046eb991ad56f2a958.jpg",
+        "https://i.ibb.co/3Ypw57cP/z7277673094233-b609b304de0ef826b958d3a2abb487b4.jpg",
+        "https://i.ibb.co/PGfHGxKx/z7277673100655-5b6912a390dfbf63103e6328fc60ce74.jpg",
+        "https://i.ibb.co/nqczsnQM/z7277673102198-ecad0d73565a7305bfe29b9261569b37.jpg",
+        "https://i.ibb.co/whVtRMpV/z7277673106243-d9d64730714916b1743f806be7122f3a.jpg",
+        "https://i.ibb.co/d0zjZL9j/z7277673116596-0032b5c80ad7e641c1c593afb990779e.jpg"
+      ],
+      "trangbi": [
+        "https://i.ibb.co/qMbDXXF6/z7196154515838-14fdc3fa6cdd53f3f89648b8968a66ad.jpg",
+        "https://i.ibb.co/Y4XpHZ62/z7196161654180-65eb851a052e6420dab80e517d844450.jpg",
+        "https://i.ibb.co/xnyVvpX/z7277673074003-1e599455e404003dd54aec285215c1be.jpg",
+        "https://i.ibb.co/xKF5NpB2/z7277673074212-6bcc6458044ef423b62b0e17dea9888a.jpg",
+        "https://i.ibb.co/whVtRMpV/z7277673106243-d9d64730714916b1743f806be7122f3a.jpg",
+        "https://i.ibb.co/d0zjZL9j/z7277673116596-0032b5c80ad7e641c1c593afb990779e.jpg"
+      ],
+      "vebay": [
+        "https://i.ibb.co/QFmWb8JM/z7196139252478-825e17e31ee22654d8a68b9a7ea04adb.jpg"
+      ],
+      "cat_mvq70y01_931": [
+        "https://i.ibb.co/bRvBdc42/z7196139238398-bd63db528b332bdec0c805af43eb7262.jpg",
+        "https://i.ibb.co/pvLdq80S/z7196139272788-28423d97d05777e196b7187cc4c4a555.jpg"
+      ]
+    },
     "badges": [
       {
-        "text": "VUA VƯƠNG QUỐC ANH",
+        "text": "Chuyên cung",
+        "type": "red"
+      },
+      {
+        "text": "nhà thiên đỉnh 20% kỵ",
         "type": "dark"
       }
     ],
@@ -149,7 +240,7 @@ var mockProducts = [
       },
       {
         "text": "Minh Văn Hiếm ×16",
-        "type": "orange"
+        "type": "blue"
       },
       {
         "text": "Số Dư Xu Lung Linh 5",
@@ -183,8 +274,7 @@ var mockProducts = [
       {
         "id": "arthur",
         "name": "Arthur Pendragon",
-        "level": 60,
-        "isImg": true
+        "level": 60
       },
       {
         "id": "luutriet",
@@ -193,7 +283,7 @@ var mockProducts = [
       }
     ],
     "gemMultiplier": 5,
-    "countdownSeconds": 2567212
+    "countdownSeconds": 2566800
   },
   {
     "id": 1420,

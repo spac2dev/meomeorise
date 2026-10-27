@@ -1,7 +1,7 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 04:48:01 27/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 04:48:17 27/10/2026
  */
 
 var mockProducts = [
@@ -100,7 +100,7 @@ var mockProducts = [
       }
     ],
     "gemMultiplier": 5,
-    "countdownSeconds": 604800
+    "countdownSeconds": 612000
   },
   {
     "id": 222,

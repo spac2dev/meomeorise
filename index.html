@@ -75,9 +75,214 @@
 
   <!-- Google Fonts: Plus Jakarta Sans for SF Pro matching geometry -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/index.css?v=20261027_01">
+
+  <!-- Mobile Layout Overrides: Đồng bộ 100% Giao diện Banner, Thẻ đồ & Header như bản PC -->
+  <style>
+    @media (max-width: 768px), (pointer: coarse) and (max-width: 900px) {
+      /* Mobile Header thanh lịch nền trắng phía trên banner như PC - Cố định sticky khi cuộn */
+      .mobile-header-bar {
+        display: flex !important;
+        position: sticky !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        background: rgba(255, 255, 255, 0.96) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        padding: 10px 16px !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        z-index: 1000 !important;
+        box-sizing: border-box !important;
+      }
+      .mobile-logo {
+        color: #1c1c1e !important;
+        text-shadow: none !important;
+        font-size: 19px !important;
+        font-weight: 900 !important;
+      }
+      .mobile-logo .logo-dagger {
+        color: #ff3b30 !important;
+      }
+      .mobile-nav-link {
+        background: #f2f2f7 !important;
+        color: #1c1c1e !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: none !important;
+        font-size: 11.5px !important;
+        padding: 5px 11px !important;
+      }
+      .mobile-header-icon {
+        background: #f2f2f7 !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        color: #1c1c1e !important;
+        width: 30px !important;
+        height: 30px !important;
+        border-radius: 50% !important;
+      }
+      .mobile-header-icon span {
+        color: #1c1c1e !important;
+      }
+      .mobile-header-zalo {
+        background: linear-gradient(135deg, #e60012 0%, #c8000f 100%) !important;
+        border: none !important;
+        color: #ffffff !important;
+        border-radius: 9999px !important;
+        padding: 0 12px !important;
+        height: 30px !important;
+        width: auto !important;
+        font-size: 11.5px !important;
+        font-weight: 700 !important;
+        gap: 4px !important;
+      }
+
+      /* Khung Hero Banner bo tròn có lề 2 bên y hệt PC */
+      .hero-banner-container {
+        padding: 0 12px !important;
+        margin: 12px auto 0 auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .hero-banner {
+        border-radius: 16px !important;
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 2.35 / 1 !important;
+        min-height: 145px !important;
+        max-height: 190px !important;
+        background: #0f172a !important;
+        overflow: hidden !important;
+        position: relative !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+      }
+      .banner-slides-track {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+      .banner-slide {
+        width: 100% !important;
+        height: 100% !important;
+        background-size: cover !important;
+        background-position: 46% center !important;
+      }
+      .hero-banner::before {
+        content: '' !important;
+        position: absolute !important;
+        inset: 0 !important;
+        background: linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.4) 100%) !important;
+        pointer-events: none !important;
+        z-index: 3 !important;
+      }
+
+      /* Text Overlay trên Banner hiển thị chuẩn như bản PC, không che mặt nhân vật */
+      .banner-overlay-content {
+        display: flex !important;
+        position: absolute !important;
+        right: 12px !important;
+        bottom: 10px !important;
+        top: auto !important;
+        transform: none !important;
+        z-index: 5 !important;
+        text-align: right !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 3px !important;
+        max-width: 62% !important;
+        pointer-events: none !important;
+      }
+      .banner-headline {
+        font-size: 11px !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.2px !important;
+        line-height: 1.25 !important;
+        background: linear-gradient(180deg, #fff2a3 0%, #fadb14 45%, #d48806 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        filter: drop-shadow(0 1px 3px rgba(0,0,0,0.85)) !important;
+        margin: 0 !important;
+      }
+      .banner-ribbon {
+        display: inline-block !important;
+        background: linear-gradient(90deg, #e60012 0%, #ff3b30 100%) !important;
+        color: #ffffff !important;
+        font-size: 8px !important;
+        font-weight: 800 !important;
+        padding: 2.5px 8px !important;
+        border-radius: 9999px !important;
+        letter-spacing: 0.2px !important;
+        box-shadow: 0 2px 8px rgba(230, 0, 18, 0.4) !important;
+        transform: skew(-4deg) !important;
+      }
+      .banner-dots-track {
+        display: flex !important;
+        position: absolute !important;
+        bottom: 8px !important;
+        left: 12px !important;
+        z-index: 6 !important;
+        gap: 5px !important;
+        align-items: center !important;
+      }
+      .banner-dots-track .b-dot {
+        width: 5px !important;
+        height: 5px !important;
+        border-radius: 9999px !important;
+        background: rgba(255, 255, 255, 0.45) !important;
+      }
+      .banner-dots-track .b-dot.active {
+        width: 14px !important;
+        background: #ffffff !important;
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.8) !important;
+      }
+      .mobile-banner-content {
+        display: none !important;
+      }
+
+      /* Khối nội dung bên dưới Banner */
+      .ios-sheet-handle {
+        display: none !important;
+      }
+      .main-wrapper {
+        margin: 10px auto 0 auto !important;
+        padding: 0 12px 115px 12px !important;
+        max-width: 100% !important;
+      }
+      .content-card {
+        border-radius: 16px !important;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03) !important;
+        background: #ffffff !important;
+        padding: 10px 0 24px 0 !important;
+      }
+
+      /* Thẻ thumbnail ảnh (Card Cover) 16:9 bo góc chuẩn y như PC */
+      .card-cover-column {
+        width: 100% !important;
+        gap: 6px !important;
+      }
+      .card-cover-wrap {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9 !important;
+        max-height: none !important;
+        border-radius: 14px !important;
+        background: #0f172a !important;
+        overflow: hidden !important;
+      }
+      .card-cover-img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        background: #0f172a !important;
+      }
+    }
+  </style>
 
   <!-- Favicon Package -->
   <link rel="icon" href="/favicon.ico" sizes="any">
@@ -182,44 +387,47 @@
     </header>
 
     <!-- ======================================================================
+         MOBILE HEADER BAR (Hiển thị phía trên Banner như PC Header)
+         ====================================================================== -->
+    <div class="mobile-header-bar">
+      <div class="mobile-logo">
+        WON<span class="logo-dagger">†</span>RADE
+      </div>
+      <div class="mobile-header-right">
+        <a href="javascript:void(0)" class="mobile-nav-link" onclick="showActionNotice('Xem quy tắc')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>Quy tắc</span>
+        </a>
+
+        <div class="mobile-header-icon" onclick="showActionNotice('Đơn vị tiền tệ: VND (₫)')" title="Tiền tệ: VND">
+          <span style="font-weight: 700; font-size: 13px;">₫</span>
+        </div>
+
+        <!-- Mobile Zalo Message Link (Đỏ Crimson thương hiệu WONTRADE) -->
+        <a href="https://zalo.me/0949257924" target="_blank" rel="noopener noreferrer"
+          class="mobile-header-icon mobile-header-zalo" title="Nhắn tin Zalo: 0949257924"
+          style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+            </path>
+            <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+            <circle cx="12" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+            <circle cx="15.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+          </svg>
+          <span style="font-size: 11px; font-weight: 700;">Nhắn tin</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ======================================================================
          HERO BANNER
          ====================================================================== -->
     <div class="hero-banner-container">
-      <!-- Mobile Floating Header Bar (Overlay on Banner) -->
-      <div class="mobile-header-bar">
-        <div class="mobile-logo">
-          WON<span class="logo-dagger">†</span>RADE
-        </div>
-        <div class="mobile-header-right">
-          <a href="javascript:void(0)" class="mobile-nav-link" onclick="showActionNotice('Xem quy tắc')">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
-            <span>Quy tắc</span>
-          </a>
-
-          <div class="mobile-header-icon" onclick="showActionNotice('Đơn vị tiền tệ: VND (₫)')" title="Tiền tệ: VND">
-            <span style="font-weight: 700; font-size: 13px; color: #fff;">₫</span>
-          </div>
-
-          <!-- Mobile Zalo Message Link (Đỏ Crimson thương hiệu WONTRADE) -->
-          <a href="https://zalo.me/0949257924" target="_blank" rel="noopener noreferrer"
-            class="mobile-header-icon mobile-header-zalo" title="Nhắn tin Zalo: 0949257924"
-            style="color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center;">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
-              </path>
-              <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-              <circle cx="12" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-              <circle cx="15.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
-            </svg>
-          </a>
-        </div>
-      </div>
-
       <!-- Banner Body -->
       <div class="hero-banner" id="heroBannerCarousel">
         <!-- Background Slides Track (Chạy qua lại các ảnh banner) -->
@@ -238,29 +446,18 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
 
-        <!-- Desktop Overlay Text -->
+        <!-- Desktop & Mobile Overlay Text (Đồng bộ chuẩn PC) -->
         <div class="banner-overlay-content">
           <h1 class="banner-headline">MEO MEO RISE TRANSACTION GUIDELINES UPDATE</h1>
           <div class="banner-ribbon">LOWER FEE & SIMPLIFIED PROCESS!</div>
         </div>
 
-        <!-- Desktop Slide Indicators -->
-        <div class="banner-dots-track desktop-only" id="bannerDesktopDots"></div>
+        <!-- Slide Indicators (Hiển thị cả desktop & mobile) -->
+        <div class="banner-dots-track" id="bannerDesktopDots"></div>
 
-        <!-- Mobile Overlay Text (iOS Glass Aesthetic) -->
-        <div class="mobile-banner-content">
-          <div class="mobile-banner-badge">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 5px; color: #ffcc00;">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            ĐỐI TÁC GIAO DỊCH CHÍNH THỨC
-          </div>
-          <div class="mobile-banner-title">NHÀ GIAO DỊCH MEO MEO RISE</div>
-          <div class="mobile-banner-subtitle">BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH</div>
-          <div class="carousel-dots" id="bannerMobileDots">
-            <div class="carousel-dot active"></div>
-            <div class="carousel-dot"></div>
-          </div>
+        <!-- Mobile Hidden Container giữ ID cho JS nếu cần -->
+        <div class="mobile-banner-content" style="display: none !important;">
+          <div class="carousel-dots" id="bannerMobileDots"></div>
         </div>
       </div>
     </div>
@@ -313,7 +510,7 @@
 
           <div class="filter-row-bottom">
             <div class="filter-bottom-left">
-              <span>Tổng số: <strong class="item-count-val">4</strong> vật phẩm</span>
+              <span>Tổng số: <strong class="item-count-val">2</strong> vật phẩm</span>
               <button type="button" id="resetFilterBtn" class="btn-reset-filter" onclick="resetFilters()" title="Đặt lại bộ lọc">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M2.5 2v6h6M21.5 22v-6h-6"></path>
@@ -397,7 +594,7 @@
           </div>
 
           <div class="mobile-filter-subrow">
-            <div>Tổng số: <strong class="item-count-val">4</strong> vật phẩm</div>
+            <div>Tổng số: <strong class="item-count-val">2</strong> vật phẩm</div>
             <button type="button" class="btn-reset-filter mobile-reset-btn" onclick="resetFilters()">
               Đặt lại
             </button>
@@ -451,8 +648,8 @@
         <span class="floating-tooltip">Lịch sử</span>
       </a>
 
-      <!-- 3. Nút Profile (chuyển từ tính năng sang profile) -->
-      <a href="profile/index.html" class="floating-btn" title="Hồ sơ cá nhân (Profile)">
+      <!-- 3. Nút Profile / Info (chuyển sang info.meomeorise.com) -->
+      <a href="https://info.meomeorise.com/" target="_blank" rel="noopener noreferrer" class="floating-btn" title="Hồ sơ cá nhân (info.meomeorise.com)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
@@ -594,10 +791,6 @@
     </nav>
   </div>
 
-
-
-
-
   <!-- Fullscreen Lightbox Zoom -->
   <div class="fullscreen-lightbox" id="fullscreenLightbox" onclick="closeLightbox()">
     <button class="lightbox-close-btn" onclick="closeLightbox()" aria-label="Đóng phóng to">✕</button>
@@ -605,13 +798,6 @@
   </div>
 
   <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
-    <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
-    <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
-    <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
-    <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
-    <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
-    <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
-    <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
     <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
     <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
     <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
@@ -652,20 +838,6 @@
       window.siteConfig = siteConfig;
     }
   </script>
-  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
-  <script src="js/list.js?v=1793076675445"></script>
-  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
-  <script src="js/list.js?v=1793076500425"></script>
-  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
-  <script src="js/list.js?v=1793076165739"></script>
-  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
-  <script src="js/list.js?v=1793075931399"></script>
-  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
-  <script src="js/list.js?v=1793075920642"></script>
-  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
-  <script src="js/list.js?v=1793073117733"></script>
-  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
-  <script src="js/list.js?v=1793072992186"></script>
   <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
   <script src="js/list.js?v=1793019066723"></script>
   <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->

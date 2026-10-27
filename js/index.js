@@ -483,12 +483,8 @@ function renderListings(itemsToRender) {
             </button>
           </div>
 
-          <!-- Time Countdown & CTA -->
+          <!-- CTA Action -->
           <div class="card-right-bottom">
-            <div class="time-status">
-              <svg class="time-clock-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              <span>Còn: <strong class="timer-tick" data-sec="${item.countdownSeconds}">${formatCountdown(item.countdownSeconds)}</strong></span>
-            </div>
             <button type="button" class="btn-card-detail" onclick="openProductModal(${item.id})">Xem chi tiết →</button>
           </div>
         </div>
@@ -912,22 +908,9 @@ window.resetFilters = function() {
   showActionNotice("Đã đặt lại bộ lọc");
 };
 
-// Countdown Live Tick
+// Countdown Live Tick (Đã loại bỏ hiển thị thời gian)
 function startTimerTicker() {
-  setInterval(() => {
-    mockProducts.forEach(item => {
-      if (item.countdownSeconds > 0) {
-        item.countdownSeconds -= 1;
-      }
-    });
-
-    const timerElements = document.querySelectorAll(".timer-tick");
-    timerElements.forEach((el, idx) => {
-      if (mockProducts[idx]) {
-        el.textContent = formatCountdown(mockProducts[idx].countdownSeconds);
-      }
-    });
-  }, 1000);
+  // Timer đã bỏ theo yêu cầu
 }
 
 // Switch Mode (PC vs Mobile vs Auto)
@@ -990,7 +973,6 @@ document.addEventListener("DOMContentLoaded", () => {
     mockProducts = window.mockProducts;
   }
   renderListings(mockProducts);
-  startTimerTicker();
 
   // Search input listeners with desktop/mobile sync
   const searchD = document.getElementById("searchInputDesktop");

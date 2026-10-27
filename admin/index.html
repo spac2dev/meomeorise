@@ -1028,11 +1028,54 @@
       gap: 5px;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .btn-add-cat-tab:hover {
       background: #dbeafe;
       border-color: #2563eb;
       color: #1e40af;
+      transform: translateY(-1px);
+    }
+    .tab-edit-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.06);
+      color: inherit;
+      font-size: 10px;
+      margin-left: 2px;
+      transition: all 0.15s;
+      opacity: 0.75;
+      cursor: pointer;
+    }
+    .admin-cat-tab-btn.active .tab-edit-icon {
+      background: rgba(255,255,255,0.22);
+      color: #fff;
+    }
+    .tab-edit-icon:hover {
+      opacity: 1;
+      background: #2563eb !important;
+      color: #fff !important;
+      transform: scale(1.18);
+    }
+    .quick-chip {
+      padding: 5px 12px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-pill);
+      color: #334155;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quick-chip:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+      color: #0f172a;
       transform: translateY(-1px);
     }
     .tab-del-btn {
@@ -2459,6 +2502,65 @@
     </div>
   </div>
 
+  <!-- In-Page Tab Manage Modal (Thay thế prompt trình duyệt, popup riêng xịn) -->
+  <div class="modal-backdrop" id="tabModalBackdrop" style="display: none; z-index: 1500;" onclick="closeTabModal()">
+    <div class="modal-dialog" style="max-width: 480px;" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="tabModalTitle" style="display: flex; align-items: center; gap: 8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <span id="tabModalTitleText">Thêm thẻ ảnh mới</span>
+        </h3>
+        <button type="button" class="btn-close-modal" onclick="closeTabModal()">✕</button>
+      </div>
+      <div class="modal-body" style="padding: 20px 24px;">
+        <div class="form-group full" style="margin-bottom: 16px;">
+          <label class="form-label" for="tabNameInput" style="font-weight: 700; color: #1e293b; margin-bottom: 6px;">
+            Tên thẻ ảnh *
+          </label>
+          <input type="text" id="tabNameInput" class="form-control" placeholder="Ví dụ: Thú cưỡi, Viện nghiên cứu, Pet..." autocomplete="off" maxlength="40" style="font-size: 14px; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px;">
+          <div id="tabNameError" style="color: #ef4444; font-size: 11.5px; font-weight: 600; margin-top: 5px; display: none;"></div>
+        </div>
+
+        <div>
+          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">
+            Gợi ý chọn nhanh:
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="tabSuggestionsList">
+            <button type="button" class="quick-chip" onclick="pickTabSuggestion('Thú cưỡi')">Thú cưỡi</button>
+            <button type="button" class="quick-chip" onclick="pickTabSuggestion('Viện nghiên cứu')">Viện nghiên cứu</button>
+            <button type="button" class="quick-chip" onclick="pickTabSuggestion('Pet')">Pet</button>
+            <button type="button" class="quick-chip" onclick="pickTabSuggestion('Kho VIP')">Kho VIP</button>
+            <button type="button" class="quick-chip" onclick="pickTabSuggestion('Trang phục')">Trang phục</button>
+            <button type="button" class="quick-chip" onclick="pickTabSuggestion('Bảo vật')">Bảo vật</button>
+            <button type="button" class="quick-chip" onclick="pickTabSuggestion('Chiến báo')">Chiến báo</button>
+            <button type="button" class="quick-chip" onclick="pickTabSuggestion('Chỉ huy')">Chỉ huy</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: 14px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn btn-secondary" onclick="closeTabModal()">Hủy bỏ</button>
+        <button type="button" class="btn btn-primary" id="btnSaveTabModal" onclick="submitTabModal()" style="min-width: 110px;">
+          Lưu thẻ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- In-Page Tab Delete Confirm Modal -->
+  <div class="modal-backdrop" id="tabDeleteConfirmModal" style="display: none; z-index: 1550;" onclick="closeTabDeleteModal()">
+    <div class="modal-dialog" style="max-width: 420px; text-align: center; padding: 24px;" onclick="event.stopPropagation()">
+      <div style="width: 50px; height: 50px; border-radius: 50%; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto; font-size: 22px;">
+        ⚠️
+      </div>
+      <h3 style="font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 8px;" id="tabDeleteConfirmTitle">Xác nhận xóa thẻ ảnh</h3>
+      <p style="font-size: 13px; color: #64748b; line-height: 1.5; margin-bottom: 20px;" id="tabDeleteConfirmDesc">Bạn có chắc chắn muốn xóa thẻ ảnh này?</p>
+      <div style="display: flex; justify-content: center; gap: 10px;">
+        <button type="button" class="btn btn-secondary" onclick="closeTabDeleteModal()">Hủy</button>
+        <button type="button" class="btn" style="background: #dc2626; color: #fff; font-weight: 700; border-radius: 8px; padding: 8px 18px;" id="btnConfirmDeleteTab" onclick="executeDeleteTab()">Xóa thẻ ngay</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Lightbox Modal for Image Preview -->
   <div class="modal-backdrop" id="imgLightboxModal" onclick="closeImgLightbox()" style="z-index: 2000; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);">
     <div style="position: relative; max-width: 92vw; max-height: 92vh; display: flex; flex-direction: column; align-items: center; justify-content: center;" onclick="event.stopPropagation()">
@@ -2943,6 +3045,13 @@
       }
     });
 
+    // ========================================================================
+    // POPUP RIÊNG QUẢN LÝ THẺ DANH MỤC ẢNH (KHÔNG DÙNG PROMPT TRÌNH DUYỆT)
+    // ========================================================================
+    let currentTabModalMode = "add"; // "add" | "rename"
+    let currentTabModalTargetId = null;
+    let pendingDeleteCatId = null;
+
     function renderAdminCategoryTabs() {
       const container = document.getElementById("adminUploadCatTabs");
       if (!container) return;
@@ -2952,15 +3061,16 @@
         const count = (editingCategories[cat.id] || []).length;
         return `
           <button type="button" class="admin-cat-tab-btn ${isActive ? 'active' : ''}" data-cat="${escapeHtml(cat.id)}" onclick="switchAdminUploadCat('${escapeHtml(cat.id)}')">
-            <span class="tab-label" title="Nhấp đúp để đổi tên thẻ" ondblclick="renameCategoryTab(event, '${escapeHtml(cat.id)}')">${escapeHtml(cat.name)}</span>
+            <span class="tab-label" title="Nhấp đúp hoặc bấm biểu tượng bút để đổi tên thẻ" ondblclick="openRenameCategoryModal('${escapeHtml(cat.id)}', event)">${escapeHtml(cat.name)}</span>
             <span class="tab-badge" id="adminCatBadge_${escapeHtml(cat.id)}">${count}</span>
-            ${editingCategoryTabs.length > 1 ? `<span class="tab-del-btn" onclick="deleteCategoryTab(event, '${escapeHtml(cat.id)}')" title="Xóa thẻ '${escapeHtml(cat.name)}'">✕</span>` : ''}
+            <span class="tab-edit-icon" onclick="openRenameCategoryModal('${escapeHtml(cat.id)}', event)" title="Đổi tên thẻ '${escapeHtml(cat.name)}'">✎</span>
+            ${editingCategoryTabs.length > 1 ? `<span class="tab-del-btn" onclick="openDeleteCategoryModal('${escapeHtml(cat.id)}', event)" title="Xóa thẻ '${escapeHtml(cat.name)}'">✕</span>` : ''}
           </button>
         `;
       }).join("");
 
       const addBtnHtml = `
-        <button type="button" class="btn-add-cat-tab" onclick="promptAddNewCategory()" title="Thêm thẻ danh mục ảnh mới">
+        <button type="button" class="btn-add-cat-tab" onclick="openAddCategoryModal()" title="Thêm thẻ danh mục ảnh mới">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           <span>Thêm thẻ</span>
         </button>
@@ -2969,23 +3079,113 @@
       container.innerHTML = tabsHtml + addBtnHtml;
     }
 
-    function promptAddNewCategory() {
-      const name = prompt("Nhập tên thẻ ảnh mới (Ví dụ: Thú cưỡi, Viện nghiên cứu, Pet...):");
-      if (!name || !name.trim()) return;
-      const trimmed = name.trim();
-      const slugId = "cat_" + Date.now().toString(36) + "_" + Math.floor(Math.random() * 1000);
-      editingCategoryTabs.push({ id: slugId, name: trimmed });
-      editingCategories[slugId] = [];
-      activeImageCategory = slugId;
-      renderAdminCategoryTabs();
-      switchAdminUploadCat(slugId);
-      updateAdminCatBadges();
-      renderUploadedImagesGrid();
-      showToast(`Đã thêm thẻ mới: [${trimmed}]`, "success");
+    function openAddCategoryModal() {
+      currentTabModalMode = "add";
+      currentTabModalTargetId = null;
+      document.getElementById("tabModalTitleText").textContent = "Thêm thẻ ảnh mới";
+      const input = document.getElementById("tabNameInput");
+      input.value = "";
+      const errEl = document.getElementById("tabNameError");
+      errEl.style.display = "none";
+      errEl.textContent = "";
+      document.getElementById("btnSaveTabModal").textContent = "Thêm thẻ";
+      const backdrop = document.getElementById("tabModalBackdrop");
+      backdrop.style.display = "flex";
+      setTimeout(() => input.focus(), 60);
     }
 
-    function deleteCategoryTab(event, catId) {
+    function openRenameCategoryModal(catId, event) {
       if (event) event.stopPropagation();
+      const tab = editingCategoryTabs.find(t => t.id === catId);
+      if (!tab) return;
+      currentTabModalMode = "rename";
+      currentTabModalTargetId = catId;
+      document.getElementById("tabModalTitleText").textContent = `Đổi tên thẻ: [${tab.name}]`;
+      const input = document.getElementById("tabNameInput");
+      input.value = tab.name;
+      const errEl = document.getElementById("tabNameError");
+      errEl.style.display = "none";
+      errEl.textContent = "";
+      document.getElementById("btnSaveTabModal").textContent = "Lưu thay đổi";
+      const backdrop = document.getElementById("tabModalBackdrop");
+      backdrop.style.display = "flex";
+      setTimeout(() => {
+        input.focus();
+        input.select();
+      }, 60);
+    }
+
+    function pickTabSuggestion(name) {
+      const input = document.getElementById("tabNameInput");
+      if (input) {
+        input.value = name;
+        const errEl = document.getElementById("tabNameError");
+        if (errEl) errEl.style.display = "none";
+        input.focus();
+      }
+    }
+
+    function closeTabModal() {
+      const backdrop = document.getElementById("tabModalBackdrop");
+      if (backdrop) backdrop.style.display = "none";
+      currentTabModalTargetId = null;
+    }
+
+    function submitTabModal() {
+      const input = document.getElementById("tabNameInput");
+      const errEl = document.getElementById("tabNameError");
+      const rawName = (input ? input.value : "").trim();
+
+      if (!rawName) {
+        errEl.textContent = "Vui lòng nhập tên thẻ ảnh!";
+        errEl.style.display = "block";
+        input.focus();
+        return;
+      }
+
+      // Kiểm tra trùng tên (không phân biệt hoa thường)
+      const isDuplicate = editingCategoryTabs.some(t => {
+        if (currentTabModalMode === "rename" && t.id === currentTabModalTargetId) return false;
+        return t.name.toLowerCase() === rawName.toLowerCase();
+      });
+
+      if (isDuplicate) {
+        errEl.textContent = `Thẻ ảnh "${rawName}" đã tồn tại! Vui lòng chọn tên khác.`;
+        errEl.style.display = "block";
+        input.focus();
+        return;
+      }
+
+      errEl.style.display = "none";
+
+      if (currentTabModalMode === "add") {
+        const slugId = "cat_" + Date.now().toString(36) + "_" + Math.floor(Math.random() * 1000);
+        editingCategoryTabs.push({ id: slugId, name: rawName });
+        editingCategories[slugId] = [];
+        activeImageCategory = slugId;
+        renderAdminCategoryTabs();
+        switchAdminUploadCat(slugId);
+        updateAdminCatBadges();
+        renderUploadedImagesGrid();
+        closeTabModal();
+        showToast(`Đã thêm thẻ mới: [${rawName}]`, "success");
+      } else if (currentTabModalMode === "rename") {
+        const tab = editingCategoryTabs.find(t => t.id === currentTabModalTargetId);
+        if (tab) {
+          const oldName = tab.name;
+          tab.name = rawName;
+          renderAdminCategoryTabs();
+          switchAdminUploadCat(activeImageCategory);
+          renderUploadedImagesGrid();
+          closeTabModal();
+          showToast(`Đã đổi tên thẻ: [${oldName}] → [${rawName}]!`, "success");
+        }
+      }
+    }
+
+    function openDeleteCategoryModal(catId, event) {
+      if (event) event.stopPropagation();
+      if (!catId) catId = activeImageCategory;
       const tab = editingCategoryTabs.find(t => t.id === catId);
       const tabName = tab ? tab.name : catId;
       const imgCount = (editingCategories[catId] || []).length;
@@ -2995,11 +3195,26 @@
         return;
       }
 
-      const confirmMsg = imgCount > 0
-        ? `Bạn có chắc muốn XÓA THẺ [${tabName}] cùng ${imgCount} ảnh bên trong?`
-        : `Bạn có chắc muốn XÓA THẺ [${tabName}]?`;
+      pendingDeleteCatId = catId;
+      document.getElementById("tabDeleteConfirmTitle").textContent = `Xóa thẻ ảnh [${tabName}]?`;
+      document.getElementById("tabDeleteConfirmDesc").innerHTML = imgCount > 0
+        ? `Thẻ <strong>[${escapeHtml(tabName)}]</strong> hiện có <strong>${imgCount} ảnh</strong>. Nếu xóa, toàn bộ ảnh trong thẻ này cũng sẽ bị loại bỏ khỏi danh sách.`
+        : `Bạn có chắc chắn muốn xóa thẻ ảnh <strong>[${escapeHtml(tabName)}]</strong> này không?`;
 
-      if (!confirm(confirmMsg)) return;
+      document.getElementById("tabDeleteConfirmModal").style.display = "flex";
+    }
+
+    function closeTabDeleteModal() {
+      const modal = document.getElementById("tabDeleteConfirmModal");
+      if (modal) modal.style.display = "none";
+      pendingDeleteCatId = null;
+    }
+
+    function executeDeleteTab() {
+      if (!pendingDeleteCatId) return;
+      const catId = pendingDeleteCatId;
+      const tab = editingCategoryTabs.find(t => t.id === catId);
+      const tabName = tab ? tab.name : catId;
 
       delete editingCategories[catId];
       editingCategoryTabs = editingCategoryTabs.filter(t => t.id !== catId);
@@ -3008,6 +3223,7 @@
         activeImageCategory = editingCategoryTabs[0].id;
       }
 
+      closeTabDeleteModal();
       renderAdminCategoryTabs();
       switchAdminUploadCat(activeImageCategory);
       updateAdminCatBadges();
@@ -3016,20 +3232,19 @@
     }
 
     function deleteCurrentCategoryTab() {
-      deleteCategoryTab(null, activeImageCategory);
+      openDeleteCategoryModal(activeImageCategory);
+    }
+
+    function promptAddNewCategory() {
+      openAddCategoryModal();
     }
 
     function renameCategoryTab(event, catId) {
-      if (event) event.stopPropagation();
-      const tab = editingCategoryTabs.find(t => t.id === catId);
-      if (!tab) return;
-      const newName = prompt(`Đổi tên thẻ [${tab.name}] thành:`, tab.name);
-      if (!newName || !newName.trim() || newName.trim() === tab.name) return;
-      tab.name = newName.trim();
-      renderAdminCategoryTabs();
-      switchAdminUploadCat(activeImageCategory);
-      renderUploadedImagesGrid();
-      showToast(`Đã đổi tên thẻ thành [${tab.name}]!`, "success");
+      openRenameCategoryModal(catId, event);
+    }
+
+    function deleteCategoryTab(event, catId) {
+      openDeleteCategoryModal(catId, event);
     }
 
     function switchAdminUploadCat(cat) {
@@ -4745,6 +4960,32 @@ if (typeof window !== "undefined") {
       showToast("Đã tải file thum.js về máy thành công!", "success");
     }
 
+    // Lắng nghe phím Enter / Escape cho Popup Thẻ ảnh
+    document.addEventListener("DOMContentLoaded", () => {
+      const tabInput = document.getElementById("tabNameInput");
+      if (tabInput) {
+        tabInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            submitTabModal();
+          } else if (e.key === "Escape") {
+            closeTabModal();
+          }
+        });
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          const tabModal = document.getElementById("tabModalBackdrop");
+          if (tabModal && tabModal.style.display === "flex") {
+            closeTabModal();
+          }
+          const delModal = document.getElementById("tabDeleteConfirmModal");
+          if (delModal && delModal.style.display === "flex") {
+            closeTabDeleteModal();
+          }
+        }
+      });
+    });
 
     function escapeHtml(str) {
       if (!str) return "";

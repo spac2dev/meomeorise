@@ -127,7 +127,7 @@
       box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
     }
 
-    /* 2. Thanh 4 Tabs Danh Mục Nằm Ngay Trên Luồng Ảnh */
+    /* 2. Thanh Tabs Danh Mục Cuộn Ngang Mượt Mà (Tránh Tràn Khi Thêm Nhiều Thẻ) */
     .m-tabs-bar {
       position: sticky;
       top: 48px;
@@ -137,20 +137,39 @@
       backdrop-filter: blur(15px);
       padding: 8px 10px;
       margin-top: 10px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 5px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 7px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(60, 60, 67, 0.22) transparent;
       border-top: 0.5px solid rgba(60, 60, 67, 0.08);
       border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
     }
 
+    .m-tabs-bar::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    .m-tabs-bar::-webkit-scrollbar-thumb {
+      background: rgba(60, 60, 67, 0.25);
+      border-radius: 9999px;
+    }
+
     .m-tab-btn {
+      flex: 0 0 auto;
+      min-width: 82px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 6px 2px;
+      padding: 6px 12px;
       border-radius: 10px;
       background: #f2f2f7;
       border: 1px solid rgba(60, 60, 67, 0.08);
@@ -159,6 +178,8 @@
       text-decoration: none;
       transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
       user-select: none;
+      scroll-snap-align: start;
+      white-space: nowrap;
     }
 
     .m-tab-btn:active {
@@ -173,10 +194,11 @@
     }
 
     .m-tab-label {
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.2px;
       line-height: 1.1;
+      white-space: nowrap;
     }
 
     .m-tab-btn.active .m-tab-label {
@@ -1166,6 +1188,11 @@
         document.querySelectorAll('.cat-modal-tab-btn, .m-tab-btn').forEach(function(btn) {
           if (btn.getAttribute('data-cat') === catKey) {
             btn.classList.add('active');
+            if (typeof btn.scrollIntoView === 'function') {
+              try {
+                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+              } catch (e) {}
+            }
           } else {
             btn.classList.remove('active');
           }

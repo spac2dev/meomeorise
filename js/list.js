@@ -1,7 +1,7 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 04:38:48 27/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 04:42:42 27/10/2026
  */
 
 var mockProducts = [
@@ -220,7 +220,7 @@ var mockProducts = [
       }
     ],
     "info": "#1109 | Có thể nhập cư",
-    "stats": "Cấp độ 25 | Sức mạnh 109,665,659 | VIP 17 | Điểm Tiêu Diệt 11,318,883,510",
+    "stats": "KD 1025 | Sức mạnh 109,665,659 | VIP 17 | Điểm Tiêu Diệt 11,318,883,510",
     "tags": [
       {
         "text": "Chỉ Huy Thức Tỉnh Huyền Thoại ×36",

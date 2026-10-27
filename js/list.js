@@ -1,10 +1,107 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 04:42:42 27/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 04:47:54 27/10/2026
  */
 
 var mockProducts = [
+  {
+    "id": 1423,
+    "title": "Mùa Chinh Phạt - Full T5 3 Đạo Bộ Binh & Kỵ Binh",
+    "price": 10000000,
+    "link": "detail.html?id=1423",
+    "favorites": 0,
+    "isFavorited": false,
+    "images": [
+      "https://i.ibb.co/kggGdJ1z/z7277673075207-31a1fad49dd60a550653d63f1acd3bab.jpg",
+      "https://i.ibb.co/nsd3TKM3/z7277673091036-4d976166e86dfe046eb991ad56f2a958.jpg",
+      "https://i.ibb.co/nsd3TKM3/z7277673091036-4d976166e86dfe046eb991ad56f2a958.jpg",
+      "https://i.ibb.co/kggGdJ1z/z7277673075207-31a1fad49dd60a550653d63f1acd3bab.jpg"
+    ],
+    "categoryTabs": [
+      {
+        "id": "tuong",
+        "name": "Ảnh Tướng"
+      },
+      {
+        "id": "trangbi",
+        "name": "Trang bị"
+      },
+      {
+        "id": "rss",
+        "name": "Rss kho"
+      },
+      {
+        "id": "vebay",
+        "name": "Vé bay"
+      },
+      {
+        "id": "cat_mvq7fghb_599",
+        "name": "trang bị"
+      }
+    ],
+    "imageCategories": {
+      "tuong": [
+        "https://i.ibb.co/kggGdJ1z/z7277673075207-31a1fad49dd60a550653d63f1acd3bab.jpg",
+        "https://i.ibb.co/nsd3TKM3/z7277673091036-4d976166e86dfe046eb991ad56f2a958.jpg"
+      ],
+      "trangbi": [],
+      "rss": [],
+      "vebay": [],
+      "cat_mvq7fghb_599": [
+        "https://i.ibb.co/nsd3TKM3/z7277673091036-4d976166e86dfe046eb991ad56f2a958.jpg",
+        "https://i.ibb.co/kggGdJ1z/z7277673075207-31a1fad49dd60a550653d63f1acd3bab.jpg"
+      ]
+    },
+    "badges": [
+      {
+        "text": "Chơi",
+        "type": "red"
+      }
+    ],
+    "info": "#1421 | Có thể nhập cư",
+    "stats": "Cấp độ 25 | Sức mạnh 80,000,000 | VIP 15 | KD 1102",
+    "tags": [
+      {
+        "text": "Chỉ Huy Thức Tỉnh ×15",
+        "type": "orange"
+      },
+      {
+        "text": "Trang Bị Huyền Thoại ×30",
+        "type": "orange"
+      }
+    ],
+    "commanders": [
+      {
+        "id": "arthur",
+        "name": "Arthur Pendragon",
+        "level": 60,
+        "isImg": true
+      },
+      {
+        "id": "tontu",
+        "name": "Tôn Tử",
+        "level": 60
+      },
+      {
+        "id": "achilles",
+        "name": "Achilles",
+        "level": 60
+      },
+      {
+        "id": "scipio",
+        "name": "Scipio Africanus",
+        "level": 60
+      },
+      {
+        "id": "quanvu",
+        "name": "Quan Vũ",
+        "level": 60
+      }
+    ],
+    "gemMultiplier": 5,
+    "countdownSeconds": 604800
+  },
   {
     "id": 222,
     "title": "IN",

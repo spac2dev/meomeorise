@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
@@ -30,9 +31,9 @@
       --radius-md: 14px;
       --radius-lg: 20px;
       --radius-pill: 9999px;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 14px rgba(0,0,0,0.06);
-      --shadow-lg: 0 10px 30px rgba(0,0,0,0.09);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.09);
     }
 
     * {
@@ -53,7 +54,10 @@
       flex-direction: column;
     }
 
-    button, input, select, textarea {
+    button,
+    input,
+    select,
+    textarea {
       font-family: inherit;
       outline: none;
     }
@@ -147,11 +151,13 @@
       color: #fff;
       box-shadow: 0 2px 8px rgba(230, 0, 18, 0.3);
     }
+
     .btn-primary:hover {
       background: var(--primary-hover);
       transform: translateY(-1px);
       box-shadow: 0 4px 14px rgba(230, 0, 18, 0.4);
     }
+
     .btn-primary:disabled {
       opacity: 0.6;
       cursor: not-allowed;
@@ -163,6 +169,7 @@
       color: var(--text);
       border-color: var(--border);
     }
+
     .btn-secondary:hover {
       background: #f8fafc;
       border-color: #cbd5e1;
@@ -172,6 +179,7 @@
       background: #059669;
       color: #fff;
     }
+
     .btn-success:hover {
       background: #047857;
     }
@@ -196,9 +204,11 @@
       display: none;
       animation: modalFadeIn 0.3s ease;
     }
+
     .publish-success-banner.show {
       display: block;
     }
+
     .banner-title-row {
       display: flex;
       align-items: center;
@@ -207,6 +217,7 @@
       font-size: 15px;
       margin-bottom: 6px;
     }
+
     .banner-desc {
       font-size: 13px;
       color: #d1fae5;
@@ -229,11 +240,13 @@
       -webkit-backdrop-filter: blur(14px);
       transition: opacity 0.35s ease, visibility 0.35s ease;
     }
+
     .admin-auth-overlay.hidden {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
     }
+
     .auth-card {
       width: 100%;
       max-width: 480px;
@@ -247,14 +260,24 @@
       overflow: hidden;
       animation: authCardIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     @keyframes authCardIn {
-      from { opacity: 0; transform: scale(0.92) translateY(12px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
+      from {
+        opacity: 0;
+        transform: scale(0.92) translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
+
     .auth-header {
       text-align: center;
       margin-bottom: 24px;
     }
+
     .auth-brand {
       font-size: 25px;
       font-weight: 900;
@@ -265,10 +288,12 @@
       justify-content: center;
       gap: 2px;
     }
+
     .auth-brand .logo-dagger {
       color: var(--primary);
       font-size: 27px;
     }
+
     .auth-badge-row {
       display: flex;
       align-items: center;
@@ -276,6 +301,7 @@
       gap: 8px;
       margin-top: 8px;
     }
+
     .auth-badge {
       background: rgba(230, 0, 18, 0.15);
       color: #ff6b72;
@@ -286,22 +312,26 @@
       border-radius: 9999px;
       letter-spacing: 0.5px;
     }
+
     .auth-subtitle {
       font-size: 13px;
       color: #94a3b8;
       margin-top: 10px;
       line-height: 1.45;
     }
+
     .auth-form {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
+
     .auth-form-group {
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
+
     .auth-label {
       font-size: 12px;
       font-weight: 700;
@@ -310,11 +340,13 @@
       align-items: center;
       justify-content: space-between;
     }
+
     .auth-input-wrap {
       position: relative;
       display: flex;
       align-items: center;
     }
+
     .auth-input {
       width: 100%;
       padding: 11px 14px;
@@ -325,14 +357,17 @@
       font-size: 13.5px;
       transition: all 0.2s;
     }
+
     .auth-input:focus {
       border-color: #e60012;
       box-shadow: 0 0 0 3px rgba(230, 0, 18, 0.25);
       background: #111a2e;
     }
+
     .auth-input.has-eye {
       padding-right: 42px;
     }
+
     .auth-eye-btn {
       position: absolute;
       right: 10px;
@@ -349,9 +384,11 @@
       border-radius: 6px;
       transition: color 0.2s;
     }
+
     .auth-eye-btn:hover {
       color: #fff;
     }
+
     .auth-checkbox-row {
       display: flex;
       align-items: center;
@@ -360,10 +397,12 @@
       color: #94a3b8;
       cursor: pointer;
     }
+
     .auth-checkbox-row input {
       accent-color: var(--primary);
       cursor: pointer;
     }
+
     .btn-auth-submit {
       width: 100%;
       padding: 12px 18px;
@@ -383,15 +422,18 @@
       box-shadow: 0 4px 16px rgba(230, 0, 18, 0.35);
       margin-top: 4px;
     }
+
     .btn-auth-submit:hover {
       transform: translateY(-1px);
       box-shadow: 0 6px 22px rgba(230, 0, 18, 0.5);
     }
+
     .btn-auth-submit:disabled {
       opacity: 0.7;
       cursor: not-allowed;
       transform: none;
     }
+
     .auth-progress-box {
       margin-top: 6px;
       background: rgba(15, 23, 42, 0.85);
@@ -402,9 +444,11 @@
       flex-direction: column;
       gap: 8px;
     }
+
     .auth-progress-box.show {
       display: flex;
     }
+
     .auth-step-row {
       display: flex;
       align-items: center;
@@ -413,18 +457,22 @@
       color: #94a3b8;
       transition: color 0.2s;
     }
+
     .auth-step-row.active {
       color: #38bdf8;
       font-weight: 700;
     }
+
     .auth-step-row.done {
       color: #4ade80;
       font-weight: 600;
     }
+
     .auth-step-row.error {
       color: #f87171;
       font-weight: 700;
     }
+
     .auth-step-icon {
       width: 16px;
       height: 16px;
@@ -433,6 +481,7 @@
       align-items: center;
       justify-content: center;
     }
+
     .auth-error-box {
       background: rgba(239, 68, 68, 0.15);
       border: 1px solid rgba(239, 68, 68, 0.4);
@@ -444,6 +493,7 @@
       margin-top: 6px;
       display: none;
     }
+
     .auth-error-box.show {
       display: block;
     }
@@ -455,6 +505,7 @@
       gap: 16px;
       margin-bottom: 20px;
     }
+
     .stat-card {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -465,6 +516,7 @@
       gap: 12px;
       box-shadow: var(--shadow-sm);
     }
+
     .stat-icon {
       width: 42px;
       height: 42px;
@@ -475,16 +527,34 @@
       font-size: 18px;
       flex-shrink: 0;
     }
-    .stat-icon.red { background: #fee2e2; color: #dc2626; }
-    .stat-icon.gold { background: #fef3c7; color: #d97706; }
-    .stat-icon.blue { background: #e0f2fe; color: #0284c7; }
-    .stat-icon.green { background: #dcfce7; color: #16a34a; }
+
+    .stat-icon.red {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .stat-icon.gold {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .stat-icon.blue {
+      background: #e0f2fe;
+      color: #0284c7;
+    }
+
+    .stat-icon.green {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
     .stat-info .stat-val {
       font-size: 17px;
       font-weight: 800;
       color: var(--text);
       line-height: 1.2;
     }
+
     .stat-info .stat-title {
       font-size: 12px;
       color: var(--muted);
@@ -504,6 +574,7 @@
       overflow-x: auto;
       box-shadow: var(--shadow-sm);
     }
+
     .tab-item {
       display: inline-flex;
       align-items: center;
@@ -519,15 +590,18 @@
       transition: all 0.2s;
       white-space: nowrap;
     }
+
     .tab-item:hover {
       color: var(--text);
       background: #f1f5f9;
     }
+
     .tab-item.active {
       color: #ffffff;
       background: var(--dark);
       box-shadow: 0 2px 8px rgba(31, 35, 41, 0.25);
     }
+
     .tab-item svg {
       flex-shrink: 0;
     }
@@ -536,6 +610,7 @@
     .tab-panel {
       display: none;
     }
+
     .tab-panel.active {
       display: block;
       animation: modalFadeIn 0.2s ease-out;
@@ -559,6 +634,7 @@
       box-shadow: var(--shadow-sm);
       margin-bottom: 20px;
     }
+
     .form-card-header {
       display: flex;
       align-items: center;
@@ -567,6 +643,7 @@
       margin-bottom: 20px;
       border-bottom: 1px solid var(--border);
     }
+
     .form-card-title {
       font-size: 16px;
       font-weight: 800;
@@ -575,6 +652,7 @@
       align-items: center;
       gap: 8px;
     }
+
     .form-card-subtitle {
       font-size: 12.5px;
       color: var(--muted);
@@ -586,19 +664,23 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
+
     .form-group {
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
+
     .form-group.full {
       grid-column: span 2;
     }
+
     .form-label {
       font-size: 12.5px;
       font-weight: 700;
       color: #334155;
     }
+
     .form-control {
       padding: 9px 13px;
       border-radius: var(--radius-sm);
@@ -608,11 +690,13 @@
       transition: all 0.2s;
       width: 100%;
     }
+
     .form-control:focus {
       background: #fff;
       border-color: #3b82f6;
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
+
     .form-hint {
       font-size: 11.5px;
       color: var(--muted);
@@ -630,12 +714,14 @@
       flex-wrap: wrap;
       background: #ffffff;
     }
+
     .toolbar-search {
       position: relative;
       flex: 1;
       max-width: 380px;
       min-width: 220px;
     }
+
     .toolbar-search svg {
       position: absolute;
       left: 14px;
@@ -643,6 +729,7 @@
       transform: translateY(-50%);
       color: var(--muted);
     }
+
     .toolbar-search input {
       width: 100%;
       padding: 9px 16px 9px 38px;
@@ -652,17 +739,20 @@
       background: #f8fafc;
       transition: all 0.2s;
     }
+
     .toolbar-search input:focus {
       background: #fff;
       border-color: #3b82f6;
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
+
     .toolbar-filters {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
     }
+
     .select-dropdown {
       padding: 8px 14px;
       border-radius: var(--radius-pill);
@@ -674,18 +764,23 @@
     }
 
     /* Items Table */
-    .items-table-wrap, .cms-table-wrapper {
+    .items-table-wrap,
+    .cms-table-wrapper {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       border-radius: var(--radius-md);
     }
-    table.items-table, table.cms-table {
+
+    table.items-table,
+    table.cms-table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
       font-size: 13px;
     }
-    table.items-table th, table.cms-table th {
+
+    table.items-table th,
+    table.cms-table th {
       background: #f8fafc;
       padding: 12px 16px;
       font-weight: 700;
@@ -696,14 +791,19 @@
       font-size: 11px;
       letter-spacing: 0.5px;
     }
-    table.items-table td, table.cms-table td {
+
+    table.items-table td,
+    table.cms-table td {
       padding: 14px 16px;
       border-bottom: 1px solid #f1f5f9;
       vertical-align: middle;
     }
-    table.items-table tr:hover, table.cms-table tr:hover {
+
+    table.items-table tr:hover,
+    table.cms-table tr:hover {
       background-color: #fafbfd;
     }
+
     .item-id-badge {
       font-family: monospace;
       font-weight: 700;
@@ -713,39 +813,53 @@
       border-radius: var(--radius-pill);
       border: 1px solid #bfdbfe;
     }
+
     .item-title-cell {
       max-width: 280px;
     }
+
     .item-title-text {
       font-weight: 700;
       color: #0f172a;
       line-height: 1.35;
       margin-bottom: 4px;
     }
+
     .item-sub-badges {
       display: flex;
       gap: 4px;
       flex-wrap: wrap;
     }
+
     .mini-badge {
       font-size: 10px;
       padding: 1px 6px;
       border-radius: var(--radius-pill);
       font-weight: 700;
     }
-    .mini-badge.red { background: var(--primary); color: #fff; }
-    .mini-badge.dark { background: #272c35; color: #fff; }
+
+    .mini-badge.red {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .mini-badge.dark {
+      background: #272c35;
+      color: #fff;
+    }
 
     .price-badge {
       font-size: 15px;
       font-weight: 800;
       color: var(--primary);
     }
+
     .commander-avatar-stack {
       display: flex;
       align-items: center;
       gap: 3px;
     }
+
     .mini-comm-frame {
       width: 28px;
       height: 28px;
@@ -756,10 +870,12 @@
       align-items: center;
       justify-content: center;
     }
+
     .actions-cell {
       white-space: nowrap;
       text-align: right;
     }
+
     .btn-action {
       width: 32px;
       height: 32px;
@@ -774,14 +890,30 @@
       transition: all 0.2s;
       margin-left: 4px;
     }
+
     .btn-action:hover {
       border-color: #94a3b8;
       color: var(--text);
       transform: translateY(-1px);
     }
-    .btn-action.edit:hover { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
-    .btn-action.copy:hover { background: #fefce8; color: #ca8a04; border-color: #fef08a; }
-    .btn-action.delete:hover { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+
+    .btn-action.edit:hover {
+      background: #eff6ff;
+      color: #2563eb;
+      border-color: #bfdbfe;
+    }
+
+    .btn-action.copy:hover {
+      background: #fefce8;
+      color: #ca8a04;
+      border-color: #fef08a;
+    }
+
+    .btn-action.delete:hover {
+      background: #fef2f2;
+      color: #dc2626;
+      border-color: #fecaca;
+    }
 
     /* Direct link button in table */
     .link-direct-btn {
@@ -799,6 +931,7 @@
       transition: all 0.2s;
       white-space: nowrap;
     }
+
     .link-direct-btn:hover {
       background: #dbeafe;
       transform: translateY(-1px);
@@ -816,9 +949,11 @@
       justify-content: center;
       padding: 20px;
     }
+
     .modal-backdrop.show {
       display: flex;
     }
+
     .modal-dialog {
       background: #ffffff;
       border-radius: var(--radius-lg);
@@ -830,10 +965,19 @@
       box-shadow: var(--shadow-lg);
       animation: modalFadeIn 0.2s ease-out;
     }
+
     @keyframes modalFadeIn {
-      from { opacity: 0; transform: scale(0.97); }
-      to { opacity: 1; transform: scale(1); }
+      from {
+        opacity: 0;
+        transform: scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
+
     .modal-header {
       padding: 18px 24px;
       border-bottom: 1px solid var(--border);
@@ -841,11 +985,13 @@
       align-items: center;
       justify-content: space-between;
     }
+
     .modal-title {
       font-size: 17px;
       font-weight: 800;
       color: #0f172a;
     }
+
     .btn-close-modal {
       background: transparent;
       border: none;
@@ -859,15 +1005,18 @@
       align-items: center;
       justify-content: center;
     }
+
     .btn-close-modal:hover {
       background: #f1f5f9;
       color: var(--text);
     }
+
     .modal-body {
       padding: 20px 24px;
       overflow-y: auto;
       flex: 1;
     }
+
     .modal-footer {
       padding: 14px 24px;
       border-top: 1px solid var(--border);
@@ -890,7 +1039,7 @@
       border-radius: var(--radius-pill);
       font-size: 13.5px;
       font-weight: 600;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -901,13 +1050,22 @@
       max-width: 90vw;
       text-align: center;
     }
+
     .toast-notice.show {
       opacity: 1;
       pointer-events: auto;
       transform: translateX(-50%) translateY(0);
     }
-    .toast-notice.success { background: #065f46; border: 1px solid #10b981; }
-    .toast-notice.error { background: #991b1b; border: 1px solid #ef4444; }
+
+    .toast-notice.success {
+      background: #065f46;
+      border: 1px solid #10b981;
+    }
+
+    .toast-notice.error {
+      background: #991b1b;
+      border: 1px solid #ef4444;
+    }
 
     /* Code View Modal */
     pre.code-preview {
@@ -932,8 +1090,8 @@
       border-radius: 50%;
       background: #1f2329;
       color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -944,6 +1102,7 @@
       transform: translateY(12px);
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .scroll-top-btn.visible {
       opacity: 1;
       visibility: visible;
@@ -957,6 +1116,7 @@
       gap: 12px;
       margin-top: 4px;
     }
+
     .admin-upload-header-row {
       display: flex;
       align-items: center;
@@ -964,6 +1124,7 @@
       gap: 10px;
       flex-wrap: wrap;
     }
+
     /* Admin Category Tabs for Image Upload */
     .admin-upload-cat-tabs {
       display: flex;
@@ -973,9 +1134,11 @@
       scrollbar-width: none;
       flex: 1;
     }
+
     .admin-upload-cat-tabs::-webkit-scrollbar {
       display: none;
     }
+
     .admin-cat-tab-btn {
       padding: 7px 13px;
       border-radius: var(--radius-pill);
@@ -991,17 +1154,20 @@
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       white-space: nowrap;
     }
+
     .admin-cat-tab-btn:hover {
       background: #f1f5f9;
       color: var(--text);
       transform: translateY(-1px);
     }
+
     .admin-cat-tab-btn.active {
       background: #1f2329;
       color: #ffffff;
       border-color: #1f2329;
       box-shadow: 0 2px 10px rgba(31, 35, 41, 0.25);
     }
+
     .admin-cat-tab-btn .tab-badge {
       background: rgba(255, 255, 255, 0.25);
       font-size: 10.5px;
@@ -1010,10 +1176,12 @@
       color: #fff;
       font-weight: 800;
     }
+
     .admin-cat-tab-btn:not(.active) .tab-badge {
       background: #e2e8f0;
       color: #475569;
     }
+
     .btn-add-cat-tab {
       padding: 6px 12px;
       border-radius: var(--radius-pill);
@@ -1030,12 +1198,14 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
+
     .btn-add-cat-tab:hover {
       background: #dbeafe;
       border-color: #2563eb;
       color: #1e40af;
       transform: translateY(-1px);
     }
+
     .tab-edit-icon {
       display: inline-flex;
       align-items: center;
@@ -1043,7 +1213,7 @@
       width: 17px;
       height: 17px;
       border-radius: 50%;
-      background: rgba(0,0,0,0.06);
+      background: rgba(0, 0, 0, 0.06);
       color: inherit;
       font-size: 10px;
       margin-left: 2px;
@@ -1051,16 +1221,19 @@
       opacity: 0.75;
       cursor: pointer;
     }
+
     .admin-cat-tab-btn.active .tab-edit-icon {
-      background: rgba(255,255,255,0.22);
+      background: rgba(255, 255, 255, 0.22);
       color: #fff;
     }
+
     .tab-edit-icon:hover {
       opacity: 1;
       background: #2563eb !important;
       color: #fff !important;
       transform: scale(1.18);
     }
+
     .quick-chip {
       padding: 5px 12px;
       background: #f1f5f9;
@@ -1072,12 +1245,14 @@
       cursor: pointer;
       transition: all 0.15s ease;
     }
+
     .quick-chip:hover {
       background: #e2e8f0;
       border-color: #94a3b8;
       color: #0f172a;
       transform: translateY(-1px);
     }
+
     .tab-del-btn {
       display: inline-flex;
       align-items: center;
@@ -1085,28 +1260,32 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: rgba(0,0,0,0.1);
+      background: rgba(0, 0, 0, 0.1);
       color: inherit;
       font-size: 9px;
       margin-left: 2px;
       transition: all 0.15s;
       opacity: 0.7;
     }
+
     .admin-cat-tab-btn.active .tab-del-btn {
-      background: rgba(255,255,255,0.22);
+      background: rgba(255, 255, 255, 0.22);
       color: #fff;
     }
+
     .tab-del-btn:hover {
       opacity: 1;
       background: #ef4444 !important;
       color: #fff !important;
       transform: scale(1.15);
     }
+
     .upload-meta-actions {
       display: flex;
       align-items: center;
       gap: 8px;
     }
+
     .upload-total-badge {
       display: inline-flex;
       align-items: center;
@@ -1120,6 +1299,7 @@
       border-radius: var(--radius-pill);
       white-space: nowrap;
     }
+
     .btn-clear-cat {
       display: inline-flex;
       align-items: center;
@@ -1135,11 +1315,13 @@
       transition: all 0.2s;
       white-space: nowrap;
     }
+
     .btn-clear-cat:hover {
       background: #fef2f2;
       border-color: #ef4444;
       transform: translateY(-1px);
     }
+
     .cat-guide-banner {
       padding: 8px 12px;
       background: #fafaf9;
@@ -1152,9 +1334,11 @@
       justify-content: space-between;
       gap: 8px;
     }
+
     .cat-guide-banner strong {
       color: #1c1917;
     }
+
     .compression-badge {
       display: inline-flex;
       align-items: center;
@@ -1185,16 +1369,20 @@
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
     }
-    .imgbb-dropzone:hover, .imgbb-dropzone.dragover {
+
+    .imgbb-dropzone:hover,
+    .imgbb-dropzone.dragover {
       background: #fef3c7;
       border-color: #d97706;
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15);
     }
+
     .imgbb-dropzone.dragover {
       border-style: solid;
       background: #fde68a;
     }
+
     .dropzone-icon-wrap {
       width: 48px;
       height: 48px;
@@ -1206,18 +1394,22 @@
       margin-bottom: 2px;
       transition: transform 0.2s;
     }
+
     .imgbb-dropzone:hover .dropzone-icon-wrap {
       transform: scale(1.08);
     }
+
     .dropzone-text {
       font-size: 13.5px;
       color: #4b5563;
       line-height: 1.4;
     }
+
     .dropzone-text strong {
       color: #d97706;
       font-weight: 800;
     }
+
     .dropzone-sub {
       font-size: 11.5px;
       color: #6b7280;
@@ -1227,6 +1419,7 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+
     .dropzone-sub kbd {
       background: #ffffff;
       border: 1px solid #d1d5db;
@@ -1235,7 +1428,7 @@
       font-size: 11px;
       color: #1f2937;
       font-weight: 700;
-      box-shadow: 0 1px 1px rgba(0,0,0,0.06);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
     }
 
     /* Progress bar with cancel button & memory savings */
@@ -1250,17 +1443,20 @@
       box-shadow: var(--shadow-sm);
       animation: modalFadeIn 0.2s ease;
     }
+
     .progress-header-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
     }
+
     .progress-status-text {
       font-size: 12px;
       color: #334155;
       font-weight: 700;
     }
+
     .btn-cancel-upload {
       background: #fee2e2;
       border: 1px solid #fecaca;
@@ -1272,10 +1468,12 @@
       cursor: pointer;
       transition: all 0.2s;
     }
+
     .btn-cancel-upload:hover {
       background: #fecaca;
       transform: translateY(-1px);
     }
+
     .progress-bar-wrap {
       width: 100%;
       height: 8px;
@@ -1283,11 +1481,13 @@
       border-radius: var(--radius-pill);
       overflow: hidden;
     }
+
     .progress-bar-fill {
       height: 100%;
       background: linear-gradient(90deg, #f59e0b, #10b981);
       transition: width 0.25s ease;
     }
+
     .progress-sub-info {
       font-size: 11px;
       color: #15803d;
@@ -1304,6 +1504,7 @@
       gap: 10px;
       margin-top: 4px;
     }
+
     .uploaded-img-card {
       position: relative;
       border-radius: 10px;
@@ -1311,32 +1512,83 @@
       background: #f8fafc;
       aspect-ratio: 4 / 3;
       overflow: hidden;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      cursor: grab;
+      user-select: none;
     }
-    .uploaded-img-card:hover {
+
+    .uploaded-img-card:active {
+      cursor: grabbing;
+    }
+
+    .uploaded-img-card.dragging {
+      opacity: 0.35;
+      transform: scale(0.94);
+      border: 2px dashed #2563eb !important;
+      box-shadow: none !important;
+    }
+
+    .uploaded-img-card.drag-over {
+      border: 2px solid #2563eb !important;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25), 0 8px 20px rgba(37, 99, 235, 0.25) !important;
+      transform: translateY(-4px) scale(1.04);
+      z-index: 10;
+    }
+
+    .uploaded-img-card:hover:not(.dragging) {
       transform: translateY(-2px);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
       border-color: #94a3b8;
     }
+
     .uploaded-img-card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
       transition: transform 0.2s;
+      pointer-events: none;
     }
-    .uploaded-img-card:hover img {
+
+    .uploaded-img-card:hover:not(.dragging) img {
       transform: scale(1.04);
     }
+
+    .uploaded-img-card .drag-grip-icon {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: rgba(15, 23, 42, 0.75);
+      color: #cbd5e1;
+      font-size: 11px;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      pointer-events: none;
+      backdrop-filter: blur(2px);
+      transition: all 0.15s ease;
+      line-height: 1;
+    }
+
+    .uploaded-img-card:hover .drag-grip-icon {
+      background: #2563eb;
+      color: #fff;
+    }
+
     .uploaded-img-card.cover-img {
       border-color: #10b981;
       box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
     }
+
     .uploaded-img-card.is-pending {
       border-color: #3b82f6;
     }
+
     .uploaded-img-card.is-error {
       border-color: #ef4444;
     }
@@ -1356,8 +1608,9 @@
       align-items: center;
       gap: 3px;
       z-index: 2;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
     }
+
     .uploaded-img-card .order-tag {
       position: absolute;
       bottom: 4px;
@@ -1389,16 +1642,20 @@
       padding: 6px;
       z-index: 5;
     }
+
     .card-spinner {
       width: 20px;
       height: 20px;
-      border: 2px solid rgba(255,255,255,0.3);
+      border: 2px solid rgba(255, 255, 255, 0.3);
       border-top-color: #faad14;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
+
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     /* Actions Bar inside Card */
@@ -1413,9 +1670,11 @@
       opacity: 0.9;
       transition: opacity 0.2s;
     }
+
     .uploaded-img-card:hover .card-actions-bar {
       opacity: 1;
     }
+
     .card-action-btn {
       width: 24px;
       height: 24px;
@@ -1431,18 +1690,23 @@
       transition: all 0.15s ease;
       backdrop-filter: blur(2px);
     }
+
     .card-action-btn:hover {
       transform: scale(1.15);
     }
+
     .card-action-btn.btn-del:hover {
       background: #dc2626;
     }
+
     .card-action-btn.btn-cover:hover {
       background: #d97706;
     }
+
     .card-action-btn.btn-move:hover {
       background: #2563eb;
     }
+
     .card-action-btn.btn-zoom:hover {
       background: #059669;
     }
@@ -1455,7 +1719,7 @@
       background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 8px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
       padding: 4px;
       display: none;
       flex-direction: column;
@@ -1464,9 +1728,11 @@
       min-width: 120px;
       animation: modalFadeIn 0.15s ease;
     }
+
     .cat-move-dropdown.show {
       display: flex;
     }
+
     .cat-move-item {
       padding: 5px 8px;
       border-radius: 5px;
@@ -1482,6 +1748,7 @@
       gap: 6px;
       transition: background 0.15s;
     }
+
     .cat-move-item:hover {
       background: #f1f5f9;
       color: #0f172a;
@@ -1491,6 +1758,7 @@
       display: flex;
       gap: 8px;
     }
+
     .manual-url-row input {
       flex: 1;
     }
@@ -1500,6 +1768,7 @@
       color: #ffffff;
       border-color: #334155;
     }
+
     .btn-dark-save:hover {
       background: #0f172a;
       transform: translateY(-1px);
@@ -1511,6 +1780,7 @@
       border: 1px solid #b45309;
       font-weight: 700;
     }
+
     .btn-warning-save:hover {
       background: #b45309;
       transform: translateY(-1px);
@@ -1523,6 +1793,7 @@
       gap: 12px;
       margin-bottom: 12px;
     }
+
     .banner-thumb-card {
       position: relative;
       height: 110px;
@@ -1531,19 +1802,42 @@
       border: 1.5px solid var(--border);
       background: #0f172a;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-      transition: all 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+      cursor: grab;
+      user-select: none;
     }
-    .banner-thumb-card:hover {
+
+    .banner-thumb-card:active {
+      cursor: grabbing;
+    }
+
+    .banner-thumb-card.dragging {
+      opacity: 0.35;
+      transform: scale(0.95);
+      border: 2px dashed #3b82f6 !important;
+    }
+
+    .banner-thumb-card.drag-over {
+      border: 2px solid #3b82f6 !important;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25), 0 8px 20px rgba(59, 130, 246, 0.25) !important;
+      transform: translateY(-3px) scale(1.03);
+      z-index: 5;
+    }
+
+    .banner-thumb-card:hover:not(.dragging) {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       border-color: #3b82f6;
     }
+
     .banner-thumb-card .thumb-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      pointer-events: none;
     }
+
     .banner-thumb-card .banner-badge-order {
       position: absolute;
       top: 6px;
@@ -1557,12 +1851,15 @@
       border: 0.5px solid rgba(255, 214, 10, 0.4);
       z-index: 2;
     }
+
     .banner-thumb-card .card-actions-bar {
       opacity: 0.88;
     }
+
     .banner-thumb-card:hover .card-actions-bar {
       opacity: 1;
     }
+
     .banner-thumb-card .banner-badge-live {
       position: absolute;
       bottom: 6px;
@@ -1576,6 +1873,7 @@
       border: 0.5px solid rgba(187, 247, 208, 0.4);
       z-index: 2;
     }
+
     .banner-thumb-card .banner-badge-pending {
       position: absolute;
       bottom: 6px;
@@ -1595,13 +1893,16 @@
         padding: 0 16px;
         margin: 16px auto 50px;
       }
+
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
       }
+
       .form-grid {
         grid-template-columns: 1fr;
       }
+
       .form-group.full {
         grid-column: span 1;
       }
@@ -1611,9 +1912,11 @@
       .admin-navbar {
         padding: 10px 12px;
       }
+
       .navbar-inner {
         gap: 10px;
       }
+
       .brand-wrap {
         width: 100%;
         display: flex;
@@ -1621,19 +1924,24 @@
         justify-content: space-between;
         gap: 6px;
       }
+
       .logo {
         font-size: 17px;
       }
-      .admin-badge, .edge-badge {
+
+      .admin-badge,
+      .edge-badge {
         font-size: 10px;
         padding: 2px 7px;
       }
+
       .nav-actions {
         width: 100%;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 6px;
       }
+
       .nav-actions .btn {
         justify-content: center;
         padding: 8px 8px;
@@ -1641,11 +1949,13 @@
         border-radius: var(--radius-sm);
         white-space: nowrap;
       }
+
       .nav-actions .btn svg {
         flex-shrink: 0;
         width: 13px;
         height: 13px;
       }
+
       .admin-container {
         padding: 0 10px;
         margin: 12px auto 40px;
@@ -1656,6 +1966,7 @@
         padding: 24px 18px;
         border-radius: 16px;
       }
+
       .auth-brand {
         font-size: 21px;
       }
@@ -1666,18 +1977,22 @@
         gap: 8px;
         margin-bottom: 14px;
       }
+
       .stat-card {
         padding: 10px 12px;
         gap: 10px;
       }
+
       .stat-icon {
         width: 36px;
         height: 36px;
         font-size: 16px;
       }
+
       .stat-info .stat-val {
         font-size: 15px;
       }
+
       .stat-info .stat-title {
         font-size: 11px;
       }
@@ -1690,9 +2005,11 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
       }
+
       .admin-tab-nav::-webkit-scrollbar {
         display: none;
       }
+
       .tab-item {
         padding: 8px 12px;
         font-size: 12px;
@@ -1706,28 +2023,33 @@
         align-items: stretch;
         gap: 10px;
       }
+
       .toolbar-search {
         width: 100%;
         max-width: 100%;
         min-width: 0;
       }
+
       .toolbar-filters {
         width: 100%;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 6px;
       }
+
       .select-dropdown {
         grid-column: span 2;
         width: 100%;
         padding: 8px 12px;
         font-size: 12.5px;
       }
+
       .toolbar-filters .btn {
         justify-content: center;
         padding: 8px 10px;
         font-size: 11.5px;
       }
+
       .toolbar-filters .btn-primary {
         grid-column: span 2;
         padding: 9px 12px;
@@ -1735,14 +2057,19 @@
       }
 
       /* Responsive Table: smooth horizontal touch scrolling without crushed cells */
-      table.items-table, table.cms-table {
+      table.items-table,
+      table.cms-table {
         min-width: 780px;
       }
-      table.items-table th, table.cms-table th {
+
+      table.items-table th,
+      table.cms-table th {
         padding: 10px 12px;
         font-size: 10.5px;
       }
-      table.items-table td, table.cms-table td {
+
+      table.items-table td,
+      table.cms-table td {
         padding: 10px 12px;
         font-size: 12.5px;
       }
@@ -1752,6 +2079,7 @@
         padding: 16px 14px;
         margin-bottom: 14px;
       }
+
       .form-card-header {
         flex-direction: column;
         align-items: flex-start;
@@ -1759,6 +2087,7 @@
         margin-bottom: 14px;
         padding-bottom: 12px;
       }
+
       .form-card-title {
         font-size: 15px;
       }
@@ -1768,44 +2097,55 @@
         padding: 8px;
         align-items: flex-end;
       }
+
       .modal-dialog {
         max-height: 92vh;
         border-radius: var(--radius-md) var(--radius-md) 0 0;
         width: 100%;
       }
+
       .modal-header {
         padding: 12px 16px;
       }
+
       .modal-title {
         font-size: 15px;
       }
+
       .modal-body {
         padding: 14px 16px;
       }
+
       .modal-footer {
         padding: 10px 16px;
         flex-wrap: wrap;
         gap: 8px;
       }
+
       .modal-footer .btn {
         flex: 1;
         justify-content: center;
         padding: 9px 14px;
       }
+
       .manual-url-row {
         flex-direction: column;
       }
+
       .manual-url-row .btn {
         width: 100%;
         justify-content: center;
       }
+
       .uploaded-images-preview-grid {
         grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
         gap: 8px;
       }
+
       .dropzone-text {
         font-size: 12.5px;
       }
+
       .dropzone-sub {
         font-size: 10.5px;
       }
@@ -1818,6 +2158,7 @@
         font-size: 12px;
         bottom: 16px;
       }
+
       .scroll-top-btn {
         right: 12px;
         bottom: max(16px, env(safe-area-inset-bottom, 16px));
@@ -1830,6 +2171,7 @@
       .stats-grid {
         grid-template-columns: 1fr;
       }
+
       .brand-wrap {
         flex-direction: column;
         align-items: flex-start;
@@ -1838,6 +2180,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- ======================================================================
@@ -1854,7 +2197,8 @@
           <span class="edge-badge">EDGE-SSG</span>
         </div>
         <div class="auth-subtitle">
-          Vui lòng nhập Cloudflare Worker URL và Secret Key để xác thực và tự động kéo đồng bộ toàn bộ dữ liệu (list.js, index.html, thum.js) mới nhất.
+          Vui lòng nhập Cloudflare Worker URL và Secret Key để xác thực và tự động kéo đồng bộ toàn bộ dữ liệu (list.js,
+          index.html, thum.js) mới nhất.
         </div>
       </div>
 
@@ -1862,16 +2206,22 @@
         <div class="auth-form-group">
           <label class="auth-label" for="loginWorkerUrl">Cloudflare Worker URL *</label>
           <div class="auth-input-wrap">
-            <input type="url" id="loginWorkerUrl" class="auth-input" placeholder="https://your-worker.workers.dev" required>
+            <input type="url" id="loginWorkerUrl" class="auth-input" placeholder="https://your-worker.workers.dev"
+              required>
           </div>
         </div>
 
         <div class="auth-form-group">
           <label class="auth-label" for="loginWorkerSecret">Secret Key (Mã bí mật) *</label>
           <div class="auth-input-wrap">
-            <input type="password" id="loginWorkerSecret" class="auth-input has-eye" placeholder="Nhập Secret Key bảo mật..." required>
-            <button type="button" class="auth-eye-btn" onclick="togglePasswordVisibility('loginWorkerSecret', this)" title="Ẩn/Hiện mật khẩu">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <input type="password" id="loginWorkerSecret" class="auth-input has-eye"
+              placeholder="Nhập Secret Key bảo mật..." required>
+            <button type="button" class="auth-eye-btn" onclick="togglePasswordVisibility('loginWorkerSecret', this)"
+              title="Ẩn/Hiện mật khẩu">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
             </button>
           </div>
         </div>
@@ -1882,7 +2232,10 @@
         </label>
 
         <button type="submit" id="btnLoginSubmit" class="btn-auth-submit">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
           <span id="loginSubmitBtnText">ĐĂNG NHẬP & KÉO ĐỒNG BỘ DỮ LIỆU</span>
         </button>
 
@@ -1924,31 +2277,58 @@
       <div class="nav-actions">
         <!-- View Main Website -->
         <a href="../index.html" target="_blank" class="btn btn-secondary" title="Xem trang chủ">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
           <span>Xem Web</span>
         </a>
 
         <!-- Logout / Re-authenticate Button -->
-        <button class="btn btn-secondary" onclick="logoutAdmin()" title="Đăng xuất khỏi hệ thống và khóa màn hình quản trị">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <button class="btn btn-secondary" onclick="logoutAdmin()"
+          title="Đăng xuất khỏi hệ thống và khóa màn hình quản trị">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
           <span>Đăng xuất</span>
         </button>
 
         <!-- Save Config to index.html -->
-        <button class="btn btn-dark-save" id="btnPublishConfig" onclick="publishConfigToGithub()" title="Tráo SEO, Banner, Zalo vào file index.html">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <button class="btn btn-dark-save" id="btnPublishConfig" onclick="publishConfigToGithub()"
+          title="Tráo SEO, Banner, Zalo vào file index.html">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
+          </svg>
           <span id="publishConfigText">LƯU CẤU HÌNH WEB</span>
         </button>
 
         <!-- Save Products to js/list.js -->
-        <button class="btn btn-primary" id="btnPublishProducts" onclick="publishProductsToGithub()" title="Lưu danh sách sản phẩm và ảnh ImgBB vào file js/list.js">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <button class="btn btn-primary" id="btnPublishProducts" onclick="publishProductsToGithub()"
+          title="Lưu danh sách sản phẩm và ảnh ImgBB vào file js/list.js">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path
+              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+            </path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
           <span id="publishProductsText">LƯU SẢN PHẨM & ẢNH</span>
         </button>
 
         <!-- Save Banner to js/thum.js -->
-        <button class="btn btn-warning-save" id="btnPublishBanner" onclick="publishBannerToGithub()" title="Lưu riêng danh sách ảnh banner vào file js/thum.js">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <button class="btn btn-warning-save" id="btnPublishBanner" onclick="publishBannerToGithub()"
+          title="Lưu riêng danh sách ảnh banner vào file js/thum.js">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
           <span id="publishBannerText">LƯU ẢNH BANNER (thum.js)</span>
         </button>
       </div>
@@ -1961,11 +2341,16 @@
     <!-- Success Message Notice (Shown on HTTP 200) -->
     <div class="publish-success-banner" id="publishSuccessBanner">
       <div class="banner-title-row">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
         <span>Tráo và commit trực tiếp vào index.html trên GitHub thành công!</span>
       </div>
       <div class="banner-desc">
-        Hệ thống Edge-SSG đã cập nhật xong file <strong>index.html</strong> (chuẩn SEO Google, Zalo OpenGraph, hiển thị tĩnh SSR). Vui lòng đợi <strong>1 - 3 phút</strong> để GitHub Pages / Cloudflare Pages tự động cập nhật bản mới ra toàn cầu.
+        Hệ thống Edge-SSG đã cập nhật xong file <strong>index.html</strong> (chuẩn SEO Google, Zalo OpenGraph, hiển thị
+        tĩnh SSR). Vui lòng đợi <strong>1 - 3 phút</strong> để GitHub Pages / Cloudflare Pages tự động cập nhật bản mới
+        ra toàn cầu.
       </div>
     </div>
 
@@ -2008,31 +2393,51 @@
     <div class="admin-tab-nav">
       <!-- Tab 1: Danh sách Sản phẩm -->
       <button class="tab-item active" data-tab="tab-products" onclick="switchAdminTab('tab-products')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path
+            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+          </path>
+        </svg>
         <span>Danh sách Sản phẩm (<strong id="tabBadgeCount">19</strong>)</span>
       </button>
 
       <!-- Tab 2: Quản lý Ảnh Banner Trang Chủ (thum.js) - TAB RIÊNG -->
       <button class="tab-item" data-tab="tab-banner-images" onclick="switchAdminTab('tab-banner-images')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
         <span>Ảnh Banner Trang Chủ (thum.js) (<strong id="tabBadgeBannerCount">0</strong>)</span>
       </button>
 
       <!-- Tab 3: Nội dung Text Hero Banner & Nhận diện -->
       <button class="tab-item" data-tab="tab-banner-text" onclick="switchAdminTab('tab-banner-text')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
         <span>Giao diện & Chữ Banner</span>
       </button>
 
       <!-- Tab 4: SEO & MXH -->
       <button class="tab-item" data-tab="tab-seo" onclick="switchAdminTab('tab-seo')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
         <span>SEO & Mạng xã hội (Zalo / FB)</span>
       </button>
 
       <!-- Tab 5: Liên hệ -->
       <button class="tab-item" data-tab="tab-contact" onclick="switchAdminTab('tab-contact')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path
+            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+          </path>
+        </svg>
         <span>Liên hệ & Zalo CSKH</span>
       </button>
     </div>
@@ -2045,8 +2450,12 @@
         <!-- Toolbar -->
         <div class="cms-toolbar">
           <div class="toolbar-search">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" id="adminSearchInput" placeholder="Tìm ID hoặc tên vật phẩm..." oninput="filterAdminItems()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="adminSearchInput" placeholder="Tìm ID hoặc tên vật phẩm..."
+              oninput="filterAdminItems()">
           </div>
 
           <div class="toolbar-filters">
@@ -2059,20 +2468,32 @@
             </select>
 
             <!-- Preview js/list.js Code -->
-            <button class="btn btn-secondary" onclick="openCodeModal('list.js')" title="Xem trước nội dung mã nguồn file js/list.js">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            <button class="btn btn-secondary" onclick="openCodeModal('list.js')"
+              title="Xem trước nội dung mã nguồn file js/list.js">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
               <span>Xem mã js/list.js</span>
             </button>
 
             <!-- Download js/list.js -->
-            <button class="btn btn-secondary" onclick="exportListJsFile()" title="Tải file js/list.js về máy tính để sao lưu">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <button class="btn btn-secondary" onclick="exportListJsFile()"
+              title="Tải file js/list.js về máy tính để sao lưu">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
               <span>Tải file js/list.js</span>
             </button>
 
             <!-- Add Item Button -->
             <button class="btn btn-primary" onclick="openAddItemModal()">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
               <span>Thêm vật phẩm</span>
             </button>
           </div>
@@ -2109,22 +2530,45 @@
         <div class="form-card-header" style="flex-wrap: wrap; gap: 12px;">
           <div>
             <h3 class="form-card-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
               Quản lý Ảnh Banner Trang Chủ (File độc lập: js/thum.js)
             </h3>
-            <p class="form-card-subtitle">Mục này quản lý danh sách ảnh chạy qua lại trên banner trang chủ và lưu riêng biệt vào file <code>js/thum.js</code>. Khi cần cập nhật ảnh mới, bạn tải ảnh lên hoặc nhập link rồi bấm <strong>"LƯU ẢNH BANNER (thum.js)"</strong> để xuất bản độc lập mà không ảnh hưởng tới các phần khác.</p>
+            <p class="form-card-subtitle">Mục này quản lý danh sách ảnh chạy qua lại trên banner trang chủ và lưu riêng
+              biệt vào file <code>js/thum.js</code>. Khi cần cập nhật ảnh mới, bạn tải ảnh lên hoặc nhập link rồi bấm
+              <strong>"LƯU ẢNH BANNER (thum.js)"</strong> để xuất bản độc lập mà không ảnh hưởng tới các phần khác.
+            </p>
           </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-            <button type="button" class="btn btn-secondary" onclick="resetDefaultBannerImages()" style="font-size: 12px; padding: 6px 12px;" title="Đặt lại về 2 ảnh mẫu assets/thum1.png và assets/thum2.png">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 2v6h6M21.5 22v-6h-6"></path><path d="M22 11.5A10 10 0 0 0 3.2 7.2L2.5 8M2 12.5a10 10 0 0 1 18.8 4.3l.7-.8"></path></svg>
+            <button type="button" class="btn btn-secondary" onclick="resetDefaultBannerImages()"
+              style="font-size: 12px; padding: 6px 12px;"
+              title="Đặt lại về 2 ảnh mẫu assets/thum1.png và assets/thum2.png">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M2.5 2v6h6M21.5 22v-6h-6"></path>
+                <path d="M22 11.5A10 10 0 0 0 3.2 7.2L2.5 8M2 12.5a10 10 0 0 1 18.8 4.3l.7-.8"></path>
+              </svg>
               <span>Dùng 2 ảnh mẫu</span>
             </button>
-            <button type="button" class="btn btn-secondary" onclick="exportThumJsFile()" style="font-size: 12px; padding: 6px 12px;" title="Tải file js/thum.js về máy tính để dự phòng">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <button type="button" class="btn btn-secondary" onclick="exportThumJsFile()"
+              style="font-size: 12px; padding: 6px 12px;" title="Tải file js/thum.js về máy tính để dự phòng">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
               <span>Tải thum.js</span>
             </button>
-            <button type="button" class="btn btn-warning-save" id="btnSaveBannerInCard" onclick="publishBannerToGithub()" style="font-size: 12.5px; padding: 7px 14px;" title="Xuất bản danh sách ảnh banner vào file js/thum.js trên GitHub">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            <button type="button" class="btn btn-warning-save" id="btnSaveBannerInCard"
+              onclick="publishBannerToGithub()" style="font-size: 12.5px; padding: 7px 14px;"
+              title="Xuất bản danh sách ảnh banner vào file js/thum.js trên GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
               <span>LƯU ẢNH BANNER (thum.js)</span>
             </button>
           </div>
@@ -2133,8 +2577,10 @@
         <!-- Danh sách ảnh Banner hiện tại -->
         <div style="margin-bottom: 16px;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-            <label class="form-label" style="margin-bottom: 0;">Danh sách ảnh banner (<strong id="bannerImagesCount">0</strong> ảnh)</label>
-            <span style="font-size: 11.5px; color: var(--muted);">Banner trang chủ sẽ tự động chạy qua lại giữa các ảnh này</span>
+            <label class="form-label" style="margin-bottom: 0;">Danh sách ảnh banner (<strong
+                id="bannerImagesCount">0</strong> ảnh)</label>
+            <span style="font-size: 11.5px; color: var(--muted);">Banner trang chủ sẽ tự động chạy qua lại giữa các ảnh
+              này</span>
           </div>
           <div id="bannerImagesGrid" class="banner-thumbs-grid">
             <!-- Dynamic render -->
@@ -2142,11 +2588,15 @@
         </div>
 
         <!-- Khu vực tải ảnh lên (ImgBB Dropzone + File Picker) -->
-        <div class="imgbb-dropzone" id="bannerDropzone" onclick="triggerBannerFileInput()" style="padding: 24px 16px; margin-bottom: 12px;">
-          <input type="file" id="bannerFileInput" accept="image/*" multiple style="display: none;" onchange="handleBannerFileSelect(event)">
+        <div class="imgbb-dropzone" id="bannerDropzone" onclick="triggerBannerFileInput()"
+          style="padding: 24px 16px; margin-bottom: 12px;">
+          <input type="file" id="bannerFileInput" accept="image/*" multiple style="display: none;"
+            onchange="handleBannerFileSelect(event)">
           <div class="dropzone-icon" style="font-size: 28px; margin-bottom: 6px;">🖼️</div>
-          <div class="dropzone-text" style="font-size: 13.5px; font-weight: 700;">Nhấp để tải ảnh lên Banner hoặc Kéo thả ảnh vào đây</div>
-          <div class="dropzone-sub" style="font-size: 11.5px; color: #64748b; margin-top: 4px;">Tự động nén ảnh giữ nguyên độ nét, hỗ trợ dán ảnh trực tiếp (Ctrl + V) hoặc upload nhiều ảnh cùng lúc</div>
+          <div class="dropzone-text" style="font-size: 13.5px; font-weight: 700;">Nhấp để tải ảnh lên Banner hoặc Kéo
+            thả ảnh vào đây</div>
+          <div class="dropzone-sub" style="font-size: 11.5px; color: #64748b; margin-top: 4px;">Tự động nén ảnh giữ
+            nguyên độ nét, hỗ trợ dán ảnh trực tiếp (Ctrl + V) hoặc upload nhiều ảnh cùng lúc</div>
         </div>
 
         <!-- Thanh tiến trình upload ảnh banner -->
@@ -2165,9 +2615,14 @@
 
         <!-- Nhập link thủ công -->
         <div class="manual-url-row" style="display: flex; gap: 8px;">
-          <input type="text" id="manualBannerUrlInput" class="form-control" placeholder="Dán link ảnh (https://... hoặc assets/thum1.png) và bấm Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addManualBannerImage();}">
+          <input type="text" id="manualBannerUrlInput" class="form-control"
+            placeholder="Dán link ảnh (https://... hoặc assets/thum1.png) và bấm Thêm..."
+            onkeydown="if(event.key==='Enter'){event.preventDefault();addManualBannerImage();}">
           <button type="button" class="btn btn-secondary" onclick="addManualBannerImage()" style="white-space: nowrap;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
             <span>Thêm link</span>
           </button>
         </div>
@@ -2182,10 +2637,15 @@
         <div class="form-card-header">
           <div>
             <h3 class="form-card-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
               Nội dung Hero Banner & Nhận Diện Thương Hiệu
             </h3>
-            <p class="form-card-subtitle">Các thông số này sẽ được Cloudflare Worker tráo trực tiếp vào các thẻ HTML tương ứng trên trang index.html</p>
+            <p class="form-card-subtitle">Các thông số này sẽ được Cloudflare Worker tráo trực tiếp vào các thẻ HTML
+              tương ứng trên trang index.html</p>
           </div>
         </div>
 
@@ -2193,45 +2653,52 @@
           <!-- Desktop Headline -->
           <div class="form-group full">
             <label class="form-label">Tiêu đề Banner Desktop (.banner-headline)</label>
-            <input type="text" id="cfgBannerHeadline" class="form-control" placeholder="WONTRADE TRANSACTION GUIDELINES UPDATE" onchange="autoSaveSiteConfig()">
+            <input type="text" id="cfgBannerHeadline" class="form-control"
+              placeholder="WONTRADE TRANSACTION GUIDELINES UPDATE" onchange="autoSaveSiteConfig()">
             <span class="form-hint">Tiêu đề lớn hiển thị trên banner giao diện máy tính</span>
           </div>
 
           <!-- Desktop Ribbon -->
           <div class="form-group full">
             <label class="form-label">Dải chữ ruy băng vàng Desktop (.banner-ribbon)</label>
-            <input type="text" id="cfgBannerRibbon" class="form-control" placeholder="LOWER FEE & SIMPLIFIED PROCESS!" onchange="autoSaveSiteConfig()">
+            <input type="text" id="cfgBannerRibbon" class="form-control" placeholder="LOWER FEE & SIMPLIFIED PROCESS!"
+              onchange="autoSaveSiteConfig()">
             <span class="form-hint">Dòng chữ màu vàng phong cách game Rise of Kingdoms trên màn hình lớn</span>
           </div>
 
           <!-- Mobile Badge -->
           <div class="form-group">
             <label class="form-label">Huy hiệu Banner Mobile (.mobile-banner-badge)</label>
-            <input type="text" id="cfgBannerMobileBadge" class="form-control" placeholder="ĐỐI TÁC GIAO DỊCH CHÍNH THỨC" onchange="autoSaveSiteConfig()">
+            <input type="text" id="cfgBannerMobileBadge" class="form-control" placeholder="ĐỐI TÁC GIAO DỊCH CHÍNH THỨC"
+              onchange="autoSaveSiteConfig()">
           </div>
 
           <!-- Mobile Title -->
           <div class="form-group">
             <label class="form-label">Tiêu đề Banner Mobile (.mobile-banner-title)</label>
-            <input type="text" id="cfgBannerMobileTitle" class="form-control" placeholder="NHÀ GIAO DỊCH WONTRADE" onchange="autoSaveSiteConfig()">
+            <input type="text" id="cfgBannerMobileTitle" class="form-control" placeholder="NHÀ GIAO DỊCH WONTRADE"
+              onchange="autoSaveSiteConfig()">
           </div>
 
           <!-- Mobile Subtitle -->
           <div class="form-group full">
             <label class="form-label">Phụ đề Banner Mobile (.mobile-banner-subtitle)</label>
-            <input type="text" id="cfgBannerMobileSubtitle" class="form-control" placeholder="BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH" onchange="autoSaveSiteConfig()">
+            <input type="text" id="cfgBannerMobileSubtitle" class="form-control"
+              placeholder="BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH" onchange="autoSaveSiteConfig()">
           </div>
 
           <!-- Brand Game Name -->
           <div class="form-group">
             <label class="form-label">Tên Game (.game-name)</label>
-            <input type="text" id="cfgBrandGameName" class="form-control" placeholder="Rise of Kingdoms" onchange="autoSaveSiteConfig()">
+            <input type="text" id="cfgBrandGameName" class="form-control" placeholder="Rise of Kingdoms"
+              onchange="autoSaveSiteConfig()">
           </div>
 
           <!-- Brand Avatar / Icon -->
           <div class="form-group">
             <label class="form-label">Đường dẫn Icon / Ảnh đại diện Game</label>
-            <input type="text" id="cfgBrandAvatar" class="form-control" placeholder="assets/rok_avatar.jpg" onchange="autoSaveSiteConfig()">
+            <input type="text" id="cfgBrandAvatar" class="form-control" placeholder="assets/rok_avatar.jpg"
+              onchange="autoSaveSiteConfig()">
           </div>
         </div>
       </div>
@@ -2245,10 +2712,16 @@
         <div class="form-card-header">
           <div>
             <h3 class="form-card-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                </path>
+              </svg>
               Cấu hình Thẻ Meta SEO & Xem Trước Mạng Xã Hội (Edge-SSG)
             </h3>
-            <p class="form-card-subtitle">Tráo trực tiếp vào &lt;title&gt;, &lt;meta description&gt;, OpenGraph (Zalo, Facebook) và Twitter Cards trong index.html</p>
+            <p class="form-card-subtitle">Tráo trực tiếp vào &lt;title&gt;, &lt;meta description&gt;, OpenGraph (Zalo,
+              Facebook) và Twitter Cards trong index.html</p>
           </div>
         </div>
 
@@ -2256,29 +2729,38 @@
           <!-- SEO Title -->
           <div class="form-group full">
             <label class="form-label">Tiêu đề Website (&lt;title&gt;, og:title, twitter:title) *</label>
-            <input type="text" id="cfgSeoTitle" class="form-control" placeholder="WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức" onchange="autoSaveSiteConfig()">
-            <span class="form-hint">Tiêu đề xuất hiện trên tab trình duyệt và khi chia sẻ liên kết qua Zalo, Facebook, Telegram</span>
+            <input type="text" id="cfgSeoTitle" class="form-control"
+              placeholder="WONTRADE - Nền tảng giao dịch Rise of Kingdoms chính thức" onchange="autoSaveSiteConfig()">
+            <span class="form-hint">Tiêu đề xuất hiện trên tab trình duyệt và khi chia sẻ liên kết qua Zalo, Facebook,
+              Telegram</span>
           </div>
 
           <!-- SEO Description -->
           <div class="form-group full">
             <label class="form-label">Mô tả SEO (&lt;meta name="description"&gt;, og:description) *</label>
-            <textarea id="cfgSeoDesc" class="form-control" rows="3" placeholder="Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng." onchange="autoSaveSiteConfig()"></textarea>
-            <span class="form-hint">Đoạn tóm tắt hiển thị dưới tiêu đề khi tìm kiếm trên Google hoặc gửi link cho bạn bè qua chat</span>
+            <textarea id="cfgSeoDesc" class="form-control" rows="3"
+              placeholder="Nhà giao dịch WONTRADE - Nền tảng giao dịch đối tác chính thức cho Rise of Kingdoms. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng."
+              onchange="autoSaveSiteConfig()"></textarea>
+            <span class="form-hint">Đoạn tóm tắt hiển thị dưới tiêu đề khi tìm kiếm trên Google hoặc gửi link cho bạn bè
+              qua chat</span>
           </div>
 
           <!-- SEO Keywords -->
           <div class="form-group full">
             <label class="form-label">Từ khóa tìm kiếm (meta keywords)</label>
-            <input type="text" id="cfgSeoKeywords" class="form-control" placeholder="wontrade, rise of kingdoms, rok, mua bán acc rok, giao dịch rok" onchange="autoSaveSiteConfig()">
+            <input type="text" id="cfgSeoKeywords" class="form-control"
+              placeholder="wontrade, rise of kingdoms, rok, mua bán acc rok, giao dịch rok"
+              onchange="autoSaveSiteConfig()">
             <span class="form-hint">Các từ khóa cách nhau bởi dấu phẩy</span>
           </div>
 
           <!-- OG Image -->
           <div class="form-group full">
             <label class="form-label">Ảnh đại diện chia sẻ MXH (og:image, twitter:image)</label>
-            <input type="text" id="cfgSeoOgImage" class="form-control" placeholder="assets/rok_avatar.jpg" onchange="autoSaveSiteConfig()">
-            <span class="form-hint">Ảnh thumbnail hiển thị lớn khi paste link vào tin nhắn Zalo hoặc bài đăng Facebook</span>
+            <input type="text" id="cfgSeoOgImage" class="form-control" placeholder="assets/rok_avatar.jpg"
+              onchange="autoSaveSiteConfig()">
+            <span class="form-hint">Ảnh thumbnail hiển thị lớn khi paste link vào tin nhắn Zalo hoặc bài đăng
+              Facebook</span>
           </div>
         </div>
       </div>
@@ -2292,10 +2774,15 @@
         <div class="form-card-header">
           <div>
             <h3 class="form-card-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                </path>
+              </svg>
               Kênh Liên Hệ & Zalo CSKH 24/7
             </h3>
-            <p class="form-card-subtitle">Tất cả các nút nhắn tin Zalo (Header, Floating Sidebar, Mobile Bottom Bar) sẽ tự động tráo sang số này</p>
+            <p class="form-card-subtitle">Tất cả các nút nhắn tin Zalo (Header, Floating Sidebar, Mobile Bottom Bar) sẽ
+              tự động tráo sang số này</p>
           </div>
         </div>
 
@@ -2303,19 +2790,22 @@
           <!-- Hotline Phone -->
           <div class="form-group">
             <label class="form-label">Số điện thoại Hotline</label>
-            <input type="text" id="cfgContactPhone" class="form-control" placeholder="0372996420" onchange="autoSaveSiteConfig()">
+            <input type="text" id="cfgContactPhone" class="form-control" placeholder="0372996420"
+              onchange="autoSaveSiteConfig()">
           </div>
 
           <!-- Zalo Number -->
           <div class="form-group">
             <label class="form-label">Số Zalo CSKH</label>
-            <input type="text" id="cfgContactZalo" class="form-control" placeholder="0372996420" onchange="autoSaveSiteConfig()">
+            <input type="text" id="cfgContactZalo" class="form-control" placeholder="0372996420"
+              onchange="autoSaveSiteConfig()">
           </div>
 
           <!-- Zalo URL -->
           <div class="form-group full">
             <label class="form-label">Đường dẫn Zalo trực tiếp (URL)</label>
-            <input type="text" id="cfgContactZaloUrl" class="form-control" placeholder="https://zalo.me/0372996420" onchange="autoSaveSiteConfig()">
+            <input type="text" id="cfgContactZaloUrl" class="form-control" placeholder="https://zalo.me/0372996420"
+              onchange="autoSaveSiteConfig()">
             <span class="form-hint">Mặc định: https://zalo.me/&lt;Số Zalo&gt;</span>
           </div>
         </div>
@@ -2353,12 +2843,14 @@
             <!-- Title -->
             <div class="form-group full">
               <label class="form-label">Tiêu đề vật phẩm *</label>
-              <input type="text" id="fTitle" class="form-control" required placeholder="Ví dụ: Mùa Chinh Phạt - Full T5 3 Đạo">
+              <input type="text" id="fTitle" class="form-control" required
+                placeholder="Ví dụ: Mùa Chinh Phạt - Full T5 3 Đạo">
             </div>
 
             <!-- Image Gallery & ImgBB Upload Zone -->
             <div class="form-group full">
-              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+              <div
+                style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
                 <label class="form-label" style="margin: 0;">Thư viện ảnh chi tiết</label>
                 <span class="upload-total-badge" id="uploadTotalBadge">Tổng: 0 ảnh</span>
               </div>
@@ -2371,12 +2863,24 @@
                   </div>
 
                   <div class="upload-meta-actions">
-                    <button type="button" class="btn-clear-cat" id="btnClearCatBtn" onclick="clearCurrentCategoryImages()" title="Xóa toàn bộ ảnh trong mục đang chọn">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path></svg>
+                    <button type="button" class="btn-clear-cat" id="btnClearCatBtn"
+                      onclick="clearCurrentCategoryImages()" title="Xóa toàn bộ ảnh trong mục đang chọn">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                      </svg>
                       <span>Xóa ảnh mục này</span>
                     </button>
-                    <button type="button" class="btn-clear-cat" style="background: #fff; border-color: #cbd5e1; color: #475569;" id="btnDeleteCurrentTabBtn" onclick="deleteCurrentCategoryTab()" title="Xóa hẳn thẻ ảnh này">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                    <button type="button" class="btn-clear-cat"
+                      style="background: #fff; border-color: #cbd5e1; color: #475569;" id="btnDeleteCurrentTabBtn"
+                      onclick="deleteCurrentCategoryTab()" title="Xóa hẳn thẻ ảnh này">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                      </svg>
                       <span>Xóa thẻ này</span>
                     </button>
                   </div>
@@ -2384,9 +2888,14 @@
 
                 <!-- Dropzone targeting the active category -->
                 <div class="imgbb-dropzone" id="imgbbDropzone" onclick="triggerImgFileInput()">
-                  <input type="file" id="imgbbFileInput" multiple accept="image/*" style="display: none;" onchange="handleImgbbFileSelect(event)">
+                  <input type="file" id="imgbbFileInput" multiple accept="image/*" style="display: none;"
+                    onchange="handleImgbbFileSelect(event)">
                   <div class="dropzone-icon-wrap">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="17 8 12 3 7 8"></polyline>
+                      <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
                   </div>
                   <div class="dropzone-text" id="adminDropzoneTitle">
                     <strong>Bấm để chọn nhiều ảnh</strong> hoặc <strong>Kéo & thả ảnh vào đây</strong>
@@ -2406,19 +2915,28 @@
                     <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
                   </div>
                   <div class="progress-sub-info" id="progressSubInfo">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2.5">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
                     <span id="progressSubInfoText">Đang nén đa luồng và tải tuần tự chống nghẽn mạng...</span>
                   </div>
                 </div>
 
                 <!-- Preview Grid for Active Category -->
+                <div
+                  style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px; font-size: 11.5px; color: #64748b;">
+                  <span>⠿ <strong>Kéo &amp; thả ảnh</strong> để sắp xếp lại vị trí (Ảnh #1 đầu tiên sẽ là Ảnh bìa của
+                    acc)</span>
+                </div>
                 <div class="uploaded-images-preview-grid" id="uploadedImagesGrid">
                   <!-- Rendered dynamically -->
                 </div>
 
                 <!-- Manual URL Add for Active Category (Hỗ trợ dán 1 hoặc nhiều link) -->
                 <div class="manual-url-row">
-                  <input type="text" id="manualImgUrlInput" class="form-control" placeholder="Dán link ảnh ImgBB (https://i.ibb.co/...) hoặc nhiều link cách nhau bởi dấu phẩy/xuống dòng">
+                  <input type="text" id="manualImgUrlInput" class="form-control"
+                    placeholder="Dán link ảnh ImgBB (https://i.ibb.co/...) hoặc nhiều link cách nhau bởi dấu phẩy/xuống dòng">
                   <button type="button" class="btn btn-secondary" onclick="addManualImageUrl()">Thêm link</button>
                 </div>
               </div>
@@ -2435,7 +2953,8 @@
             <!-- Stats -->
             <div class="form-group full">
               <label class="form-label">Chỉ số tài khoản (Stats)</label>
-              <input type="text" id="fStats" class="form-control" placeholder="Cấp độ 25 | Sức mạnh 91,652,733 | VIP 16 | Điểm Tiêu Diệt 7,527,939,303">
+              <input type="text" id="fStats" class="form-control"
+                placeholder="Cấp độ 25 | Sức mạnh 91,652,733 | VIP 16 | Điểm Tiêu Diệt 7,527,939,303">
             </div>
 
             <!-- Badges -->
@@ -2453,13 +2972,16 @@
             <!-- Tags -->
             <div class="form-group full">
               <label class="form-label">Thẻ trang bị / Đặc điểm (Mỗi dòng 1 thẻ)</label>
-              <textarea id="fTags" class="form-control" rows="4" placeholder="Chỉ Huy Thức Tỉnh Huyền Thoại ×19&#10;Trang Bị Huyền Thoại ×43&#10;Số Dư Xu Lung Linh 5&#10;Trang Hộ Chiếu 20"></textarea>
+              <textarea id="fTags" class="form-control" rows="4"
+                placeholder="Chỉ Huy Thức Tỉnh Huyền Thoại ×19&#10;Trang Bị Huyền Thoại ×43&#10;Số Dư Xu Lung Linh 5&#10;Trang Hộ Chiếu 20"></textarea>
             </div>
 
             <!-- 5 Commanders IDs -->
             <div class="form-group full">
-              <label class="form-label">Danh sách 5 Tướng (chọn từ: arthur, tontu, achilles, tanthuyhoang, scipio, quanvu, choiyoung, bachkhoi, giacatluong, luutriet, alparslan)</label>
-              <input type="text" id="fCommanders" class="form-control" placeholder="arthur, tontu, achilles, tanthuyhoang, scipio">
+              <label class="form-label">Danh sách 5 Tướng (chọn từ: arthur, tontu, achilles, tanthuyhoang, scipio,
+                quanvu, choiyoung, bachkhoi, giacatluong, luutriet, alparslan)</label>
+              <input type="text" id="fCommanders" class="form-control"
+                placeholder="arthur, tontu, achilles, tanthuyhoang, scipio">
               <span class="form-hint">Nhập 5 mã tướng cách nhau bởi dấu phẩy</span>
             </div>
 
@@ -2507,7 +3029,11 @@
     <div class="modal-dialog" style="max-width: 480px;" onclick="event.stopPropagation()">
       <div class="modal-header">
         <h3 class="modal-title" id="tabModalTitle" style="display: flex; align-items: center; gap: 8px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <line x1="12" y1="8" x2="12" y2="16" />
+            <line x1="8" y1="12" x2="16" y2="12" />
+          </svg>
           <span id="tabModalTitleText">Thêm thẻ ảnh mới</span>
         </h3>
         <button type="button" class="btn-close-modal" onclick="closeTabModal()">✕</button>
@@ -2517,17 +3043,22 @@
           <label class="form-label" for="tabNameInput" style="font-weight: 700; color: #1e293b; margin-bottom: 6px;">
             Tên thẻ ảnh *
           </label>
-          <input type="text" id="tabNameInput" class="form-control" placeholder="Ví dụ: Thú cưỡi, Viện nghiên cứu, Pet..." autocomplete="off" maxlength="40" style="font-size: 14px; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px;">
-          <div id="tabNameError" style="color: #ef4444; font-size: 11.5px; font-weight: 600; margin-top: 5px; display: none;"></div>
+          <input type="text" id="tabNameInput" class="form-control"
+            placeholder="Ví dụ: Thú cưỡi, Viện nghiên cứu, Pet..." autocomplete="off" maxlength="40"
+            style="font-size: 14px; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px;">
+          <div id="tabNameError"
+            style="color: #ef4444; font-size: 11.5px; font-weight: 600; margin-top: 5px; display: none;"></div>
         </div>
 
         <div>
-          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">
+          <div
+            style="font-size: 11.5px; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">
             Gợi ý chọn nhanh:
           </div>
           <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="tabSuggestionsList">
             <button type="button" class="quick-chip" onclick="pickTabSuggestion('Thú cưỡi')">Thú cưỡi</button>
-            <button type="button" class="quick-chip" onclick="pickTabSuggestion('Viện nghiên cứu')">Viện nghiên cứu</button>
+            <button type="button" class="quick-chip" onclick="pickTabSuggestion('Viện nghiên cứu')">Viện nghiên
+              cứu</button>
             <button type="button" class="quick-chip" onclick="pickTabSuggestion('Pet')">Pet</button>
             <button type="button" class="quick-chip" onclick="pickTabSuggestion('Kho VIP')">Kho VIP</button>
             <button type="button" class="quick-chip" onclick="pickTabSuggestion('Trang phục')">Trang phục</button>
@@ -2537,9 +3068,11 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer" style="padding: 14px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px;">
+      <div class="modal-footer"
+        style="padding: 14px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px;">
         <button type="button" class="btn btn-secondary" onclick="closeTabModal()">Hủy bỏ</button>
-        <button type="button" class="btn btn-primary" id="btnSaveTabModal" onclick="submitTabModal()" style="min-width: 110px;">
+        <button type="button" class="btn btn-primary" id="btnSaveTabModal" onclick="submitTabModal()"
+          style="min-width: 110px;">
           Lưu thẻ
         </button>
       </div>
@@ -2547,26 +3080,40 @@
   </div>
 
   <!-- In-Page Tab Delete Confirm Modal -->
-  <div class="modal-backdrop" id="tabDeleteConfirmModal" style="display: none; z-index: 1550;" onclick="closeTabDeleteModal()">
-    <div class="modal-dialog" style="max-width: 420px; text-align: center; padding: 24px;" onclick="event.stopPropagation()">
-      <div style="width: 50px; height: 50px; border-radius: 50%; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto; font-size: 22px;">
+  <div class="modal-backdrop" id="tabDeleteConfirmModal" style="display: none; z-index: 1550;"
+    onclick="closeTabDeleteModal()">
+    <div class="modal-dialog" style="max-width: 420px; text-align: center; padding: 24px;"
+      onclick="event.stopPropagation()">
+      <div
+        style="width: 50px; height: 50px; border-radius: 50%; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto; font-size: 22px;">
         ⚠️
       </div>
-      <h3 style="font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 8px;" id="tabDeleteConfirmTitle">Xác nhận xóa thẻ ảnh</h3>
-      <p style="font-size: 13px; color: #64748b; line-height: 1.5; margin-bottom: 20px;" id="tabDeleteConfirmDesc">Bạn có chắc chắn muốn xóa thẻ ảnh này?</p>
+      <h3 style="font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 8px;" id="tabDeleteConfirmTitle">Xác
+        nhận xóa thẻ ảnh</h3>
+      <p style="font-size: 13px; color: #64748b; line-height: 1.5; margin-bottom: 20px;" id="tabDeleteConfirmDesc">Bạn
+        có chắc chắn muốn xóa thẻ ảnh này?</p>
       <div style="display: flex; justify-content: center; gap: 10px;">
         <button type="button" class="btn btn-secondary" onclick="closeTabDeleteModal()">Hủy</button>
-        <button type="button" class="btn" style="background: #dc2626; color: #fff; font-weight: 700; border-radius: 8px; padding: 8px 18px;" id="btnConfirmDeleteTab" onclick="executeDeleteTab()">Xóa thẻ ngay</button>
+        <button type="button" class="btn"
+          style="background: #dc2626; color: #fff; font-weight: 700; border-radius: 8px; padding: 8px 18px;"
+          id="btnConfirmDeleteTab" onclick="executeDeleteTab()">Xóa thẻ ngay</button>
       </div>
     </div>
   </div>
 
   <!-- Lightbox Modal for Image Preview -->
-  <div class="modal-backdrop" id="imgLightboxModal" onclick="closeImgLightbox()" style="z-index: 2000; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);">
-    <div style="position: relative; max-width: 92vw; max-height: 92vh; display: flex; flex-direction: column; align-items: center; justify-content: center;" onclick="event.stopPropagation()">
-      <button type="button" class="btn-close-modal" style="position: absolute; top: -38px; right: 0; color: #fff; background: rgba(255,255,255,0.2);" onclick="closeImgLightbox()">✕</button>
-      <img id="imgLightboxSrc" src="" style="max-width: 90vw; max-height: 82vh; object-fit: contain; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.6);">
-      <div id="imgLightboxTitle" style="color: #f1f5f9; margin-top: 10px; font-size: 13px; font-weight: 700; text-align: center;"></div>
+  <div class="modal-backdrop" id="imgLightboxModal" onclick="closeImgLightbox()"
+    style="z-index: 2000; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);">
+    <div
+      style="position: relative; max-width: 92vw; max-height: 92vh; display: flex; flex-direction: column; align-items: center; justify-content: center;"
+      onclick="event.stopPropagation()">
+      <button type="button" class="btn-close-modal"
+        style="position: absolute; top: -38px; right: 0; color: #fff; background: rgba(255,255,255,0.2);"
+        onclick="closeImgLightbox()">✕</button>
+      <img id="imgLightboxSrc" src=""
+        style="max-width: 90vw; max-height: 82vh; object-fit: contain; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.6);">
+      <div id="imgLightboxTitle"
+        style="color: #f1f5f9; margin-top: 10px; font-size: 13px; font-weight: 700; text-align: center;"></div>
     </div>
   </div>
 
@@ -2576,8 +3123,11 @@
   </div>
 
   <!-- Scroll to Top Floating Button -->
-  <button id="scrollTopBtn" class="scroll-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Lên đầu trang" aria-label="Lên đầu trang">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+  <button id="scrollTopBtn" class="scroll-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+    title="Lên đầu trang" aria-label="Lên đầu trang">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
   </button>
 
   <!-- Fallback nạp danh sách sản phẩm từ file gốc js/list.js -->
@@ -2717,7 +3267,7 @@
       if (savedConfig) {
         try {
           siteConfig = JSON.parse(savedConfig);
-        } catch (e) {}
+        } catch (e) { }
       }
       populateConfigForms();
 
@@ -2746,7 +3296,7 @@
             if (!siteConfig.banner) siteConfig.banner = {};
             siteConfig.banner.images = parsed;
           }
-        } catch (e) {}
+        } catch (e) { }
       } else if (typeof bannerImages !== "undefined" && Array.isArray(bannerImages)) {
         if (!siteConfig.banner) siteConfig.banner = {};
         siteConfig.banner.images = [...bannerImages];
@@ -3436,7 +3986,7 @@
       // Dọn dẹp các queue items đang pending
       uploadQueue.forEach(q => {
         if (q.previewUrl && q.previewUrl.startsWith("blob:")) {
-          try { URL.revokeObjectURL(q.previewUrl); } catch(e) {}
+          try { URL.revokeObjectURL(q.previewUrl); } catch (e) { }
         }
       });
       uploadQueue = [];
@@ -3466,7 +4016,7 @@
         let previewUrl = "";
         try {
           previewUrl = URL.createObjectURL(file);
-        } catch(e) {
+        } catch (e) {
           previewUrl = "";
         }
         uploadQueue.push({
@@ -3565,7 +4115,7 @@
 
             item.status = 'done';
             if (item.previewUrl && item.previewUrl.startsWith("blob:")) {
-              try { URL.revokeObjectURL(item.previewUrl); } catch(e) {}
+              try { URL.revokeObjectURL(item.previewUrl); } catch (e) { }
             }
 
             // Đưa ảnh vào danh mục
@@ -3618,14 +4168,113 @@
     function removeUploadQueueItem(qId) {
       const item = uploadQueue.find(q => q.id === qId);
       if (item && item.previewUrl && item.previewUrl.startsWith("blob:")) {
-        try { URL.revokeObjectURL(item.previewUrl); } catch(e) {}
+        try { URL.revokeObjectURL(item.previewUrl); } catch (e) { }
       }
       uploadQueue = uploadQueue.filter(q => q.id !== qId);
       renderUploadedImagesGrid();
       updateProgressBar();
     }
 
-    // Render lưới ảnh trong mục hiện tại (Hỗ trợ cả ảnh đã xong + ảnh đang trong hàng đợi Upload)
+    // ========================================================================
+    // QUẢN LÝ KÉO THẢ (DRAG & DROP) SẮP XẾP VỊ TRÍ ẢNH TRONG ALBUM
+    // ========================================================================
+    let draggedImageIndex = null;
+    let isImageDragging = false;
+
+    function handleImageDragStart(e, idx) {
+      if (e.target.closest('.card-actions-bar') || e.target.closest('.cat-move-dropdown')) {
+        e.preventDefault();
+        return;
+      }
+      draggedImageIndex = idx;
+      isImageDragging = true;
+      if (e.dataTransfer) {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', String(idx));
+      }
+      const card = e.currentTarget;
+      setTimeout(() => {
+        if (card) card.classList.add('dragging');
+      }, 0);
+    }
+
+    function handleImageDragOver(e, idx) {
+      e.preventDefault();
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = 'move';
+      }
+    }
+
+    function handleImageDragEnter(e, idx) {
+      e.preventDefault();
+      if (draggedImageIndex === null || draggedImageIndex === idx) return;
+      const card = e.currentTarget;
+      if (card) card.classList.add('drag-over');
+    }
+
+    function handleImageDragLeave(e, idx) {
+      const card = e.currentTarget;
+      if (card && !card.contains(e.relatedTarget)) {
+        card.classList.remove('drag-over');
+      }
+    }
+
+    function handleImageDrop(e, targetIdx) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const fromIdx = draggedImageIndex;
+      document.querySelectorAll('.uploaded-img-card').forEach(c => {
+        c.classList.remove('drag-over', 'dragging');
+      });
+
+      if (fromIdx === null || fromIdx === targetIdx) {
+        draggedImageIndex = null;
+        return;
+      }
+
+      const list = editingCategories[activeImageCategory];
+      if (!list || fromIdx < 0 || targetIdx < 0 || fromIdx >= list.length || targetIdx >= list.length) {
+        draggedImageIndex = null;
+        return;
+      }
+
+      const [movedItem] = list.splice(fromIdx, 1);
+      list.splice(targetIdx, 0, movedItem);
+
+      draggedImageIndex = null;
+      renderUploadedImagesGrid();
+      showToast(`Đã chuyển ảnh #${fromIdx + 1} sang vị trí #${targetIdx + 1}!`, "normal");
+    }
+
+    function handleImageDragEnd(e) {
+      draggedImageIndex = null;
+      document.querySelectorAll('.uploaded-img-card').forEach(c => {
+        c.classList.remove('drag-over', 'dragging');
+      });
+      setTimeout(() => {
+        isImageDragging = false;
+      }, 150);
+    }
+
+    function handleImageCardClick(e, src, title) {
+      if (isImageDragging) return;
+      previewUploadedImage(src, title);
+    }
+
+    function moveUploadedImageStep(idx, direction) {
+      const list = editingCategories[activeImageCategory];
+      if (!list) return;
+      const targetIdx = idx + direction;
+      if (targetIdx < 0 || targetIdx >= list.length) return;
+      const temp = list[idx];
+      list[idx] = list[targetIdx];
+      list[targetIdx] = temp;
+      renderUploadedImagesGrid();
+      showToast(`Đã chuyển ảnh sang vị trí #${targetIdx + 1}!`, "normal");
+    }
+
+    // Render lưới ảnh trong mục hiện tại (Hỗ trợ kéo thả đổi vị trí + cả ảnh đã xong + ảnh đang trong hàng đợi Upload)
     function renderUploadedImagesGrid() {
       const grid = document.getElementById("uploadedImagesGrid");
       if (!grid) return;
@@ -3647,7 +4296,7 @@
       let html = "";
       const primaryCatId = editingCategoryTabs[0]?.id || 'tuong';
 
-      // 1. Render các ảnh đã tải lên hoàn tất
+      // 1. Render các ảnh đã tải lên hoàn tất (Hỗ trợ kéo thả trực quan)
       list.forEach((src, idx) => {
         const isCover = (activeImageCategory === primaryCatId && idx === 0);
         const moveOptions = editingCategoryTabs
@@ -3656,13 +4305,24 @@
           .join("");
 
         html += `
-          <div class="uploaded-img-card ${isCover ? 'cover-img' : ''}" onclick="previewUploadedImage('${escapeHtml(src)}', '${escapeHtml(currentCatName)} #${idx + 1}')" title="Bấm để phóng to ảnh">
+          <div class="uploaded-img-card ${isCover ? 'cover-img' : ''}" 
+               draggable="true"
+               data-index="${idx}"
+               ondragstart="handleImageDragStart(event, ${idx})"
+               ondragover="handleImageDragOver(event, ${idx})"
+               ondragenter="handleImageDragEnter(event, ${idx})"
+               ondragleave="handleImageDragLeave(event, ${idx})"
+               ondrop="handleImageDrop(event, ${idx})"
+               ondragend="handleImageDragEnd(event)"
+               onclick="handleImageCardClick(event, '${escapeHtml(src)}', '${escapeHtml(currentCatName)} #${idx + 1}')" 
+               title="Kéo & thả để sắp xếp vị trí • Bấm để phóng to">
+            <span class="drag-grip-icon" title="Cầm và kéo để đổi vị trí">⠿</span>
             <img src="${escapeHtml(src)}" alt="Ảnh #${idx + 1}" loading="lazy" onerror="this.src='../assets/rok_avatar.jpg'">
             
             ${isCover
-              ? `<span class="cover-tag"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ẢNH BÌA</span>`
-              : `<span class="order-tag">#${idx + 1}</span>`
-            }
+            ? `<span class="cover-tag"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ẢNH BÌA</span>`
+            : `<span class="order-tag">#${idx + 1}</span>`
+          }
 
             <div class="card-actions-bar" onclick="event.stopPropagation()">
               ${!isCover ? `
@@ -3671,6 +4331,8 @@
               ${editingCategoryTabs.length > 1 ? `
                 <button type="button" class="card-action-btn btn-move" onclick="toggleMoveDropdown(event, ${idx})" title="Chuyển ảnh này sang thẻ khác">⇄</button>
               ` : ''}
+              <button type="button" class="card-action-btn btn-move" onclick="moveUploadedImageStep(${idx}, -1)" title="Chuyển lên trước" ${idx === 0 ? 'disabled style="opacity: 0.35; cursor: not-allowed;"' : ''}>◀</button>
+              <button type="button" class="card-action-btn btn-move" onclick="moveUploadedImageStep(${idx}, 1)" title="Chuyển xuống sau" ${idx === list.length - 1 ? 'disabled style="opacity: 0.35; cursor: not-allowed;"' : ''}>▶</button>
               <button type="button" class="card-action-btn btn-zoom" onclick="previewUploadedImage('${escapeHtml(src)}', '${escapeHtml(currentCatName)} #${idx + 1}')" title="Phóng to">🔍</button>
               <button type="button" class="card-action-btn btn-del" onclick="deleteUploadedImage(${idx})" title="Xóa ảnh này">✕</button>
             </div>
@@ -3831,6 +4493,85 @@
     // QUẢN LÝ ẢNH HERO BANNER / THUMBNAIL TRANG CHỦ (ĐỘC LẬP: JS/THUM.JS)
     // ========================================================================
     let isBannerUploadCancelled = false;
+    let draggedBannerIndex = null;
+    let isBannerDragging = false;
+
+    function handleBannerDragStart(e, idx) {
+      if (e.target.closest('.card-actions-bar')) {
+        e.preventDefault();
+        return;
+      }
+      draggedBannerIndex = idx;
+      isBannerDragging = true;
+      if (e.dataTransfer) {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', String(idx));
+      }
+      const card = e.currentTarget;
+      setTimeout(() => {
+        if (card) card.classList.add('dragging');
+      }, 0);
+    }
+
+    function handleBannerDragOver(e, idx) {
+      e.preventDefault();
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = 'move';
+      }
+    }
+
+    function handleBannerDragEnter(e, idx) {
+      e.preventDefault();
+      if (draggedBannerIndex === null || draggedBannerIndex === idx) return;
+      const card = e.currentTarget;
+      if (card) card.classList.add('drag-over');
+    }
+
+    function handleBannerDragLeave(e, idx) {
+      const card = e.currentTarget;
+      if (card && !card.contains(e.relatedTarget)) {
+        card.classList.remove('drag-over');
+      }
+    }
+
+    function handleBannerDrop(e, targetIdx) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const fromIdx = draggedBannerIndex;
+      document.querySelectorAll('.banner-thumb-card').forEach(c => {
+        c.classList.remove('drag-over', 'dragging');
+      });
+
+      if (fromIdx === null || fromIdx === targetIdx) {
+        draggedBannerIndex = null;
+        return;
+      }
+
+      const imgs = siteConfig.banner?.images;
+      if (!imgs || fromIdx < 0 || targetIdx < 0 || fromIdx >= imgs.length || targetIdx >= imgs.length) {
+        draggedBannerIndex = null;
+        return;
+      }
+
+      const [movedItem] = imgs.splice(fromIdx, 1);
+      imgs.splice(targetIdx, 0, movedItem);
+
+      draggedBannerIndex = null;
+      collectConfigFromForms();
+      renderBannerImagesGrid();
+      showToast(`Đã chuyển ảnh banner sang vị trí #${targetIdx + 1}!`, "normal");
+    }
+
+    function handleBannerDragEnd(e) {
+      draggedBannerIndex = null;
+      document.querySelectorAll('.banner-thumb-card').forEach(c => {
+        c.classList.remove('drag-over', 'dragging');
+      });
+      setTimeout(() => {
+        isBannerDragging = false;
+      }, 150);
+    }
 
     function renderBannerImagesGrid() {
       const grid = document.getElementById("bannerImagesGrid");
@@ -3840,7 +4581,7 @@
       const imgs = (siteConfig.banner && Array.isArray(siteConfig.banner.images))
         ? siteConfig.banner.images
         : [];
-      
+
       if (countEl) countEl.textContent = imgs.length;
       const tabBadgeBanner = document.getElementById("tabBadgeBannerCount");
       if (tabBadgeBanner) tabBadgeBanner.textContent = imgs.length;
@@ -3857,11 +4598,20 @@
       }
 
       grid.innerHTML = imgs.map((url, idx) => `
-        <div class="banner-thumb-card" data-idx="${idx}">
+        <div class="banner-thumb-card" 
+             data-idx="${idx}"
+             draggable="true"
+             ondragstart="handleBannerDragStart(event, ${idx})"
+             ondragover="handleBannerDragOver(event, ${idx})"
+             ondragenter="handleBannerDragEnter(event, ${idx})"
+             ondragleave="handleBannerDragLeave(event, ${idx})"
+             ondrop="handleBannerDrop(event, ${idx})"
+             ondragend="handleBannerDragEnd(event)"
+             title="Kéo & thả để sắp xếp vị trí ảnh banner">
           <span class="banner-badge-order">#${idx + 1}</span>
           <img src="${escapeHtml(url)}" class="thumb-img" alt="Banner #${idx + 1}" onerror="this.src='../assets/banner.jpg'">
           
-          <div class="card-actions-bar">
+          <div class="card-actions-bar" onclick="event.stopPropagation()">
             <!-- Xem to -->
             <button type="button" class="card-action-btn btn-zoom" onclick="previewUploadedImage('${escapeHtml(url)}', 'Ảnh Banner #${idx + 1}')" title="Phóng to ảnh">
               🔍
@@ -4357,7 +5107,7 @@
         '      window.siteConfig = siteConfig;\n' +
         '    }\n' +
         '  <' + '/script>\n  <' + 'script src="js/list.js?v=' + Date.now() + '"><' + '/script>';
-      
+
       const blob = new Blob([scriptTag], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -4463,7 +5213,7 @@ if (typeof window !== "undefined") {
         const win = {};
         const res = sandboxFn(win);
         if (Array.isArray(res) && res.length > 0) return res;
-      } catch (e) {}
+      } catch (e) { }
 
       try {
         const m = contentStr.match(/(?:var|let|const)\s+mockProducts\s*=\s*(\[[\s\S]*?\]);/);
@@ -4471,7 +5221,7 @@ if (typeof window !== "undefined") {
           const parsed = JSON.parse(m[1]);
           if (Array.isArray(parsed) && parsed.length > 0) return parsed;
         }
-      } catch (e) {}
+      } catch (e) { }
 
       return null;
     }
@@ -4489,7 +5239,7 @@ if (typeof window !== "undefined") {
           const res = sandboxFn(win);
           if (res && typeof res === "object") return res;
         }
-      } catch (e) {}
+      } catch (e) { }
       return null;
     }
 
@@ -4503,7 +5253,7 @@ if (typeof window !== "undefined") {
         const win = {};
         const res = sandboxFn(win);
         if (Array.isArray(res) && res.length > 0) return res;
-      } catch (e) {}
+      } catch (e) { }
 
       try {
         const m = contentStr.match(/(?:var|let|const)\s+bannerImages\s*=\s*(\[[\s\S]*?\]);/);
@@ -4511,7 +5261,7 @@ if (typeof window !== "undefined") {
           const parsed = JSON.parse(m[1]);
           if (Array.isArray(parsed)) return parsed;
         }
-      } catch (e) {}
+      } catch (e) { }
 
       return null;
     }
@@ -4570,7 +5320,7 @@ if (typeof window !== "undefined") {
         // BƯỚC 1: XÁC THỰC SECRET KEY VỚI WORKER
         setStep("stepAuth", "active", "1. Đang xác thực Secret Key với Cloudflare Worker...");
         const headers = { "X-Admin-Key": secret };
-        
+
         let pingRes;
         try {
           pingRes = await fetch(workerUrl, { method: "GET", headers });
@@ -4633,7 +5383,7 @@ if (typeof window !== "undefined") {
                 syncedProducts = true;
               }
             }
-          } catch (e) {}
+          } catch (e) { }
         }
         setStep("stepList", "done", `2. Đã đồng bộ ${adminProducts.length} sản phẩm & ảnh từ js/list.js!`);
 
@@ -4673,7 +5423,7 @@ if (typeof window !== "undefined") {
                 syncedIndex = true;
               }
             }
-          } catch (e) {}
+          } catch (e) { }
         }
         setStep("stepIndex", "done", "3. Đã đồng bộ cấu hình SEO, Zalo & giao diện từ index.html!");
 
@@ -4716,7 +5466,7 @@ if (typeof window !== "undefined") {
                 syncedThum = true;
               }
             }
-          } catch (e) {}
+          } catch (e) { }
         }
         const bannerTotal = (siteConfig.banner && Array.isArray(siteConfig.banner.images)) ? siteConfig.banner.images.length : 0;
         setStep("stepThum", "done", `4. Đã đồng bộ ${bannerTotal} ảnh banner từ js/thum.js!`);
@@ -5000,4 +5750,5 @@ if (typeof window !== "undefined") {
     }
   </script>
 </body>
+
 </html>

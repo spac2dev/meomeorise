@@ -2581,9 +2581,9 @@
   </button>
 
   <!-- Fallback nạp danh sách sản phẩm từ file gốc js/list.js -->
-  <script src="../js/list.js"></script>
+  <script src="../js/list.js?v=20261028_01"></script>
   <!-- Nạp danh sách ảnh banner từ file riêng js/thum.js -->
-  <script src="../js/thum.js"></script>
+  <script src="../js/thum.js?v=20261028_01"></script>
   <script>
     // ========================================================================
     // STATE MANAGEMENT
@@ -2923,7 +2923,8 @@
           const rawP = Number(item.price) || 0;
           const vndP = rawP < 50000 ? Math.round(rawP * 25400) : rawP;
           const priceFormatted = vndP.toLocaleString("vi-VN") + " ₫";
-          const directLink = `detail.html?id=${rawId}`;
+          const vlrCode = String(rawId).toUpperCase().startsWith('VLR') ? rawId : ('VLR' + rawId);
+          const directLink = `account.html?id=${vlrCode}`;
 
           const images = Array.isArray(item.images) ? item.images : [];
           const imgCellHtml = images.length > 0
@@ -4287,11 +4288,12 @@
         savedCategories[t.id] = [...(editingCategories[t.id] || [])];
       });
 
+      const vlrCode = String(newId).toUpperCase().startsWith('VLR') ? newId : ('VLR' + newId);
       const itemData = {
         id: newId,
         title,
         price,
-        link: `detail.html?id=${newId}`,
+        link: `account.html?id=${vlrCode}`,
         favorites: Number(document.getElementById("fFavorites").value) || 0,
         isFavorited: false,
         images: allFlatImages,
@@ -4326,9 +4328,10 @@
       const copy = JSON.parse(JSON.stringify(orig));
       const maxId = Math.max(...adminProducts.map(p => p.id));
       copy.id = maxId + 1;
+      const vlrCopyCode = String(copy.id).toUpperCase().startsWith('VLR') ? copy.id : ('VLR' + copy.id);
       copy.title = `${copy.title} (Bản sao)`;
-      copy.link = `detail.html?id=${copy.id}`;
-      copy.info = `#${copy.id} | Có thể nhập cư`;
+      copy.link = `account.html?id=${vlrCopyCode}`;
+      copy.info = `#${vlrCopyCode} | Có thể nhập cư`;
       adminProducts.unshift(copy);
       localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
       filterAdminItems();
@@ -4913,6 +4916,8 @@ if (typeof window !== "undefined") {
         if (res.ok && data.success) {
           localStorage.setItem("wontrade_admin_banner_images", JSON.stringify(imgs));
           window.bannerImages = [...imgs];
+          if (!siteConfig.banner) siteConfig.banner = {};
+          siteConfig.banner.images = [...imgs];
           showToast(`Đã lưu & xuất bản ${imgs.length} ảnh banner vào file js/thum.js thành công!`, "success");
         } else {
           showToast(`Lỗi lưu ảnh banner: ${data.error || "Không rõ nguyên nhân"}`, "error");

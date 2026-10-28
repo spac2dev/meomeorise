@@ -427,11 +427,18 @@ function renderListings(itemsToRender) {
     const totalPhotos = allImages.length;
     const escapedTitle = String(item.title || '').replace(/"/g, '&quot;');
 
+    const rawIdStr = String(item.id || '');
+    const displayAccId = rawIdStr.toUpperCase().startsWith('VLR') ? rawIdStr.toUpperCase() : ('VLR' + rawIdStr);
+    let kingdomPart0 = (item.info || '').split('|')[0]?.trim() || '';
+    if (/^#?\d+/.test(kingdomPart0)) {
+      kingdomPart0 = '#' + displayAccId;
+    }
+
     return `
-      <div class="product-card" data-id="${item.id}" onclick="handleItemCardClick(${item.id}, event)" style="cursor: pointer;">
+      <div class="product-card" data-id="${item.id}" onclick="handleItemCardClick('${item.id}', event)" style="cursor: pointer;">
         <!-- Mobile Floating Favorite Button (ghim trên ảnh) -->
         <div class="mobile-price-container">
-          <button class="btn-fav ${item.isFavorited ? 'active' : ''}" onclick="toggleFavorite(${item.id}, event)" aria-label="Thích">
+          <button class="btn-fav ${item.isFavorited ? 'active' : ''}" onclick="toggleFavorite('${item.id}', event)" aria-label="Thích">
             ${starSvg}
             <span>${item.favorites}</span>
           </button>
@@ -439,7 +446,7 @@ function renderListings(itemsToRender) {
 
         <!-- Cột 1: Tấm ảnh chính + Hộp giá tiền nổi bật -->
         <div class="card-cover-column">
-          <div class="card-cover-wrap" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp vào để mở xem trọn bộ ảnh chi tiết">
+          <div class="card-cover-wrap" onclick="openCategoryModal('${item.id}', 'tuong', event)" title="Nhấp vào để mở xem trọn bộ ảnh chi tiết">
             <img src="${coverImg}" alt="${escapedTitle}" class="card-cover-img" loading="lazy" onerror="this.src='assets/thum1.jpg'">
             <div class="card-cover-overlay">
               <span class="cover-zoom-icon">🔍</span>
@@ -447,7 +454,7 @@ function renderListings(itemsToRender) {
             </div>
             ${totalPhotos > 0 ? `<div class="card-cover-count-badge">📷 ${totalPhotos} ảnh</div>` : ''}
           </div>
-          <div class="card-cover-price-box" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp để xem chi tiết tài khoản">
+          <div class="card-cover-price-box" onclick="openCategoryModal('${item.id}', 'tuong', event)" title="Nhấp để xem chi tiết tài khoản">
             <span class="cover-price-amount">${formattedPrice}</span>
             <span class="cover-price-cta">Chi tiết →</span>
           </div>
@@ -460,7 +467,7 @@ function renderListings(itemsToRender) {
             ${badgesHtml}
           </div>
           <div class="kingdom-info">
-            <span class="k-code">🏰 ${item.info.split('|')[0].trim()}</span>
+            <span class="k-code">🏰 ${kingdomPart0}</span>
             <span class="k-divider">•</span>
             <span class="immigration">${item.info.split('|')[1]?.trim() || ''}</span>
           </div>
@@ -477,7 +484,7 @@ function renderListings(itemsToRender) {
         <div class="card-right">
           <!-- Desktop Fav row -->
           <div class="price-fav-row">
-            <button class="btn-fav ${item.isFavorited ? 'active' : ''}" onclick="toggleFavorite(${item.id}, event)" aria-label="Thích">
+            <button class="btn-fav ${item.isFavorited ? 'active' : ''}" onclick="toggleFavorite('${item.id}', event)" aria-label="Thích">
               ${starSvg}
               <span>${item.favorites}</span>
             </button>
@@ -485,7 +492,7 @@ function renderListings(itemsToRender) {
 
           <!-- CTA Action -->
           <div class="card-right-bottom">
-            <button type="button" class="btn-card-detail" onclick="openProductModal(${item.id})">Xem chi tiết →</button>
+            <button type="button" class="btn-card-detail" onclick="openProductModal('${item.id}')">Xem chi tiết →</button>
           </div>
         </div>
       </div>
@@ -501,18 +508,28 @@ let currentModalItem = null;
 let currentModalImages = [];
 let currentModalImageIndex = 0;
 
+// Helper định dạng ID thành mã VLR...
+function formatAccountId(id) {
+  if (!id) return '';
+  const str = String(id).trim();
+  return str.toUpperCase().startsWith('VLR') ? str.toUpperCase() : ('VLR' + str);
+}
+
 window.handleItemCardClick = function(id, event) {
   if (event && (event.target.closest('.btn-fav') || event.target.tagName === 'BUTTON')) return;
-  window.location.href = `detail.html?id=${id}`;
+  const accId = formatAccountId(id);
+  window.location.href = `account.html?id=${accId}`;
 };
 
 window.openProductModal = function(id) {
-  window.location.href = `detail.html?id=${id}`;
+  const accId = formatAccountId(id);
+  window.location.href = `account.html?id=${accId}`;
 };
 
 window.openCategoryModal = function(id, category = 'tuong', event) {
   if (event) event.stopPropagation();
-  window.location.href = `detail.html?id=${id}&cat=${category || 'tuong'}`;
+  const accId = formatAccountId(id);
+  window.location.href = `account.html?id=${accId}&cat=${category || 'tuong'}`;
 };
 
 window.closeProductModal = function() {
@@ -622,7 +639,8 @@ const categoryMetaMap = {
 
 window.openCategoryModal = function(id, category = 'tuong', event) {
   if (event) event.stopPropagation();
-  window.location.href = `detail.html?id=${id}&cat=${category || 'tuong'}`;
+  const accId = formatAccountId(id);
+  window.location.href = `account.html?id=${accId}&cat=${category || 'tuong'}`;
 };
 
 
@@ -752,7 +770,14 @@ window.toggleFavorite = function(id, event) {
     event.stopPropagation();
     event.preventDefault();
   }
-  const item = mockProducts.find(p => p.id === id);
+  const targetStr = String(id).trim().toUpperCase();
+  const numOnly = targetStr.replace(/^VLR/i, '');
+  const item = mockProducts.find(p => {
+    if (!p) return false;
+    const pStr = String(p.id).trim().toUpperCase();
+    const pNum = pStr.replace(/^VLR/i, '');
+    return pStr === targetStr || pNum === numOnly || (numOnly && Number(pNum) === Number(numOnly));
+  });
   if (item) {
     item.isFavorited = !item.isFavorited;
     item.favorites += item.isFavorited ? 1 : -1;
@@ -788,10 +813,12 @@ window.applyFilters = function() {
   let filtered = allItems.filter(item => {
     const itemVnd = getItemVndPrice(item);
 
-    // 1. Tìm kiếm theo mã số (#2654...), tiêu đề, vương quốc, tướng
+    // 1. Tìm kiếm theo mã số (#2654, #VLR..., 2654...), tiêu đề, vương quốc, tướng
     if (searchVal) {
-      const cleanSearch = searchVal.replace(/^#/, "");
-      const matchId = String(item.id).includes(cleanSearch);
+      const cleanSearch = searchVal.replace(/^[#]/, "").replace(/^vlr/i, "");
+      const matchId = String(item.id).toLowerCase().includes(searchVal) ||
+                      String(item.id).toLowerCase().includes(cleanSearch) ||
+                      ("vlr" + String(item.id).toLowerCase()).includes(searchVal);
       const matchTitle = (item.title || "").toLowerCase().includes(searchVal);
       const matchInfo = (item.info || "").toLowerCase().includes(searchVal);
       const matchStats = (item.stats || "").toLowerCase().includes(searchVal);

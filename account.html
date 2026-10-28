@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title id="pageTitle">Chi tiết tài khoản - WONTRADE</title>
+  <meta name="description" id="pageDesc" content="Xem chi tiết tài khoản Rise of Kingdoms, hình ảnh tướng, trang bị, kho rss, vé bay. Giao dịch an toàn, bảo hiểm 100% tại WONTRADE.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <style>
+    /* ========================================================================
+       CHUYỂN ĐỔI GIAO DIỆN DESKTOP / MOBILE TỰ ĐỘNG
+       ======================================================================== */
+    .desktop-detail-view {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .mobile-detail-view {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      background: #f4f5f8;
+      min-height: 100vh;
+      padding-bottom: 90px; /* Chỗ cho thanh CTA đáy */
+    }
+
+    @media (max-width: 768px), (pointer: coarse) and (max-width: 900px) {
+      .desktop-detail-view {
+        display: none !important;
+      }
+      .mobile-detail-view {
+        display: flex !important;
+      }
+      .detail-page-body {
+        background: #f4f5f8 !important;
+      }
+      .detail-page-layout {
+        box-shadow: none !important;
+        background: transparent !important;
+      }
+    }
+
+    /* ========================================================================
+       GIAO DIỆN MOBILE TỐI ƯU KÍCH THƯỚC CHO THIẾT BỊ DI ĐỘNG (CHUẨN APPLE IOS)
+       ======================================================================== */
+    /* 1. Header di động */
+    .m-header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      height: 48px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.94);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      border-bottom: 0.5px solid rgba(60, 60, 67, 0.12);
+    }
+
+    .m-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .m-btn-back {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(142, 142, 147, 0.12);
+      color: #1c1c1e;
+      text-decoration: none;
+      transition: transform 0.15s ease;
+    }
+
+    .m-btn-back:active {
+      transform: scale(0.92);
+      background: rgba(142, 142, 147, 0.22);
+    }
+
+    .m-header-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #1c1c1e;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .m-id-pill {
+      font-family: monospace;
+      font-size: 11.5px;
+      font-weight: 800;
+      background: #1c1c1e;
+      color: #ffffff;
+      padding: 2px 7px;
+      border-radius: 9999px;
+    }
+
+    .m-btn-zalo-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 10px;
+      background: linear-gradient(135deg, #ff3b30 0%, #e60012 100%);
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
+    }
+
+    /* 2. Thanh Tabs Danh Mục Cuộn Ngang Mượt Mà (Tránh Tràn Khi Thêm Nhiều Thẻ) */
+    .m-tabs-bar {
+      position: sticky;
+      top: 48px;
+      z-index: 190;
+      background: rgba(255, 255, 255, 0.96);
+      -webkit-backdrop-filter: blur(15px);
+      backdrop-filter: blur(15px);
+      padding: 8px 10px;
+      margin-top: 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 7px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(60, 60, 67, 0.22) transparent;
+      border-top: 0.5px solid rgba(60, 60, 67, 0.08);
+      border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    .m-tabs-bar::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    .m-tabs-bar::-webkit-scrollbar-thumb {
+      background: rgba(60, 60, 67, 0.25);
+      border-radius: 9999px;
+    }
+
+    .m-tab-btn {
+      flex: 0 0 auto;
+      min-width: 82px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      border-radius: 10px;
+      background: #f2f2f7;
+      border: 1px solid rgba(60, 60, 67, 0.08);
+      color: #3c3c43;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+      scroll-snap-align: start;
+      white-space: nowrap;
+    }
+
+    .m-tab-btn:active {
+      transform: scale(0.96);
+    }
+
+    .m-tab-btn.active {
+      background: linear-gradient(180deg, #372844 0%, #1f142b 100%);
+      border-color: #ffd666;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(31, 20, 43, 0.35);
+    }
+
+    .m-tab-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .m-tab-btn.active .m-tab-label {
+      color: #ffe58f;
+    }
+
+    .m-tab-count {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #8e8e93;
+      margin-top: 2px;
+    }
+
+    .m-tab-btn.active .m-tab-count {
+      color: #ffffff;
+      opacity: 0.85;
+    }
+
+    /* 2.5. Mobile Top Horizontal All-Photos Slider (Cuộn Ngang Tất Cả Ảnh Sản Phẩm) */
+    .m-all-photos-section {
+      position: relative;
+      width: 100%;
+      margin-top: 8px;
+      padding: 0 10px;
+    }
+
+    .m-all-photos-slider {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .m-all-photos-slider::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    .m-slider-card {
+      flex: 0 0 calc(100% - 24px);
+      scroll-snap-align: center;
+      position: relative;
+      height: 230px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0f172a;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      border: 0.5px solid rgba(60, 60, 67, 0.12);
+      cursor: zoom-in;
+      transition: transform 0.15s ease;
+    }
+
+    .m-slider-card:active {
+      transform: scale(0.985);
+    }
+
+    .m-slider-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #0f172a;
+    }
+
+    .m-slider-card .m-slider-cat-pill {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(15, 23, 42, 0.85);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 0.5px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .m-slider-card .m-slider-zoom-tag {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(15, 23, 42, 0.8);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .m-slider-floating-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 4px 0 4px;
+    }
+
+    .m-slider-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #ffffff;
+      color: #1c1c1e;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      border: 0.5px solid rgba(60, 60, 67, 0.1);
+    }
+
+    .m-slider-swipe-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: #8e8e93;
+      font-weight: 600;
+    }
+
+    /* 3. Mobile Hero Card (Giá tiền, Tiêu đề, Trạng thái) */
+    .m-hero-card {
+      margin: 10px 10px 0 10px;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 14px 14px 12px 14px;
+      border: 0.5px solid rgba(60, 60, 67, 0.08);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .m-price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .m-price-tag {
+      color: #ff3b30;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .m-badges-wrap {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .m-title-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1c1c1e;
+      line-height: 1.35;
+      margin-top: 8px;
+    }
+
+    .m-immigration-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #166534;
+      background: #dcfce7;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      border: 0.5px solid rgba(22, 101, 52, 0.2);
+    }
+
+    /* 4. Mobile Stats Grid 4 Ô (Cấp độ, VIP, Sức mạnh, Điểm tiêu diệt) */
+    .m-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin: 8px 10px 0 10px;
+    }
+
+    .m-stat-box {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 8px 4px;
+      text-align: center;
+      border: 0.5px solid rgba(60, 60, 67, 0.08);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .m-stat-k {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #8e8e93;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .m-stat-v {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #1c1c1e;
+      margin-top: 2px;
+      line-height: 1.2;
+    }
+
+    /* 5. Mobile Tags Section */
+    .m-tags-card {
+      margin: 8px 10px 0 10px;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 0.5px solid rgba(60, 60, 67, 0.08);
+    }
+
+    .m-card-title {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #8e8e93;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .m-tags-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .m-tags-flex .tag-badge {
+      font-size: 10.5px;
+      padding: 3px 8px;
+    }
+
+    /* 6. Mobile Photo Stream (Ảnh căn tràn, tối ưu tỉ lệ) */
+    .m-gallery-section {
+      margin: 12px 10px 0 10px;
+    }
+
+    .m-gallery-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      padding: 0 2px;
+    }
+
+    .m-gallery-title {
+      font-size: 13.5px;
+      font-weight: 900;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .m-gallery-count {
+      font-size: 11px;
+      font-weight: 700;
+      color: #ff3b30;
+      background: rgba(255, 59, 48, 0.1);
+      padding: 2px 7px;
+      border-radius: 9999px;
+    }
+
+    .m-images-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .m-img-card {
+      position: relative;
+      background: #ffffff;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 0.5px solid rgba(60, 60, 67, 0.12);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      cursor: zoom-in;
+    }
+
+    .m-img-card:active {
+      transform: scale(0.99);
+    }
+
+    .m-img-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #0f172a;
+    }
+
+    .m-img-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(15, 23, 42, 0.82);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+
+    .m-img-zoom-hint {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(15, 23, 42, 0.82);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* 7. Mobile Guarantee Card */
+    .m-guarantee-card {
+      margin: 12px 10px 0 10px;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      border: 0.5px solid rgba(22, 163, 74, 0.25);
+      background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+    }
+
+    .m-guar-head {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #16a34a;
+      font-size: 12.5px;
+      font-weight: 800;
+    }
+
+    .m-guar-list {
+      margin-top: 6px;
+      padding-left: 16px;
+      font-size: 11.5px;
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    /* 8. Mobile Fixed Bottom CTA Bar (Apple Safe Area) */
+    .m-bottom-dock {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 300;
+      background: rgba(255, 255, 255, 0.96);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+      padding: 8px 12px;
+      padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .m-dock-zalo-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #f2f2f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #ff3b30;
+      text-decoration: none;
+      flex-shrink: 0;
+      border: 0.5px solid rgba(60, 60, 67, 0.1);
+      transition: transform 0.15s ease;
+    }
+
+    .m-dock-zalo-icon:active {
+      transform: scale(0.92);
+    }
+
+    .m-dock-zalo-icon span {
+      font-size: 8px;
+      font-weight: 700;
+      margin-top: 1px;
+      color: #ff3b30;
+    }
+
+    .m-dock-buy-btn {
+      flex: 1;
+      height: 44px;
+      background: linear-gradient(135deg, #ff3b30 0%, #e60012 100%);
+      color: #ffffff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 13.5px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(255, 59, 48, 0.35);
+      transition: transform 0.15s ease;
+    }
+
+    .m-dock-buy-btn:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+
+<body class="detail-page-body">
+
+  <div class="detail-page-layout">
+
+    <!-- ======================================================================
+         A. GIAO DIỆN DESKTOP (CHO MÁY TÍNH & MÀN HÌNH LỚN > 768px)
+         ====================================================================== -->
+    <div class="desktop-detail-view">
+      <!-- 1. Top Sticky Header Desktop -->
+      <header class="cat-modal-header detail-header">
+        <div class="cat-modal-header-left">
+          <a href="index.html" class="cat-back-btn" id="btnBackHomeDesktop" title="Quay lại trang chủ">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span>Quay lại</span>
+          </a>
+          <a href="index.html" class="logo" style="font-size: 18px; margin-left: 6px; text-decoration: none;">
+            WON<span class="logo-dagger">†</span>RADE
+          </a>
+          <div class="cat-header-info">
+            <span id="detailHeaderId" class="cat-header-id-pill">#VLR0000</span>
+          </div>
+        </div>
+
+        <div class="cat-modal-center-title" id="detailCenterTitle">CHI TIẾT TÀI KHOẢN</div>
+
+        <div class="cat-modal-header-right">
+          <a href="https://zalo.me/0949257924" id="detailHeaderZaloBtn" target="_blank" rel="noopener noreferrer" class="btn-header-zalo-buy">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+            <span>Nhắn Zalo Mua</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- 2. Sticky Category Switcher Bar Desktop -->
+      <nav class="cat-modal-tabs-dock" id="detailCatTabsDock" aria-label="Danh mục ảnh tài khoản">
+        <!-- Render động qua JavaScript -->
+      </nav>
+
+      <!-- 3. Main Grid Body Desktop -->
+      <main class="cat-modal-grid-body">
+        <section class="cat-modal-left-stream" aria-label="Luồng ảnh chi tiết">
+          <div class="cat-stream-header-badge" id="streamHeaderBadge">
+            <span id="streamTitle">ẢNH TƯỚNG</span>
+          </div>
+          <div class="cat-modal-body" id="detailImagesBody"></div>
+        </section>
+
+        <aside class="cat-modal-right-sidebar">
+          <div class="cat-side-card price-side-card">
+            <div class="side-price-header">
+              <span class="side-price-label">Giá chuyển nhượng:</span>
+              <span class="side-price-val" id="detailPrice">0 ₫</span>
+            </div>
+            <div class="side-id-title">
+              <span class="info-id-badge" id="detailAccId">#VLR0000</span>
+              <span class="side-title-txt" id="detailAccTitle">Tiêu đề tài khoản</span>
+            </div>
+            <div class="info-badges-wrap" id="detailBadges" style="margin-top: 6px;"></div>
+            <a href="https://zalo.me/0949257924" id="detailZaloDirectBtn" target="_blank" rel="noopener noreferrer" class="btn-side-zalo-buy">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+              <span>NHẮN ZALO MUA TÀI KHOẢN</span>
+            </a>
+          </div>
+
+          <div class="cat-side-card specs-side-card">
+            <div class="side-card-title">⚔️ THÔNG TIN VƯƠNG QUỐC &amp; CHỈ SỐ</div>
+            <div class="side-spec-item">
+              <span class="spec-k">Vương quốc &amp; Nhập cư:</span>
+              <span class="spec-v" id="detailKingdom">Đang tải...</span>
+            </div>
+            <div class="side-spec-item">
+              <span class="spec-k">Chỉ số tài khoản (Stats):</span>
+              <span class="spec-v" id="detailStats">Cấp độ 25 | Đang tải chỉ số...</span>
+            </div>
+            <div class="side-spec-item">
+              <span class="spec-k">Trang bị &amp; Đặc điểm:</span>
+              <div class="info-tags-grid" id="detailTags"></div>
+            </div>
+          </div>
+
+          <div class="cat-side-card guarantee-side-card">
+            <div class="guarantee-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              <span>WONTRADE BẢO ĐẢM GIAO DỊCH</span>
+            </div>
+            <ul class="guarantee-list">
+              <li>Bảo hiểm hoàn tiền 100% nếu có bất kỳ tranh chấp</li>
+              <li>Bàn giao tài khoản &amp; đổi thông tin bảo mật 24/7</li>
+              <li>Hỗ trợ nhập cư và hướng dẫn người mua tận tình</li>
+            </ul>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+
+    <!-- ======================================================================
+         B. GIAO DIỆN MOBILE TỐI ƯU RIÊNG BIỆT (CHO ĐIỆN THOẠI & TABLET <= 768px)
+         ====================================================================== -->
+    <div class="mobile-detail-view" aria-label="Giao diện di động chi tiết tài khoản">
+      <!-- 1. Mobile Header Chuẩn iOS -->
+      <header class="m-header">
+        <div class="m-header-left">
+          <a href="index.html" class="m-btn-back" id="btnBackHomeMobile" title="Quay lại">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </a>
+          <div class="m-header-title">
+            <span>WON<span style="color: #ff3b30;">†</span>RADE</span>
+            <span class="m-id-pill" id="mHeaderId">#VLR0000</span>
+          </div>
+        </div>
+
+        <a href="https://zalo.me/0949257924" id="mHeaderZaloBtn" target="_blank" rel="noopener noreferrer" class="m-btn-zalo-top">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+          </svg>
+          <span>Zalo 24/7</span>
+        </a>
+      </header>
+
+      <!-- 1.5. Slider Ảnh Cuộn Ngang Toàn Bộ Ảnh Sản Phẩm (Tất Cả Tướng, Trang Bị, Kho RSS, Vé Bay) -->
+      <section class="m-all-photos-section" aria-label="Bộ sưu tập ảnh sản phẩm">
+        <div class="m-all-photos-slider" id="mAllPhotosSlider">
+          <!-- Render toàn bộ ảnh qua JavaScript -->
+        </div>
+        <div class="m-slider-floating-bar">
+          <div class="m-slider-counter" id="mSliderCounterBadge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span id="mSliderCounterTxt">1 / 1</span>
+          </div>
+          <div class="m-slider-swipe-hint">
+            <span>Cuộn ngang xem tất cả ảnh</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Thẻ Thông Tin Quan Trọng (Giá, Mã acc, Trạng thái nhập cư) -->
+      <section class="m-hero-card">
+        <div class="m-price-row">
+          <div class="m-price-tag" id="mPrice">0 ₫</div>
+          <div class="m-badges-wrap" id="mBadges"></div>
+        </div>
+        <div class="m-title-text" id="mTitle">Đang tải tên tài khoản...</div>
+        <div class="m-immigration-pill" id="mKingdom">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span id="mKingdomTxt">Đang tải vương quốc...</span>
+        </div>
+      </section>
+
+      <!-- 3. Lưới 4 Chỉ Số Nhanh (Cấp độ, VIP, Sức mạnh, Kill Points) -->
+      <section class="m-stats-grid">
+        <div class="m-stat-box">
+          <div class="m-stat-k">Cấp độ</div>
+          <div class="m-stat-v" id="mStatLevel">25</div>
+        </div>
+        <div class="m-stat-box">
+          <div class="m-stat-k">VIP</div>
+          <div class="m-stat-v" id="mStatVip" style="color: #faad14;">VIP 16</div>
+        </div>
+        <div class="m-stat-box">
+          <div class="m-stat-k">Sức mạnh</div>
+          <div class="m-stat-v" id="mStatPower" style="font-size: 11px;">--</div>
+        </div>
+        <div class="m-stat-box">
+          <div class="m-stat-k">Tiêu diệt</div>
+          <div class="m-stat-v" id="mStatKill" style="font-size: 11px;">--</div>
+        </div>
+      </section>
+
+      <!-- 4. Thẻ Trang Bị & Đặc Điểm -->
+      <section class="m-tags-card">
+        <div class="m-card-title">
+          <span>⚔️</span>
+          <span>ĐẶC ĐIỂM &amp; TRANG BỊ CHÍNH</span>
+        </div>
+        <div class="m-tags-flex" id="mTags"></div>
+      </section>
+
+      <!-- 5. Tabs Danh Mục Mobile (Render động qua JavaScript) -->
+      <nav class="m-tabs-bar" id="mTabsBar" aria-label="Tabs danh mục mobile">
+        <!-- Render động qua JavaScript -->
+      </nav>
+
+      <!-- 6. Luồng Ảnh Trực Quan Cho Mobile (Tap để phóng to) -->
+      <section class="m-gallery-section">
+        <div class="m-gallery-header">
+          <div class="m-gallery-title">
+            <span id="mStreamTitle">ẢNH TƯỚNG</span>
+          </div>
+          <span class="m-gallery-count" id="mStreamBadge">0 ảnh</span>
+        </div>
+        <div class="m-images-stack" id="mImagesBody">
+          <!-- Danh sách ảnh di động nạp qua JavaScript -->
+        </div>
+      </section>
+
+      <!-- 7. Thẻ Bảo Đảm WONTRADE -->
+      <section class="m-guarantee-card">
+        <div class="m-guar-head">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>WONTRADE BẢO ĐẢM GIAO DỊCH</span>
+        </div>
+        <ul class="m-guar-list">
+          <li>Bảo hiểm hoàn tiền 100% nếu có tranh chấp</li>
+          <li>Bàn giao &amp; đổi thông tin an toàn 24/7</li>
+          <li>Hỗ trợ nhập cư và tư vấn chọn tướng tận tình</li>
+        </ul>
+      </section>
+
+      <!-- 8. Thanh Ghim Đáy Mua Hàng Siêu Tốc (Sticky Bottom Action Dock) -->
+      <div class="m-bottom-dock">
+        <a href="https://zalo.me/0949257924" id="mDockZaloIcon" target="_blank" rel="noopener noreferrer" class="m-dock-zalo-icon" title="Chat Zalo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+          </svg>
+          <span>Tư vấn</span>
+        </a>
+        <a href="https://zalo.me/0949257924" id="mDockBuyBtn" target="_blank" rel="noopener noreferrer" class="m-dock-buy-btn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span id="mDockBuyTxt">NHẮN ZALO MUA NGAY</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Fullscreen Lightbox Zoom (Chạm ảnh để phóng to) -->
+  <div class="fullscreen-lightbox" id="fullscreenLightbox" onclick="closeLightbox()">
+    <button class="lightbox-close-btn" onclick="closeLightbox()" aria-label="Đóng phóng to">✕</button>
+    <img id="lightboxImage" src="" alt="Ảnh phóng to">
+  </div>
+
+  <!-- NẠP DANH SÁCH DỮ LIỆU SẢN PHẨM & ẢNH IMGBB -->
+  <script>
+    document.write('<script src="js/list.js?v=' + Date.now() + '"><\/script>');
+  </script>
+  <noscript><script src="js/list.js"></script></noscript>
+
+  <!-- LOGIC NẠP ĐỒNG BỘ CẢ GIAO DIỆN DESKTOP & MOBILE -->
+  <script>
+    (function() {
+      var currentItem = null;
+      var activeCategory = 'tuong';
+      var itemTabs = [];
+
+      // Helper chuẩn hóa mã hiển thị dạng VLR...
+      function formatVlrId(val) {
+        if (!val) return '';
+        var s = String(val).trim();
+        return s.toUpperCase().startsWith('VLR') ? s.toUpperCase() : ('VLR' + s);
+      }
+
+      function getItemTabs(item) {
+        if (!item) return [];
+        if (Array.isArray(item.categoryTabs) && item.categoryTabs.length > 0) {
+          return item.categoryTabs.map(function(t) {
+            return { id: t.id, name: t.name || t.label || t.id };
+          });
+        }
+        var cats = item.imageCategories || {};
+        var knownNames = { tuong: "Ảnh Tướng", trangbi: "Trang bị", rss: "Rss kho", vebay: "Vé bay" };
+        var keys = Object.keys(cats);
+        if (keys.length === 0) {
+          keys.push('tuong', 'trangbi', 'rss', 'vebay');
+        }
+        return keys.map(function(k) {
+          return { id: k, name: knownNames[k] || k };
+        });
+      }
+
+      function formatPrice(num) {
+        var n = Number(num) || 0;
+        var vnd = n < 50000 ? Math.round(n * 25400) : n;
+        return vnd.toLocaleString("vi-VN") + " ₫";
+      }
+
+      function escapeHtml(str) {
+        if (!str) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function parseStats(statsStr) {
+        var res = { level: "25", power: "--", vip: "VIP --", kill: "--" };
+        if (!statsStr) return res;
+        var parts = statsStr.split('|');
+        parts.forEach(function(part) {
+          var p = part.trim();
+          if (/Cấp độ/i.test(p)) res.level = p.replace(/Cấp độ/i, '').trim();
+          if (/VIP/i.test(p)) res.vip = p;
+          if (/Sức mạnh/i.test(p)) {
+            var raw = p.replace(/Sức mạnh/i, '').trim();
+            var num = parseInt(raw.replace(/,/g, ''), 10);
+            res.power = num >= 1000000 ? (num / 1000000).toFixed(1) + 'M' : raw;
+          }
+          if (/Điểm Tiêu Diệt/i.test(p)) {
+            var rawK = p.replace(/Điểm Tiêu Diệt/i, '').trim();
+            var numK = parseInt(rawK.replace(/,/g, ''), 10);
+            res.kill = numK >= 1000000000 ? (numK / 1000000000).toFixed(1) + 'B' : (numK >= 1000000 ? (numK / 1000000).toFixed(0) + 'M' : rawK);
+          }
+        });
+        return res;
+      }
+
+      function initDetailPage() {
+        var params = new URLSearchParams(window.location.search);
+        var targetId = params.get('id');
+        var initialCat = params.get('cat') || 'tuong';
+
+        var productList = (window.mockProducts && window.mockProducts.length > 0)
+          ? window.mockProducts
+          : (typeof products !== 'undefined' ? products : []);
+
+        if (targetId) {
+          var cleanTarget = String(targetId).trim().toUpperCase();
+          var numOnly = cleanTarget.replace(/^VLR/i, '');
+          currentItem = productList.find(function(p) {
+            if (!p) return false;
+            var pIdStr = String(p.id).trim().toUpperCase();
+            var pNumOnly = pIdStr.replace(/^VLR/i, '');
+            return pIdStr === cleanTarget ||
+                   pIdStr === ('VLR' + cleanTarget) ||
+                   ('VLR' + pIdStr) === cleanTarget ||
+                   (numOnly && pNumOnly === numOnly);
+          });
+        }
+        if (!currentItem && productList.length > 0) {
+          currentItem = productList[0];
+        }
+
+        if (!currentItem) {
+          document.body.innerHTML = '<div style="text-align:center; padding:60px 20px; font-family:sans-serif;"><h2>Không tìm thấy thông tin tài khoản</h2><p><a href="index.html" style="color:#e60012; font-weight:700;">← Quay lại trang chủ</a></p></div>';
+          return;
+        }
+
+        itemTabs = getItemTabs(currentItem);
+
+        var priceTxt = formatPrice(currentItem.price);
+        var displayId = formatVlrId(currentItem.id);
+
+        document.title = "#" + displayId + " - " + currentItem.title + " (" + priceTxt + ") | WONTRADE";
+        var pageTitle = document.getElementById("pageTitle");
+        if (pageTitle) pageTitle.textContent = "#" + displayId + " - " + currentItem.title + " | WONTRADE";
+
+        var zaloPhone = (window.siteConfig && window.siteConfig.contact && (window.siteConfig.contact.zalo || window.siteConfig.contact.phone)) || "0949257924";
+        var zaloUrl = "https://zalo.me/" + zaloPhone;
+
+        // -------------------------------------------------------------
+        // 1. NẠP DỮ LIỆU BẢN DESKTOP
+        // -------------------------------------------------------------
+        var dHId = document.getElementById("detailHeaderId");
+        if (dHId) dHId.textContent = "#" + displayId;
+        var dPrice = document.getElementById("detailPrice");
+        if (dPrice) dPrice.textContent = priceTxt;
+        var dAccId = document.getElementById("detailAccId");
+        if (dAccId) dAccId.textContent = "#" + displayId;
+        var dAccTitle = document.getElementById("detailAccTitle");
+        if (dAccTitle) dAccTitle.textContent = currentItem.title;
+        var dKingdom = document.getElementById("detailKingdom");
+        if (dKingdom) {
+          var kText = currentItem.info || "Đang cập nhật...";
+          dKingdom.textContent = kText.replace(/#\d+/, '#' + displayId);
+        }
+        var dStats = document.getElementById("detailStats");
+        if (dStats) dStats.textContent = currentItem.stats || "Cấp độ 25 | Sức mạnh đầy đủ";
+
+        var dBadges = document.getElementById("detailBadges");
+        if (dBadges && Array.isArray(currentItem.badges)) {
+          dBadges.innerHTML = currentItem.badges.map(function(b) {
+            var bType = typeof b === 'object' && b.type === 'red' ? 'badge-play' : 'badge-dark';
+            var bText = typeof b === 'object' ? b.text : String(b);
+            return '<span class="' + bType + '">' + escapeHtml(bText) + '</span>';
+          }).join("");
+        }
+
+        var dTags = document.getElementById("detailTags");
+        if (dTags && Array.isArray(currentItem.tags)) {
+          dTags.innerHTML = currentItem.tags.map(function(t) {
+            var tType = typeof t === 'object' && t.type ? t.type : 'orange';
+            var tText = typeof t === 'object' ? t.text : String(t);
+            return '<span class="tag-badge ' + tType + '">' + escapeHtml(tText) + '</span>';
+          }).join("");
+        }
+
+        var hz = document.getElementById("detailHeaderZaloBtn");
+        if (hz) hz.href = zaloUrl;
+        var dz = document.getElementById("detailZaloDirectBtn");
+        if (dz) dz.href = zaloUrl;
+
+        // -------------------------------------------------------------
+        // 2. NẠP DỮ LIỆU BẢN MOBILE CHUYÊN BIỆT
+        // -------------------------------------------------------------
+        var mHId = document.getElementById("mHeaderId");
+        if (mHId) mHId.textContent = "#" + displayId;
+        var mPrice = document.getElementById("mPrice");
+        if (mPrice) mPrice.textContent = priceTxt;
+        var mTitle = document.getElementById("mTitle");
+        if (mTitle) mTitle.textContent = currentItem.title;
+
+        var mKingdom = document.getElementById("mKingdom");
+        var mKingdomTxt = document.getElementById("mKingdomTxt");
+        if (mKingdomTxt) {
+          var kParts = (currentItem.info || "").split('|');
+          var kInfo = kParts.length > 1 ? kParts[1].trim() : (kParts[0] || "Có thể nhập cư");
+          mKingdomTxt.textContent = kInfo;
+        }
+
+        var mBadges = document.getElementById("mBadges");
+        if (mBadges && Array.isArray(currentItem.badges)) {
+          mBadges.innerHTML = currentItem.badges.map(function(b) {
+            var bType = typeof b === 'object' && b.type === 'red' ? 'badge-play' : 'badge-dark';
+            var bText = typeof b === 'object' ? b.text : String(b);
+            return '<span class="' + bType + '" style="font-size: 10px; padding: 2px 6px;">' + escapeHtml(bText) + '</span>';
+          }).join("");
+        }
+
+        // Tách stats thành 4 ô mobile box
+        var st = parseStats(currentItem.stats);
+        var sLv = document.getElementById("mStatLevel");
+        if (sLv) sLv.textContent = st.level;
+        var sVip = document.getElementById("mStatVip");
+        if (sVip) sVip.textContent = st.vip;
+        var sPwr = document.getElementById("mStatPower");
+        if (sPwr) sPwr.textContent = st.power;
+        var sKil = document.getElementById("mStatKill");
+        if (sKil) sKil.textContent = st.kill;
+
+        var mTags = document.getElementById("mTags");
+        if (mTags && Array.isArray(currentItem.tags)) {
+          mTags.innerHTML = currentItem.tags.map(function(t) {
+            var tType = typeof t === 'object' && t.type ? t.type : 'orange';
+            var tText = typeof t === 'object' ? t.text : String(t);
+            return '<span class="tag-badge ' + tType + '">' + escapeHtml(tText) + '</span>';
+          }).join("");
+        }
+
+        var mTopZalo = document.getElementById("mHeaderZaloBtn");
+        if (mTopZalo) mTopZalo.href = zaloUrl;
+        var mDockZalo = document.getElementById("mDockZaloIcon");
+        if (mDockZalo) mDockZalo.href = zaloUrl;
+        var mDockBtn = document.getElementById("mDockBuyBtn");
+        var mDockTxt = document.getElementById("mDockBuyTxt");
+        if (mDockBtn) mDockBtn.href = zaloUrl;
+        if (mDockTxt) mDockTxt.textContent = "NHẮN ZALO MUA • " + priceTxt;
+
+        // -------------------------------------------------------------
+        // 3. RENDER TABS & CẬP NHẬT SỐ LƯỢNG ẢNH TRÊN CẢ DESKTOP & MOBILE
+        // -------------------------------------------------------------
+        var cats = currentItem.imageCategories || {};
+
+        var dTabsDock = document.getElementById("detailCatTabsDock");
+        if (dTabsDock) {
+          dTabsDock.innerHTML = itemTabs.map(function(tab) {
+            var count = (Array.isArray(cats[tab.id]) ? cats[tab.id].length : 0);
+            return '\
+              <button type="button" class="cat-modal-tab-btn" data-cat="' + escapeHtml(tab.id) + '" onclick="switchCategory(\'' + escapeHtml(tab.id) + '\')">\
+                <span class="tab-arrow">▼</span>\
+                <span class="tab-txt">' + escapeHtml(tab.name.toUpperCase()) + '</span>\
+                <span class="tab-count" id="count_' + escapeHtml(tab.id) + '">' + count + '</span>\
+              </button>';
+          }).join("");
+        }
+
+        var mTabsBar = document.getElementById("mTabsBar");
+        if (mTabsBar) {
+          mTabsBar.innerHTML = itemTabs.map(function(tab) {
+            var count = (Array.isArray(cats[tab.id]) ? cats[tab.id].length : 0);
+            return '\
+              <button type="button" class="m-tab-btn" data-cat="' + escapeHtml(tab.id) + '" onclick="switchCategory(\'' + escapeHtml(tab.id) + '\')">\
+                <span class="m-tab-label">' + escapeHtml(tab.name.toUpperCase()) + '</span>\
+                <span class="m-tab-count" id="mCount_' + escapeHtml(tab.id) + '">' + count + ' ảnh</span>\
+              </button>';
+          }).join("");
+        }
+
+        // 4. Khởi chạy thanh cuộn ngang tất cả ảnh Mobile
+        renderMobileAllPhotosSlider();
+
+        // 5. Khởi chạy danh mục ban đầu
+        var initialValidCat = itemTabs.some(function(t) { return t.id === initialCat; })
+          ? initialCat
+          : (itemTabs[0] ? itemTabs[0].id : 'tuong');
+        window.switchCategory(initialValidCat);
+      }
+
+      function renderMobileAllPhotosSlider() {
+        var slider = document.getElementById("mAllPhotosSlider");
+        var counterTxt = document.getElementById("mSliderCounterTxt");
+        if (!slider || !currentItem) return;
+
+        var allPhotos = [];
+        var cats = currentItem.imageCategories || {};
+
+        itemTabs.forEach(function(t) {
+          if (Array.isArray(cats[t.id])) {
+            cats[t.id].forEach(function(url) {
+              if (url && !allPhotos.some(function(p) { return p.url === url; })) {
+                allPhotos.push({ url: url, cat: t.id, tabName: t.name });
+              }
+            });
+          }
+        });
+
+        if (Array.isArray(currentItem.images)) {
+          currentItem.images.forEach(function(url) {
+            if (url && !allPhotos.some(function(p) { return p.url === url; })) {
+              var fallbackTab = itemTabs[0] || { id: 'tuong', name: 'ẢNH' };
+              allPhotos.push({ url: url, cat: fallbackTab.id, tabName: fallbackTab.name });
+            }
+          });
+        }
+
+        if (allPhotos.length === 0) {
+          var fallbackTab = itemTabs[0] || { id: 'tuong', name: 'ẢNH' };
+          allPhotos.push({ url: 'assets/banner_hero_1791716494779.jpg', cat: fallbackTab.id, tabName: fallbackTab.name });
+        }
+
+        slider.innerHTML = allPhotos.map(function(item, idx) {
+          return '\
+            <div class="m-slider-card" onclick="openLightbox(\'' + escapeHtml(item.url) + '\')">\
+              <img src="' + escapeHtml(item.url) + '" alt="Ảnh ' + (idx + 1) + '" loading="lazy" onerror="this.src=\'assets/rok_avatar.jpg\'">\
+              <span class="m-slider-cat-pill">🏷️ ' + escapeHtml(item.tabName || 'Chi tiết') + '</span>\
+              <span class="m-slider-zoom-tag">🔍 Chạm phóng to</span>\
+            </div>';
+        }).join("");
+
+        if (counterTxt) {
+          counterTxt.textContent = "1 / " + allPhotos.length;
+        }
+
+        slider.addEventListener("scroll", function() {
+          var cardWidth = slider.firstElementChild ? slider.firstElementChild.offsetWidth + 10 : 1;
+          var currentIdx = Math.round(slider.scrollLeft / cardWidth) + 1;
+          if (currentIdx > allPhotos.length) currentIdx = allPhotos.length;
+          if (currentIdx < 1) currentIdx = 1;
+          if (counterTxt) {
+            counterTxt.textContent = currentIdx + " / " + allPhotos.length;
+          }
+        }, { passive: true });
+      }
+
+      window.switchCategory = function(catId) {
+        if (!currentItem) return;
+        activeCategory = catId;
+
+        var targetTab = itemTabs.find(function(t) { return t.id === catId; });
+        var tabTitle = targetTab ? targetTab.name : "ẢNH CHI TIẾT";
+
+        // Cập nhật active class tabs Desktop
+        document.querySelectorAll(".cat-modal-tab-btn").forEach(function(btn) {
+          btn.classList.toggle("active", btn.getAttribute("data-cat") === catId);
+        });
+
+        // Cập nhật active class tabs Mobile
+        document.querySelectorAll(".m-tab-btn").forEach(function(btn) {
+          btn.classList.toggle("active", btn.getAttribute("data-cat") === catId);
+        });
+
+        // Cập nhật tiêu đề giữa & luồng Desktop
+        var cTitle = document.getElementById("detailCenterTitle");
+        if (cTitle) cTitle.textContent = "CHI TIẾT: " + tabTitle.toUpperCase();
+        var sTitle = document.getElementById("streamTitle");
+        if (sTitle) sTitle.textContent = tabTitle.toUpperCase();
+
+        // Cập nhật tiêu đề luồng Mobile
+        var msTitle = document.getElementById("mStreamTitle");
+        if (msTitle) msTitle.textContent = tabTitle.toUpperCase();
+
+        // Lấy danh sách ảnh của danh mục hiện tại
+        var cats = currentItem.imageCategories || {};
+        var images = [];
+        if (Array.isArray(cats[catId])) {
+          images = cats[catId];
+        } else if (catId === 'tuong' && Array.isArray(currentItem.images)) {
+          images = currentItem.images;
+        }
+
+        // Cập nhật badge số lượng ảnh trên mobile
+        var msBadge = document.getElementById("mStreamBadge");
+        if (msBadge) msBadge.textContent = images.length + " ảnh";
+
+        var displayAccId = formatVlrId(currentItem.id);
+
+        // 1. Render Desktop Images Body
+        var dBody = document.getElementById("detailImagesBody");
+        if (dBody) {
+          if (images.length === 0) {
+            dBody.innerHTML = '\
+              <div class="cat-empty-state">\
+                <div class="cat-empty-title">Chưa có ảnh mục ' + escapeHtml(tabTitle) + ' cho Acc #' + escapeHtml(displayAccId) + '</div>\
+                <p class="cat-empty-desc">\
+                  Tài khoản này chưa có ảnh riêng cho mục <strong>' + escapeHtml(tabTitle) + '</strong>. Quý khách vui lòng nhấn nút "Nhắn Zalo Mua" để CSKH gửi ảnh trực tiếp từ game trong 30 giây!\
+                </p>\
+              </div>';
+          } else {
+            dBody.innerHTML = images.map(function(src, idx) {
+              return '\
+                <div class="cat-image-card">\
+                  <img src="' + escapeHtml(src) + '"\
+                       alt="Ảnh ' + escapeHtml(tabTitle) + ' ' + (idx + 1) + '"\
+                       class="cat-full-image"\
+                       loading="lazy"\
+                       onclick="openLightbox(\'' + escapeHtml(src) + '\')"\
+                       onerror="this.src=\'assets/rok_avatar.jpg\'">\
+                </div>';
+            }).join("");
+          }
+        }
+
+        // 2. Render Mobile Images Body
+        var mBody = document.getElementById("mImagesBody");
+        if (mBody) {
+          if (images.length === 0) {
+            mBody.innerHTML = '\
+              <div class="cat-empty-state" style="padding: 24px 14px; background:#fff; border-radius:14px; border:0.5px solid rgba(60,60,67,0.1);">\
+                <div class="cat-empty-title" style="font-size:13.5px; font-weight:800; color:#1c1c1e;">Chưa có ảnh mục ' + escapeHtml(tabTitle) + '</div>\
+                <p class="cat-empty-desc" style="font-size:12px; color:#8e8e93; margin-top:6px; line-height:1.4;">\
+                  Quý khách vui lòng bấm nút "Tư vấn" hoặc "Nhắn Zalo" bên dưới để nhận trọn bộ ảnh gốc trực tiếp trong 30 giây.\
+                </p>\
+              </div>';
+          } else {
+            mBody.innerHTML = images.map(function(src, idx) {
+              return '\
+                <div class="m-img-card" onclick="openLightbox(\'' + escapeHtml(src) + '\')">\
+                  <img src="' + escapeHtml(src) + '" alt="Ảnh ' + escapeHtml(tabTitle) + ' ' + (idx + 1) + '" loading="lazy" onerror="this.src=\'assets/rok_avatar.jpg\'">\
+                  <span class="m-img-badge">#' + (idx + 1) + ' ' + escapeHtml(tabTitle) + '</span>\
+                  <span class="m-img-zoom-hint">🔍 Phóng to</span>\
+                </div>';
+            }).join("");
+          }
+        }
+      };
+
+      // Lightbox Phóng to
+      window.openLightbox = function(src) {
+        var box = document.getElementById("fullscreenLightbox");
+        var img = document.getElementById("lightboxImage");
+        if (box && img) {
+          img.src = src;
+          box.classList.add("show");
+        }
+      };
+
+      window.closeLightbox = function() {
+        var box = document.getElementById("fullscreenLightbox");
+        if (box) box.classList.remove("show");
+      };
+
+      // Nút Back
+      function bindBackBtn(id) {
+        var btn = document.getElementById(id);
+        if (btn) {
+          btn.addEventListener("click", function(e) {
+            if (window.history.length > 1) {
+              e.preventDefault();
+              window.history.back();
+            } else {
+              window.location.href = "index.html";
+            }
+          });
+        }
+      }
+      bindBackBtn("btnBackHomeDesktop");
+      bindBackBtn("btnBackHomeMobile");
+
+      document.addEventListener("DOMContentLoaded", initDetailPage);
+    })();
+  </script>
+</body>
+
+</html>

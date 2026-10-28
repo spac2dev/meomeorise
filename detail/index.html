@@ -4,7 +4,16 @@
   <meta charset="UTF-8">
   <title>Đang chuyển hướng...</title>
   <script>
-    window.location.replace('../detail.html' + window.location.search);
+    (function() {
+      var search = window.location.search;
+      var params = new URLSearchParams(search);
+      var id = params.get('id');
+      if (id && !id.toUpperCase().startsWith('VLR')) {
+        params.set('id', 'VLR' + id);
+      }
+      var queryString = params.toString() ? ('?' + params.toString()) : '';
+      window.location.replace('../account.html' + queryString);
+    })();
   </script>
 </head>
 <body style="font-family: sans-serif; text-align: center; padding: 50px;">

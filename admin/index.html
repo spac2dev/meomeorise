@@ -2923,8 +2923,7 @@
           const rawP = Number(item.price) || 0;
           const vndP = rawP < 50000 ? Math.round(rawP * 25400) : rawP;
           const priceFormatted = vndP.toLocaleString("vi-VN") + " ₫";
-          const vlrCode = String(rawId).toUpperCase().startsWith('VLR') ? rawId : ('VLR' + rawId);
-          const directLink = `account.html?id=${vlrCode}`;
+          const directLink = `acc/${rawId}`;
 
           const images = Array.isArray(item.images) ? item.images : [];
           const imgCellHtml = images.length > 0
@@ -4288,12 +4287,11 @@
         savedCategories[t.id] = [...(editingCategories[t.id] || [])];
       });
 
-      const vlrCode = String(newId).toUpperCase().startsWith('VLR') ? newId : ('VLR' + newId);
       const itemData = {
         id: newId,
         title,
         price,
-        link: `account.html?id=${vlrCode}`,
+        link: `acc/${newId}`,
         favorites: Number(document.getElementById("fFavorites").value) || 0,
         isFavorited: false,
         images: allFlatImages,
@@ -4328,10 +4326,9 @@
       const copy = JSON.parse(JSON.stringify(orig));
       const maxId = Math.max(...adminProducts.map(p => p.id));
       copy.id = maxId + 1;
-      const vlrCopyCode = String(copy.id).toUpperCase().startsWith('VLR') ? copy.id : ('VLR' + copy.id);
       copy.title = `${copy.title} (Bản sao)`;
-      copy.link = `account.html?id=${vlrCopyCode}`;
-      copy.info = `#${vlrCopyCode} | Có thể nhập cư`;
+      copy.link = `acc/${copy.id}`;
+      copy.info = `#${copy.id} | Có thể nhập cư`;
       adminProducts.unshift(copy);
       localStorage.setItem("wontrade_admin_products", JSON.stringify(adminProducts));
       filterAdminItems();

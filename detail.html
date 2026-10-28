@@ -8,15 +8,16 @@
       var search = window.location.search;
       var params = new URLSearchParams(search);
       var id = params.get('id');
-      if (id && !id.toUpperCase().startsWith('VLR')) {
-        params.set('id', 'VLR' + id);
+      if (id) {
+        var cleanId = id.replace(/^[#vlrVLR]+/i, '');
+        window.location.replace('/acc/' + cleanId);
+      } else {
+        window.location.replace('/index.html');
       }
-      var queryString = params.toString() ? ('?' + params.toString()) : '';
-      window.location.replace('account.html' + queryString);
     })();
   </script>
 </head>
 <body style="font-family: sans-serif; text-align: center; padding: 50px;">
-  <p>Đang chuyển đến trang chi tiết tài khoản...</p>
+  <p>Đang chuyển hướng...</p>
 </body>
 </html>

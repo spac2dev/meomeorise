@@ -10,24 +10,24 @@
       var params = new URLSearchParams(search);
       var id = params.get('id');
 
-      // Bắt trường hợp người dùng gõ /account/VLR2372 trực tiếp
-      var match = path.match(/\/account\/([a-zA-Z0-9]+)/i);
+      var match = path.match(/\/(?:account|detail)\/([a-zA-Z0-9]+)/i);
       if (match && match[1] && match[1].toLowerCase() !== 'index.html') {
-        var pathId = match[1];
-        if (!pathId.toUpperCase().startsWith('VLR')) {
-          pathId = 'VLR' + pathId;
-        }
-        params.set('id', pathId);
-      } else if (id && !id.toUpperCase().startsWith('VLR')) {
-        params.set('id', 'VLR' + id);
+        var cleanId = match[1].replace(/^[#vlrVLR]+/i, '');
+        window.location.replace('/acc/' + cleanId);
+        return;
       }
 
-      var queryString = params.toString() ? ('?' + params.toString()) : '';
-      window.location.replace('../account.html' + queryString);
+      if (id) {
+        var cleanId = id.replace(/^[#vlrVLR]+/i, '');
+        window.location.replace('/acc/' + cleanId);
+        return;
+      }
+
+      window.location.replace('/index.html');
     })();
   </script>
 </head>
 <body style="font-family: sans-serif; text-align: center; padding: 50px;">
-  <p>Đang chuyển đến trang chi tiết tài khoản...</p>
+  <p>Đang chuyển hướng...</p>
 </body>
 </html>

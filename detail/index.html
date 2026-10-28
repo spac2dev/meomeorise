@@ -8,11 +8,11 @@
       var search = window.location.search;
       var params = new URLSearchParams(search);
       var id = params.get('id');
-      if (id && !id.toUpperCase().startsWith('VLR')) {
-        params.set('id', 'VLR' + id);
+      if (id) {
+        params.set('id', id.replace(/^[#vlrVLR]+/i, ''));
       }
       var queryString = params.toString() ? ('?' + params.toString()) : '';
-      window.location.replace('../account.html' + queryString);
+      window.location.replace('../acc.html' + queryString);
     })();
   </script>
 </head>

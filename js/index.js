@@ -428,9 +428,9 @@ function renderListings(itemsToRender) {
     const escapedTitle = String(item.title || '').replace(/"/g, '&quot;');
 
     const rawIdStr = String(item.id || '');
-    const displayAccId = rawIdStr.toUpperCase().startsWith('VLR') ? rawIdStr.toUpperCase() : ('VLR' + rawIdStr);
+    const displayAccId = rawIdStr.replace(/^[#vlrVLR]+/i, '').trim();
     let kingdomPart0 = (item.info || '').split('|')[0]?.trim() || '';
-    if (/^#?\d+/.test(kingdomPart0)) {
+    if (/^#?[a-zA-Z0-9]+/.test(kingdomPart0)) {
       kingdomPart0 = '#' + displayAccId;
     }
 
@@ -508,28 +508,35 @@ let currentModalItem = null;
 let currentModalImages = [];
 let currentModalImageIndex = 0;
 
-// Helper định dạng ID thành mã VLR...
+// Helper chuẩn hóa ID chỉ lấy phần số thuần túy
 function formatAccountId(id) {
   if (!id) return '';
-  const str = String(id).trim();
-  return str.toUpperCase().startsWith('VLR') ? str.toUpperCase() : ('VLR' + str);
+  return String(id).replace(/^[#vlrVLR]+/i, '').trim();
+}
+
+// Đường dẫn mở trực tiếp dạng /acc/id (bỏ hoàn toàn .html?id=)
+function getAccountPath(id, category) {
+  const accId = formatAccountId(id);
+  const catQuery = (category && category !== 'tuong') ? `?cat=${category}` : '';
+  if (window.location.protocol.startsWith('http')) {
+    return `/acc/${accId}${catQuery}`;
+  }
+  // Môi trường file:// cục bộ: mở thư mục acc/id/ trực tiếp (tuyệt đối không dùng .html?id=)
+  return `acc/${accId}/${catQuery}`;
 }
 
 window.handleItemCardClick = function(id, event) {
   if (event && (event.target.closest('.btn-fav') || event.target.tagName === 'BUTTON')) return;
-  const accId = formatAccountId(id);
-  window.location.href = `account.html?id=${accId}`;
+  window.location.href = getAccountPath(id);
 };
 
 window.openProductModal = function(id) {
-  const accId = formatAccountId(id);
-  window.location.href = `account.html?id=${accId}`;
+  window.location.href = getAccountPath(id);
 };
 
 window.openCategoryModal = function(id, category = 'tuong', event) {
   if (event) event.stopPropagation();
-  const accId = formatAccountId(id);
-  window.location.href = `account.html?id=${accId}&cat=${category || 'tuong'}`;
+  window.location.href = getAccountPath(id, category);
 };
 
 window.closeProductModal = function() {
@@ -639,8 +646,7 @@ const categoryMetaMap = {
 
 window.openCategoryModal = function(id, category = 'tuong', event) {
   if (event) event.stopPropagation();
-  const accId = formatAccountId(id);
-  window.location.href = `account.html?id=${accId}&cat=${category || 'tuong'}`;
+  window.location.href = getAccountPath(id, category);
 };
 
 
@@ -770,13 +776,11 @@ window.toggleFavorite = function(id, event) {
     event.stopPropagation();
     event.preventDefault();
   }
-  const targetStr = String(id).trim().toUpperCase();
-  const numOnly = targetStr.replace(/^VLR/i, '');
+  const cleanId = String(id).replace(/^[#vlrVLR]+/i, '').trim();
   const item = mockProducts.find(p => {
     if (!p) return false;
-    const pStr = String(p.id).trim().toUpperCase();
-    const pNum = pStr.replace(/^VLR/i, '');
-    return pStr === targetStr || pNum === numOnly || (numOnly && Number(pNum) === Number(numOnly));
+    const pIdClean = String(p.id).replace(/^[#vlrVLR]+/i, '').trim();
+    return pIdClean === cleanId || Number(pIdClean) === Number(cleanId);
   });
   if (item) {
     item.isFavorited = !item.isFavorited;
@@ -813,12 +817,11 @@ window.applyFilters = function() {
   let filtered = allItems.filter(item => {
     const itemVnd = getItemVndPrice(item);
 
-    // 1. Tìm kiếm theo mã số (#2654, #VLR..., 2654...), tiêu đề, vương quốc, tướng
+    // 1. Tìm kiếm theo mã số, tiêu đề, vương quốc, tướng
     if (searchVal) {
-      const cleanSearch = searchVal.replace(/^[#]/, "").replace(/^vlr/i, "");
+      const cleanSearch = searchVal.replace(/^[#vlrVLR]+/i, "");
       const matchId = String(item.id).toLowerCase().includes(searchVal) ||
-                      String(item.id).toLowerCase().includes(cleanSearch) ||
-                      ("vlr" + String(item.id).toLowerCase()).includes(searchVal);
+                      (cleanSearch && String(item.id).toLowerCase().includes(cleanSearch));
       const matchTitle = (item.title || "").toLowerCase().includes(searchVal);
       const matchInfo = (item.info || "").toLowerCase().includes(searchVal);
       const matchStats = (item.stats || "").toLowerCase().includes(searchVal);

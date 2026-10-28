@@ -1207,8 +1207,11 @@
   <script>
     document.write('<script src="js/thum.js?v=' + Date.now() + '"><\/script>');
   </script>
-  <noscript><script src="js/thum.js"></script></noscript>
-  <script src="js/index.js"></script>
+  <!-- NẠP LOGIC TRANG CHỦ & ĐIỀU HƯỚNG TỪ FILE JS/INDEX.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
+  <script>
+    document.write('<script src="js/index.js?v=' + Date.now() + '"><\/script>');
+  </script>
+  <noscript><script src="js/index.js"></script></noscript>
 </body>
 
 </html>

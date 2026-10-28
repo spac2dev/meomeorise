@@ -1,22 +1,50 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 08:52:19 28/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 09:09:51 28/10/2026
  */
 
 var mockProducts = [
   {
-    "id": 2000,
-    "title": "Chỉ Huy Thủ Thành",
-    "price": 10000000,
-    "link": "acc/2000",
-    "favorites": 0,
+    "id": 42,
+    "title": "Acc 5 sét đồ cam có nhà thiên đỉnh kỵ +20% thủ",
+    "price": 3500000,
+    "link": "acc/42",
+    "favorites": 2,
     "isFavorited": false,
     "images": [
-      "https://i.ibb.co/gLk22pff/1792855409819-7880084465306086323-7880084465306086323-28bc597ec8c95af996010129839742bd.jpg",
-      "https://i.ibb.co/fdpNKWY8/1792854019763-7880084465306086323-7880084465306086323-dcdc29bf0f7e7c5f157ada4f17ef9a06.jpg",
-      "https://i.ibb.co/fzzr33fC/nh-ch-p-m-n-h-nh-2026-10-27-025040.jpg",
-      "https://i.ibb.co/zWLnfd5k/Logoc.jpg"
+      "https://i.ibb.co/Vcvh0ZZR/1793178041283-4951739862876294698-g2977949411990177985-cd9f2fb1a67cd08818b8cce6a4f930e2.jpg",
+      "https://i.ibb.co/1Drvzcv/1793178041290-4951739862876294698-g2977949411990177985-0e4708ee1570b6df41d7fc2f0598720e.jpg",
+      "https://i.ibb.co/nMPYpm7V/1793178041298-4951739862876294698-g2977949411990177985-505910d1ac3f360728a424e75c404794.jpg",
+      "https://i.ibb.co/4ZBpFsT4/1793178041275-4951739862876294698-g2977949411990177985-93af5433be2d71fb4b6f889daf6b18e7.jpg",
+      "https://i.ibb.co/XZbns1CN/1793178041267-4951739862876294698-g2977949411990177985-ec2d912e988bb7804165754d501c3088.jpg",
+      "https://i.ibb.co/9HX1M550/1793178041250-4951739862876294698-g2977949411990177985-802188b581584290a4d38244cca450c8.jpg",
+      "https://i.ibb.co/DPnXHRFk/1793178041242-4951739862876294698-g2977949411990177985-970782782ece4bb96bcc377bb193b1bf.jpg",
+      "https://i.ibb.co/TMxxVGf3/1793178041259-4951739862876294698-g2977949411990177985-595948d8cbbb91bd6ac56a41a9cb394a.jpg",
+      "https://i.ibb.co/8DjgrnyH/1793178041211-4951739862876294698-g2977949411990177985-0679c56637e9f5295c7d69c699ac1404.jpg",
+      "https://i.ibb.co/cRcwfzc/1793178041203-4951739862876294698-g2977949411990177985-0222859e6f64ec3f903c3c66087eff8e.jpg",
+      "https://i.ibb.co/sJJjL8Bh/1793178041227-4951739862876294698-g2977949411990177985-87dd1d8a5634d5dfcad96765b250e862.jpg",
+      "https://i.ibb.co/YKtc9BR/1793178041219-4951739862876294698-g2977949411990177985-f7014c032883f29cdd7e277e85f80afa.jpg",
+      "https://i.ibb.co/XZbns1CN/1793178041267-4951739862876294698-g2977949411990177985-ec2d912e988bb7804165754d501c3088.jpg",
+      "https://i.ibb.co/SDwLr4nL/1793178041235-4951739862876294698-g2977949411990177985-6a744a8b257a3b387aad1cd47af4d514.jpg",
+      "https://i.ibb.co/4ZBpFsT4/1793178041275-4951739862876294698-g2977949411990177985-93af5433be2d71fb4b6f889daf6b18e7.jpg",
+      "https://i.ibb.co/Vcvh0ZZR/1793178041283-4951739862876294698-g2977949411990177985-cd9f2fb1a67cd08818b8cce6a4f930e2.jpg",
+      "https://i.ibb.co/nMPYpm7V/1793178041298-4951739862876294698-g2977949411990177985-505910d1ac3f360728a424e75c404794.jpg",
+      "https://i.ibb.co/1Drvzcv/1793178041290-4951739862876294698-g2977949411990177985-0e4708ee1570b6df41d7fc2f0598720e.jpg",
+      "https://i.ibb.co/ycBS5nX9/1793178041180-4951739862876294698-g2977949411990177985-1983a0ebadbc8449db2eab24d3ff7a43.jpg",
+      "https://i.ibb.co/Mx9JMsbh/1793178041188-4951739862876294698-g2977949411990177985-6fbdf229926478f60a8a40e2d41cbe0a.jpg",
+      "https://i.ibb.co/FLCHd0qN/1793178041195-4951739862876294698-g2977949411990177985-a53dc324c0c145b9bb0c7350ade2f7b5.jpg",
+      "https://i.ibb.co/qMkC7HZF/1793178041143-4951739862876294698-g2977949411990177985-cfce8f994640e9de1fda3f1a77938851.jpg",
+      "https://i.ibb.co/xtHtKpww/1793178041046-4951739862876294698-g2977949411990177985-5caba4d9935ab71063a917a2c958b8d4.jpg",
+      "https://i.ibb.co/HyS6gDd/1793178041074-4951739862876294698-g2977949411990177985-14a0a1cc33486a4acb714055453567c3.jpg",
+      "https://i.ibb.co/mV0BkRnp/1793178041119-4951739862876294698-g2977949411990177985-0227145b3514b42d0c9b909f3348c995.jpg",
+      "https://i.ibb.co/dsD7LgNt/1793178041105-4951739862876294698-g2977949411990177985-12db3f36176ec7e9d331376fbeb9519b.jpg",
+      "https://i.ibb.co/DPpdPSdK/1793178041091-4951739862876294698-g2977949411990177985-446ad57ff1f3e88713f2e67386606879.jpg",
+      "https://i.ibb.co/Df7dCcMj/1793178537466-4951739862876294698-g2977949411990177985-590746f627a520694debcf8aef4e71fb.jpg",
+      "https://i.ibb.co/cXMTG5vY/1793178279883-4951739862876294698-g2977949411990177985-6446618963477856cc250ec21f0db747.jpg",
+      "https://i.ibb.co/3m14DFh7/1793178041153-4951739862876294698-g2977949411990177985-ce94814216bee08c3c9bde2a2a8b8636.jpg",
+      "https://i.ibb.co/9k7qpdgL/1793178041163-4951739862876294698-g2977949411990177985-e4b3c2c23b1a4e94814c6be79ba98a18.jpg",
+      "https://i.ibb.co/4nJGWW0C/1793178041172-4951739862876294698-g2977949411990177985-141c0d444160de95080d7f013b12d459.jpg"
     ],
     "categoryTabs": [
       {
@@ -29,79 +57,108 @@ var mockProducts = [
       },
       {
         "id": "rss",
-        "name": "Rss kho"
+        "name": "Tài Nguyên"
       },
       {
         "id": "vebay",
         "name": "Vé bay"
       },
       {
-        "id": "cat_mvp98y49_490",
-        "name": "xinchao"
+        "id": "cat_mvrv4ffi_103",
+        "name": "Nhà Thiên Đỉnh"
+      },
+      {
+        "id": "cat_mvrv5lq6_269",
+        "name": "Ảnh Khác"
       }
     ],
     "imageCategories": {
       "tuong": [
-        "https://i.ibb.co/gLk22pff/1792855409819-7880084465306086323-7880084465306086323-28bc597ec8c95af996010129839742bd.jpg",
-        "https://i.ibb.co/fdpNKWY8/1792854019763-7880084465306086323-7880084465306086323-dcdc29bf0f7e7c5f157ada4f17ef9a06.jpg"
+        "https://i.ibb.co/Vcvh0ZZR/1793178041283-4951739862876294698-g2977949411990177985-cd9f2fb1a67cd08818b8cce6a4f930e2.jpg",
+        "https://i.ibb.co/1Drvzcv/1793178041290-4951739862876294698-g2977949411990177985-0e4708ee1570b6df41d7fc2f0598720e.jpg",
+        "https://i.ibb.co/nMPYpm7V/1793178041298-4951739862876294698-g2977949411990177985-505910d1ac3f360728a424e75c404794.jpg",
+        "https://i.ibb.co/4ZBpFsT4/1793178041275-4951739862876294698-g2977949411990177985-93af5433be2d71fb4b6f889daf6b18e7.jpg",
+        "https://i.ibb.co/XZbns1CN/1793178041267-4951739862876294698-g2977949411990177985-ec2d912e988bb7804165754d501c3088.jpg",
+        "https://i.ibb.co/9HX1M550/1793178041250-4951739862876294698-g2977949411990177985-802188b581584290a4d38244cca450c8.jpg",
+        "https://i.ibb.co/DPnXHRFk/1793178041242-4951739862876294698-g2977949411990177985-970782782ece4bb96bcc377bb193b1bf.jpg",
+        "https://i.ibb.co/TMxxVGf3/1793178041259-4951739862876294698-g2977949411990177985-595948d8cbbb91bd6ac56a41a9cb394a.jpg"
       ],
-      "trangbi": [],
+      "trangbi": [
+        "https://i.ibb.co/8DjgrnyH/1793178041211-4951739862876294698-g2977949411990177985-0679c56637e9f5295c7d69c699ac1404.jpg",
+        "https://i.ibb.co/cRcwfzc/1793178041203-4951739862876294698-g2977949411990177985-0222859e6f64ec3f903c3c66087eff8e.jpg",
+        "https://i.ibb.co/sJJjL8Bh/1793178041227-4951739862876294698-g2977949411990177985-87dd1d8a5634d5dfcad96765b250e862.jpg",
+        "https://i.ibb.co/YKtc9BR/1793178041219-4951739862876294698-g2977949411990177985-f7014c032883f29cdd7e277e85f80afa.jpg",
+        "https://i.ibb.co/XZbns1CN/1793178041267-4951739862876294698-g2977949411990177985-ec2d912e988bb7804165754d501c3088.jpg",
+        "https://i.ibb.co/SDwLr4nL/1793178041235-4951739862876294698-g2977949411990177985-6a744a8b257a3b387aad1cd47af4d514.jpg",
+        "https://i.ibb.co/4ZBpFsT4/1793178041275-4951739862876294698-g2977949411990177985-93af5433be2d71fb4b6f889daf6b18e7.jpg",
+        "https://i.ibb.co/Vcvh0ZZR/1793178041283-4951739862876294698-g2977949411990177985-cd9f2fb1a67cd08818b8cce6a4f930e2.jpg",
+        "https://i.ibb.co/nMPYpm7V/1793178041298-4951739862876294698-g2977949411990177985-505910d1ac3f360728a424e75c404794.jpg",
+        "https://i.ibb.co/1Drvzcv/1793178041290-4951739862876294698-g2977949411990177985-0e4708ee1570b6df41d7fc2f0598720e.jpg"
+      ],
       "rss": [
-        "https://i.ibb.co/fzzr33fC/nh-ch-p-m-n-h-nh-2026-10-27-025040.jpg"
+        "https://i.ibb.co/ycBS5nX9/1793178041180-4951739862876294698-g2977949411990177985-1983a0ebadbc8449db2eab24d3ff7a43.jpg",
+        "https://i.ibb.co/Mx9JMsbh/1793178041188-4951739862876294698-g2977949411990177985-6fbdf229926478f60a8a40e2d41cbe0a.jpg",
+        "https://i.ibb.co/FLCHd0qN/1793178041195-4951739862876294698-g2977949411990177985-a53dc324c0c145b9bb0c7350ade2f7b5.jpg"
       ],
-      "vebay": [],
-      "cat_mvp98y49_490": [
-        "https://i.ibb.co/zWLnfd5k/Logoc.jpg"
+      "vebay": [
+        "https://i.ibb.co/qMkC7HZF/1793178041143-4951739862876294698-g2977949411990177985-cfce8f994640e9de1fda3f1a77938851.jpg",
+        "https://i.ibb.co/xtHtKpww/1793178041046-4951739862876294698-g2977949411990177985-5caba4d9935ab71063a917a2c958b8d4.jpg",
+        "https://i.ibb.co/HyS6gDd/1793178041074-4951739862876294698-g2977949411990177985-14a0a1cc33486a4acb714055453567c3.jpg"
+      ],
+      "cat_mvrv4ffi_103": [
+        "https://i.ibb.co/mV0BkRnp/1793178041119-4951739862876294698-g2977949411990177985-0227145b3514b42d0c9b909f3348c995.jpg",
+        "https://i.ibb.co/dsD7LgNt/1793178041105-4951739862876294698-g2977949411990177985-12db3f36176ec7e9d331376fbeb9519b.jpg",
+        "https://i.ibb.co/DPpdPSdK/1793178041091-4951739862876294698-g2977949411990177985-446ad57ff1f3e88713f2e67386606879.jpg"
+      ],
+      "cat_mvrv5lq6_269": [
+        "https://i.ibb.co/Df7dCcMj/1793178537466-4951739862876294698-g2977949411990177985-590746f627a520694debcf8aef4e71fb.jpg",
+        "https://i.ibb.co/cXMTG5vY/1793178279883-4951739862876294698-g2977949411990177985-6446618963477856cc250ec21f0db747.jpg",
+        "https://i.ibb.co/3m14DFh7/1793178041153-4951739862876294698-g2977949411990177985-ce94814216bee08c3c9bde2a2a8b8636.jpg",
+        "https://i.ibb.co/9k7qpdgL/1793178041163-4951739862876294698-g2977949411990177985-e4b3c2c23b1a4e94814c6be79ba98a18.jpg",
+        "https://i.ibb.co/4nJGWW0C/1793178041172-4951739862876294698-g2977949411990177985-141c0d444160de95080d7f013b12d459.jpg"
       ]
     },
     "badges": [
       {
-        "text": "Chơi",
+        "text": "Thiên đỉnh Đình Vàng",
         "type": "red"
+      },
+      {
+        "text": "Kẹp 9 acc farm",
+        "type": "dark"
       }
     ],
-    "info": "#2188 | Có thể nhập cư",
-    "stats": "Cấp độ 25 | Sức mạnh 80,000,000 | VIP 15",
+    "info": "#2339 | Có thể nhập cư",
+    "stats": "Cấp độ 25 | Sức mạnh 84,992,960 | VIP 17 | Điểm Tiêu Diệt 2,211,225,143",
     "tags": [
       {
-        "text": "Chỉ Huy Thức Tỉnh ×15",
+        "text": "Tướng Cam Max ×21 con",
         "type": "orange"
       },
       {
-        "text": "Trang Bị Huyền Thoại ×30",
+        "text": "Trang Bị Cam × 39",
         "type": "orange"
+      },
+      {
+        "text": "Trang Bị Talen ×2",
+        "type": "orange"
+      },
+      {
+        "text": "Minh Văn Vàng×2",
+        "type": "orange"
+      },
+      {
+        "text": "Vé Bay x 45",
+        "type": "blue"
+      },
+      {
+        "text": "Tượng Chỉ Huy Huyền Thoại x269 trọc",
+        "type": "blue"
       }
     ],
-    "commanders": [
-      {
-        "id": "arthur",
-        "name": "Arthur Pendragon",
-        "level": 60,
-        "isImg": true
-      },
-      {
-        "id": "tontu",
-        "name": "Tôn Tử",
-        "level": 60
-      },
-      {
-        "id": "achilles",
-        "name": "Achilles",
-        "level": 60
-      },
-      {
-        "id": "scipio",
-        "name": "Scipio Africanus",
-        "level": 60
-      },
-      {
-        "id": "quanvu",
-        "name": "Quan Vũ",
-        "level": 60
-      }
-    ],
+    "commanders": [],
     "gemMultiplier": 5,
-    "countdownSeconds": 604800
+    "countdownSeconds": 2566800
   },
   {
     "id": 41,

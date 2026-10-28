@@ -859,7 +859,7 @@ window.applyFilters = function() {
   countLabels.forEach(el => el.textContent = filtered.length);
 };
 
-// Đặt khoảng giá nhanh từ các nút chip (Dưới 10tr, 10tr - 30tr, ...)
+// Đặt khoảng giá nhanh từ các nút chip (Dưới 1 tr, 1 đến 5 triệu, 5 đến 10 triệu, trên 10 triệu)
 window.setQuickPrice = function(min, max, btnEl) {
   const minP = document.getElementById("minPrice");
   const maxP = document.getElementById("maxPrice");

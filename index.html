@@ -295,63 +295,73 @@
         75%, 100% { transform: scale(2.2); opacity: 0; }
       }
 
-      /* Nút Zalo Đỏ Crimson Hoàng Gia với Chấm Xanh Online 24/7 */
+      /* Nút Nhắn tin Mobile Tối giản, Tinh tế & Sang trọng (Apple Frosted Pill) */
       .mobile-header-zalo {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         gap: 6px !important;
-        background: linear-gradient(135deg, #ff233b 0%, #e60012 55%, #c4000f 100%) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        color: #ffffff !important;
+        background: #ffffff !important;
+        border: 1px solid rgba(226, 232, 240, 0.95) !important;
+        color: #0f172a !important;
         border-radius: 9999px !important;
-        padding: 0 13px 0 10px !important;
-        height: 33px !important;
+        padding: 0 11px 0 9px !important;
+        height: 31px !important;
         width: auto !important;
         font-size: 11.5px !important;
-        font-weight: 700 !important;
+        font-weight: 600 !important;
         letter-spacing: -0.01em !important;
-        box-shadow: 0 2px 10px rgba(230, 0, 18, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.35) !important;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
         text-decoration: none !important;
         user-select: none !important;
-        transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease !important;
+        transition: all 0.15s ease !important;
+        flex-shrink: 0 !important;
+        animation: none !important;
+      }
+      .mobile-header-zalo:hover,
+      .mobile-header-zalo:active {
+        background: #f8fafc !important;
+        border-color: #cbd5e1 !important;
+        transform: scale(0.96) !important;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08) !important;
+      }
+      .mobile-zalo-icon-box {
+        position: relative !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 15px !important;
+        height: 15px !important;
         flex-shrink: 0 !important;
       }
-      .mobile-header-zalo:active {
-        transform: scale(0.94) !important;
-        box-shadow: 0 1px 5px rgba(230, 0, 18, 0.3) !important;
-      }
       .mobile-header-zalo .mobile-zalo-icon {
-        width: 14px !important;
-        height: 14px !important;
-        stroke-width: 2.2 !important;
-        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2)) !important;
+        width: 14.5px !important;
+        height: 14.5px !important;
+        stroke: #e60012 !important;
+        color: #e60012 !important;
+        stroke-width: 2.1 !important;
+        filter: none !important;
+        display: block !important;
       }
       .mobile-header-zalo .mobile-zalo-text {
         font-size: 11.5px !important;
-        font-weight: 700 !important;
+        font-weight: 600 !important;
         line-height: 1 !important;
-        color: #ffffff !important;
+        color: #0f172a !important;
       }
 
-      /* Chấm trạng thái Online 24/7 xanh ngọc bích sáng rõ */
+      /* Chấm xanh trạng thái Online CSKH gọn gàng, tinh tế */
       .mobile-online-status {
-        width: 6.5px !important;
-        height: 6.5px !important;
-        background-color: #22c55e !important;
+        position: absolute !important;
+        top: -1.5px !important;
+        right: -2.5px !important;
+        width: 5.5px !important;
+        height: 5.5px !important;
+        background-color: #10b981 !important;
         border-radius: 50% !important;
-        border: 1.2px solid #ffffff !important;
-        box-shadow: 0 0 5px #22c55e !important;
+        border: 1px solid #ffffff !important;
+        box-shadow: 0 0 2px rgba(16, 185, 129, 0.4) !important;
         flex-shrink: 0 !important;
-      }
-
-      @keyframes mobileChatGlow {
-        0%, 100% {
-          box-shadow: 0 3px 12px rgba(230, 0, 18, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-        }
-        50% {
-          box-shadow: 0 4px 18px rgba(230, 0, 18, 0.52), inset 0 1px 1px rgba(255, 255, 255, 0.45);
-        }
       }
 
       /* Dải Micro-Trust Bar chạy cam kết uy tín mượt mà ngay dưới Mobile Header */
@@ -725,19 +735,21 @@
 
       <!-- Cụm bên phải: Nút Nhắn tin Zalo CSKH Trực tuyến -->
       <div class="mobile-header-right">
-        <!-- Nút Zalo Đỏ Crimson Hoàng Gia với Online Status Dot -->
+        <!-- Nút Zalo Tối giản, Tinh tế & Sang trọng (Apple Frosted Pill) -->
         <a href="https://zalo.me/0949257924" target="_blank" rel="noopener noreferrer"
           class="mobile-header-zalo" title="Nhắn tin Zalo: 0949257924" aria-label="Nhắn tin hỗ trợ qua Zalo">
-          <span class="mobile-online-status" title="CSKH trực tuyến 24/7" aria-hidden="true"></span>
-          <svg class="mobile-zalo-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path
-              d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
-            </path>
-            <circle cx="8.5" cy="11.5" r="1" fill="currentColor" stroke="none"></circle>
-            <circle cx="12" cy="11.5" r="1" fill="currentColor" stroke="none"></circle>
-            <circle cx="15.5" cy="11.5" r="1" fill="currentColor" stroke="none"></circle>
-          </svg>
+          <span class="mobile-zalo-icon-box">
+            <svg class="mobile-zalo-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+              </path>
+              <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+              <circle cx="12" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+              <circle cx="15.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"></circle>
+            </svg>
+            <span class="mobile-online-status" title="CSKH trực tuyến 24/7" aria-hidden="true"></span>
+          </span>
           <span class="mobile-zalo-text">Nhắn tin</span>
         </a>
       </div>
@@ -773,9 +785,8 @@
         <!-- Background Slides Track (Chạy qua lại các ảnh banner) -->
         <div class="banner-slides-track" id="bannerSlidesTrack">
           <!-- BANNER_SLIDES_START -->
-          <div class="banner-slide active" style="background-image: url('https://res09.bignox.com/appcenter/vn/2020/02/RiseofKingdoms.jpg');"></div>
-          <div class="banner-slide " style="background-image: url('https://i.ibb.co/GQ7jRZbj/1792854019763-7880084465306086323-7880084465306086323-dcdc29bf0f7e7c5f157ada4f17ef9a06.jpg');"></div>
-          <div class="banner-slide " style="background-image: url('https://tiki.vn/blog/wp-content/uploads/2023/04/rise-of-kingdoms.jpg');"></div>
+          <div class="banner-slide active" style="background-image: url('https://i.ibb.co/GQ7jRZbj/1792854019763-7880084465306086323-7880084465306086323-dcdc29bf0f7e7c5f157ada4f17ef9a06.jpg');"></div>
+          <div class="banner-slide " style="background-image: url('https://res09.bignox.com/appcenter/vn/2020/02/RiseofKingdoms.jpg');"></div>
           <!-- BANNER_SLIDES_END -->
         </div>
 
@@ -842,10 +853,10 @@
             <!-- Các mốc giá chọn nhanh -->
             <div class="price-quick-chips">
               <button type="button" class="quick-chip active" data-range="all" onclick="setQuickPrice(0, 0, this)">Tất cả</button>
-              <button type="button" class="quick-chip" data-range="u10" onclick="setQuickPrice(0, 10000000, this)">Dưới 10tr</button>
-              <button type="button" class="quick-chip" data-range="10-30" onclick="setQuickPrice(10000000, 30000000, this)">10tr - 30tr</button>
-              <button type="button" class="quick-chip" data-range="30-100" onclick="setQuickPrice(30000000, 100000000, this)">30tr - 100tr</button>
-              <button type="button" class="quick-chip" data-range="o100" onclick="setQuickPrice(100000000, 0, this)">Trên 100tr</button>
+              <button type="button" class="quick-chip" data-range="u1" onclick="setQuickPrice(0, 1000000, this)">Dưới 1 tr</button>
+              <button type="button" class="quick-chip" data-range="1-5" onclick="setQuickPrice(1000000, 5000000, this)">1 đến 5 triệu</button>
+              <button type="button" class="quick-chip" data-range="5-10" onclick="setQuickPrice(5000000, 10000000, this)">5 đến 10 triệu</button>
+              <button type="button" class="quick-chip" data-range="o10" onclick="setQuickPrice(10000000, 0, this)">Trên 10 triệu</button>
             </div>
           </div>
 
@@ -928,10 +939,10 @@
 
           <div class="mobile-quick-chips-row">
             <button type="button" class="quick-chip active" data-range="all" onclick="setQuickPrice(0, 0, this)">Tất cả</button>
-            <button type="button" class="quick-chip" data-range="u10" onclick="setQuickPrice(0, 10000000, this)">&lt; 10tr</button>
-            <button type="button" class="quick-chip" data-range="10-30" onclick="setQuickPrice(10000000, 30000000, this)">10 - 30tr</button>
-            <button type="button" class="quick-chip" data-range="30-100" onclick="setQuickPrice(30000000, 100000000, this)">30 - 100tr</button>
-            <button type="button" class="quick-chip" data-range="o100" onclick="setQuickPrice(100000000, 0, this)">&gt; 100tr</button>
+            <button type="button" class="quick-chip" data-range="u1" onclick="setQuickPrice(0, 1000000, this)">Dưới 1 tr</button>
+            <button type="button" class="quick-chip" data-range="1-5" onclick="setQuickPrice(1000000, 5000000, this)">1 đến 5 triệu</button>
+            <button type="button" class="quick-chip" data-range="5-10" onclick="setQuickPrice(5000000, 10000000, this)">5 đến 10 triệu</button>
+            <button type="button" class="quick-chip" data-range="o10" onclick="setQuickPrice(10000000, 0, this)">Trên 10 triệu</button>
           </div>
 
           <div class="mobile-filter-subrow">
@@ -1148,7 +1159,6 @@
     <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
     <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
     <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
-    <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
   <script id="siteDataScript">
     var siteConfig = {
   "brand": {
@@ -1163,9 +1173,8 @@
     "mobileTitle": "NHÀ GIAO DỊCH MEO MEO RISE",
     "mobileSubtitle": "BẢO HIỂM 100% • XÁC MINH DANH TÍNH MINH BẠCH",
     "images": [
-      "https://res09.bignox.com/appcenter/vn/2020/02/RiseofKingdoms.jpg",
       "https://i.ibb.co/GQ7jRZbj/1792854019763-7880084465306086323-7880084465306086323-dcdc29bf0f7e7c5f157ada4f17ef9a06.jpg",
-      "https://tiki.vn/blog/wp-content/uploads/2023/04/rise-of-kingdoms.jpg"
+      "https://res09.bignox.com/appcenter/vn/2020/02/RiseofKingdoms.jpg"
     ]
   },
   "seo": {
@@ -1184,8 +1193,6 @@
       window.siteConfig = siteConfig;
     }
   </script>
-  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
-  <script src="js/list.js?v=1793168992500"></script>
   <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
   <script src="js/list.js?v=1793164633007"></script>
   <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->

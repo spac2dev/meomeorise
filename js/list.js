@@ -1,20 +1,21 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 06:29:45 28/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 06:21:08 28/10/2026
  */
 
 var mockProducts = [
   {
-    "id": 1427,
+    "id": 1421,
     "title": "IN",
     "price": 10000000,
-    "link": "account.html?id=VLR1427",
+    "link": "acc/1421",
     "favorites": 0,
     "isFavorited": false,
     "images": [
-      "https://i.ibb.co/rGSVm57T/banner-hero-1791716494779.jpg",
-      "https://i.ibb.co/C50dWg4n/thum1.jpg",
+      "https://i.ibb.co/gLk22pff/1792855409819-7880084465306086323-7880084465306086323-28bc597ec8c95af996010129839742bd.jpg",
+      "https://i.ibb.co/fdpNKWY8/1792854019763-7880084465306086323-7880084465306086323-dcdc29bf0f7e7c5f157ada4f17ef9a06.jpg",
+      "https://i.ibb.co/fzzr33fC/nh-ch-p-m-n-h-nh-2026-10-27-025040.jpg",
       "https://i.ibb.co/zWLnfd5k/Logoc.jpg"
     ],
     "categoryTabs": [
@@ -41,11 +42,12 @@ var mockProducts = [
     ],
     "imageCategories": {
       "tuong": [
-        "https://i.ibb.co/rGSVm57T/banner-hero-1791716494779.jpg"
+        "https://i.ibb.co/gLk22pff/1792855409819-7880084465306086323-7880084465306086323-28bc597ec8c95af996010129839742bd.jpg",
+        "https://i.ibb.co/fdpNKWY8/1792854019763-7880084465306086323-7880084465306086323-dcdc29bf0f7e7c5f157ada4f17ef9a06.jpg"
       ],
       "trangbi": [],
       "rss": [
-        "https://i.ibb.co/C50dWg4n/thum1.jpg"
+        "https://i.ibb.co/fzzr33fC/nh-ch-p-m-n-h-nh-2026-10-27-025040.jpg"
       ],
       "vebay": [],
       "cat_mvp98y49_490": [
@@ -58,7 +60,7 @@ var mockProducts = [
         "type": "red"
       }
     ],
-    "info": "#ROK1421 | Có thể nhập cư",
+    "info": "#1421 | Có thể nhập cư",
     "stats": "Cấp độ 25 | Sức mạnh 80,000,000 | VIP 15",
     "tags": [
       {
@@ -105,7 +107,7 @@ var mockProducts = [
     "id": 1109,
     "title": "Chỉ Huy Cung Thủ",
     "price": 68489000,
-    "link": "account.html?id=VLR1109",
+    "link": "/acc/1109",
     "favorites": 0,
     "isFavorited": false,
     "images": [],
@@ -115,7 +117,7 @@ var mockProducts = [
         "type": "dark"
       }
     ],
-    "info": "#VLR1109 | Có thể nhập cư",
+    "info": "#1109 | Có thể nhập cư",
     "stats": "Cấp độ 25 | Sức mạnh 109,665,659 | VIP 17 | Điểm Tiêu Diệt 11,318,883,510",
     "tags": [
       {
@@ -186,17 +188,45 @@ var mockProducts = [
     "id": 1420,
     "title": "Chỉ Huy Thủ Thành & Đồn Trú Vững Chắc Zenobia + YSS",
     "price": 49530000,
-    "link": "account.html?id=VLR1420",
+    "link": "acc/1420",
     "favorites": 6,
     "isFavorited": false,
-    "images": [],
+    "images": [
+      "https://i.ibb.co/sds94Ggf/nh-ch-p-m-n-h-nh-2026-10-28-012306.jpg"
+    ],
+    "categoryTabs": [
+      {
+        "id": "tuong",
+        "name": "Ảnh Tướng"
+      },
+      {
+        "id": "trangbi",
+        "name": "Trang bị"
+      },
+      {
+        "id": "rss",
+        "name": "Rss kho"
+      },
+      {
+        "id": "vebay",
+        "name": "Vé bay"
+      }
+    ],
+    "imageCategories": {
+      "tuong": [
+        "https://i.ibb.co/sds94Ggf/nh-ch-p-m-n-h-nh-2026-10-28-012306.jpg"
+      ],
+      "trangbi": [],
+      "rss": [],
+      "vebay": []
+    },
     "badges": [
       {
         "text": "Chơi",
         "type": "red"
       }
     ],
-    "info": "#VLR1420 | Có thể nhập cư",
+    "info": "#1420 | Có thể nhập cư",
     "stats": "Cấp độ 25 | Sức mạnh 110,400,200 | VIP 17 | Điểm Tiêu Diệt 5,890,100,400",
     "tags": [
       {
@@ -217,7 +247,7 @@ var mockProducts = [
       },
       {
         "text": "Minh Văn Hiếm ×15",
-        "type": "orange"
+        "type": "blue"
       },
       {
         "text": "Số Dư Xu Lung Linh 4",
@@ -256,12 +286,11 @@ var mockProducts = [
       {
         "id": "arthur",
         "name": "Arthur Pendragon",
-        "level": 60,
-        "isImg": true
+        "level": 60
       }
     ],
     "gemMultiplier": 5,
-    "countdownSeconds": 1103740
+    "countdownSeconds": 1105200
   }
 ];
 

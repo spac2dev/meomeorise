@@ -1,13 +1,13 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 06:21:08 28/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 07:34:02 28/10/2026
  */
 
 var mockProducts = [
   {
     "id": 1421,
-    "title": "IN",
+    "title": "Chỉ Huy Thủ Thành",
     "price": 10000000,
     "link": "acc/1421",
     "favorites": 0,

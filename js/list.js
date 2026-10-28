@@ -1,7 +1,7 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 08:40:03 28/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 08:52:19 28/10/2026
  */
 
 var mockProducts = [
@@ -238,15 +238,11 @@ var mockProducts = [
         "type": "orange"
       },
       {
-        "text": "Minh Văn Hiếm ×16",
+        "text": "Vé Bay x 70",
         "type": "blue"
       },
       {
-        "text": "Vé Bay 70",
-        "type": "blue"
-      },
-      {
-        "text": "Tượng Chỉ Huy Huyền Thoại 873",
+        "text": "Tượng Chỉ Huy Huyền Thoại x 873",
         "type": "blue"
       }
     ],
@@ -279,114 +275,6 @@ var mockProducts = [
     ],
     "gemMultiplier": 5,
     "countdownSeconds": 2566800
-  },
-  {
-    "id": 1420,
-    "title": "Chỉ Huy Thủ Thành & Đồn Trú Vững Chắc Zenobia + YSS",
-    "price": 49530000,
-    "link": "acc/1420",
-    "favorites": 6,
-    "isFavorited": false,
-    "images": [
-      "https://i.ibb.co/sds94Ggf/nh-ch-p-m-n-h-nh-2026-10-28-012306.jpg"
-    ],
-    "categoryTabs": [
-      {
-        "id": "tuong",
-        "name": "Ảnh Tướng"
-      },
-      {
-        "id": "trangbi",
-        "name": "Trang bị"
-      },
-      {
-        "id": "rss",
-        "name": "Rss kho"
-      },
-      {
-        "id": "vebay",
-        "name": "Vé bay"
-      }
-    ],
-    "imageCategories": {
-      "tuong": [
-        "https://i.ibb.co/sds94Ggf/nh-ch-p-m-n-h-nh-2026-10-28-012306.jpg"
-      ],
-      "trangbi": [],
-      "rss": [],
-      "vebay": []
-    },
-    "badges": [
-      {
-        "text": "Chơi",
-        "type": "red"
-      }
-    ],
-    "info": "#1420 | Có thể nhập cư",
-    "stats": "Cấp độ 25 | Sức mạnh 110,400,200 | VIP 17 | Điểm Tiêu Diệt 5,890,100,400",
-    "tags": [
-      {
-        "text": "Chỉ Huy Thức Tỉnh Huyền Thoại ×32",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Bị Huyền Thoại ×38",
-        "type": "orange"
-      },
-      {
-        "text": "Trang Bị Tài Năng Đặc Biệt Huyền Thoại ×12",
-        "type": "orange"
-      },
-      {
-        "text": "Minh Văn Đặc Biệt ×6",
-        "type": "orange"
-      },
-      {
-        "text": "Minh Văn Hiếm ×15",
-        "type": "blue"
-      },
-      {
-        "text": "Số Dư Xu Lung Linh 4",
-        "type": "blue"
-      },
-      {
-        "text": "Trang Hộ Chiếu 78",
-        "type": "blue"
-      },
-      {
-        "text": "Tượng Chỉ Huy Huyền Thoại 890",
-        "type": "blue"
-      }
-    ],
-    "commanders": [
-      {
-        "id": "bachkhoi",
-        "name": "Bạch Khởi",
-        "level": 60
-      },
-      {
-        "id": "choiyoung",
-        "name": "Choi Young",
-        "level": 60
-      },
-      {
-        "id": "tontu",
-        "name": "Tôn Tử",
-        "level": 60
-      },
-      {
-        "id": "achilles",
-        "name": "Achilles",
-        "level": 60
-      },
-      {
-        "id": "arthur",
-        "name": "Arthur Pendragon",
-        "level": 60
-      }
-    ],
-    "gemMultiplier": 5,
-    "countdownSeconds": 1105200
   }
 ];
 

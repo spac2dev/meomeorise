@@ -1,44 +1,23 @@
 /**
  * ==============================================================================
- * CLOUDFLARE WORKER DÀNH CHO PROFILE & SEO ADMIN CMS
- * Tự động cập nhật trực tiếp cấu hình Profile, Thẻ SEO, OpenGraph & Social Cards
- * lên file index.html trên GitHub (Mô hình SSG - Tối ưu 100% SEO & Preview MXH)
+ * CLOUDFLARE WORKER - EDGE-SSG CMS MIDDLEWARE (WONTRADE ROK)
+ * Kiến trúc Core: Edge-SSG (Tráo Code HTML Trực Tiếp Vào File index.html Qua GitHub API)
+ * Chuẩn 100% SEO Google, OpenGraph Zalo & Facebook, Tốc độ tải trang tức thì!
  * ==============================================================================
  *
- * CÁC BIẾN MÔI TRƯỜNG (Environment Variables) CẦN CÀI ĐẶT TRÊN WORKER NÀY:
- * (Cloudflare Dashboard -> Workers & Pages -> Worker của bạn -> Settings -> Variables)
+ * CÁC BIẾN MÔI TRƯỜNG (Environment Variables) CẦN CÀI ĐẶT TRÊN CLOUDFLARE WORKER:
+ * (Vào Cloudflare Dashboard -> Workers & Pages -> Worker của bạn -> Settings -> Variables)
  *
  * 1. GITHUB_TOKEN : Personal Access Token (classic hoặc fine-grained) có quyền `repo` hoặc `contents:write`
- * 2. REPO_OWNER   : Tên tài khoản hoặc tổ chức GitHub (ví dụ: "spac2dev")
- * 3. REPO_NAME    : Tên kho lưu trữ GitHub (ví dụ: "infomeomeorise")
- * 4. FILE_PATH    : Đường dẫn tới file trang chủ (mặc định: "index.html")
- * 5. BRANCH       : Tên nhánh cần commit (mặc định: "main")
- * 6. ADMIN_SECRET : (Tùy chọn) Khóa bí mật bảo vệ Worker, CMS cần gửi header `X-Admin-Key`
- *
+ * 2. REPO_OWNER   : Tên tài khoản hoặc tổ chức GitHub (ví dụ: "your-username")
+ * 3. REPO_NAME    : Tên kho lưu trữ GitHub (ví dụ: "rok-wontrade" hoặc "meo")
+ * 4. FILE_PATH    : Đường dẫn file cần tráo đổi (Mặc định: "index.html")
+ * 5. BRANCH       : Tên nhánh cần commit (Mặc định: "main" hoặc "master")
+ * 6. ADMIN_SECRET : (Tùy chọn) Khóa bí mật bảo vệ Worker, nếu cài thì Admin CMS cần gửi header `X-Admin-Key`
  * ==============================================================================
  */
 
-// Helper escape an toàn ký tự HTML
-function escapeHtml(str) {
-  if (!str) return "";
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-// Helper escape an toàn thuộc tính thẻ HTML
-function escapeAttr(str) {
-  if (!str) return "";
-  return String(str)
-    .replace(/"/g, "&quot;")
-    .replace(/[\n\r]+/g, " ")
-    .trim();
-}
-
-// Hàm mã hóa chuỗi UTF-8 (hỗ trợ đầy đủ tiếng Việt có dấu) sang Base64
+// Hàm mã hóa chuỗi UTF-8 tiếng Việt sang Base64 an toàn (tránh lỗi font btoa)
 function utf8ToBase64(str) {
   const bytes = new TextEncoder().encode(str);
   let binary = "";
@@ -49,7 +28,7 @@ function utf8ToBase64(str) {
   return btoa(binary);
 }
 
-// Hàm giải mã Base64 sang chuỗi UTF-8
+// Hàm giải mã Base64 sang chuỗi UTF-8 tiếng Việt hoàn chỉnh
 function base64ToUtf8(base64) {
   const binary = atob(base64.replace(/\n/g, ""));
   const bytes = new Uint8Array(binary.length);
@@ -59,7 +38,179 @@ function base64ToUtf8(base64) {
   return new TextDecoder().decode(bytes);
 }
 
-// Headers CORS chuẩn cho mọi response
+// BỘ CÔNG THỨC TRÁO CODE VÀO FILE INDEX.HTML (EDGE-SSG)
+function updateIndexHtmlWithData(html, data) {
+  const siteConfig = data.siteConfig || {};
+  const products = Array.isArray(data.products) ? data.products : [];
+  const seo = siteConfig.seo || {};
+  const brand = siteConfig.brand || {};
+  const contact = siteConfig.contact || {};
+  const banner = siteConfig.banner || {};
+
+  const title = seo.title || "Meo Meo Rise - Nền tảng giao dịch Rise of Kingdoms chính thức";
+  const desc = seo.description || "Meo Meo Rise - Nền tảng giao dịch tài khoản Rise of Kingdoms chính thức và uy tín hàng đầu. Mua bán tài khoản, chỉ huy thức tỉnh, trang bị huyền thoại an toàn và nhanh chóng.";
+  const keywords = seo.keywords || "Meo Meo Rise, meomeorise, nền tảng giao dịch rise of kingdoms chính thức, mua bán acc rok, giao dịch rok";
+  const avatar = seo.ogImage || brand.avatar || "assets/rok_avatar.jpg";
+  const gameName = brand.gameName || "Rise of Kingdoms";
+  const zaloPhone = contact.zalo || contact.phone || "0372996420";
+  const zaloUrl = contact.zaloUrl || `https://zalo.me/${zaloPhone}`;
+
+  // 1. Tráo Title
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${title}</title>`);
+
+  // 2. Tráo Meta SEO & Social Sharing (Zalo / Facebook / Twitter)
+  // Khớp trọn vẹn cả thẻ từ <meta ... cho đến dấu > đóng thẻ để triệt tiêu lỗi thừa dấu >
+  if (/<meta\s+name=["']description["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']description["'][^>]*>/i, `<meta name="description"\n    content="${desc}">`);
+  } else {
+    html = html.replace(/<\/title>/i, `</title>\n  <meta name="description"\n    content="${desc}">`);
+  }
+
+  if (/<meta\s+name=["']keywords["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']keywords["'][^>]*>/i, `<meta name="keywords" content="${keywords}">`);
+  } else {
+    html = html.replace(/(<meta\s+name=["']description["'][^>]*>)/i, `$1\n  <meta name="keywords" content="${keywords}">`);
+  }
+
+  // OpenGraph cho Zalo / Facebook
+  if (/<meta\s+property=["']og:title["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+property=["']og:title["'][^>]*>/i, `<meta property="og:title" content="${title}">`);
+  } else {
+    html = html.replace(/<\/title>/i, `</title>\n  <meta property="og:type" content="website">\n  <meta property="og:title" content="${title}">`);
+  }
+
+  if (/<meta\s+property=["']og:description["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+property=["']og:description["'][^>]*>/i, `<meta property="og:description"\n    content="${desc}">`);
+  }
+
+  if (/<meta\s+property=["']og:image["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+property=["']og:image["'][^>]*>/i, `<meta property="og:image" content="${avatar}">`);
+  }
+
+  // Twitter Cards
+  if (/<meta\s+name=["']twitter:title["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']twitter:title["'][^>]*>/i, `<meta name="twitter:title" content="${title}">`);
+  }
+  if (/<meta\s+name=["']twitter:description["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']twitter:description["'][^>]*>/i, `<meta name="twitter:description"\n    content="${desc}">`);
+  }
+  if (/<meta\s+name=["']twitter:image["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']twitter:image["'][^>]*>/i, `<meta name="twitter:image" content="${avatar}">`);
+  }
+
+  // Tự động dọn sạch mọi ký tự '>' trôi nổi dư thừa nếu có do các lần tráo cũ bị sót
+  html = html.replace(/(<meta[^>]*>)\s*>/gi, '$1');
+
+  // 3. Tráo Nội dung tĩnh Banner (SSR)
+  if (banner.desktopHeadline) {
+    html = html.replace(/<h1\s+class=["']banner-headline["']>[\s\S]*?<\/h1>/i, `<h1 class="banner-headline">${banner.desktopHeadline}</h1>`);
+  }
+  if (banner.desktopRibbon) {
+    html = html.replace(/<div\s+class=["']banner-ribbon["']>[\s\S]*?<\/div>/i, `<div class="banner-ribbon">${banner.desktopRibbon}</div>`);
+  }
+  if (banner.mobileTitle) {
+    html = html.replace(/<div\s+class=["']mobile-banner-title["']>[\s\S]*?<\/div>/i, `<div class="mobile-banner-title">${banner.mobileTitle}</div>`);
+  }
+  if (banner.mobileSubtitle) {
+    html = html.replace(/<div\s+class=["']mobile-banner-subtitle["']>[\s\S]*?<\/div>/i, `<div class="mobile-banner-subtitle">${banner.mobileSubtitle}</div>`);
+  }
+
+  // Tráo các slide ảnh Banner tĩnh trong HTML (SSR) an toàn tuyệt đối, không làm vỡ thẻ hero-banner
+  if (banner && Array.isArray(banner.images) && banner.images.length > 0) {
+    const slidesHtml = banner.images.map((url, idx) => 
+      `          <div class="banner-slide ${idx === 0 ? 'active' : ''}" style="background-image: url('${url}');"></div>`
+    ).join("\n");
+
+    if (/<!--\s*BANNER_SLIDES_START\s*-->[\s\S]*?<!--\s*BANNER_SLIDES_END\s*-->/i.test(html)) {
+      html = html.replace(/<!--\s*BANNER_SLIDES_START\s*-->[\s\S]*?<!--\s*BANNER_SLIDES_END\s*-->/i, 
+        `<!-- BANNER_SLIDES_START -->\n${slidesHtml}\n          <!-- BANNER_SLIDES_END -->`);
+    } else if (/<div\s+class=["']banner-slides-track["'][^>]*>[\s\S]*?<\/div>(?=\s*(?:<!--\s*Desktop|<button[^>]*class=["']banner-arrow-btn))/i.test(html)) {
+      html = html.replace(/<div\s+class=["']banner-slides-track["'][^>]*>[\s\S]*?<\/div>(?=\s*(?:<!--\s*Desktop|<button[^>]*class=["']banner-arrow-btn))/i, 
+        `<div class="banner-slides-track" id="bannerSlidesTrack">\n          <!-- BANNER_SLIDES_START -->\n${slidesHtml}\n          <!-- BANNER_SLIDES_END -->\n        </div>`);
+    }
+  }
+
+  // 4. Tráo Game Name & Brand
+  if (gameName) {
+    html = html.replace(/<span\s+class=["']game-name["']>[\s\S]*?<\/span>/i, `<span class="game-name">${gameName}</span>`);
+  }
+
+  // 5. Tráo tất cả link Zalo & Tiêu đề tooltip Zalo
+  if (zaloUrl) {
+    html = html.replace(/href=["']https?:\/\/zalo\.me\/[^"']*["']/g, `href="${zaloUrl}"`);
+    html = html.replace(/title=["']Nhắn tin Zalo:[^"']*["']/g, `title="Nhắn tin Zalo: ${zaloPhone}"`);
+  }
+
+  // 6. Tráo số lượng vật phẩm tĩnh (SSR)
+  if (data.totalCount !== undefined || products.length > 0) {
+    const countStr = String(data.totalCount !== undefined ? data.totalCount : products.length);
+    html = html.replace(/<strong\s+class=["']item-count-val["']>\d+<\/strong>/g, `<strong class="item-count-val">${countStr}</strong>`);
+  }
+
+  // 7. Tráo Thẻ Script Chứa Cấu Hình Giao Diện & Nạp js/list.js (Không nhồi mockProducts vào index.html)
+  const scriptTag = `  <!-- DỮ LIỆU CẤU HÌNH GIAO DIỆN & SEO (EDGE-SSG TRÁO TRỰC TIẾP QUA CLOUDFLARE WORKER) -->
+  <script id="siteDataScript">
+    var siteConfig = ${JSON.stringify(siteConfig, null, 2)};
+    if (typeof window !== "undefined") {
+      window.siteConfig = siteConfig;
+    }
+  </script>
+  <!-- NẠP DANH SÁCH SẢN PHẨM & ẢNH IMGBB TỪ FILE RIÊNG JS/LIST.JS (CHỐNG CACHE TRÌNH DUYỆT) -->
+  <script src="js/list.js?v=${Date.now()}"></script>`;
+
+  if (/<script\s+id=["']siteDataScript["']>[\s\S]*?<\/script>(?:\s*<script\s+src=["']js\/list\.js(?:\?v=[^"']*)?["']><\/script>)?/i.test(html)) {
+    html = html.replace(/<script\s+id=["']siteDataScript["']>[\s\S]*?<\/script>(?:\s*<script\s+src=["']js\/list\.js(?:\?v=[^"']*)?["']><\/script>)?/i, scriptTag);
+  } else {
+    // Chèn trước thẻ nạp script tương tác
+    html = html.replace(/<script\s+src=["']js\/index\.js["']><\/script>/i, `${scriptTag}\n  <script src="js/index.js"></script>`);
+  }
+
+  // 8. Đảm bảo loại bỏ hoàn toàn popup iframe modal nếu còn sót lại
+  html = html.replace(/<!--\s*=+\s*9:16 VERTICAL POPUP IFRAME MODAL[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/i, '');
+  html = html.replace(/<div\s+class=["']iframe-modal-backdrop["'][\s\S]*?id=["']productIframeModal["'][\s\S]*?<\/iframe>[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/i, '');
+
+  return html;
+}
+
+// BỘ CÔNG THỨC TẠO FILE JS/LIST.JS ĐỘC LẬP (CHỨA MẢNG SẢN PHẨM & LINK ẢNH IMGBB)
+function generateListJsContent(products) {
+  return `/**
+ * WONTRADE - Rise of Kingdoms (ROK)
+ * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
+ * Tự động đồng bộ qua Cloudflare Worker: ${new Date().toLocaleString("vi-VN")}
+ */
+
+var mockProducts = ${JSON.stringify(products, null, 2)};
+
+if (typeof window !== "undefined") {
+  window.mockProducts = mockProducts;
+}
+`;
+}
+
+// BỘ CÔNG THỨC TẠO FILE JS/THUM.JS ĐỘC LẬP (CHỨA MẢNG LINK ẢNH BANNER TRANG CHỦ)
+function generateThumJsContent(bannerImages) {
+  const list = Array.isArray(bannerImages) && bannerImages.length > 0
+    ? bannerImages
+    : ["assets/thum1.png", "assets/thum2.png"];
+
+  return `/**
+ * ==============================================================================
+ * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
+ * FILE QUẢN LÝ DANH SÁCH ẢNH BANNER TRANG CHỦ (js/thum.js)
+ * Tự động xuất bản từ Admin CMS Edge-SSG: ${new Date().toLocaleString("vi-VN")}
+ * ==============================================================================
+ */
+
+var bannerImages = ${JSON.stringify(list, null, 2)};
+
+if (typeof window !== "undefined") {
+  window.bannerImages = bannerImages;
+}
+`;
+}
+
+// Headers CORS chuẩn
 function getCorsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
@@ -69,7 +220,7 @@ function getCorsHeaders() {
   };
 }
 
-// Helper trả về JSON có kèm header CORS
+// Helper trả về JSON có CORS
 function jsonResponse(data, status = 200) {
   return new Response(JSON.stringify(data, null, 2), {
     status,
@@ -80,164 +231,9 @@ function jsonResponse(data, status = 200) {
   });
 }
 
-// Hàm trích xuất cấu hình Profile từ file index.html hoặc list.js
-function extractProfileFromContent(contentStr) {
-  if (!contentStr) return null;
-  try {
-    const matchProf = contentStr.match(/var\s+profileConfig\s*=\s*(\{[\s\S]*?\});/);
-    if (matchProf) {
-      return JSON.parse(matchProf[1]);
-    }
-  } catch (e) {
-    console.error("Lỗi khi parse profileConfig:", e);
-  }
-  return null;
-}
-
-// ==============================================================================
-// HÀM CẬP NHẬT TRỰC TIẾP FILE INDEX.HTML VỚI ĐẦY ĐỦ SEO, OPEN GRAPH VÀ EMBED SCRIPT
-// ==============================================================================
-function updateIndexHtmlWithProfile(html, profile) {
-  if (!html || !profile) return html;
-
-  const brandName = profile.brand?.name || "Meo Meo Rise";
-  const brandTitle = profile.brand?.title || "Rise Of KingDoms";
-  const brandSlogan = profile.brand?.slogan || "Trung Gian Giao Dịch & Dịch Vụ ROK Uy Tín";
-  const websiteName = profile.brand?.websiteName || "MEOMEORISE.VN";
-  const websiteUrl = profile.brand?.websiteUrl || "https://meomeorise.vn";
-  const avatar = profile.brand?.avatar || "icon/icon.jpg";
-
-  const phone = profile.contact?.phone || "0949257924";
-  const phoneDisplay = profile.contact?.phoneDisplay || profile.contact?.phone || "0949.257.924";
-  const email = profile.contact?.email || "longnhat712@gmail.com";
-  const zaloUrl = profile.contact?.zaloUrl || `https://zalo.me/${phone}`;
-
-  const servicesList = Array.isArray(profile.services) && profile.services.length > 0
-    ? profile.services.map(s => s.title).join(" - ")
-    : "Trung Gian Giao Dịch - Phát Triển Cộng Đồng Rok - Tư Vấn Mọi Chức Năng Game Rok";
-
-  const pageTitle = `${brandTitle} - ${brandSlogan}`;
-  const metaDesc = `${brandTitle}: ${servicesList}. SĐT/Zalo: ${phone}. Gmail: ${email}.`;
-  const keywords = `${brandTitle}, ROK, ${brandName}, ${servicesList.split(" - ").join(", ")}, ${phone}, ${email}`;
-
-  // 1. Cập nhật thẻ <title>
-  if (/<title>[\s\S]*?<\/title>/i.test(html)) {
-    html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(pageTitle)}</title>`);
-  }
-
-  // 2. Cập nhật thẻ Meta Description
-  if (/<meta\s+name=["']description["']\s+content=["'][^"']*["']/i.test(html)) {
-    html = html.replace(/<meta\s+name=["']description["']\s+content=["'][^"']*["']/i, `<meta name="description" content="${escapeAttr(metaDesc)}"`);
-  }
-
-  // 3. Cập nhật thẻ Meta Keywords
-  if (/<meta\s+name=["']keywords["']\s+content=["'][^"']*["']/i.test(html)) {
-    html = html.replace(/<meta\s+name=["']keywords["']\s+content=["'][^"']*["']/i, `<meta name="keywords" content="${escapeAttr(keywords)}"`);
-  }
-
-  // 4. Cập nhật thẻ Meta Author
-  if (/<meta\s+name=["']author["']\s+content=["'][^"']*["']/i.test(html)) {
-    html = html.replace(/<meta\s+name=["']author["']\s+content=["'][^"']*["']/i, `<meta name="author" content="${escapeAttr(brandTitle + ' Services')}"`);
-  }
-
-  // 5. Cập nhật Open Graph (Facebook, Zalo, Telegram...)
-  if (/<meta\s+property=["']og:title["']\s+content=["'][^"']*["']/i.test(html)) {
-    html = html.replace(/<meta\s+property=["']og:title["']\s+content=["'][^"']*["']/i, `<meta property="og:title" content="${escapeAttr(pageTitle)}"`);
-  }
-  if (/<meta\s+property=["']og:description["']\s+content=["'][^"']*["']/i.test(html)) {
-    html = html.replace(/<meta\s+property=["']og:description["']\s+content=["'][^"']*["']/i, `<meta property="og:description" content="${escapeAttr(metaDesc)}"`);
-  }
-  if (/<meta\s+property=["']og:image["']\s+content=["'][^"']*["']/i.test(html)) {
-    html = html.replace(/<meta\s+property=["']og:image["']\s+content=["'][^"']*["']/i, `<meta property="og:image" content="${escapeAttr(avatar)}"`);
-  } else if (/<\/head>/i.test(html)) {
-    html = html.replace(/<\/head>/i, `  <meta property="og:image" content="${escapeAttr(avatar)}">\n</head>`);
-  }
-
-  // 6. Cập nhật Twitter Card Meta
-  if (/<meta\s+name=["']twitter:title["']\s+content=["'][^"']*["']/i.test(html)) {
-    html = html.replace(/<meta\s+name=["']twitter:title["']\s+content=["'][^"']*["']/i, `<meta name="twitter:title" content="${escapeAttr(pageTitle)}"`);
-  }
-  if (/<meta\s+name=["']twitter:description["']\s+content=["'][^"']*["']/i.test(html)) {
-    html = html.replace(/<meta\s+name=["']twitter:description["']\s+content=["'][^"']*["']/i, `<meta name="twitter:description" content="${escapeAttr(metaDesc)}"`);
-  }
-  if (/<meta\s+name=["']twitter:image["']\s+content=["'][^"']*["']/i.test(html)) {
-    html = html.replace(/<meta\s+name=["']twitter:image["']\s+content=["'][^"']*["']/i, `<meta name="twitter:image" content="${escapeAttr(avatar)}"`);
-  }
-
-  // 7. Cập nhật giao diện HTML tĩnh ban đầu (Pre-rendered SSR cho crawler bot)
-  // Tên thương hiệu trên Header
-  const brandTitleRegex = /<span\s+class=["']brand-title["']>([\s\S]*?)<\/span>/i;
-  if (brandTitleRegex.test(html)) {
-    const verifiedSvg = (profile.brand?.verified !== false) ? `
-          <!-- SVG Huy hiệu Verified Vàng -->
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:var(--gold-500);" aria-hidden="true">
-            <path d="M12 2l2.4 2.9 3.7-.4 1.3 3.5 3.5 1.4-.4 3.7 2.4 2.9-2.4 2.9.4 3.7-3.5 1.4-1.3 3.5-3.7-.4L12 22l-2.4-2.9-3.7.4-1.3-3.5-3.5-1.4.4-3.7-2.4-2.9 2.4-2.9-.4-3.7 3.5-1.4 1.3-3.5 3.7.4L12 2z"/>
-            <path d="M9.5 12.5l2 2 4.5-4.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>` : '';
-    html = html.replace(brandTitleRegex, `<span class="brand-title">
-          ${escapeHtml(brandTitle)}${verifiedSvg}
-        </span>`);
-  }
-
-  // Tên profile người dùng trên Sidebar
-  const profileUserRegex = /<h1\s+class=["']profile-user-name["']>([\s\S]*?)<\/h1>/i;
-  if (profileUserRegex.test(html)) {
-    const verifiedBadge = (profile.brand?.verified !== false) ? `
-            <span class="verified-check-badge" title="Tài khoản đã xác minh chính chủ 100%">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="#0284c7">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.2 14.2l-3.5-3.5 1.4-1.4 2.1 2.1 5.3-5.3 1.4 1.4-6.7 6.7z"/>
-              </svg>
-            </span>` : '';
-    html = html.replace(profileUserRegex, `<h1 class="profile-user-name">
-            <span>${escapeHtml(brandName)}</span>${verifiedBadge}
-          </h1>`);
-  }
-
-  // Thẻ liên kết Website
-  const profileTagRegex = /<a\s+[^>]*class=["'][^"']*profile-username-tag[^"']*["'][^>]*>([\s\S]*?)<\/a>/i;
-  if (profileTagRegex.test(html)) {
-    html = html.replace(profileTagRegex, `<a href="${escapeAttr(websiteUrl)}" target="_blank" rel="noopener noreferrer" class="profile-username-tag" title="Truy cập website chính thức: ${escapeAttr(websiteName)}">${escapeHtml(websiteName)}</a>`);
-  }
-
-  // Nút liên hệ nhanh trên Header
-  const ctaFullRegex = /<span\s+class=["']cta-text-full["']>([\s\S]*?)<\/span>/i;
-  if (ctaFullRegex.test(html)) {
-    html = html.replace(ctaFullRegex, `<span class="cta-text-full">Zalo: ${escapeHtml(phoneDisplay)}</span>`);
-  }
-  const ctaBtnRegex = /<a\s+[^>]*class=["'][^"']*header-cta-btn[^"']*["'][^>]*>/i;
-  if (ctaBtnRegex.test(html)) {
-    html = html.replace(ctaBtnRegex, (match) => {
-      return match.replace(/href=["'][^"']*["']/i, `href="${escapeAttr(zaloUrl)}"`);
-    });
-  }
-
-  // 8. Cập nhật thẻ <script id="profileConfigScript"> chứa profileConfig
-  const jsonProfile = JSON.stringify(profile, null, 2);
-  const newScriptTag = `  <!-- CẤU HÌNH THÔNG TIN PROFILE (Được quản lý tự động qua Admin CMS & Cloudflare Worker) -->
-  <script id="profileConfigScript">
-  var profileConfig = ${jsonProfile};
-
-  if (typeof window !== "undefined") {
-    window.profileConfig = profileConfig;
-  }
-  </script>`;
-
-  if (/<script\s+id=["']profileConfigScript["']>[\s\S]*?<\/script>/i.test(html)) {
-    html = html.replace(/<script\s+id=["']profileConfigScript["']>[\s\S]*?<\/script>/i, newScriptTag);
-  } else if (/<script>document\.write\(.*list\.js.*\)<\/script>/i.test(html)) {
-    html = html.replace(/<script>document\.write\(.*list\.js.*\)<\/script>/i, newScriptTag);
-  } else if (/<script\s+src=["']js\/index\.js["']>/i.test(html)) {
-    html = html.replace(/<script\s+src=["']js\/index\.js["']>/i, `${newScriptTag}\n\n  <script src="js/index.js">`);
-  } else {
-    html = html.replace(/<\/body>/i, `${newScriptTag}\n</body>`);
-  }
-
-  return html;
-}
-
 export default {
   async fetch(request, env, ctx) {
-    // 1. Xử lý preflight CORS OPTIONS request
+    // 1. CORS Preflight
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -247,7 +243,7 @@ export default {
 
     const url = new URL(request.url);
 
-    // 2. Kiểm tra cấu hình môi trường bắt buộc
+    // 2. Kiểm tra biến môi trường bắt buộc
     const GITHUB_TOKEN = env.GITHUB_TOKEN;
     const REPO_OWNER = env.REPO_OWNER;
     const REPO_NAME = env.REPO_NAME;
@@ -259,7 +255,7 @@ export default {
       return jsonResponse(
         {
           success: false,
-          error: "Thiếu biến môi trường Cloudflare Worker Profile!",
+          error: "Thiếu biến môi trường Cloudflare Worker!",
           details:
             "Vui lòng vào Settings -> Variables trên Cloudflare Worker để thêm: GITHUB_TOKEN, REPO_OWNER, REPO_NAME.",
           configStatus: {
@@ -274,7 +270,7 @@ export default {
       );
     }
 
-    // 3. Kiểm tra bảo mật (Nếu có cài ADMIN_SECRET)
+    // 3. Kiểm tra bảo mật ADMIN_SECRET nếu có
     if (ADMIN_SECRET) {
       const clientKey =
         request.headers.get("X-Admin-Key") ||
@@ -290,15 +286,14 @@ export default {
       }
     }
 
-    // Common GitHub API headers
     const githubHeaders = {
       Authorization: `Bearer ${GITHUB_TOKEN}`,
       Accept: "application/vnd.github.v3+json",
-      "User-Agent": "Cloudflare-Worker-Profile-CMS",
+      "User-Agent": "Edge-SSG-Worker",
     };
 
     // ========================================================================
-    // GET: Kiểm tra kết nối và trích xuất cấu hình Profile từ file index.html trên GitHub
+    // GET: Kéo cấu hình hiện tại từ file index.html trên GitHub
     // ========================================================================
     if (request.method === "GET") {
       const targetPath = url.searchParams.get("path") || DEFAULT_FILE_PATH;
@@ -311,7 +306,7 @@ export default {
           return jsonResponse({
             success: true,
             exists: false,
-            message: `File ${targetPath} chưa tồn tại trên repo (sẽ được tạo mới khi lưu).`,
+            message: `File ${targetPath} chưa tồn tại trên repo.`,
             repo: `${REPO_OWNER}/${REPO_NAME}`,
             branch: BRANCH,
           });
@@ -332,34 +327,137 @@ export default {
         const data = await ghRes.json();
         const contentStr = data.content ? base64ToUtf8(data.content) : "";
 
-        // Trích xuất profileConfig
-        const parsedProfile = extractProfileFromContent(contentStr);
+        // Trích xuất an toàn siteConfig và mockProducts
+        let parsedSiteConfig = null;
+        let parsedProducts = null;
 
-        const resPayload = {
+        // Nếu yêu cầu file js/list.js
+        if (targetPath.endsWith("list.js")) {
+          try {
+            const sandboxFn = new Function(
+              "mockProducts",
+              "window",
+              contentStr + "\n; return (window.mockProducts && window.mockProducts.length > 0) ? window.mockProducts : mockProducts;"
+            );
+            const extracted = sandboxFn([], {});
+            if (Array.isArray(extracted)) {
+              parsedProducts = extracted;
+            }
+          } catch (fnErr) {
+            console.error("Lỗi parse list.js:", fnErr);
+          }
+
+          return jsonResponse({
+            success: true,
+            exists: true,
+            sha: data.sha,
+            filePath: targetPath,
+            repo: `${REPO_OWNER}/${REPO_NAME}`,
+            branch: BRANCH,
+            products: parsedProducts || [],
+            totalProducts: (parsedProducts || []).length,
+            content: contentStr,
+          });
+        }
+
+        // Nếu yêu cầu file js/thum.js
+        if (targetPath.endsWith("thum.js")) {
+          let parsedBannerImages = [];
+          try {
+            const sandboxFn = new Function(
+              "bannerImages",
+              "window",
+              contentStr + "\n; return (window.bannerImages && window.bannerImages.length > 0) ? window.bannerImages : bannerImages;"
+            );
+            const extracted = sandboxFn([], {});
+            if (Array.isArray(extracted)) {
+              parsedBannerImages = extracted;
+            }
+          } catch (fnErr) {
+            console.error("Lỗi parse thum.js:", fnErr);
+          }
+
+          return jsonResponse({
+            success: true,
+            exists: true,
+            sha: data.sha,
+            filePath: targetPath,
+            repo: `${REPO_OWNER}/${REPO_NAME}`,
+            branch: BRANCH,
+            bannerImages: parsedBannerImages,
+            totalImages: parsedBannerImages.length,
+            content: contentStr,
+          });
+        }
+
+        // Nếu yêu cầu file index.html
+        const scriptMatch = contentStr.match(/<script\s+id=["']siteDataScript["']>([\s\S]*?)<\/script>/i);
+        if (scriptMatch) {
+          try {
+            const rawCode = scriptMatch[1];
+            const sandboxFn = new Function(
+              "siteConfig",
+              "mockProducts",
+              "window",
+              rawCode + "\n; return { siteConfig: siteConfig || window.siteConfig, products: mockProducts || window.mockProducts };"
+            );
+            const extracted = sandboxFn(null, null, {});
+            if (extracted.siteConfig && typeof extracted.siteConfig === "object") {
+              parsedSiteConfig = extracted.siteConfig;
+            }
+            if (Array.isArray(extracted.products)) {
+              parsedProducts = extracted.products;
+            }
+          } catch (fnErr) {
+            console.error("Lỗi parse siteDataScript qua sandbox:", fnErr);
+          }
+        }
+
+        // CƠ CHẾ ĐỒNG BỘ: Nếu index.html không chứa products (vì đã tách sang js/list.js), tự động kéo luôn js/list.js từ GitHub
+        if (!parsedProducts || parsedProducts.length === 0) {
+          try {
+            const listApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/js/list.js?ref=${BRANCH}`;
+            const listRes = await fetch(listApiUrl, { headers: githubHeaders });
+            if (listRes.ok) {
+              const listData = await listRes.json();
+              const listStr = listData.content ? base64ToUtf8(listData.content) : "";
+              const sandboxFn = new Function(
+                "mockProducts",
+                "window",
+                listStr + "\n; return (window.mockProducts && window.mockProducts.length > 0) ? window.mockProducts : mockProducts;"
+              );
+              const extracted = sandboxFn([], {});
+              if (Array.isArray(extracted) && extracted.length > 0) {
+                parsedProducts = extracted;
+              }
+            }
+          } catch (listErr) {
+            console.warn("Tự động kéo js/list.js kèm theo:", listErr.message);
+          }
+        }
+
+        return jsonResponse({
           success: true,
           exists: true,
           sha: data.sha,
           filePath: targetPath,
           repo: `${REPO_OWNER}/${REPO_NAME}`,
           branch: BRANCH,
-          profile: parsedProfile,
-        };
-
-        if (url.searchParams.get("includeContent") === "true") {
-          resPayload.content = contentStr;
-        }
-
-        return jsonResponse(resPayload);
+          siteConfig: parsedSiteConfig,
+          products: parsedProducts || [],
+          totalProducts: (parsedProducts || []).length,
+          content: contentStr,
+        });
       } catch (err) {
         return jsonResponse(
-          { success: false, error: err.message || "Lỗi ngoại lệ khi kết nối GitHub" },
+          { success: false, error: err.message || "Lỗi khi kết nối GitHub" },
           500
         );
       }
     }
 
     // ========================================================================
-    // POST: Cập nhật trực tiếp Profile & SEO lên file index.html trên GitHub
+    // POST: Lưu độc lập vào index.html (Cấu hình) hoặc js/list.js (Sản phẩm)
     // ========================================================================
     if (request.method === "POST") {
       let body;
@@ -369,56 +467,83 @@ export default {
         return jsonResponse({ success: false, error: "Dữ liệu JSON không hợp lệ!" }, 400);
       }
 
-      const commitMessage = body.message || `Profile CMS: update SEO & profile in index.html (${body.profile?.brand?.name || 'Meo Meo Rise'})`;
-      const targetPath = body.filePath || DEFAULT_FILE_PATH || "index.html";
+      // Tự động phân loại target file: "js/list.js", "js/thum.js" hoặc "index.html"
+      let isListJs = false;
+      let isThumJs = false;
+      if (body.target === "products" || (body.filePath && body.filePath.endsWith("list.js"))) {
+        isListJs = true;
+      } else if (body.target === "banner" || (body.filePath && body.filePath.endsWith("thum.js"))) {
+        isThumJs = true;
+      }
+
+      const targetPath = isListJs ? "js/list.js" : (isThumJs ? "js/thum.js" : (body.filePath || DEFAULT_FILE_PATH));
+      const getApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}?ref=${BRANCH}`;
 
       try {
-        // Bước 1: Lấy nội dung file và mã SHA hiện tại của index.html trên GitHub
-        const getApiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}?ref=${BRANCH}`;
+        // 1. Kéo file hiện tại từ GitHub để lấy SHA và mã nguồn gốc
         const getRes = await fetch(getApiUrl, { headers: githubHeaders });
-
         let currentSha = null;
-        let currentContentStr = "";
+        let oldHtml = "";
 
         if (getRes.ok) {
           const fileData = await getRes.json();
           currentSha = fileData.sha;
-          currentContentStr = fileData.content ? base64ToUtf8(fileData.content) : "";
-        }
-
-        // Bước 2: Cập nhật nội dung HTML với Profile & Thẻ SEO
-        let finalContent = "";
-        if (typeof body.content === "string" && body.content.trim()) {
-          finalContent = body.content;
-        } else if (body.profile && typeof body.profile === "object") {
-          if (!currentContentStr) {
-            return jsonResponse(
-              {
-                success: false,
-                error: `Không tìm thấy nội dung file gốc ${targetPath} trên GitHub để cập nhật SEO!`,
-              },
-              404
-            );
-          }
-          finalContent = updateIndexHtmlWithProfile(currentContentStr, body.profile);
-        } else {
+          oldHtml = fileData.content ? base64ToUtf8(fileData.content) : "";
+        } else if (getRes.status !== 404) {
+          const errData = await getRes.json();
           return jsonResponse(
             {
               success: false,
-              error: "Dữ liệu gửi lên thiếu 'profile' hoặc 'content' hợp lệ!",
+              error: `Không thể đọc file ${targetPath} từ GitHub (${getRes.status})`,
+              details: errData,
+            },
+            getRes.status
+          );
+        }
+
+        // 2. Tạo nội dung file mới theo loại file
+        let newContent = body.content;
+        if (!newContent) {
+          if (isListJs) {
+            const productsArray = Array.isArray(body.products) ? body.products : [];
+            newContent = generateListJsContent(productsArray);
+          } else if (isThumJs) {
+            const bannerArray = Array.isArray(body.bannerImages) ? body.bannerImages : (Array.isArray(body.images) ? body.images : []);
+            newContent = generateThumJsContent(bannerArray);
+          } else {
+            const dataToUpdate = {
+              siteConfig: body.siteConfig || body.profile || {},
+              products: Array.isArray(body.products) ? body.products : [],
+              totalCount: body.totalCount !== undefined ? body.totalCount : (body.products ? body.products.length : undefined)
+            };
+            newContent = updateIndexHtmlWithData(oldHtml, dataToUpdate);
+          }
+        }
+
+        if (typeof newContent !== "string" || !newContent.trim()) {
+          return jsonResponse(
+            {
+              success: false,
+              error: `Nội dung cập nhật file ${targetPath} không hợp lệ!`,
             },
             400
           );
         }
 
-        // Bước 3: Mã hóa Base64 và commit file lên GitHub (Ghi đè index.html với SHA mới)
-        const base64Content = utf8ToBase64(finalContent);
+        // 3. Commit ghi đè trực tiếp lên GitHub
+        const defaultMsg = isListJs
+          ? `Admin Edge-SSG: Lưu danh sách sản phẩm & ảnh ImgBB js/list.js (${body.products?.length || 0} mục - ${new Date().toLocaleString("vi-VN")})`
+          : isThumJs
+          ? `Admin Edge-SSG: Cập nhật danh sách ảnh banner js/thum.js (${(body.bannerImages || []).length} ảnh - ${new Date().toLocaleString("vi-VN")})`
+          : `Admin Edge-SSG: Tráo cấu hình file ${targetPath} (${new Date().toLocaleString("vi-VN")})`;
+
+        const commitMessage = body.message || defaultMsg;
+
         const putPayload = {
           message: commitMessage,
-          content: base64Content,
+          content: utf8ToBase64(newContent),
           branch: BRANCH,
         };
-
         if (currentSha) {
           putPayload.sha = currentSha;
         }
@@ -439,11 +564,8 @@ export default {
           return jsonResponse(
             {
               success: false,
-              status: putRes.status,
-              error: putData.message || (putRes.status === 404 ? "Không tìm thấy repository hoặc đường dẫn file" : "Không thể commit file lên GitHub"),
+              error: putData.message || "Không thể commit file lên GitHub",
               details: putData,
-              repo: `${REPO_OWNER}/${REPO_NAME}`,
-              filePath: targetPath,
             },
             putRes.status
           );
@@ -451,14 +573,14 @@ export default {
 
         return jsonResponse({
           success: true,
-          message: "Cập nhật thành công cấu hình Profile & SEO vào index.html trên GitHub!",
+          message: `Tráo và commit trực tiếp file ${targetPath} lên GitHub thành công!`,
           repo: `${REPO_OWNER}/${REPO_NAME}`,
           branch: BRANCH,
           filePath: targetPath,
-          sha: putData.content?.sha,
           commitSha: putData.commit?.sha,
           commitUrl: putData.commit?.html_url,
-          notice: "Đã cập nhật file index.html! Bot Google & mạng xã hội (Facebook, Zalo) sẽ nhận dữ liệu SEO và hình ảnh chia sẻ mới sau 1-3 phút.",
+          notice:
+            "Lưu thành công! Vui lòng đợi 1-3 phút để GitHub Pages / Cloudflare Pages tự động build lại trang public cho người dùng.",
         });
       } catch (err) {
         return jsonResponse(

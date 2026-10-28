@@ -1,1229 +1,1144 @@
 /**
- * WONTRADE - Rise of Kingdoms Trading Platform
- * Interactive logic and view simulator
+ * RISE OF KINGDOMS - VIP SERVICES & COMMUNITY
+ * Javascript Logic Tối Ưu Cho Cả PC & Mobile
+ * Micro-animations Nhẹ Nhàng, Hiện Đại, Hiệu Năng Cao
  */
 
-// Commander Portrait SVG Generator (Accurate Rise of Kingdoms style)
-const commanderSvgs = {
-  arthur: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="arthurBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#4a3b2c"/>
-        <stop offset="100%" stop-color="#14110d"/>
-      </radialGradient>
-      <linearGradient id="goldHelm" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#fff0a6"/>
-        <stop offset="50%" stop-color="#d48806"/>
-        <stop offset="100%" stop-color="#874d00"/>
-      </linearGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#arthurBg)"/>
-    <!-- Armor & Cape -->
-    <path d="M15 95 Q50 75 85 95 L95 100 L5 100 Z" fill="#820014"/>
-    <path d="M25 88 Q50 78 75 88 L80 100 L20 100 Z" fill="url(#goldHelm)"/>
-    <!-- Face -->
-    <ellipse cx="50" cy="52" rx="20" ry="24" fill="#f5c29f"/>
-    <!-- Hair -->
-    <path d="M30 42 Q32 28 50 28 Q68 28 70 42 Q73 58 70 66 Q67 52 64 50 Q50 48 36 50 Q33 55 30 42 Z" fill="#e6b358"/>
-    <!-- Beard -->
-    <path d="M37 56 Q50 76 63 56 Q60 74 50 76 Q40 74 37 56 Z" fill="#c7923e"/>
-    <!-- Eyes & Brows -->
-    <path d="M38 46 Q43 44 48 47" stroke="#68471c" stroke-width="2.5" fill="none"/>
-    <path d="M52 47 Q57 44 62 46" stroke="#68471c" stroke-width="2.5" fill="none"/>
-    <circle cx="43" cy="50" r="2.5" fill="#262626"/>
-    <circle cx="57" cy="50" r="2.5" fill="#262626"/>
-    <!-- Nose & Smile -->
-    <path d="M50 49 L48 56 L52 56" stroke="#c48259" stroke-width="1.8" fill="none"/>
-    <path d="M44 62 Q50 67 56 62" stroke="#873800" stroke-width="2" fill="none"/>
-    <!-- Royal Golden Crown -->
-    <path d="M28 32 L34 16 L42 26 L50 12 L58 26 L66 16 L72 32 Z" fill="url(#goldHelm)" stroke="#fff" stroke-width="0.8"/>
-    <circle cx="50" cy="22" r="2.5" fill="#f5222d"/>
-    <circle cx="38" cy="24" r="2" fill="#1890ff"/>
-    <circle cx="62" cy="24" r="2" fill="#1890ff"/>
-  </svg>`,
+document.addEventListener('DOMContentLoaded', () => {
+  // 0. Nạp & Render toàn bộ dữ liệu động từ list.js (profileConfig)
+  renderProfileFromConfig();
 
-  tontu: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="tontuBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#3d2a1c"/>
-        <stop offset="100%" stop-color="#120c08"/>
-      </radialGradient>
-      <linearGradient id="goldSilk" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#ffe58f"/>
-        <stop offset="50%" stop-color="#faad14"/>
-        <stop offset="100%" stop-color="#874d00"/>
-      </linearGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#tontuBg)"/>
-    <!-- Robe -->
-    <path d="M10 95 Q50 72 90 95 L98 100 L2 100 Z" fill="#871400"/>
-    <path d="M28 85 L50 98 L72 85 L65 100 L35 100 Z" fill="url(#goldSilk)"/>
-    <!-- Face -->
-    <ellipse cx="50" cy="52" rx="19" ry="23" fill="#f7caa1"/>
-    <!-- Strategist Hat (Ancient Chinese) -->
-    <path d="M30 36 L70 36 L66 16 L34 16 Z" fill="#1f1f1f"/>
-    <rect x="26" y="32" width="48" height="6" rx="2" fill="url(#goldSilk)"/>
-    <circle cx="50" cy="24" r="4" fill="url(#goldSilk)"/>
-    <!-- Eyes / Brow (Wise) -->
-    <path d="M37 46 Q43 43 47 47" stroke="#262626" stroke-width="2.5" fill="none"/>
-    <path d="M53 47 Q57 43 63 46" stroke="#262626" stroke-width="2.5" fill="none"/>
-    <circle cx="42" cy="50" r="2" fill="#1f1f1f"/>
-    <circle cx="58" cy="50" r="2" fill="#1f1f1f"/>
-    <!-- Mustache & Goatee -->
-    <path d="M38 58 Q50 63 62 58 Q66 68 62 70 Q50 63 38 70 Z" fill="#262626"/>
-    <path d="M47 68 L50 86 L53 68 Z" fill="#262626"/>
-  </svg>`,
+  // 1. Quản lý Theme (Sáng: Vàng Trắng / Tối: Vàng Obsidian) với SVG
+  initThemeManager();
 
-  achilles: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="achBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#4d301c"/>
-        <stop offset="100%" stop-color="#140a05"/>
-      </radialGradient>
-      <linearGradient id="bronze" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#fff1b8"/>
-        <stop offset="50%" stop-color="#d46b08"/>
-        <stop offset="100%" stop-color="#612500"/>
-      </linearGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#achBg)"/>
-    <!-- Greek Armor & Crest -->
-    <path d="M15 95 Q50 78 85 95 L95 100 L5 100 Z" fill="url(#bronze)"/>
-    <!-- Face -->
-    <ellipse cx="50" cy="52" rx="19" ry="23" fill="#f3be98"/>
-    <!-- Eyes -->
-    <circle cx="43" cy="50" r="2.2" fill="#1f1f1f"/>
-    <circle cx="57" cy="50" r="2.2" fill="#1f1f1f"/>
-    <!-- Spartan / Greek Helmet -->
-    <path d="M26 40 Q50 18 74 40 L70 54 Q65 42 58 42 L58 48 L42 48 L42 42 Q35 42 30 54 Z" fill="url(#bronze)"/>
-    <!-- Helmet Crest (Red Feather) -->
-    <path d="M46 10 Q50 0 54 10 L56 30 L44 30 Z" fill="#cf1322"/>
-    <path d="M44 8 Q50 -2 56 8 L54 22 L46 22 Z" fill="#ff4d4f"/>
-    <!-- Cheek guards -->
-    <path d="M28 46 L34 68 L40 64 L36 46 Z" fill="url(#bronze)"/>
-    <path d="M72 46 L66 68 L60 64 L64 46 Z" fill="url(#bronze)"/>
-    <!-- Nose guard -->
-    <rect x="47" y="40" width="6" height="16" fill="url(#bronze)"/>
-  </svg>`,
+  // 2. Chuyển đổi Tabs & Hiệu ứng chuyển động mượt mà
+  initTabsManager();
 
-  tanthuyhoang: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="tthBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#3b1d1d"/>
-        <stop offset="100%" stop-color="#0f0707"/>
-      </radialGradient>
-      <linearGradient id="empGold" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#ffe7ba"/>
-        <stop offset="60%" stop-color="#d48806"/>
-        <stop offset="100%" stop-color="#613400"/>
-      </linearGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#tthBg)"/>
-    <!-- Black & Gold Imperial Dragon Robe -->
-    <path d="M10 95 Q50 70 90 95 L100 100 L0 100 Z" fill="#141414"/>
-    <path d="M30 84 L50 96 L70 84 L65 100 L35 100 Z" fill="url(#empGold)"/>
-    <!-- Face -->
-    <ellipse cx="50" cy="54" rx="19" ry="23" fill="#f8cfab"/>
-    <!-- Beard & mustache -->
-    <path d="M38 59 Q50 64 62 59 Q65 72 50 82 Q35 72 38 59 Z" fill="#141414"/>
-    <!-- Eyes -->
-    <circle cx="43" cy="50" r="2.2" fill="#1f1f1f"/>
-    <circle cx="57" cy="50" r="2.2" fill="#1f1f1f"/>
-    <!-- Imperial Flat Crown (Mianguan) -->
-    <polygon points="18,24 82,24 76,14 24,14" fill="#141414" stroke="url(#empGold)" stroke-width="1.5"/>
-    <!-- Hanging jade beads -->
-    <line x1="26" y1="24" x2="26" y2="38" stroke="url(#empGold)" stroke-width="1.5" stroke-dasharray="2 2"/>
-    <line x1="38" y1="24" x2="38" y2="38" stroke="url(#empGold)" stroke-width="1.5" stroke-dasharray="2 2"/>
-    <line x1="50" y1="24" x2="50" y2="40" stroke="url(#empGold)" stroke-width="1.5" stroke-dasharray="2 2"/>
-    <line x1="62" y1="24" x2="62" y2="38" stroke="url(#empGold)" stroke-width="1.5" stroke-dasharray="2 2"/>
-    <line x1="74" y1="24" x2="74" y2="38" stroke="url(#empGold)" stroke-width="1.5" stroke-dasharray="2 2"/>
-  </svg>`,
+  // 3. Sao chép thông tin (Copy to Clipboard) với Micro-Feedback Checkmark
+  initCopyActions();
 
-  scipio: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="scipioBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#4a1d1d"/>
-        <stop offset="100%" stop-color="#140606"/>
-      </radialGradient>
-      <linearGradient id="scipioGold" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#fff1b8"/>
-        <stop offset="50%" stop-color="#d48806"/>
-        <stop offset="100%" stop-color="#5c2e00"/>
-      </linearGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#scipioBg)"/>
-    <!-- Roman General Armor -->
-    <path d="M12 95 Q50 72 88 95 L96 100 L4 100 Z" fill="#a8071a"/>
-    <circle cx="50" cy="88" r="8" fill="url(#scipioGold)"/>
-    <!-- Face -->
-    <ellipse cx="50" cy="52" rx="20" ry="24" fill="#f5c29f"/>
-    <!-- Eyes -->
-    <circle cx="43" cy="50" r="2.2" fill="#1f1f1f"/>
-    <circle cx="57" cy="50" r="2.2" fill="#1f1f1f"/>
-    <!-- Roman Helmet with Crest -->
-    <path d="M25 40 Q50 20 75 40 L72 50 Q50 40 28 50 Z" fill="url(#scipioGold)"/>
-    <!-- Red Plume Crest -->
-    <path d="M30 18 Q50 2 70 18 L66 26 Q50 14 34 26 Z" fill="#cf1322"/>
-    <!-- Laurel Wreath -->
-    <circle cx="34" cy="42" r="3" fill="#52c41a"/>
-    <circle cx="42" cy="38" r="3" fill="#52c41a"/>
-    <circle cx="58" cy="38" r="3" fill="#52c41a"/>
-    <circle cx="66" cy="42" r="3" fill="#52c41a"/>
-  </svg>`,
+  // 4. Modal QR Ngân Hàng
+  initQrModal();
 
-  gorgo: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="gorgoBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#3d2d47"/>
-        <stop offset="100%" stop-color="#120c17"/>
-      </radialGradient>
-      <linearGradient id="spartanBronze" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#ffd591"/>
-        <stop offset="50%" stop-color="#d46b08"/>
-        <stop offset="100%" stop-color="#612500"/>
-      </linearGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#gorgoBg)"/>
-    <path d="M15 95 Q50 78 85 95 L95 100 L5 100 Z" fill="url(#spartanBronze)"/>
-    <!-- Face -->
-    <ellipse cx="50" cy="52" rx="18" ry="22" fill="#f8cbb0"/>
-    <!-- Hair -->
-    <path d="M28 40 Q30 20 50 20 Q70 20 72 40 L78 75 Q72 78 70 65 L66 45 Q50 42 34 45 L30 65 Q28 78 22 75 Z" fill="#1f1815"/>
-    <!-- Eyes -->
-    <circle cx="43" cy="50" r="2.2" fill="#1f1f1f"/>
-    <circle cx="57" cy="50" r="2.2" fill="#1f1f1f"/>
-    <path d="M45 61 Q50 64 55 61" stroke="#cf1322" stroke-width="2" fill="none"/>
-    <!-- Tiara / Helm -->
-    <polygon points="32,32 50,22 68,32 64,38 50,32 36,38" fill="url(#spartanBronze)"/>
-  </svg>`,
+  // 4.1. Modal Danh Sách Nhóm Cộng Đồng (Facebook / Zalo)
+  initGroupsModal();
 
-  quanvu: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="qvBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#193822"/>
-        <stop offset="100%" stop-color="#05140a"/>
-      </radialGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#qvBg)"/>
-    <!-- Green Robe -->
-    <path d="M10 95 Q50 72 90 95 L100 100 L0 100 Z" fill="#135200"/>
-    <!-- Reddish Warrior Face -->
-    <ellipse cx="50" cy="52" rx="19" ry="23" fill="#d46b08"/>
-    <!-- Green Warrior Cap -->
-    <path d="M30 36 L70 36 L66 18 L34 18 Z" fill="#237804"/>
-    <rect x="26" y="32" width="48" height="6" rx="2" fill="#faad14"/>
-    <!-- Long Majestic Beard -->
-    <path d="M36 58 Q50 64 64 58 Q66 85 50 98 Q34 85 36 58 Z" fill="#141414"/>
-    <!-- Phoenix Eyes & Heavy Brows -->
-    <path d="M36 45 Q43 40 48 44" stroke="#141414" stroke-width="3" fill="none"/>
-    <path d="M52 44 Q57 40 64 45" stroke="#141414" stroke-width="3" fill="none"/>
-    <circle cx="43" cy="48" r="2" fill="#fff"/>
-    <circle cx="57" cy="48" r="2" fill="#fff"/>
-  </svg>`,
+  // 5. Scroll to top & Header Scroll Thông Minh
+  initScrollActions();
 
-  choiyoung: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="cyBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#21334f"/>
-        <stop offset="100%" stop-color="#09101c"/>
-      </radialGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#cyBg)"/>
-    <!-- Armor -->
-    <path d="M12 95 Q50 75 88 95 L96 100 L4 100 Z" fill="#0958d9"/>
-    <!-- Face -->
-    <ellipse cx="50" cy="52" rx="19" ry="23" fill="#f7caa1"/>
-    <!-- Korean General Helm -->
-    <path d="M28 36 L72 36 L64 16 L36 16 Z" fill="#262626"/>
-    <circle cx="50" cy="14" r="5" fill="#f5222d"/>
-    <!-- Eyes & Beard -->
-    <circle cx="43" cy="50" r="2" fill="#1f1f1f"/>
-    <circle cx="57" cy="50" r="2" fill="#1f1f1f"/>
-    <path d="M42 60 Q50 64 58 60 Q56 74 50 78 Q44 74 42 60 Z" fill="#262626"/>
-  </svg>`,
+  // 6. Cập nhật năm bản quyền tự động
+  initDynamicYear();
+});
 
-  bachkhoi: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="bkBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#4a1515"/>
-        <stop offset="100%" stop-color="#140303"/>
-      </radialGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#bkBg)"/>
-    <!-- Spiked Iron Armor -->
-    <path d="M10 95 Q50 70 90 95 L100 100 L0 100 Z" fill="#262626"/>
-    <!-- Face -->
-    <ellipse cx="50" cy="52" rx="19" ry="23" fill="#ebd2c0"/>
-    <!-- Fierce Spiked Helm -->
-    <path d="M26 38 L50 14 L74 38 L68 44 L32 44 Z" fill="#434343" stroke="#f5222d" stroke-width="1"/>
-    <!-- Glowing Red Eyes -->
-    <circle cx="43" cy="50" r="2.5" fill="#f5222d"/>
-    <circle cx="57" cy="50" r="2.5" fill="#f5222d"/>
-    <path d="M42 62 Q50 66 58 62" stroke="#262626" stroke-width="2" fill="none"/>
-  </svg>`,
+/* ===================================================
+   1. QUẢN LÝ THEME (LIGHT / DARK) BẰNG SVG THUẦN
+   =================================================== */
+function initThemeManager() {
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  if (!themeToggleBtn) return;
 
-  giacatluong: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="gclBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#1f3b3b"/>
-        <stop offset="100%" stop-color="#071414"/>
-      </radialGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#gclBg)"/>
-    <!-- Taoist Robe -->
-    <path d="M10 95 Q50 72 90 95 L100 100 L0 100 Z" fill="#003a8c"/>
-    <path d="M30 84 L50 96 L70 84 L65 100 L35 100 Z" fill="#ffffff"/>
-    <!-- Face -->
-    <ellipse cx="50" cy="52" rx="18" ry="22" fill="#fae0cc"/>
-    <!-- Zhuge Liang Hat -->
-    <path d="M32 34 L68 34 L64 12 L36 12 Z" fill="#141414"/>
-    <rect x="28" y="30" width="44" height="6" rx="2" fill="#5cdbd3"/>
-    <!-- Beard -->
-    <path d="M45 62 Q50 76 55 62 Q54 82 50 86 Q46 82 45 62 Z" fill="#141414"/>
-    <!-- Eyes -->
-    <circle cx="43" cy="49" r="2" fill="#1f1f1f"/>
-    <circle cx="57" cy="49" r="2" fill="#1f1f1f"/>
-  </svg>`,
+  const currentTheme = localStorage.getItem('rok_theme') || 'light';
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  updateThemeIcon(currentTheme);
 
-  luutriet: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="ltBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#4d3a1f"/>
-        <stop offset="100%" stop-color="#140f06"/>
-      </radialGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#ltBg)"/>
-    <path d="M10 95 Q50 72 90 95 L100 100 L0 100 Z" fill="#d4380d"/>
-    <!-- Face -->
-    <ellipse cx="50" cy="52" rx="19" ry="23" fill="#f7caa1"/>
-    <!-- Royal Imperial Crown -->
-    <path d="M28 32 L34 16 L50 12 L66 16 L72 32 Z" fill="#faad14" stroke="#d48806" stroke-width="1.5"/>
-    <circle cx="43" cy="50" r="2" fill="#1f1f1f"/>
-    <circle cx="57" cy="50" r="2" fill="#1f1f1f"/>
-    <path d="M44 64 Q50 68 56 64" stroke="#873800" stroke-width="2" fill="none"/>
-  </svg>`,
+  themeToggleBtn.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const nextTheme = isDark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    localStorage.setItem('rok_theme', nextTheme);
+    updateThemeIcon(nextTheme);
+    showToast(`Đã chuyển sang nền ${nextTheme === 'dark' ? 'Hoàng Kim Tối' : 'Vàng Trắng Tinh Khiết'}`);
+  });
 
-  alparslan: `<svg viewBox="0 0 100 100" width="100%" height="100%">
-    <defs>
-      <radialGradient id="alpBg" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="#3d2a1c"/>
-        <stop offset="100%" stop-color="#120c08"/>
-      </radialGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#alpBg)"/>
-    <path d="M12 95 Q50 74 88 95 L96 100 L4 100 Z" fill="#874d00"/>
-    <!-- Face -->
-    <ellipse cx="50" cy="52" rx="19" ry="23" fill="#f5c29f"/>
-    <!-- Turban Helmet -->
-    <circle cx="50" cy="28" r="18" fill="#e8d8b5"/>
-    <polygon points="46,14 50,4 54,14" fill="#faad14"/>
-    <circle cx="43" cy="50" r="2.2" fill="#1f1f1f"/>
-    <circle cx="57" cy="50" r="2.2" fill="#1f1f1f"/>
-    <!-- Beard -->
-    <path d="M38 58 Q50 68 62 58 Q64 78 50 82 Q36 78 38 58 Z" fill="#262626"/>
-  </svg>`
-};
-
-// Dữ liệu danh sách vật phẩm được nhúng trực tiếp trong thẻ #siteDataScript của index.html (Edge-SSG)
-var mockProducts = window.mockProducts || (typeof mockProducts !== "undefined" ? mockProducts : []);
-
-// Helper: Format Countdown Seconds to Vietnamese string: "07ng 07g 44p"
-function formatCountdown(totalSec) {
-  if (totalSec <= 0) return "00ng 00g 00p";
-  const days = Math.floor(totalSec / 86400);
-  const hours = Math.floor((totalSec % 86400) / 3600);
-  const mins = Math.floor((totalSec % 3600) / 60);
-  
-  const pad = (n) => String(n).padStart(2, "0");
-  return `${pad(days)}ng ${pad(hours)}g ${pad(mins)}p`;
+  function updateThemeIcon(theme) {
+    if (theme === 'dark') {
+      // SVG Mặt Trời Hoàng Kim
+      themeToggleBtn.innerHTML = `
+        <svg class="svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      `;
+      themeToggleBtn.setAttribute('title', 'Chuyển sang nền Vàng Trắng');
+    } else {
+      // SVG Mặt Trăng Lưỡi Liềm
+      themeToggleBtn.innerHTML = `
+        <svg class="svg-icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      `;
+      themeToggleBtn.setAttribute('title', 'Chuyển sang nền Hoàng Kim Tối');
+    }
+  }
 }
 
-// Render Products
-function renderListings(itemsToRender) {
-  const container = document.getElementById("listingsContainer");
-  if (!container) return;
+/* ===================================================
+   2. QUẢN LÝ TABS NỘI DUNG VỚI HIỆU ỨNG MƯỢT
+   =================================================== */
+function initTabsManager() {
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabPanes = document.querySelectorAll('.tab-pane');
 
-  // Tự động cập nhật tổng số vật phẩm hiển thị trên giao diện
-  const countLabels = document.querySelectorAll(".item-count-val");
-  countLabels.forEach(el => el.textContent = itemsToRender.length);
+  function switchTab(targetId) {
+    if (!targetId) return;
+    const cleanId = targetId.replace('#', '');
+    const targetBtn = document.querySelector(`.tab-btn[data-tab="${cleanId}"]`);
+    const targetPane = document.getElementById(cleanId);
 
-  if (itemsToRender.length === 0) {
-    container.innerHTML = `
-      <div style="text-align: center; padding: 60px 20px; color: #86909c;">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#bfbfbf" stroke-width="1.6" style="margin-bottom: 14px;">
-          <circle cx="11" cy="11" r="8"/>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          <line x1="8" y1="11" x2="14" y2="11"/>
-        </svg>
-        <div style="font-size: 15px; font-weight: 600; color: #4e5969;">Không tìm thấy vật phẩm phù hợp</div>
-        <div style="font-size: 13px; margin-top: 6px;">Vui lòng thử lại với từ khóa hoặc mức giá khác.</div>
-      </div>
-    `;
-    return;
+    if (targetBtn && targetPane) {
+      tabButtons.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      tabPanes.forEach(p => p.classList.remove('active'));
+
+      targetBtn.classList.add('active');
+      targetBtn.setAttribute('aria-selected', 'true');
+      
+      // Kích hoạt lại animation để tab luôn có hiệu ứng êm ái
+      targetPane.classList.add('active');
+      targetPane.style.animation = 'none';
+      targetPane.offsetHeight; // force reflow
+      targetPane.style.animation = '';
+    }
   }
 
-  container.innerHTML = itemsToRender.map(item => {
-    // Badges HTML
-    const badgesHtml = item.badges.map(b => `
-      <span class="${b.type === 'red' ? 'badge-play' : 'badge-dark'}">${b.text}</span>
-    `).join("");
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-tab');
+      switchTab(targetId);
 
-    // Tags HTML
-    const tagsHtml = item.tags.map(t => `
-      <span class="tag-badge ${t.type}">${t.text}</span>
-    `).join("");
-
-    // Commanders HTML
-    const commandersHtml = item.commanders.map(c => {
-      let portraitHtml = "";
-      if (c.isImg) {
-        portraitHtml = `<img src="assets/arthur.jpg" alt="${c.name}" class="commander-img" onerror="this.outerHTML='${commanderSvgs.arthur.replace(/'/g, "\\'")}'" />`;
-      } else {
-        portraitHtml = commanderSvgs[c.id] || commanderSvgs.arthur;
+      // Nếu người dùng đang cuộn dở trên mobile, cuộn nhẹ về đầu phần nội dung tab
+      if (window.innerWidth <= 768) {
+        const tabsNav = document.querySelector('.nav-tabs');
+        if (tabsNav) {
+          const rect = tabsNav.getBoundingClientRect();
+          if (rect.top < 60) {
+            window.scrollTo({
+              top: window.scrollY + rect.top - 70,
+              behavior: 'smooth'
+            });
+          }
+        }
       }
+    });
+  });
 
-      return `
-        <div class="commander-item">
-          <div class="commander-frame">
-            ${portraitHtml}
-            <div class="level-badge">${c.level}</div>
-          </div>
-          <div class="commander-name" title="${c.name}">${c.name}</div>
+  // Hỗ trợ click từ các liên kết có hash (như footer)
+  document.querySelectorAll('a[href^="#tab-"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const hash = link.getAttribute('href');
+      if (hash) {
+        e.preventDefault();
+        switchTab(hash);
+        const navTabs = document.querySelector('.nav-tabs');
+        if (navTabs) {
+          navTabs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+}
+
+/* ===================================================
+   3. SAO CHÉP THÔNG TIN VỚI MICRO-FEEDBACK TỨC THÌ
+   =================================================== */
+let toastTimeout;
+function showToast(message) {
+  let toast = document.getElementById('toastNotice');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toastNotice';
+    toast.className = 'toast-notice';
+    document.body.appendChild(toast);
+  }
+
+  // Icon SVG Checkmark xanh lục bảo ngọc sắc nét
+  toast.innerHTML = `
+    <svg class="svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    </svg>
+    <span>${message}</span>
+  `;
+  toast.classList.add('show');
+
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2400);
+}
+
+function initCopyActions() {
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    if (btn._hasCopyInit) return;
+    btn._hasCopyInit = true;
+
+    // Lưu lại icon SVG gốc
+    btn.dataset.originalSvg = btn.innerHTML;
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const content = btn.getAttribute('data-copy');
+      const label = btn.getAttribute('data-label') || 'thông tin';
+
+      if (!content) return;
+
+      const triggerSuccessFeedback = () => {
+        showToast(`Đã sao chép ${label}: ${content}`);
+
+        // Micro-feedback checkmark ngay trên nút bấm
+        btn.classList.add('copied');
+        btn.innerHTML = `
+          <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        `;
+
+        clearTimeout(btn._resetTimer);
+        btn._resetTimer = setTimeout(() => {
+          btn.innerHTML = btn.dataset.originalSvg;
+          btn.classList.remove('copied');
+        }, 1400);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(content)
+          .then(triggerSuccessFeedback)
+          .catch(() => fallbackCopy(content, label, triggerSuccessFeedback));
+      } else {
+        fallbackCopy(content, label, triggerSuccessFeedback);
+      }
+    });
+  });
+
+  function fallbackCopy(text, label, callback) {
+    const tempInput = document.createElement('textarea');
+    tempInput.value = text;
+    tempInput.style.position = 'fixed';
+    tempInput.style.left = '-9999px';
+    tempInput.style.top = '-9999px';
+    document.body.appendChild(tempInput);
+    tempInput.focus();
+    tempInput.select();
+    try {
+      document.execCommand('copy');
+      if (typeof callback === 'function') {
+        callback();
+      } else {
+        showToast(`Đã sao chép ${label}: ${text}`);
+      }
+    } catch (err) {
+      showToast('Không thể tự động sao chép!');
+    }
+    document.body.removeChild(tempInput);
+  }
+}
+
+/* ===================================================
+   4. MODAL XEM MÃ QR THANH TOÁN (HỖ TRỢ RENDER MOMO & VIETQR)
+   =================================================== */
+function initQrModal() {
+  const modal = document.getElementById('qrModal');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalBankTitle = document.getElementById('modalBankTitle');
+  const modalBankSub = document.getElementById('modalBankSub');
+  const modalQrImg = document.getElementById('modalQrImg');
+  const modalQrCanvasWrap = document.getElementById('modalQrCanvasWrap');
+  const modalQrCanvasInner = document.getElementById('modalQrCanvasInner');
+  const modalQrHolder = document.getElementById('modalQrHolder');
+  const modalQrAccNum = document.getElementById('modalQrAccNum');
+  const momoQrSwitch = document.getElementById('momoQrSwitch');
+  const btnModeMomo = document.getElementById('btnModeMomo');
+  const btnModeVietQr = document.getElementById('btnModeVietQr');
+  const momoModalActions = document.getElementById('momoModalActions');
+  const momoDirectPayBtn = document.getElementById('momoDirectPayBtn');
+  const momoModalCopyBtn = document.getElementById('momoModalCopyBtn');
+
+  if (!modal) return;
+
+  let currentQrData = {};
+
+  function setupQrMode(mode) {
+    if (mode === 'momo') {
+      if (btnModeMomo) btnModeMomo.classList.add('active');
+      if (btnModeVietQr) btnModeVietQr.classList.remove('active');
+      if (modalBankSub) modalBankSub.textContent = 'Mở ứng dụng MoMo quét mã để chuyển tiền tức thì (Miễn phí)';
+      if (modalQrImg) modalQrImg.style.display = 'none';
+      if (modalQrCanvasWrap) modalQrCanvasWrap.style.display = 'flex';
+
+      // Render mã QR MoMo chuẩn bằng QRCode JS
+      if (modalQrCanvasInner) {
+        modalQrCanvasInner.innerHTML = '';
+        const targetUrl = currentQrData.momoUrl || `https://nhantien.momo.vn/${currentQrData.accountNum || '0949257924'}`;
+        if (typeof QRCode !== 'undefined') {
+          try {
+            new QRCode(modalQrCanvasInner, {
+              text: targetUrl,
+              width: 176,
+              height: 176,
+              colorDark: '#1e1b4b',
+              colorLight: '#ffffff',
+              correctLevel: QRCode.CorrectLevel.H
+            });
+          } catch (err) {
+            fallbackQrImage(targetUrl);
+          }
+        } else {
+          fallbackQrImage(targetUrl);
+        }
+      }
+    } else {
+      // Chế độ VietQR Ngân Hàng (BIN MoMo 971025)
+      if (btnModeVietQr) btnModeVietQr.classList.add('active');
+      if (btnModeMomo) btnModeMomo.classList.remove('active');
+      if (modalBankSub) modalBankSub.textContent = 'Dùng ứng dụng mọi ngân hàng (MB, VCB, Techcombank,...) để quét';
+      if (modalQrCanvasWrap) modalQrCanvasWrap.style.display = 'none';
+      if (modalQrImg) {
+        modalQrImg.style.display = 'block';
+        modalQrImg.src = currentQrData.qrImg || `https://img.vietqr.io/image/971025-${currentQrData.accountNum || '0949257924'}-compact.jpg?accountName=${encodeURIComponent(currentQrData.holderName || '')}`;
+      }
+    }
+  }
+
+  function fallbackQrImage(targetUrl) {
+    if (modalQrImg) {
+      modalQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(targetUrl)}`;
+      modalQrImg.style.display = 'block';
+      if (modalQrCanvasWrap) modalQrCanvasWrap.style.display = 'none';
+    }
+  }
+
+  if (btnModeMomo) {
+    btnModeMomo.addEventListener('click', () => setupQrMode('momo'));
+  }
+  if (btnModeVietQr) {
+    btnModeVietQr.addEventListener('click', () => setupQrMode('vietqr'));
+  }
+
+  // Gắn sự kiện click mở QR
+  function bindQrButtons() {
+    document.querySelectorAll('[data-qr-open]').forEach(btn => {
+      if (btn._hasQrInit) return;
+      btn._hasQrInit = true;
+
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const bankType = btn.getAttribute('data-bank-type') || '';
+        const qrUrl = btn.getAttribute('data-qr-img') || '';
+        const momoUrl = btn.getAttribute('data-momo-url') || 'https://nhantien.momo.vn/0949257924';
+        const bankName = btn.getAttribute('data-bank-name') || 'Mã QR Ngân Hàng';
+        const holderName = btn.getAttribute('data-holder-name') || 'DO LONG NHAT';
+        const accountNum = btn.getAttribute('data-account-num') || '';
+
+        const isMomo = bankType === 'momo' || 
+                       bankName.toLowerCase().includes('momo') || 
+                       qrUrl.includes('momo') ||
+                       qrUrl.includes('971025');
+
+        const finalQrImg = isMomo ? (qrUrl || 'media/momo.png') : qrUrl;
+
+        if (modalBankTitle) modalBankTitle.textContent = bankName;
+        if (modalQrHolder) modalQrHolder.textContent = `Chủ tài khoản: ${holderName}`;
+        if (modalQrAccNum) {
+          modalQrAccNum.textContent = `${isMomo ? 'Số MoMo' : 'Số tài khoản'}: ${accountNum || '0949257924'}`;
+        }
+
+        if (modalQrImg) {
+          modalQrImg.style.display = 'block';
+          modalQrImg.src = finalQrImg;
+          modalQrImg.alt = `Mã QR ${bankName}`;
+        }
+
+        if (isMomo) {
+          if (momoQrSwitch) momoQrSwitch.style.display = 'none';
+          if (modalBankSub) modalBankSub.textContent = 'Quét mã QR bằng ứng dụng MoMo hoặc bất kỳ ngân hàng nào';
+          if (momoModalActions) momoModalActions.style.display = 'flex';
+          if (momoDirectPayBtn) momoDirectPayBtn.href = momoUrl;
+          if (momoModalCopyBtn) {
+            momoModalCopyBtn.setAttribute('data-copy', accountNum || '0949257924');
+            momoModalCopyBtn.setAttribute('data-label', 'Số MoMo');
+          }
+        } else {
+          if (momoQrSwitch) momoQrSwitch.style.display = 'none';
+          if (momoModalActions) momoModalActions.style.display = 'none';
+          if (modalBankSub) modalBankSub.textContent = 'Quét mã QR bằng ứng dụng ngân hàng để chuyển khoản an toàn';
+        }
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+  }
+
+  bindQrButtons();
+  window.bindQrButtons = bindQrButtons;
+
+  const closeModal = () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
+  });
+}
+
+/* ===================================================
+   4.1. MODAL DANH SÁCH NHÓM CỘNG ĐỒNG (FACEBOOK / ZALO)
+   =================================================== */
+function initGroupsModal() {
+  const modal = document.getElementById('groupsModal');
+  const modalCloseBtn = document.getElementById('groupsModalCloseBtn');
+  const modalTitle = document.getElementById('groupsModalTitle');
+  const modalIconBadge = document.getElementById('groupsModalIconBadge');
+  const modalList = document.getElementById('groupsModalList');
+
+  if (!modal) return;
+
+  const closeModal = () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
+  });
+
+  // Mở popup nhóm theo loại: 'facebook' hoặc 'zalo'
+  window.openGroupsModal = function(type) {
+    const cfg = (typeof window !== "undefined" && window.profileConfig) ? window.profileConfig : {};
+    const sg = cfg.socialGroups || {};
+
+    if (type === 'facebook') {
+      const fbGroups = Array.isArray(sg.facebookGroups) ? sg.facebookGroups : [];
+      if (modalIconBadge) {
+        modalIconBadge.className = 'groups-modal-icon-badge fb-icon-bg';
+        modalIconBadge.innerHTML = `
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#ffffff">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        `;
+      }
+      if (modalTitle) modalTitle.textContent = 'Danh Sách Nhóm Facebook';
+
+      renderGroupItems(fbGroups, 'facebook');
+    } else {
+      const zlGroups = Array.isArray(sg.zaloGroups) ? sg.zaloGroups : [];
+      if (modalIconBadge) {
+        modalIconBadge.className = 'groups-modal-icon-badge zalo-icon-bg';
+        modalIconBadge.innerHTML = `
+          <img src="https://www.google.com/s2/favicons?domain=zalo.me&sz=128" alt="Zalo" style="width:26px;height:26px;object-fit:contain;" onerror="this.onerror=null;this.src='https://zalo.me/favicon.ico'">
+        `;
+      }
+      if (modalTitle) modalTitle.textContent = 'Danh Sách Box Zalo';
+
+      renderGroupItems(zlGroups, 'zalo');
+    }
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  function renderGroupItems(groups, type) {
+    if (!modalList) return;
+
+    if (!groups || groups.length === 0) {
+      modalList.innerHTML = `
+        <div style="text-align: center; padding: 36px 16px; color: var(--text-muted); font-size: 0.9rem;">
+          <p style="margin-bottom: 6px; font-weight: 700; color: var(--text-main);">Chưa có nhóm nào trong danh sách</p>
+          <span style="font-size: 0.82rem;">Vui lòng liên hệ trực tiếp Admin qua Zalo hoặc Hotline để được hỗ trợ tham gia nhóm mới nhất!</span>
         </div>
       `;
-    }).join("");
-
-    // Gem count icon
-    const gemHtml = item.gemMultiplier ? `
-      <div class="gem-star-count" title="Hệ số vật phẩm">
-        <svg class="gem-icon" viewBox="0 0 24 24" fill="#faad14">
-          <polygon points="12,2 19,8 15,22 9,22 5,8"/>
-        </svg>
-        *${item.gemMultiplier}
-      </div>
-    ` : "";
-
-    // Formatted price (VND - Đồng Việt Nam)
-    const rawPrice = Number(item.price) || 0;
-    const vndPrice = rawPrice < 50000 ? Math.round(rawPrice * 25400) : rawPrice;
-    const formattedPrice = vndPrice.toLocaleString("vi-VN") + " ₫";
-
-    // Star SVG Icon for favorite button
-    const starSvg = item.isFavorited
-      ? `<svg class="star-svg active" width="15" height="15" viewBox="0 0 24 24" fill="#ff9500" stroke="#ff9500" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
-      : `<svg class="star-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
-
-    // Image computation: Cover image & Total count for Showcase
-    const catsObj = item.imageCategories || {};
-    let allImages = (Array.isArray(item.images) && item.images.length > 0)
-      ? [...item.images]
-      : [];
-    if (allImages.length === 0) {
-      Object.values(catsObj).forEach(arr => {
-        if (Array.isArray(arr)) allImages.push(...arr);
-      });
+      return;
     }
-    const coverImg = allImages[0] || (catsObj.tuong?.[0]) || Object.values(catsObj)[0]?.[0] || 'assets/thum1.jpg';
-    const totalPhotos = allImages.length;
-    const escapedTitle = String(item.title || '').replace(/"/g, '&quot;');
 
-    return `
-      <div class="product-card" data-id="${item.id}" onclick="handleItemCardClick(${item.id}, event)" style="cursor: pointer;">
-        <!-- Mobile Floating Favorite Button (ghim trên ảnh) -->
-        <div class="mobile-price-container">
-          <button class="btn-fav ${item.isFavorited ? 'active' : ''}" onclick="toggleFavorite(${item.id}, event)" aria-label="Thích">
-            ${starSvg}
-            <span>${item.favorites}</span>
+    const defaultIcon = type === 'facebook'
+      ? 'https://www.google.com/s2/favicons?domain=facebook.com&sz=128'
+      : 'https://www.google.com/s2/favicons?domain=zalo.me&sz=128';
+
+    modalList.innerHTML = groups.map(item => `
+      <div class="group-popup-item">
+        <div class="group-popup-logo">
+          <img src="${escapeHtml(item.icon || defaultIcon)}" alt="${escapeHtml(item.name || '')}" onerror="this.onerror=null;this.src='${defaultIcon}'">
+        </div>
+        <div class="group-popup-info">
+          <div class="group-popup-title-row">
+            <span class="group-popup-name">${escapeHtml(item.name || '')}</span>
+            ${item.members ? `<span class="group-popup-members">${escapeHtml(item.members)}</span>` : ''}
+          </div>
+          ${item.desc ? `<p class="group-popup-desc">${escapeHtml(item.desc)}</p>` : ''}
+        </div>
+        <div class="group-popup-actions">
+          <a href="${escapeHtml(item.url || '#')}" target="_blank" rel="noopener noreferrer" class="group-popup-join-btn" title="Tham gia: ${escapeHtml(item.name || '')}">
+            <span>Tham gia</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Bắt sự kiện click và phím Enter/Space trên các thẻ lớn danh mục
+  document.querySelectorAll('[data-open-groups]').forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      const type = card.getAttribute('data-open-groups');
+      window.openGroupsModal(type);
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const type = card.getAttribute('data-open-groups');
+        window.openGroupsModal(type);
+      }
+    });
+  });
+}
+
+/* ===================================================
+   5. NÚT CUỘN LÊN ĐẦU TRANG & HEADER SCROLL THÔNG MINH
+   =================================================== */
+function initScrollActions() {
+  const scrollBtn = document.getElementById('scrollToTopBtn');
+  const header = document.querySelector('.site-header');
+
+  let lastScrollY = window.scrollY;
+  let stopScrollTimer = null;
+  let isTicking = false;
+
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        handleScroll();
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, { passive: true });
+
+  function handleScroll() {
+    const currentScrollY = window.scrollY;
+
+    // 1. Quản lý nút Scroll To Top
+    if (scrollBtn) {
+      if (currentScrollY > 300) {
+        scrollBtn.classList.add('visible');
+      } else {
+        scrollBtn.classList.remove('visible');
+      }
+    }
+
+    // 2. Quản lý Header ẩn/hiện thông minh
+    if (!header) return;
+
+    if (currentScrollY <= 30) {
+      // Đang ở sát đỉnh trang: luôn hiện trạng thái nguyên bản
+      header.classList.remove('header-hidden');
+      header.classList.remove('header-scrolled');
+    } else {
+      header.classList.add('header-scrolled');
+
+      // Cuộn xuống -> Ẩn header để tối đa không gian đọc
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        header.classList.add('header-hidden');
+      } 
+      // Cuộn ngược lên -> Hiện header ngay lập tức
+      else if (currentScrollY < lastScrollY) {
+        header.classList.remove('header-hidden');
+      }
+    }
+
+    lastScrollY = currentScrollY;
+
+    // 3. Khi dừng cuộn: nhẹ nhàng hiện lại header
+    clearTimeout(stopScrollTimer);
+    stopScrollTimer = setTimeout(() => {
+      if (header) {
+        header.classList.remove('header-hidden');
+      }
+    }, 700);
+  }
+
+  if (scrollBtn) {
+    scrollBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+}
+
+/* ===================================================
+   6. CẬP NHẬT NĂM BẢN QUYỀN TỰ ĐỘNG
+   =================================================== */
+function initDynamicYear() {
+  const footerYear = document.getElementById('footerYear');
+  if (footerYear) {
+    footerYear.textContent = new Date().getFullYear();
+  }
+}
+
+/* ===================================================
+   7. RENDER TOÀN BỘ DỮ LIỆU ĐỘNG TỪ list.js (profileConfig)
+   =================================================== */
+function renderProfileFromConfig() {
+  // Lấy dữ liệu profileConfig từ window (đã được import từ list.js)
+  const cfg = (typeof window !== "undefined" && window.profileConfig) ? window.profileConfig : null;
+  if (!cfg) return;
+
+  // 1. Tiêu đề trang & Meta Title
+  if (cfg.brand) {
+    if (cfg.brand.pageTitle) {
+      document.title = cfg.brand.pageTitle;
+    } else if (cfg.brand.title) {
+      document.title = `${cfg.brand.title} - ${cfg.brand.slogan || "Nền tảng giao dịch Rise of Kingdoms chính thức"}`;
+    }
+
+    // Logo & Tên thương hiệu trên Header
+    const brandTitleEl = document.querySelector('.brand-title');
+    const headerDisplay = cfg.brand.headerTitle || cfg.brand.title || "Rise Of KingDoms";
+    if (brandTitleEl) {
+      brandTitleEl.innerHTML = `
+        ${escapeHtml(headerDisplay)}
+        ${cfg.brand.verified ? `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:var(--gold-500);" aria-hidden="true">
+            <path d="M12 2l2.4 2.9 3.7-.4 1.3 3.5 3.5 1.4-.4 3.7 2.4 2.9-2.4 2.9.4 3.7-3.5 1.4-1.3 3.5-3.7-.4L12 22l-2.4-2.9-3.7.4-1.3-3.5-3.5-1.4.4-3.7-2.4-2.9 2.4-2.9-.4-3.7 3.5-1.4 1.3-3.5 3.7.4L12 2z"/>
+            <path d="M9.5 12.5l2 2 4.5-4.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        ` : ''}
+      `;
+    }
+
+    // Logo trên Header
+    const brandLogoImg = document.querySelector('.brand-logo-img');
+    if (brandLogoImg && cfg.brand.logo) {
+      brandLogoImg.src = cfg.brand.logo;
+    }
+
+    // Sidebar: Avatar
+    const sidebarAvatarImg = document.querySelector('.sidebar-avatar-img');
+    if (sidebarAvatarImg && cfg.brand.avatar) {
+      sidebarAvatarImg.src = cfg.brand.avatar;
+    }
+
+    // Sidebar: Tên người dùng & Tích xanh
+    const profileUserNameEl = document.querySelector('.profile-user-name');
+    if (profileUserNameEl && cfg.brand.name) {
+      profileUserNameEl.innerHTML = `
+        <span>${escapeHtml(cfg.brand.name)}</span>
+        ${cfg.brand.verified ? `
+          <span class="verified-check-badge" title="Tài khoản đã xác minh chính chủ 100%">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#0284c7">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.2 14.2l-3.5-3.5 1.4-1.4 2.1 2.1 5.3-5.3 1.4 1.4-6.7 6.7z"/>
+            </svg>
+          </span>
+        ` : ''}
+      `;
+    }
+
+    // Sidebar: Website tag
+    const profileTagEl = document.querySelector('.profile-username-tag');
+    if (profileTagEl) {
+      profileTagEl.textContent = cfg.brand.websiteName || "MEOMEORISE.VN";
+      if (cfg.brand.websiteUrl) profileTagEl.href = cfg.brand.websiteUrl;
+    }
+  }
+
+  // 2. Sidebar: Lĩnh vực / Dịch vụ (Tech Badges)
+  if (Array.isArray(cfg.services) && cfg.services.length > 0) {
+    const badgesContainer = document.querySelector('.sidebar-tech-badges');
+    if (badgesContainer) {
+      badgesContainer.innerHTML = cfg.services.map(s => `
+        <div class="tech-badge-item" title="${escapeHtml(s.desc || s.title)}">
+          <span class="badge-icon">
+            ${getServiceSvgIcon(s.icon)}
+          </span>
+          <span class="badge-text">${escapeHtml(s.title)}</span>
+        </div>
+      `).join('');
+    }
+  }
+
+  // 3. Header CTA & Floating Buttons
+  if (cfg.contact) {
+    const zaloLink = cfg.contact.zaloUrl || `https://zalo.me/${cfg.contact.zalo || '84949257924'}`;
+    const phoneDisplay = cfg.contact.phoneDisplay || cfg.contact.phone || '0949.257.924';
+    const phoneRaw = cfg.contact.phone || '0949257924';
+
+    // Header CTA
+    const headerCta = document.querySelector('.header-cta-btn');
+    if (headerCta) {
+      headerCta.href = zaloLink;
+      const fullText = headerCta.querySelector('.cta-text-full');
+      if (fullText) fullText.textContent = `Zalo: ${phoneDisplay}`;
+    }
+
+    // Floating Zalo & Hotline
+    const floatZalo = document.querySelector('.float-zalo');
+    if (floatZalo) floatZalo.href = zaloLink;
+
+    const floatPhone = document.querySelector('.float-phone');
+    if (floatPhone) floatPhone.href = `tel:${phoneRaw}`;
+  }
+
+  // 4. Sidebar: Kênh liên hệ nhanh (Quick Socials)
+  if (Array.isArray(cfg.socials)) {
+    const quickSocialsEl = document.querySelector('.sidebar-quick-socials');
+    if (quickSocialsEl) {
+      const activeSocials = cfg.socials.filter(s => s.active !== false);
+      quickSocialsEl.innerHTML = activeSocials.slice(0, 4).map(s => `
+        <a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer" class="sidebar-social-btn" title="${escapeHtml(s.name)}: ${escapeHtml(s.username || '')}">
+          ${getSocialSvgIcon(s.icon || s.id)}
+        </a>
+      `).join('');
+    }
+  }
+
+  // 5. TAB 1: THÔNG TIN LIÊN HỆ
+  if (cfg.contact) {
+    const contactListEl = document.querySelector('.clean-contact-list');
+    if (contactListEl) {
+      const pRaw = cfg.contact.phone || '0949257924';
+      const pDisp = cfg.contact.phoneDisplay || pRaw;
+      const email = cfg.contact.email || 'longnhat712@gmail.com';
+      const address = cfg.contact.address || 'Biên Hòa, Đồng Nai (Toàn Quốc)';
+      const website = cfg.contact.website || 'https://meomeorise.vn';
+      const webDisplay = website.replace(/^https?:\/\//i, '').replace(/\/$/, '');
+
+      contactListEl.innerHTML = `
+        <!-- Số điện thoại -->
+        <div class="clean-pill-row">
+          <a href="tel:${escapeHtml(pRaw)}" class="pill-row-left" title="Bấm để gọi: ${escapeHtml(pDisp)}">
+            <span class="pill-icon pill-phone">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </span>
+            <span class="pill-text">${escapeHtml(pDisp)}</span>
+          </a>
+          <button type="button" class="clean-copy-btn" data-copy="${escapeHtml(pRaw)}" data-label="Số điện thoại" title="Sao chép số">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
           </button>
         </div>
 
-        <!-- Cột 1: Tấm ảnh chính + Hộp giá tiền nổi bật -->
-        <div class="card-cover-column">
-          <div class="card-cover-wrap" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp vào để mở xem trọn bộ ảnh chi tiết">
-            <img src="${coverImg}" alt="${escapedTitle}" class="card-cover-img" loading="lazy" onerror="this.src='assets/thum1.jpg'">
-            <div class="card-cover-overlay">
-              <span class="cover-zoom-icon">🔍</span>
-              <span class="cover-zoom-text">Xem ${totalPhotos > 0 ? totalPhotos + ' ảnh' : 'chi tiết'}</span>
+        <!-- Email -->
+        <div class="clean-pill-row">
+          <a href="mailto:${escapeHtml(email)}" class="pill-row-left" title="Gửi email: ${escapeHtml(email)}">
+            <span class="pill-icon pill-mail">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </span>
+            <span class="pill-text">${escapeHtml(email)}</span>
+          </a>
+          <button type="button" class="clean-copy-btn" data-copy="${escapeHtml(email)}" data-label="Email" title="Sao chép email">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Địa chỉ -->
+        <div class="clean-pill-row">
+          <div class="pill-row-left">
+            <span class="pill-icon pill-loc">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </span>
+            <span class="pill-text">${escapeHtml(address)}</span>
+          </div>
+        </div>
+
+        <!-- Website -->
+        <div class="clean-pill-row">
+          <a href="${escapeHtml(website)}" target="_blank" rel="noopener noreferrer" class="pill-row-left" title="Website chính thức">
+            <span class="pill-icon pill-web">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </span>
+            <span class="pill-text">${escapeHtml(webDisplay)}</span>
+          </a>
+          <button type="button" class="clean-copy-btn" data-copy="${escapeHtml(website)}" data-label="Link Website" title="Sao chép link web">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        </div>
+      `;
+    }
+  }
+
+  // 6. TAB 1: CỘNG ĐỒNG & MẠNG XÃ HỘI (2 MỤC LỚN: NHÓM FACEBOOK & NHÓM ZALO -> BẤM MỞ POPUP)
+  const sg = cfg.socialGroups || {};
+  const fbGroupsCount = Array.isArray(sg.facebookGroups) ? sg.facebookGroups.length : 0;
+  const zlGroupsCount = Array.isArray(sg.zaloGroups) ? sg.zaloGroups.length : 0;
+
+  const fbCountEl = document.getElementById('fbGroupsCount');
+  if (fbCountEl) fbCountEl.textContent = `${fbGroupsCount} nhóm`;
+  const zlCountEl = document.getElementById('zaloGroupsCount');
+  if (zlCountEl) zlCountEl.textContent = `${zlGroupsCount} nhóm`;
+
+  const fbDescEl = document.getElementById('fbGroupsDesc');
+  if (fbDescEl && sg.facebookDesc) fbDescEl.textContent = sg.facebookDesc;
+  const zlDescEl = document.getElementById('zaloGroupsDesc');
+  if (zlDescEl && sg.zaloDesc) zlDescEl.textContent = sg.zaloDesc;
+
+  // 7. TAB 2: THÔNG TIN CHUYỂN KHOẢN (NGÂN HÀNG & QR CODE)
+  if (Array.isArray(cfg.banks) && cfg.banks.length > 0) {
+    const transferListEl = document.getElementById('bankingAccountsContainer') || document.querySelector('#tab-banking .transfer-accounts-list');
+    if (transferListEl) {
+      transferListEl.innerHTML = cfg.banks.map(b => {
+        const isMomo = (b.id === 'momo' || 
+                        (b.bankCode && b.bankCode.toLowerCase() === 'momo') || 
+                        (b.bankName && b.bankName.toLowerCase().includes('momo')));
+        const qrUrl = isMomo ? (b.qrUrl || 'media/momo.png') : (b.qrUrl || `https://img.vietqr.io/image/${b.bankCode || '970422'}-${b.accountNumber}-compact.jpg?accountName=${encodeURIComponent(b.accountHolder || '')}`);
+        const momoUrl = b.momoUrl || (isMomo ? `https://nhantien.momo.vn/${b.accountNumber || '0949257924'}` : '');
+
+        return `
+          <div class="transfer-item-row">
+            <div class="transfer-bank-logo">
+              ${b.logoImg ? `<img src="${escapeHtml(b.logoImg)}" alt="${escapeHtml(b.bankName || '')}" class="bank-logo-img" onerror="this.src='icon/icon.png'">` : getBankLogoSvg(b.logoType || b.bankCode, b.bankName)}
             </div>
-            ${totalPhotos > 0 ? `<div class="card-cover-count-badge">📷 ${totalPhotos} ảnh</div>` : ''}
+
+            <div class="transfer-item-content">
+              <span class="transfer-holder-name">${escapeHtml(b.accountHolder || '')}</span>
+              <span class="transfer-account-num">${escapeHtml(b.accountNumber || '')}</span>
+              <span class="transfer-bank-label">${escapeHtml(b.bankName || '')}</span>
+            </div>
+
+            <div class="transfer-item-actions">
+              <button type="button" 
+                      class="transfer-action-btn qr-btn" 
+                      data-qr-open 
+                      data-bank-type="${isMomo ? 'momo' : ''}"
+                      data-bank-name="${escapeHtml(b.bankName || '')}" 
+                      data-holder-name="${escapeHtml(b.accountHolder || '')}"
+                      data-account-num="${escapeHtml(b.accountNumber || '')}"
+                      data-momo-url="${escapeHtml(momoUrl)}"
+                      data-qr-img="${escapeHtml(qrUrl)}"
+                      title="Xem Mã QR Chuyển Khoản"
+                      aria-label="Mở mã QR ${escapeHtml(b.bankName || '')}">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2.5" y="2.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
+                  <rect x="4.75" y="4.75" width="2.5" height="2.5" rx="0.5" fill="currentColor"/>
+                  <rect x="14.5" y="2.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
+                  <rect x="16.75" y="4.75" width="2.5" height="2.5" rx="0.5" fill="currentColor"/>
+                  <rect x="2.5" y="14.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
+                  <rect x="4.75" y="16.75" width="2.5" height="2.5" rx="0.5" fill="currentColor"/>
+                  <rect x="14.5" y="14.5" width="2.5" height="2.5" rx="0.4" fill="currentColor"/>
+                  <rect x="19" y="14.5" width="2.5" height="2.5" rx="0.4" fill="currentColor"/>
+                  <rect x="14.5" y="19" width="2.5" height="2.5" rx="0.4" fill="currentColor"/>
+                  <rect x="19" y="19" width="2.5" height="2.5" rx="0.4" fill="currentColor"/>
+                  <rect x="11" y="4" width="1.5" height="4" rx="0.4" fill="currentColor"/>
+                  <rect x="4" y="11" width="4" height="1.5" rx="0.4" fill="currentColor"/>
+                  <rect x="10.5" y="10.5" width="3" height="3" rx="0.5" fill="currentColor"/>
+                </svg>
+              </button>
+
+              <button type="button" 
+                      class="transfer-action-btn" 
+                      data-copy="${escapeHtml(b.accountNumber || '')}" 
+                      data-label="${isMomo ? 'Số MoMo' : 'STK ' + escapeHtml(b.bankCode || b.bankName || '')}" 
+                      title="Sao chép số tài khoản">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
           </div>
-          <div class="card-cover-price-box" onclick="openCategoryModal(${item.id}, 'tuong', event)" title="Nhấp để xem chi tiết tài khoản">
-            <span class="cover-price-amount">${formattedPrice}</span>
-            <span class="cover-price-cta">Chi tiết →</span>
-          </div>
-        </div>
+        `;
+      }).join('');
 
-        <!-- Cột 2: Thông tin chi tiết tài khoản -->
-        <div class="card-left">
-          <div class="card-title-row">
-            <span class="card-title">${item.title}</span>
-            ${badgesHtml}
-          </div>
-          <div class="kingdom-info">
-            <span class="k-code">🏰 ${item.info.split('|')[0].trim()}</span>
-            <span class="k-divider">•</span>
-            <span class="immigration">${item.info.split('|')[1]?.trim() || ''}</span>
-          </div>
-          <div class="stats-info">
-            <svg class="stats-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span>${item.stats}</span>
-          </div>
-          <div class="tags-wrap">
-            ${tagsHtml}
-          </div>
-        </div>
-
-        <!-- Cột 3: Nút Thích, Thời gian mở bán & Nút xem chi tiết (Desktop) -->
-        <div class="card-right">
-          <!-- Desktop Fav row -->
-          <div class="price-fav-row">
-            <button class="btn-fav ${item.isFavorited ? 'active' : ''}" onclick="toggleFavorite(${item.id}, event)" aria-label="Thích">
-              ${starSvg}
-              <span>${item.favorites}</span>
-            </button>
-          </div>
-
-          <!-- CTA Action -->
-          <div class="card-right-bottom">
-            <button type="button" class="btn-card-detail" onclick="openProductModal(${item.id})">Xem chi tiết →</button>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join("");
-}
-
-// ============================================================================
-// PRODUCT DETAIL POPUP MODAL & IMGBB GALLERY CONTROLLER
-// ============================================================================
-
-let currentModalItem = null;
-let currentModalImages = [];
-let currentModalImageIndex = 0;
-
-window.handleItemCardClick = function(id, event) {
-  if (event && (event.target.closest('.btn-fav') || event.target.tagName === 'BUTTON')) return;
-  window.location.href = `detail.html?id=${id}`;
-};
-
-window.openProductModal = function(id) {
-  window.location.href = `detail.html?id=${id}`;
-};
-
-window.openCategoryModal = function(id, category = 'tuong', event) {
-  if (event) event.stopPropagation();
-  window.location.href = `detail.html?id=${id}&cat=${category || 'tuong'}`;
-};
-
-window.closeProductModal = function() {
-  const modal = document.getElementById("productDetailModal");
-  if (modal) {
-    modal.classList.remove("show");
-    modal.setAttribute("aria-hidden", "true");
-  }
-  document.body.style.overflow = "";
-  closeLightbox();
-};
-
-window.handleModalBackdropClick = function(event) {
-  if (event.target.id === "productDetailModal") {
-    closeProductModal();
-  }
-};
-
-window.updateModalGalleryView = function() {
-  if (currentModalImages.length === 0) return;
-  if (currentModalImageIndex < 0) currentModalImageIndex = currentModalImages.length - 1;
-  if (currentModalImageIndex >= currentModalImages.length) currentModalImageIndex = 0;
-
-  const currentSrc = currentModalImages[currentModalImageIndex];
-  const mainImg = document.getElementById("modalMainImage");
-  if (mainImg) {
-    mainImg.src = currentSrc;
-    mainImg.onerror = function() {
-      this.src = "assets/rok_avatar.jpg";
-    };
-  }
-
-  const counterEl = document.getElementById("modalImageCounter");
-  if (counterEl) {
-    counterEl.textContent = `${currentModalImageIndex + 1}/${currentModalImages.length}`;
-  }
-
-  // Ẩn/Hiện nút prev next nếu chỉ có 1 ảnh
-  const prevBtn = document.querySelector(".gallery-nav-btn.prev");
-  const nextBtn = document.querySelector(".gallery-nav-btn.next");
-  if (prevBtn) prevBtn.style.display = currentModalImages.length > 1 ? "flex" : "none";
-  if (nextBtn) nextBtn.style.display = currentModalImages.length > 1 ? "flex" : "none";
-
-  // Render Thumbnails
-  const thumbsContainer = document.getElementById("modalThumbnailsStrip");
-  if (thumbsContainer) {
-    if (currentModalImages.length <= 1) {
-      thumbsContainer.style.display = "none";
-    } else {
-      thumbsContainer.style.display = "flex";
-      thumbsContainer.innerHTML = currentModalImages.map((src, idx) => `
-        <div class="modal-thumb-item ${idx === currentModalImageIndex ? 'active' : ''}" onclick="selectModalImage(${idx})">
-          <img src="${escapeModalHtml(src)}" alt="Ảnh ${idx + 1}" onerror="this.src='assets/rok_avatar.jpg'">
-        </div>
-      `).join("");
+      // Sau khi render lại danh sách, gắn lại sự kiện QR và Copy
+      if (typeof window.bindQrButtons === 'function') window.bindQrButtons();
+      if (typeof initCopyActions === 'function') initCopyActions();
     }
   }
-};
 
-window.navigateModalGallery = function(direction) {
-  currentModalImageIndex += direction;
-  updateModalGalleryView();
-};
+  // 8. TAB 3: HỆ THỐNG / CỘNG ĐỒNG
+  const tabSocialPane = document.getElementById('tab-social');
+  if (tabSocialPane && cfg.systemChannels) {
+    const channels = cfg.systemChannels.channels || [];
+    if (channels.length > 0) {
+      tabSocialPane.innerHTML = `
+        <div class="clean-banking-container">
+          <div class="clean-box-header" style="margin-bottom: 20px;">
+            <span class="clean-header-icon" style="background:#0284c7; color:#fff;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+            </span>
+            <h3>${escapeHtml(cfg.systemChannels.title || "Hệ Thống Kênh & Cộng Đồng")}</h3>
+          </div>
+          <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom: 16px;">${escapeHtml(cfg.systemChannels.description || '')}</p>
 
-window.selectModalImage = function(index) {
-  currentModalImageIndex = index;
-  updateModalGalleryView();
-};
+          <div class="transfer-accounts-list">
+            ${channels.map(c => `
+              <div class="transfer-item-row">
+                <div class="transfer-bank-logo">
+                  <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #0284c7, #0369a1); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 14px;">
+                    ${escapeHtml(c.badge || 'VIP')}
+                  </div>
+                </div>
 
-// Fullscreen Lightbox
-window.openLightbox = function(src) {
-  const box = document.getElementById("fullscreenLightbox");
-  const img = document.getElementById("lightboxImage");
-  if (box && img) {
-    img.src = src || (currentModalImages[currentModalImageIndex] || "assets/rok_avatar.jpg");
-    box.classList.add("show");
-  }
-};
+                <div class="transfer-item-content">
+                  <span class="transfer-holder-name">${escapeHtml(c.name)}</span>
+                  <span class="transfer-bank-label" style="font-size: 0.85rem; color: var(--text-muted);">${escapeHtml(c.desc || '')}</span>
+                </div>
 
-window.closeLightbox = function() {
-  const box = document.getElementById("fullscreenLightbox");
-  if (box) box.classList.remove("show");
-};
-
-function escapeModalHtml(str) {
-  if (!str) return "";
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-// ============================================================================
-// FULLSCREEN CATEGORY SHOWCASE MODAL (TƯỚNG / TRANG BỊ / RSS KHO / VÉ BAY)
-// ============================================================================
-let currentCategoryModalItem = null;
-let currentActiveCategory = 'tuong'; // 'tuong' | 'trangbi' | 'rss' | 'vebay'
-
-const categoryMetaMap = {
-  tuong: { title: "CHI TIẾT TƯỚNG", label: "Tướng" },
-  trangbi: { title: "CHI TIẾT TRANG BỊ", label: "Trang bị" },
-  rss: { title: "CHI TIẾT RSS KHO", label: "Rss kho" },
-  vebay: { title: "CHI TIẾT VÉ BAY", label: "Vé bay" }
-};
-
-window.openCategoryModal = function(id, category = 'tuong', event) {
-  if (event) event.stopPropagation();
-  window.location.href = `detail.html?id=${id}&cat=${category || 'tuong'}`;
-};
-
-
-window.closeCategoryModal = function() {
-  const modal = document.getElementById("fullscreenCatModal");
-  if (modal) {
-    modal.classList.remove("show");
-    modal.setAttribute("aria-hidden", "true");
-  }
-  document.body.style.overflow = "";
-  closeLightbox();
-};
-
-window.handleCatModalBackdropClick = function(event) {
-  if (event.target.id === "fullscreenCatModal") {
-    closeCategoryModal();
-  }
-};
-
-window.switchCategoryModalTab = function(category) {
-  currentActiveCategory = category;
-  renderCategoryModalContent();
-};
-
-function updateCategoryModalCounts(item) {
-  const cats = item.imageCategories || {};
-  const tuongImgs = Array.isArray(cats.tuong) ? cats.tuong : (Array.isArray(item.images) ? item.images : []);
-  const trangbiImgs = Array.isArray(cats.trangbi) ? cats.trangbi : [];
-  const rssImgs = Array.isArray(cats.rss) ? cats.rss : [];
-  const vebayImgs = Array.isArray(cats.vebay) ? cats.vebay : [];
-
-  const elTuong = document.getElementById("modalCatCount_tuong");
-  const elTrangbi = document.getElementById("modalCatCount_trangbi");
-  const elRss = document.getElementById("modalCatCount_rss");
-  const elVebay = document.getElementById("modalCatCount_vebay");
-
-  if (elTuong) elTuong.textContent = tuongImgs.length;
-  if (elTrangbi) elTrangbi.textContent = trangbiImgs.length;
-  if (elRss) elRss.textContent = rssImgs.length;
-  if (elVebay) elVebay.textContent = vebayImgs.length;
-}
-
-function renderCategoryModalContent() {
-  if (!currentCategoryModalItem) return;
-  const item = currentCategoryModalItem;
-  const meta = categoryMetaMap[currentActiveCategory] || categoryMetaMap.tuong;
-
-  const streamTitleEl = document.getElementById("catStreamTitle");
-  if (streamTitleEl) streamTitleEl.textContent = meta.title;
-
-  const centerTitleEl = document.getElementById("catModalCenterTitle");
-  if (centerTitleEl) centerTitleEl.textContent = meta.title;
-
-  // Active tab state
-  document.querySelectorAll(".cat-modal-tab-btn").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.cat === currentActiveCategory);
-  });
-
-  // Lấy ảnh của category này
-  const cats = item.imageCategories || {};
-  let imagesForCat = [];
-  if (currentActiveCategory === 'tuong') {
-    imagesForCat = Array.isArray(cats.tuong) && cats.tuong.length > 0
-      ? cats.tuong
-      : (Array.isArray(item.images) ? item.images : []);
-  } else {
-    imagesForCat = Array.isArray(cats[currentActiveCategory]) ? cats[currentActiveCategory] : [];
+                <div class="transfer-item-actions">
+                  <a href="${escapeHtml(c.url)}" target="_blank" rel="noopener noreferrer" class="btn-updating-contact" style="padding: 8px 18px; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                    <span>${escapeHtml(c.buttonText || 'Tham gia')}</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </a>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
   }
 
-  const bodyEl = document.getElementById("catModalBody");
-  if (!bodyEl) return;
+  // 9. FOOTER
+  if (cfg.footer) {
+    const footerBrandH4 = document.querySelector('.footer-brand h4');
+    if (footerBrandH4 && cfg.footer.sloganTitle) footerBrandH4.textContent = cfg.footer.sloganTitle;
 
-  if (imagesForCat.length === 0) {
-    bodyEl.innerHTML = `
-      <div class="cat-empty-state">
-        <div class="cat-empty-title">Chưa có ảnh mục ${escapeModalHtml(meta.label)} cho Acc #${item.id}</div>
-        <p class="cat-empty-desc">
-          Tài khoản này chưa có ảnh riêng cho mục <strong>${escapeModalHtml(meta.label)}</strong>. Quý khách vui lòng nhấn nút "Nhắn Zalo" bên dưới để Shop gửi ảnh chụp trực tiếp từ game trong 30 giây!
+    const footerBrandP = document.querySelector('.footer-brand p');
+    if (footerBrandP && cfg.footer.aboutText) footerBrandP.textContent = cfg.footer.aboutText;
+  }
+
+  if (cfg.contact) {
+    const footerContact = document.querySelector('.footer-contact');
+    if (footerContact) {
+      footerContact.innerHTML = `
+        <h5>Liên Hệ Nhanh</h5>
+        <p>
+          <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          Hotline: ${escapeHtml(cfg.contact.phoneDisplay || cfg.contact.phone || '0949.257.924')}
         </p>
-      </div>
+        <p>
+          <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          ${escapeHtml(cfg.contact.email || 'longnhat712@gmail.com')}
+        </p>
+        <p>
+          <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+          </svg>
+          Zalo: ${escapeHtml(cfg.contact.zalo || '0949257924')}
+        </p>
+      `;
+    }
+  }
+
+  // Cập nhật Modal QR title
+  const modalBankTitle = document.getElementById('modalBankTitle');
+  if (modalBankTitle && cfg.banks && cfg.banks.length > 0) {
+    const firstBank = cfg.banks[0];
+    const qrHolder = document.querySelector('#qrModal [style*="font-weight:700"]');
+    if (qrHolder && firstBank.accountHolder) {
+      qrHolder.textContent = `Chủ tài khoản: ${firstBank.accountHolder}`;
+    }
+  }
+}
+
+// Helpers render icon SVG
+function getServiceSvgIcon(iconType) {
+  const t = (iconType || '').toLowerCase();
+  if (t === 'users' || t.includes('cộng đồng')) {
+    return `
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
     `;
-    return;
   }
-
-  bodyEl.innerHTML = imagesForCat.map((src, idx) => `
-    <div class="cat-image-card">
-      <img src="${escapeModalHtml(src)}" 
-           alt="Ảnh ${meta.label} ${idx + 1}" 
-           class="cat-full-image" 
-           loading="lazy"
-           onclick="openLightbox('${escapeModalHtml(src)}')" 
-           onerror="this.src='assets/thum1.jpg'">
-    </div>
-  `).join("");
-}
-
-// Bắt phím Escape và Mũi tên bàn phím
-window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    const lightbox = document.getElementById("fullscreenLightbox");
-    if (lightbox && lightbox.classList.contains("show")) {
-      closeLightbox();
-      return;
-    }
-    const catModal = document.getElementById("fullscreenCatModal");
-    if (catModal && catModal.classList.contains("show")) {
-      closeCategoryModal();
-      return;
-    }
-    closeProductModal();
-  } else if (e.key === "ArrowLeft") {
-    const modal = document.getElementById("productDetailModal");
-    if (modal && modal.classList.contains("show")) {
-      navigateModalGallery(-1);
-    }
-  } else if (e.key === "ArrowRight") {
-    const modal = document.getElementById("productDetailModal");
-    if (modal && modal.classList.contains("show")) {
-      navigateModalGallery(1);
-    }
-  }
-});
-
-// Toggle Favorite Star
-window.toggleFavorite = function(id, event) {
-  if (event) {
-    event.stopPropagation();
-    event.preventDefault();
-  }
-  const item = mockProducts.find(p => p.id === id);
-  if (item) {
-    item.isFavorited = !item.isFavorited;
-    item.favorites += item.isFavorited ? 1 : -1;
-    applyFilters();
-  }
-};
-
-// Helper: Tính toán giá quy đổi VND chuẩn xác
-function getItemVndPrice(item) {
-  if (!item) return 0;
-  const rawPrice = Number(item.price) || 0;
-  return rawPrice < 50000 ? Math.round(rawPrice * 25400) : rawPrice;
-}
-
-// Filter & Search Logic
-window.applyFilters = function() {
-  const searchVal = (
-    document.getElementById("searchInputDesktop")?.value ||
-    document.getElementById("searchInputMobile")?.value ||
-    ""
-  ).trim().toLowerCase();
-
-  const minPrice = parseFloat(document.getElementById("minPrice")?.value) || 0;
-  const maxPrice = parseFloat(document.getElementById("maxPrice")?.value) || 0;
-  const sortOrder = document.getElementById("sortOrderSelect")?.value ||
-                    document.getElementById("sortOrderSelectMobile")?.value ||
-                    "default";
-
-  const allItems = (window.mockProducts && window.mockProducts.length > 0)
-    ? window.mockProducts
-    : mockProducts;
-
-  let filtered = allItems.filter(item => {
-    const itemVnd = getItemVndPrice(item);
-
-    // 1. Tìm kiếm theo mã số (#2654...), tiêu đề, vương quốc, tướng
-    if (searchVal) {
-      const cleanSearch = searchVal.replace(/^#/, "");
-      const matchId = String(item.id).includes(cleanSearch);
-      const matchTitle = (item.title || "").toLowerCase().includes(searchVal);
-      const matchInfo = (item.info || "").toLowerCase().includes(searchVal);
-      const matchStats = (item.stats || "").toLowerCase().includes(searchVal);
-      const matchCommanders = Array.isArray(item.commanders) && item.commanders.some(c => 
-        (c.name || "").toLowerCase().includes(searchVal)
-      );
-      if (!matchId && !matchTitle && !matchInfo && !matchStats && !matchCommanders) {
-        return false;
-      }
-    }
-
-    // 2. Lọc theo khoảng giá (VND)
-    if (minPrice > 0 && itemVnd < minPrice) return false;
-    if (maxPrice > 0 && itemVnd > maxPrice) return false;
-
-    return true;
-  });
-
-  // 3. Sắp xếp danh sách sản phẩm
-  if (sortOrder === "price_asc") {
-    // Giá tăng dần (thấp đến cao)
-    filtered.sort((a, b) => getItemVndPrice(a) - getItemVndPrice(b));
-  } else if (sortOrder === "price_desc") {
-    // Giá giảm dần (cao đến thấp)
-    filtered.sort((a, b) => getItemVndPrice(b) - getItemVndPrice(a));
-  } else if (sortOrder === "favorite_desc") {
-    // Yêu thích nhiều nhất
-    filtered.sort((a, b) => (b.favorites || 0) - (a.favorites || 0));
-  }
-
-  renderListings(filtered);
-
-  // Cập nhật nhãn tổng số lượng vật phẩm
-  const countLabels = document.querySelectorAll(".item-count-val");
-  countLabels.forEach(el => el.textContent = filtered.length);
-};
-
-// Đặt khoảng giá nhanh từ các nút chip (Dưới 10tr, 10tr - 30tr, ...)
-window.setQuickPrice = function(min, max, btnEl) {
-  const minP = document.getElementById("minPrice");
-  const maxP = document.getElementById("maxPrice");
-  if (minP) minP.value = min > 0 ? min : "";
-  if (maxP) maxP.value = max > 0 ? max : "";
-
-  // Đồng bộ trạng thái active trên cả desktop và mobile
-  const rangeAttr = btnEl ? btnEl.dataset.range : null;
-  document.querySelectorAll(".quick-chip").forEach(c => {
-    if (rangeAttr && c.dataset.range === rangeAttr) {
-      c.classList.add("active");
-    } else {
-      c.classList.remove("active");
-    }
-  });
-
-  applyFilters();
-};
-
-// Đồng bộ sắp xếp Desktop -> Mobile
-window.syncDesktopSort = function(val) {
-  const sortM = document.getElementById("sortOrderSelectMobile");
-  if (sortM) sortM.value = val;
-  updateCustomSortUI(val);
-  applyFilters();
-};
-
-// Đồng bộ sắp xếp Mobile -> Desktop
-window.syncMobileSort = function(val) {
-  const sortD = document.getElementById("sortOrderSelect");
-  if (sortD) sortD.value = val;
-  updateCustomSortUI(val);
-  applyFilters();
-};
-
-function updateCustomSortUI(val) {
-  const sortVal = document.getElementById("customSortVal");
-  const items = document.querySelectorAll("#customSortMenu .custom-dropdown-item");
-  items.forEach(item => {
-    if (item.dataset.value === val) {
-      item.classList.add("active");
-      if (sortVal) sortVal.textContent = item.querySelector("span")?.textContent || "";
-    } else {
-      item.classList.remove("active");
-    }
-  });
-}
-
-// Reset toàn bộ bộ lọc về mặc định
-window.resetFilters = function() {
-  const searchD = document.getElementById("searchInputDesktop");
-  const searchM = document.getElementById("searchInputMobile");
-  const minP = document.getElementById("minPrice");
-  const maxP = document.getElementById("maxPrice");
-  const sortD = document.getElementById("sortOrderSelect");
-  const sortM = document.getElementById("sortOrderSelectMobile");
-
-  if (searchD) searchD.value = "";
-  if (searchM) searchM.value = "";
-  if (minP) minP.value = "";
-  if (maxP) maxP.value = "";
-  if (sortD) sortD.value = "default";
-  if (sortM) sortM.value = "default";
-
-  updateCustomSortUI("default");
-
-  document.querySelectorAll(".quick-chip").forEach(c => {
-    if (c.dataset.range === "all") {
-      c.classList.add("active");
-    } else {
-      c.classList.remove("active");
-    }
-  });
-
-  applyFilters();
-  showActionNotice("Đã đặt lại bộ lọc");
-};
-
-// Countdown Live Tick (Đã loại bỏ hiển thị thời gian)
-function startTimerTicker() {
-  // Timer đã bỏ theo yêu cầu
-}
-
-// Switch Mode (PC vs Mobile vs Auto)
-window.setPreviewMode = function(mode) {
-  const body = document.body;
-  const btns = document.querySelectorAll(".view-mode-btn");
-  btns.forEach(b => b.classList.remove("active"));
-
-  const targetBtn = document.getElementById(`modeBtn-${mode}`);
-  if (targetBtn) targetBtn.classList.add("active");
-
-  body.classList.remove("force-mobile", "force-desktop");
-  if (mode === "mobile") {
-    body.classList.add("force-mobile");
-  } else if (mode === "desktop") {
-    body.classList.add("force-desktop");
-  }
-  // If auto, relies on natural media query
-};
-
-// Interactive Toast / Notification Alert
-window.showActionNotice = function(msg) {
-  let toast = document.getElementById("actionToast");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "actionToast";
-    toast.style.cssText = `
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(31, 35, 41, 0.95);
-      color: #fff;
-      padding: 10px 22px;
-      border-radius: 9999px;
-      font-size: 13px;
-      font-weight: 500;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-      z-index: 999999;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.25s, transform 0.25s;
+  if (t === 'message' || t.includes('tư vấn')) {
+    return `
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        <circle cx="9" cy="10" r="1" fill="currentColor"></circle>
+        <circle cx="12" cy="10" r="1" fill="currentColor"></circle>
+        <circle cx="15" cy="10" r="1" fill="currentColor"></circle>
+      </svg>
     `;
-    document.body.appendChild(toast);
   }
-  toast.textContent = msg;
-  toast.style.opacity = "1";
-  toast.style.transform = "translateX(-50%) translateY(0)";
-
-  clearTimeout(toast._timeout);
-  toast._timeout = setTimeout(() => {
-    toast.style.opacity = "0";
-    toast.style.transform = "translateX(-50%) translateY(10px)";
-  }, 2200);
-};
-
-// Initial DOM Ready
-document.addEventListener("DOMContentLoaded", () => {
-  if (window.mockProducts && Array.isArray(window.mockProducts) && window.mockProducts.length > 0) {
-    mockProducts = window.mockProducts;
+  if (t === 'star' || t.includes('sao')) {
+    return `
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+      </svg>
+    `;
   }
-  renderListings(mockProducts);
-
-  // Search input listeners with desktop/mobile sync
-  const searchD = document.getElementById("searchInputDesktop");
-  const searchM = document.getElementById("searchInputMobile");
-  if (searchD) {
-    searchD.addEventListener("input", () => {
-      if (searchM && searchM.value !== searchD.value) searchM.value = searchD.value;
-      applyFilters();
-    });
-  }
-  if (searchM) {
-    searchM.addEventListener("input", () => {
-      if (searchD && searchD.value !== searchM.value) searchD.value = searchM.value;
-      applyFilters();
-    });
-  }
-
-  // Price input listeners
-  const minP = document.getElementById("minPrice");
-  const maxP = document.getElementById("maxPrice");
-  if (minP) minP.addEventListener("input", applyFilters);
-  if (maxP) maxP.addEventListener("input", applyFilters);
-
-  // Usable checkbox
-  const usable = document.getElementById("usableCheck");
-  if (usable) usable.addEventListener("change", applyFilters);
-
-  // Reset button
-  const resetBtn = document.getElementById("resetFilterBtn");
-  if (resetBtn) resetBtn.addEventListener("click", resetFilters);
-
-  // Tab switching
-  const tabs = document.querySelectorAll(".tab-btn");
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      const tabName = tab.dataset.tab;
-      showActionNotice(`Đã chuyển sang: ${tab.querySelector('span')?.textContent || tab.textContent}`);
-    });
-  });
-
-  // Mobile Bottom Navigation items
-  const dockItems = document.querySelectorAll(".mobile-dock-item");
-  dockItems.forEach(item => {
-    item.addEventListener("click", () => {
-      dockItems.forEach(i => i.classList.remove("active"));
-      item.classList.add("active");
-    });
-  });
-
-  // Khởi tạo Custom Sort Dropdown (Menu bo góc đổ bóng sang trọng, bỏ khung thô mặc định)
-  const sortBox = document.getElementById("customSortDropdown");
-  const sortTrigger = document.getElementById("customSortTrigger");
-  const sortVal = document.getElementById("customSortVal");
-  const sortMenu = document.getElementById("customSortMenu");
-  const nativeSort = document.getElementById("sortOrderSelect");
-
-  if (sortBox && sortTrigger && sortMenu) {
-    sortTrigger.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const isOpen = sortBox.classList.toggle("open");
-      sortTrigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    });
-
-    const items = sortMenu.querySelectorAll(".custom-dropdown-item");
-    items.forEach(item => {
-      item.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const val = item.dataset.value;
-        const text = item.querySelector("span")?.textContent || "";
-
-        items.forEach(i => i.classList.remove("active"));
-        item.classList.add("active");
-        if (sortVal) sortVal.textContent = text;
-        sortBox.classList.remove("open");
-        sortTrigger.setAttribute("aria-expanded", "false");
-
-        if (nativeSort) {
-          nativeSort.value = val;
-          syncDesktopSort(val);
-        }
-      });
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!sortBox.contains(e.target)) {
-        sortBox.classList.remove("open");
-        sortTrigger.setAttribute("aria-expanded", "false");
-      }
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        sortBox.classList.remove("open");
-        sortTrigger.setAttribute("aria-expanded", "false");
-      }
-    });
-  }
-
-  // Khởi tạo Hero Banner Carousel chạy qua lại các ảnh thum
-  initHeroBannerCarousel();
-});
-
-// ============================================================================
-// HERO BANNER CAROUSEL (Chạy qua lại các ảnh Banner / Thum)
-// ============================================================================
-let currentBannerIndex = 0;
-let bannerAutoTimer = null;
-let bannerImagesList = [];
-
-function initHeroBannerCarousel() {
-  const track = document.getElementById("bannerSlidesTrack");
-  const heroBanner = document.getElementById("heroBannerCarousel");
-  if (!track || !heroBanner) return;
-
-  // Ưu tiên lấy danh sách ảnh từ js/thum.js (window.bannerImages), sau đó mới tới siteConfig hoặc 2 ảnh mẫu
-  if (Array.isArray(window.bannerImages) && window.bannerImages.length > 0) {
-    bannerImagesList = [...window.bannerImages];
-  } else if (Array.isArray(window.siteConfig?.banner?.images) && window.siteConfig.banner.images.length > 0) {
-    bannerImagesList = [...window.siteConfig.banner.images];
-  } else {
-    bannerImagesList = ["assets/thum1.png", "assets/thum2.png"];
-  }
-
-  // Render các slide ảnh
-  track.innerHTML = bannerImagesList.map((url, idx) => `
-    <div class="banner-slide ${idx === 0 ? 'active' : ''}" 
-         data-idx="${idx}" 
-         style="background-image: url('${url}');">
-    </div>
-  `).join("");
-
-  // Render Desktop Dots
-  const desktopDots = document.getElementById("bannerDesktopDots");
-  if (desktopDots) {
-    desktopDots.innerHTML = bannerImagesList.map((_, idx) => `
-      <div class="b-dot ${idx === 0 ? 'active' : ''}" 
-           title="Xem ảnh ${idx + 1}" 
-           onclick="goToBannerSlide(${idx})">
-      </div>
-    `).join("");
-  }
-
-  // Render Mobile Dots
-  const mobileDots = document.getElementById("bannerMobileDots");
-  if (mobileDots) {
-    mobileDots.innerHTML = bannerImagesList.map((_, idx) => `
-      <div class="carousel-dot ${idx === 0 ? 'active' : ''}" 
-           title="Xem ảnh ${idx + 1}" 
-           onclick="goToBannerSlide(${idx})">
-      </div>
-    `).join("");
-  }
-
-  currentBannerIndex = 0;
-  startBannerAutoPlay();
-
-  // Tạm dừng khi rê chuột vào để đọc nội dung, tiếp tục khi rê ra ngoài
-  heroBanner.addEventListener("mouseenter", stopBannerAutoPlay);
-  heroBanner.addEventListener("mouseleave", startBannerAutoPlay);
-
-  // Hỗ trợ vuốt tay chuyển ảnh trên màn hình cảm ứng di động
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let touchEndX = 0;
-  let touchEndY = 0;
-
-  heroBanner.addEventListener("touchstart", (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-  }, { passive: true });
-
-  heroBanner.addEventListener("touchend", (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    touchEndY = e.changedTouches[0].screenY;
-    const diffX = touchEndX - touchStartX;
-    const diffY = touchEndY - touchStartY;
-    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
-      if (diffX < 0) {
-        nextBannerSlide(); // Vuốt sang trái -> chuyển ảnh kế
-      } else {
-        prevBannerSlide(); // Vuốt sang phải -> chuyển ảnh trước
-      }
-    }
-  }, { passive: true });
+  // Mặc định: Shield / Trung gian
+  return `
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      <path d="m9 12 2 2 4-4"></path>
+    </svg>
+  `;
 }
 
-function updateBannerActiveState() {
-  const track = document.getElementById("bannerSlidesTrack");
-  if (track) {
-    track.style.transform = `translateX(-${currentBannerIndex * 100}%)`;
+function getSocialSvgIcon(id) {
+  const s = (id || '').toLowerCase();
+  if (s.includes('facebook') || s === 'fb') {
+    return `
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877f2">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
+    `;
+  }
+  if (s.includes('zalo')) {
+    return `
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#0068ff">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+      </svg>
+    `;
+  }
+  if (s.includes('telegram')) {
+    return `
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#229ed9">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+      </svg>
+    `;
+  }
+  if (s.includes('tiktok')) {
+    return `
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.29 0 .57.04.84.12V9.38a6.34 6.34 0 0 0-.84-.06A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 9.18 5.61v-7.14a8.27 8.27 0 0 0 5.17 1.83v-3.47a4.84 4.84 0 0 1 2.24-.8v-5z"/>
+      </svg>
+    `;
+  }
+  if (s.includes('youtube')) {
+    return `
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#ff0000">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
+    `;
+  }
+  // Mặc định: icon liên kết
+  return `
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="18" cy="5" r="3"></circle>
+      <circle cx="6" cy="12" r="3"></circle>
+      <circle cx="18" cy="19" r="3"></circle>
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+    </svg>
+  `;
+}
+
+function getBankLogoSvg(logoType, bankName) {
+  const t = (logoType || bankName || '').toLowerCase();
+  
+  // 1. VÍ ĐIỆN TỬ MOMO
+  if (t.includes('momo')) {
+    return `<img src="icon/momo.webp" alt="MoMo" class="bank-logo-img" onerror="this.src='icon/icon.png'">`;
   }
 
-  const slides = document.querySelectorAll(".banner-slide");
-  slides.forEach((s, idx) => {
-    s.classList.toggle("active", idx === currentBannerIndex);
-  });
-
-  const dDots = document.querySelectorAll("#bannerDesktopDots .b-dot");
-  dDots.forEach((d, idx) => {
-    d.classList.toggle("active", idx === currentBannerIndex);
-  });
-
-  const mDots = document.querySelectorAll("#bannerMobileDots .carousel-dot");
-  mDots.forEach((d, idx) => {
-    d.classList.toggle("active", idx === currentBannerIndex);
-  });
-}
-
-window.goToBannerSlide = function(idx) {
-  if (idx < 0 || idx >= bannerImagesList.length) return;
-  currentBannerIndex = idx;
-  updateBannerActiveState();
-  restartBannerAutoPlay();
-};
-
-window.nextBannerSlide = function(e) {
-  if (e) e.stopPropagation();
-  if (bannerImagesList.length <= 1) return;
-  currentBannerIndex = (currentBannerIndex + 1) % bannerImagesList.length;
-  updateBannerActiveState();
-  restartBannerAutoPlay();
-};
-
-window.prevBannerSlide = function(e) {
-  if (e) e.stopPropagation();
-  if (bannerImagesList.length <= 1) return;
-  currentBannerIndex = (currentBannerIndex - 1 + bannerImagesList.length) % bannerImagesList.length;
-  updateBannerActiveState();
-  restartBannerAutoPlay();
-};
-
-function startBannerAutoPlay() {
-  stopBannerAutoPlay();
-  if (bannerImagesList.length > 1) {
-    bannerAutoTimer = setInterval(() => {
-      currentBannerIndex = (currentBannerIndex + 1) % bannerImagesList.length;
-      updateBannerActiveState();
-    }, 4500); // Tự động chạy qua lại mỗi 4.5 giây
+  // 2. NGÂN HÀNG QUỐC TẾ VIB
+  if (t.includes('vib')) {
+    return `<img src="icon/vib.webp" alt="VIB" class="bank-logo-img" onerror="this.src='icon/icon.png'">`;
   }
-}
 
-function stopBannerAutoPlay() {
-  if (bannerAutoTimer) {
-    clearInterval(bannerAutoTimer);
-    bannerAutoTimer = null;
+  // 3. NGÂN HÀNG QUÂN ĐỘI MB BANK
+  if (t.includes('mb') || t.includes('quân đội')) {
+    return `<img src="icon/mb.jpg" alt="MB Bank" class="bank-logo-img" onerror="this.src='icon/icon.png'">`;
   }
+
+  if (t.includes('mbv')) {
+    return `
+      <svg width="52" height="52" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="20" fill="#b91c1c"/>
+        <text x="18" y="62" font-family="Arial, sans-serif" font-weight="900" font-size="28" fill="#ffffff">MBV</text>
+        <polygon points="80,40 83,48 91,48 85,53 87,61 80,56 73,61 75,53 69,48 77,48" fill="#facc15"/>
+      </svg>
+    `;
+  }
+
+  if (t.includes('vcb') || t.includes('vietcombank')) {
+    return `
+      <svg width="52" height="52" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="20" fill="#005a3c"/>
+        <text x="16" y="62" font-family="Arial, sans-serif" font-weight="900" font-size="24" fill="#78be20">VCB</text>
+      </svg>
+    `;
+  }
+
+  if (t.includes('techcombank') || t.includes('tcb')) {
+    return `
+      <svg width="52" height="52" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="20" fill="#e31837"/>
+        <text x="18" y="62" font-family="Arial, sans-serif" font-weight="900" font-size="24" fill="#ffffff">TCB</text>
+      </svg>
+    `;
+  }
+
+  // Mặc định: Bank icon thẻ thanh toán màu xanh biển
+  return `
+    <svg width="52" height="52" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="20" fill="#0284c7"/>
+      <rect x="20" y="30" width="60" height="40" rx="8" stroke="#ffffff" stroke-width="5"/>
+      <line x1="20" y1="44" x2="80" y2="44" stroke="#ffffff" stroke-width="5"/>
+      <rect x="30" y="54" width="16" height="8" rx="2" fill="#ffffff"/>
+    </svg>
+  `;
 }
 
-function restartBannerAutoPlay() {
-  stopBannerAutoPlay();
-  startBannerAutoPlay();
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
+

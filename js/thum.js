@@ -2,13 +2,14 @@
  * ==============================================================================
  * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM
  * FILE QUẢN LÝ DANH SÁCH ẢNH BANNER TRANG CHỦ (js/thum.js)
- * Tự động xuất bản từ Admin CMS Edge-SSG: 06:13:06 27/10/2026
+ * Tự động xuất bản từ Admin CMS Edge-SSG: 04:56:41 28/10/2026
  * ==============================================================================
  */
 
 var bannerImages = [
-  "https://riseofkingdomvn.com/wp-content/uploads/2025/06/Quy-tac-nhap-cu-Rise-of-Kingdoms.webp",
-  "https://i1-vnexpress.vnecdn.net/2026/03/02/1771838873713-1771838874-1772424476.png?w=1200&h=0&q=100&dpr=1&fit=crop&s=7UEXP5Fae6FfaEVbkSZHeQ"
+  "https://i.ibb.co/GQ7jRZbj/1792854019763-7880084465306086323-7880084465306086323-dcdc29bf0f7e7c5f157ada4f17ef9a06.jpg",
+  "https://i.ibb.co/v4J2JmFh/1792855409819-7880084465306086323-7880084465306086323-28bc597ec8c95af996010129839742bd.jpg",
+  "https://i.ibb.co/HTwmxBxm/banner.jpg"
 ];
 
 if (typeof window !== "undefined") {

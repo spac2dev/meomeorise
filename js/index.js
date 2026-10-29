@@ -429,9 +429,24 @@ function renderListings(itemsToRender) {
 
     const rawIdStr = String(item.id || '');
     const displayAccId = rawIdStr.replace(/^[#vlrVLR]+/i, '').trim();
-    let kingdomPart0 = (item.info || '').split('|')[0]?.trim() || '';
-    if (/^#?[a-zA-Z0-9]+/.test(kingdomPart0)) {
+
+    // ID Vương quốc & Thông tin nhập cư (hiển thị ID vương quốc thực tế, giữ nguyên ID tài khoản)
+    let kingdomPart0 = item.kingdomId ? String(item.kingdomId).trim() : '';
+    if (!kingdomPart0 && item.info) {
+      kingdomPart0 = (item.info.split('|')[0] || '').trim();
+    }
+    if (kingdomPart0 && !kingdomPart0.startsWith('#') && /^[0-9a-zA-Z]+$/.test(kingdomPart0)) {
+      kingdomPart0 = '#' + kingdomPart0;
+    }
+    if (!kingdomPart0) {
       kingdomPart0 = '#' + displayAccId;
+    }
+
+    let immigrationPart = '';
+    if (item.info && item.info.includes('|')) {
+      immigrationPart = item.info.split('|').slice(1).join('|').trim();
+    } else if (item.immigration) {
+      immigrationPart = String(item.immigration).trim();
     }
 
     return `
@@ -468,8 +483,7 @@ function renderListings(itemsToRender) {
           </div>
           <div class="kingdom-info">
             <span class="k-code">🏰 ${kingdomPart0}</span>
-            <span class="k-divider">•</span>
-            <span class="immigration">${item.info.split('|')[1]?.trim() || ''}</span>
+            ${immigrationPart ? `<span class="k-divider">•</span>\n            <span class="immigration">${immigrationPart}</span>` : ''}
           </div>
           <div class="stats-info">
             <svg class="stats-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -822,13 +836,17 @@ window.applyFilters = function() {
       const cleanSearch = searchVal.replace(/^[#vlrVLR]+/i, "");
       const matchId = String(item.id).toLowerCase().includes(searchVal) ||
                       (cleanSearch && String(item.id).toLowerCase().includes(cleanSearch));
+      const matchKingdom = item.kingdomId && (
+        String(item.kingdomId).toLowerCase().includes(searchVal) ||
+        (cleanSearch && String(item.kingdomId).toLowerCase().includes(cleanSearch))
+      );
       const matchTitle = (item.title || "").toLowerCase().includes(searchVal);
       const matchInfo = (item.info || "").toLowerCase().includes(searchVal);
       const matchStats = (item.stats || "").toLowerCase().includes(searchVal);
       const matchCommanders = Array.isArray(item.commanders) && item.commanders.some(c => 
         (c.name || "").toLowerCase().includes(searchVal)
       );
-      if (!matchId && !matchTitle && !matchInfo && !matchStats && !matchCommanders) {
+      if (!matchId && !matchKingdom && !matchTitle && !matchInfo && !matchStats && !matchCommanders) {
         return false;
       }
     }

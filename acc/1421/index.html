@@ -1040,7 +1040,15 @@
         var dKingdom = document.getElementById("detailKingdom");
         if (dKingdom) {
           var kText = currentItem.info || "Đang cập nhật...";
-          dKingdom.textContent = kText.replace(/#[a-zA-Z0-9]+/, '#' + displayId);
+          if (currentItem.kingdomId) {
+            var kId = currentItem.kingdomId.startsWith('#') ? currentItem.kingdomId : '#' + currentItem.kingdomId;
+            if (currentItem.info && currentItem.info.includes('|')) {
+              kText = kId + " | " + currentItem.info.split('|').slice(1).join('|').trim();
+            } else {
+              kText = kId + " | " + (currentItem.info || "Có thể nhập cư");
+            }
+          }
+          dKingdom.textContent = kText;
         }
         var dStats = document.getElementById("detailStats");
         if (dStats) dStats.textContent = currentItem.stats || "Cấp độ 25 | Sức mạnh đầy đủ";

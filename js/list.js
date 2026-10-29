@@ -1,13 +1,13 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 13:21:50 28/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 06:23:56 29/10/2026
  */
 
 var mockProducts = [
   {
     "id": 42,
-    "kingdomId": "#2339",
+    "kingdomId": "#2399",
     "title": "Acc 5 sét đồ cam có nhà thiên đỉnh kỵ +20% thủ",
     "price": 3500000,
     "link": "acc/42",
@@ -129,7 +129,7 @@ var mockProducts = [
         "type": "dark"
       }
     ],
-    "info": "#2339 | Có thể nhập cư",
+    "info": "#2399 | Có thể nhập cư",
     "stats": "Cấp độ 25 | Sức mạnh 84,992,960 | VIP 17 | Điểm Tiêu Diệt 2,211,225,143",
     "tags": [
       {
@@ -163,7 +163,6 @@ var mockProducts = [
   },
   {
     "id": 41,
-    "kingdomId": "#2399",
     "title": "Acc gần 5 sét đồ cam có nhà thiên đỉnh cung +20%",
     "price": 4000000,
     "link": "acc/41",

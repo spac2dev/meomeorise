@@ -1,7 +1,7 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 13:21:50 28/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 04:40:12 29/10/2026
  */
 
 var mockProducts = [
@@ -161,10 +161,10 @@ var mockProducts = [
     "countdownSeconds": 2566800
   },
   {
-    "id": 41,
+    "id": 2399,
     "title": "Acc gần 5 sét đồ cam có nhà thiên đỉnh cung +20%",
     "price": 4000000,
-    "link": "acc/41",
+    "link": "acc/2399",
     "favorites": 0,
     "isFavorited": false,
     "images": [

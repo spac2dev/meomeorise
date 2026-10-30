@@ -1,7 +1,7 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 02:59:21 30/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 02:59:37 30/10/2026
  */
 
 var mockProducts = [
@@ -9,7 +9,7 @@ var mockProducts = [
     "id": 2,
     "kingdomId": "#3702",
     "title": "Acc VIP 17 - Full 5 sét đồ cho anh em",
-    "price": 300000,
+    "price": 3000000,
     "link": "acc/2",
     "favorites": 4,
     "isFavorited": false,

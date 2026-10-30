@@ -1,10 +1,134 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 02:59:37 30/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 03:15:21 30/10/2026
  */
 
 var mockProducts = [
+  {
+    "id": 8,
+    "kingdomId": "#2727",
+    "title": "Acc Vip 16 - Max 5 Cam cho anh em trải nghiệm T5",
+    "price": 1000000,
+    "link": "acc/8",
+    "favorites": 2,
+    "isFavorited": false,
+    "images": [
+      "https://i.ibb.co/tps38Fht/1793329734813-4951739862876294698-g2977949411990177985-2de75b9c1bd255ca8e776f9d3b893943.jpg",
+      "https://i.ibb.co/cX7SwGDd/1793329734804-4951739862876294698-g2977949411990177985-cb8be346a000c3d1a6849ae3a1ae78a4.jpg",
+      "https://i.ibb.co/VY7D00vn/1793329734796-4951739862876294698-g2977949411990177985-2064fa89a22bc6c5c9916b797063ec16.jpg",
+      "https://i.ibb.co/hJcvgvYm/1793329734789-4951739862876294698-g2977949411990177985-739fd0a4338835f706633cc6de1b7276.jpg",
+      "https://i.ibb.co/tps38Fht/1793329734813-4951739862876294698-g2977949411990177985-2de75b9c1bd255ca8e776f9d3b893943.jpg",
+      "https://i.ibb.co/cX7SwGDd/1793329734804-4951739862876294698-g2977949411990177985-cb8be346a000c3d1a6849ae3a1ae78a4.jpg",
+      "https://i.ibb.co/hJrF0wDD/1793329734781-4951739862876294698-g2977949411990177985-8a383d43e64bdc937706a12b80eeea36.jpg",
+      "https://i.ibb.co/Lz5kXgMm/1793329734774-4951739862876294698-g2977949411990177985-4e74c12c7f23fdf1e8adc9b3cba0181e.jpg",
+      "https://i.ibb.co/MDzvVKQt/1793329734715-4951739862876294698-g2977949411990177985-62f38945032de1394fee30c0850307ea.jpg",
+      "https://i.ibb.co/YBf1zsDR/1793329734726-4951739862876294698-g2977949411990177985-af50ad6770351ddf1117bd6d52c5606d.jpg",
+      "https://i.ibb.co/GQqgk4tL/1793329734691-4951739862876294698-g2977949411990177985-fe26a34b63f61d49281c51be16d9e014.jpg",
+      "https://i.ibb.co/G4RfhKF0/1793329734659-4951739862876294698-g2977949411990177985-04ab9cc6a3df35a916ea97df5a862c3e.jpg",
+      "https://i.ibb.co/bRMJfXN2/1793329734744-4951739862876294698-g2977949411990177985-f208ed32511d97454a3f12c39ce6cb5d.jpg",
+      "https://i.ibb.co/bMZ8gsd6/1793329734627-4951739862876294698-g2977949411990177985-2676f11898e54a952ddb56c947f026a1.jpg",
+      "https://i.ibb.co/dwrMxvSf/1793329734759-4951739862876294698-g2977949411990177985-d6cc5392f907e7c6853ab2db0005a644.jpg",
+      "https://i.ibb.co/750TVvq/1793329734751-4951739862876294698-g2977949411990177985-c04beed7a053c056e6dca88f6f7f2fc6.jpg",
+      "https://i.ibb.co/DfdHKMzM/1793329734735-4951739862876294698-g2977949411990177985-35723d31bc6ccb52851f2caf8411afc6.jpg",
+      "https://i.ibb.co/XfyKvKVG/1793329734677-4951739862876294698-g2977949411990177985-003d87de49ddbfebbc238c9aab6f3eed.jpg"
+    ],
+    "categoryTabs": [
+      {
+        "id": "tuong",
+        "name": "Ảnh Tướng"
+      },
+      {
+        "id": "trangbi",
+        "name": "Trang bị"
+      },
+      {
+        "id": "rss",
+        "name": "Tài Nguyên"
+      },
+      {
+        "id": "vebay",
+        "name": "Vé bay"
+      },
+      {
+        "id": "cat_mvrv4ffi_103",
+        "name": "Nhà Thiên Đỉnh"
+      },
+      {
+        "id": "cat_mvrv5lq6_269",
+        "name": "Ảnh Khác"
+      }
+    ],
+    "imageCategories": {
+      "tuong": [
+        "https://i.ibb.co/tps38Fht/1793329734813-4951739862876294698-g2977949411990177985-2de75b9c1bd255ca8e776f9d3b893943.jpg",
+        "https://i.ibb.co/cX7SwGDd/1793329734804-4951739862876294698-g2977949411990177985-cb8be346a000c3d1a6849ae3a1ae78a4.jpg",
+        "https://i.ibb.co/VY7D00vn/1793329734796-4951739862876294698-g2977949411990177985-2064fa89a22bc6c5c9916b797063ec16.jpg",
+        "https://i.ibb.co/hJcvgvYm/1793329734789-4951739862876294698-g2977949411990177985-739fd0a4338835f706633cc6de1b7276.jpg"
+      ],
+      "trangbi": [
+        "https://i.ibb.co/tps38Fht/1793329734813-4951739862876294698-g2977949411990177985-2de75b9c1bd255ca8e776f9d3b893943.jpg",
+        "https://i.ibb.co/cX7SwGDd/1793329734804-4951739862876294698-g2977949411990177985-cb8be346a000c3d1a6849ae3a1ae78a4.jpg",
+        "https://i.ibb.co/hJrF0wDD/1793329734781-4951739862876294698-g2977949411990177985-8a383d43e64bdc937706a12b80eeea36.jpg",
+        "https://i.ibb.co/Lz5kXgMm/1793329734774-4951739862876294698-g2977949411990177985-4e74c12c7f23fdf1e8adc9b3cba0181e.jpg"
+      ],
+      "rss": [
+        "https://i.ibb.co/MDzvVKQt/1793329734715-4951739862876294698-g2977949411990177985-62f38945032de1394fee30c0850307ea.jpg",
+        "https://i.ibb.co/YBf1zsDR/1793329734726-4951739862876294698-g2977949411990177985-af50ad6770351ddf1117bd6d52c5606d.jpg"
+      ],
+      "vebay": [
+        "https://i.ibb.co/GQqgk4tL/1793329734691-4951739862876294698-g2977949411990177985-fe26a34b63f61d49281c51be16d9e014.jpg",
+        "https://i.ibb.co/G4RfhKF0/1793329734659-4951739862876294698-g2977949411990177985-04ab9cc6a3df35a916ea97df5a862c3e.jpg",
+        "https://i.ibb.co/bRMJfXN2/1793329734744-4951739862876294698-g2977949411990177985-f208ed32511d97454a3f12c39ce6cb5d.jpg"
+      ],
+      "cat_mvrv4ffi_103": [
+        "https://i.ibb.co/bMZ8gsd6/1793329734627-4951739862876294698-g2977949411990177985-2676f11898e54a952ddb56c947f026a1.jpg"
+      ],
+      "cat_mvrv5lq6_269": [
+        "https://i.ibb.co/dwrMxvSf/1793329734759-4951739862876294698-g2977949411990177985-d6cc5392f907e7c6853ab2db0005a644.jpg",
+        "https://i.ibb.co/750TVvq/1793329734751-4951739862876294698-g2977949411990177985-c04beed7a053c056e6dca88f6f7f2fc6.jpg",
+        "https://i.ibb.co/DfdHKMzM/1793329734735-4951739862876294698-g2977949411990177985-35723d31bc6ccb52851f2caf8411afc6.jpg",
+        "https://i.ibb.co/XfyKvKVG/1793329734677-4951739862876294698-g2977949411990177985-003d87de49ddbfebbc238c9aab6f3eed.jpg"
+      ]
+    },
+    "badges": [
+      {
+        "text": "2 đạo chơi",
+        "type": "red"
+      },
+      {
+        "text": "Kẹp 1 acc farm 36m pow",
+        "type": "dark"
+      }
+    ],
+    "info": "#2727 | Có thể nhập cư",
+    "stats": "Cấp độ 25 | Sức mạnh 91,502,397 | VIP 16 | Điểm Tiêu Diệt 965,814,261",
+    "tags": [
+      {
+        "text": "Tướng Cam Max ×5 con",
+        "type": "orange"
+      },
+      {
+        "text": "Trang Bị Cam × 7",
+        "type": "orange"
+      },
+      {
+        "text": "Trang Bị Talen ×1",
+        "type": "orange"
+      },
+      {
+        "text": "Vé Bay x 35, Xu bạc 3m2",
+        "type": "orange"
+      },
+      {
+        "text": "Tượng Chỉ Huy Huyền Thoại x 70 trọc",
+        "type": "blue"
+      }
+    ],
+    "commanders": [],
+    "gemMultiplier": 5,
+    "countdownSeconds": 2566800
+  },
   {
     "id": 2,
     "kingdomId": "#3702",
@@ -331,7 +455,7 @@ var mockProducts = [
     "id": 44,
     "kingdomId": "#3725",
     "title": "Acc VIP 18 có 4 sét đồ siêu ngon",
-    "price": 600000,
+    "price": 6000000,
     "link": "acc/44",
     "favorites": 3,
     "isFavorited": false,

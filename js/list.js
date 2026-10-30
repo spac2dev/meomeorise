@@ -1,10 +1,148 @@
 /**
  * WONTRADE - Rise of Kingdoms (ROK)
  * Danh sách sản phẩm & Thư viện ảnh mô tả ImgBB (Edge-SSG Independent Data)
- * Tự động đồng bộ qua Cloudflare Worker: 04:45:11 30/10/2026
+ * Tự động đồng bộ qua Cloudflare Worker: 05:02:37 30/10/2026
  */
 
 var mockProducts = [
+  {
+    "id": 27,
+    "kingdomId": "#1695",
+    "title": "Acc VIP 16 max 15 cam full 4 sét đồ đủ vé",
+    "price": 2500000,
+    "link": "acc/27",
+    "favorites": 2,
+    "isFavorited": false,
+    "images": [
+      "https://i.ibb.co/Nd1nmsjh/1793335915379-4951739862876294698-4951739862876294698-3aaba1a5ed84f068069ae3f8231654dc.jpg",
+      "https://i.ibb.co/twmrB1sQ/1793335915371-4951739862876294698-4951739862876294698-c8a1e1e4f714abc42aba32162ee1cda6.jpg",
+      "https://i.ibb.co/hJwWs85G/1793335915416-4951739862876294698-4951739862876294698-b7e00ca7009fc23bdabd30d927405600.jpg",
+      "https://i.ibb.co/QvRfCjLV/1793335915423-4951739862876294698-4951739862876294698-32054ad4b9bf3a5fbe2a5ff649dbfe78.jpg",
+      "https://i.ibb.co/fG2ZQHGh/1793335915430-4951739862876294698-4951739862876294698-f8e4a4de97d1f5075946b77c5a6f609e.jpg",
+      "https://i.ibb.co/ns6K1Tr0/1793335915438-4951739862876294698-4951739862876294698-e215e30ad1aa38845da6e5cf4d46a01e.jpg",
+      "https://i.ibb.co/fG2ZQHGh/1793335915430-4951739862876294698-4951739862876294698-f8e4a4de97d1f5075946b77c5a6f609e.jpg",
+      "https://i.ibb.co/ns6K1Tr0/1793335915438-4951739862876294698-4951739862876294698-e215e30ad1aa38845da6e5cf4d46a01e.jpg",
+      "https://i.ibb.co/QvRfCjLV/1793335915423-4951739862876294698-4951739862876294698-32054ad4b9bf3a5fbe2a5ff649dbfe78.jpg",
+      "https://i.ibb.co/hJwWs85G/1793335915416-4951739862876294698-4951739862876294698-b7e00ca7009fc23bdabd30d927405600.jpg",
+      "https://i.ibb.co/H1hwG8R/1793335915394-4951739862876294698-4951739862876294698-d572fbf00df18705afcbb338c6d7cbc3.jpg",
+      "https://i.ibb.co/4nrk08Jv/1793335915386-4951739862876294698-4951739862876294698-82834f2f213562db653176d9793daa8e.jpg",
+      "https://i.ibb.co/1gy3n9X/1793335915408-4951739862876294698-4951739862876294698-8c0a9a86c97b3d3b3816345007aae0e3.jpg",
+      "https://i.ibb.co/60PmmGz3/1793335915401-4951739862876294698-4951739862876294698-631b80e9d791b5f8aa6b7f0ec91066ff.jpg",
+      "https://i.ibb.co/7d0Bb2jM/1793335915325-4951739862876294698-4951739862876294698-3310816642f6a3a9ddd64bba9e3bdb2f.jpg",
+      "https://i.ibb.co/HLCY7VSh/1793335915334-4951739862876294698-4951739862876294698-f0376c1e11da268c02ddf9de302bc94b.jpg",
+      "https://i.ibb.co/m5tpJcQZ/1793335915277-4951739862876294698-4951739862876294698-a2203500322bd39b3c70ad879c1f7ca1.jpg",
+      "https://i.ibb.co/0Rd00XfD/1793335915342-4951739862876294698-4951739862876294698-992e50cabe34f58d63b8ec0b11336ba0.jpg",
+      "https://i.ibb.co/DPFMC9LW/1793335915229-4951739862876294698-4951739862876294698-963b885add97c76dafc575e300d4933d.jpg",
+      "https://i.ibb.co/Xx6LQsFL/1793335915356-4951739862876294698-4951739862876294698-cd5f9e56a7bc5af093fbef88c4188f4d.jpg",
+      "https://i.ibb.co/672zFCFw/1793335915364-4951739862876294698-4951739862876294698-11bc5c3b71f8e87be3f8ad37d0556ad1.jpg",
+      "https://i.ibb.co/QjNVGFcB/1793335915349-4951739862876294698-4951739862876294698-1c0dae171e00391cda449c0409fe172a.jpg",
+      "https://i.ibb.co/399DK73M/1793335915262-4951739862876294698-4951739862876294698-8e651ab3e0a304514da6cfa345ae870a.jpg"
+    ],
+    "categoryTabs": [
+      {
+        "id": "tuong",
+        "name": "Ảnh Tướng"
+      },
+      {
+        "id": "trangbi",
+        "name": "Trang bị"
+      },
+      {
+        "id": "rss",
+        "name": "Tài Nguyên"
+      },
+      {
+        "id": "vebay",
+        "name": "Vé bay"
+      },
+      {
+        "id": "cat_mvrv4ffi_103",
+        "name": "Nhà Thiên Đỉnh"
+      },
+      {
+        "id": "cat_mvrv5lq6_269",
+        "name": "Ảnh Khác"
+      }
+    ],
+    "imageCategories": {
+      "tuong": [
+        "https://i.ibb.co/Nd1nmsjh/1793335915379-4951739862876294698-4951739862876294698-3aaba1a5ed84f068069ae3f8231654dc.jpg",
+        "https://i.ibb.co/twmrB1sQ/1793335915371-4951739862876294698-4951739862876294698-c8a1e1e4f714abc42aba32162ee1cda6.jpg",
+        "https://i.ibb.co/hJwWs85G/1793335915416-4951739862876294698-4951739862876294698-b7e00ca7009fc23bdabd30d927405600.jpg",
+        "https://i.ibb.co/QvRfCjLV/1793335915423-4951739862876294698-4951739862876294698-32054ad4b9bf3a5fbe2a5ff649dbfe78.jpg",
+        "https://i.ibb.co/fG2ZQHGh/1793335915430-4951739862876294698-4951739862876294698-f8e4a4de97d1f5075946b77c5a6f609e.jpg",
+        "https://i.ibb.co/ns6K1Tr0/1793335915438-4951739862876294698-4951739862876294698-e215e30ad1aa38845da6e5cf4d46a01e.jpg"
+      ],
+      "trangbi": [
+        "https://i.ibb.co/fG2ZQHGh/1793335915430-4951739862876294698-4951739862876294698-f8e4a4de97d1f5075946b77c5a6f609e.jpg",
+        "https://i.ibb.co/ns6K1Tr0/1793335915438-4951739862876294698-4951739862876294698-e215e30ad1aa38845da6e5cf4d46a01e.jpg",
+        "https://i.ibb.co/QvRfCjLV/1793335915423-4951739862876294698-4951739862876294698-32054ad4b9bf3a5fbe2a5ff649dbfe78.jpg",
+        "https://i.ibb.co/hJwWs85G/1793335915416-4951739862876294698-4951739862876294698-b7e00ca7009fc23bdabd30d927405600.jpg",
+        "https://i.ibb.co/H1hwG8R/1793335915394-4951739862876294698-4951739862876294698-d572fbf00df18705afcbb338c6d7cbc3.jpg",
+        "https://i.ibb.co/4nrk08Jv/1793335915386-4951739862876294698-4951739862876294698-82834f2f213562db653176d9793daa8e.jpg",
+        "https://i.ibb.co/1gy3n9X/1793335915408-4951739862876294698-4951739862876294698-8c0a9a86c97b3d3b3816345007aae0e3.jpg",
+        "https://i.ibb.co/60PmmGz3/1793335915401-4951739862876294698-4951739862876294698-631b80e9d791b5f8aa6b7f0ec91066ff.jpg"
+      ],
+      "rss": [
+        "https://i.ibb.co/7d0Bb2jM/1793335915325-4951739862876294698-4951739862876294698-3310816642f6a3a9ddd64bba9e3bdb2f.jpg",
+        "https://i.ibb.co/HLCY7VSh/1793335915334-4951739862876294698-4951739862876294698-f0376c1e11da268c02ddf9de302bc94b.jpg"
+      ],
+      "vebay": [
+        "https://i.ibb.co/m5tpJcQZ/1793335915277-4951739862876294698-4951739862876294698-a2203500322bd39b3c70ad879c1f7ca1.jpg",
+        "https://i.ibb.co/0Rd00XfD/1793335915342-4951739862876294698-4951739862876294698-992e50cabe34f58d63b8ec0b11336ba0.jpg"
+      ],
+      "cat_mvrv4ffi_103": [
+        "https://i.ibb.co/DPFMC9LW/1793335915229-4951739862876294698-4951739862876294698-963b885add97c76dafc575e300d4933d.jpg"
+      ],
+      "cat_mvrv5lq6_269": [
+        "https://i.ibb.co/Xx6LQsFL/1793335915356-4951739862876294698-4951739862876294698-cd5f9e56a7bc5af093fbef88c4188f4d.jpg",
+        "https://i.ibb.co/672zFCFw/1793335915364-4951739862876294698-4951739862876294698-11bc5c3b71f8e87be3f8ad37d0556ad1.jpg",
+        "https://i.ibb.co/QjNVGFcB/1793335915349-4951739862876294698-4951739862876294698-1c0dae171e00391cda449c0409fe172a.jpg",
+        "https://i.ibb.co/399DK73M/1793335915262-4951739862876294698-4951739862876294698-8e651ab3e0a304514da6cfa345ae870a.jpg"
+      ]
+    },
+    "badges": [
+      {
+        "text": "4 đạo chơi",
+        "type": "red"
+      },
+      {
+        "text": "Kẹp 1 acc farm",
+        "type": "dark"
+      }
+    ],
+    "info": "#1695 | Có thể nhập cư",
+    "stats": "Cấp độ 25 | Sức mạnh 91,240,393 | VIP 16 | Điểm Tiêu Diệt 2,239,954,613",
+    "tags": [
+      {
+        "text": "Tướng Cam Max ×15 con",
+        "type": "orange"
+      },
+      {
+        "text": "Trang Bị Cam × 30",
+        "type": "orange"
+      },
+      {
+        "text": "Trang Bị Talen ×10",
+        "type": "orange"
+      },
+      {
+        "text": "Minh Văn Vàng×2",
+        "type": "orange"
+      },
+      {
+        "text": "Vé Bay x 79",
+        "type": "blue"
+      },
+      {
+        "text": "Tượng Chỉ Huy Huyền Thoại x 231 trọc",
+        "type": "blue"
+      }
+    ],
+    "commanders": [],
+    "gemMultiplier": 5,
+    "countdownSeconds": 2566800
+  },
   {
     "id": 22,
     "kingdomId": "#3598",
